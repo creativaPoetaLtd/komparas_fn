@@ -1,5 +1,4 @@
 import Footer from '../Footer';
-import NavBar from '../Navigations/NavBar';
 import NavIndex from '../Navigations/NavIndex';
 import UpperProduct from './UpperProduct';
 
@@ -7,7 +6,6 @@ const SingleProductPage = () => {
 
   return (
     <div className="w-full flex flex-col min-h-screen">
-      <NavBar />
       <NavIndex />
       <div className='singleProduct min-h-screen h-fit laptop:px-20 desktop:px-20 tablet:px-10 px-3 flex  flex-col mt-24 pb-20'>
         <div className='flex w-full laptop:flex-row tablet:flex-row flex-col  h-fit desktop:space-x-5 tablet:space-x-3 laptop:space-x-5 space-x-0 laptop:space-y-0 desktop:space-y-0 tablet:space-y-0 space-y-3'>
