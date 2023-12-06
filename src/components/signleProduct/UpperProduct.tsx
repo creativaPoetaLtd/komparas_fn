@@ -84,7 +84,7 @@ const UpperProduct = () => {
         <div className='line  flex flex-col laptop:w-[70%] desktop:w-[70%] w-[95%] justify-center m-auto h-fit  items-center border-2 border-gray-300 py-2 rounded-md' >
           <CompareDiv />
           <div className="flex w-full justify-end pr-6">
-            <button className='py-1 px-4 border-blue-700 border flex justify-end float-right text-blue-700 rounded-md'>Compare</button>
+            <button className='py-1 px-4 mt-2 border-blue-700 border flex justify-end float-right text-blue-700 rounded-md'>Compare</button>
           </div>
         </div>
         <div className="threeButtons mt-12 grid grid-cols-3 gap-4 space-x-2 px-12">
