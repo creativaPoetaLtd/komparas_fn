@@ -11,7 +11,6 @@ import ForgotPasswordForm from './components/auth/ForgotPassword.tsx'
 import ResetPassword from './components/auth/ResetPassword.tsx'
 import SingleProductPage from './components/signleProduct/SingleProductPage.tsx'
 import NavBar from './components/Navigations/NavBar.tsx'
-import Footer from './components/Footer.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -27,7 +26,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/" element={<App />} />
         <Route path="/product/:id" element={<SingleProductPage />} />
       </Routes>
-      <Footer />
     </BrowserRouter>
     <ToastContainer />
   </React.StrictMode>,
