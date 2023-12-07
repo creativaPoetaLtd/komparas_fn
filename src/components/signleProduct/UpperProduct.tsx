@@ -1,5 +1,7 @@
-import relatedImages from "../dumyData/relatedImages";
 import { useDrop } from 'react-dnd';
+import { getPoductById } from "../../api/product";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const UpperProduct = () => {
 
@@ -8,10 +10,21 @@ const UpperProduct = () => {
       accept: 'PRODUCT',
       drop: () => ({ name: 'CompareDiv' }),
     });
+
+    const [products, setProducts] = useState<any>([]);
+    const productId: any = useParams().id;
+
+    useEffect(() => {
+      const fetchProduct = async () => {
+        const { data } = await getPoductById(productId);
+        setProducts(data);
+      };
+      fetchProduct();
+    }, [productId]);
     return (
       <div ref={drop} className="CompareDiv flex gap-2 flex-wrap justify-center  items-center m-auto h-fit">
         <div className="w-[7rem] h-[7rem] border-bg-gray-400 border text-gray-500 rounded-sm">
-          <img src='https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/41-nc-alum-starlight-sport-band-starlight-s9?wid=1200&hei=630&fmt=jpeg&qlt=95&.v=1693282285539' alt='product' className='w-full h-full rounded-sm object-cover' />
+          <img src={products?.product?.product_image} alt='product' className='w-full h-full rounded-sm object-cover' />
         </div>
         <div className="w-[7rem] h-[7rem] border-bg-gray-400 border text-gray-500 rounded-sm flex">
           <p className='text-2xl font-bold flex justify-center text-center items-center m-auto'>+</p>
@@ -31,6 +44,9 @@ const UpperProduct = () => {
 
   const productRating = 4.5;
   const renderRatingStars = () => {
+
+
+
     const stars = [];
     for (let i = 1; i <= 5; i++) {
       if (i <= productRating) {
@@ -47,11 +63,22 @@ const UpperProduct = () => {
     return stars;
   };
 
+  const [products, setProducts] = useState<any>([]);
+  const productId: any = useParams().id;
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const { data } = await getPoductById(productId);
+      setProducts(data);
+    };
+    fetchProduct();
+  }, [productId]);
+
   return (
-    <div className='laptop:w-[70%] desktop:w-[70%] tablet:w-[70%] w-full  flex-col space-y-8  h-fit'>
+    <div className='laptop:w-[60%] desktop:w-[60%] tablet:w-[60%] w-full  flex-col space-y-8  h-fit'>
       <div className='w-full bg-white rounded-md flex flex-col h-fit pb-10'>
         <div className='w-full flex flex-col  h-fit p-5 space-y-4'>
-          <h1 className='text-4xl font-bold'>Apple Smart Watch Sport Edition</h1>
+          <h1 className='text-4xl font-bold'>{products?.product?.product_name}</h1>
           <div className='productRating flex space-x-2 justify-start my-auto items-center'>
             {renderRatingStars()}
             <span className='text-lg text-gray-400'>(4.5)</span>
@@ -59,13 +86,13 @@ const UpperProduct = () => {
           <div className='line w-full h-[1px] bg-blue-700' />
         </div>
         <div className='image flex w-full h-[25rem] p-2 rounded-sm'>
-          <img src='https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/41-nc-alum-starlight-sport-band-starlight-s9?wid=1200&hei=630&fmt=jpeg&qlt=95&.v=1693282285539' alt='product' className='w-full h-full rounded-sm object-cover' />
+          <img src={products?.product?.product_image} alt='product' className='w-full h-full rounded-sm object-cover' />
         </div>
         <div className="relatedPictures flex  w-full justify-center items-center m-auto h-[7rem] space-x-2 p-2">
-          {relatedImages.map((image, index) => (
+          {products?.product?.product_images?.map((image: any, index: any) => (
 
             <div key={index} className="w-[7rem] h-full bg-gray-400 rounded-sm">
-              <img src={image.image} className='w-full h-full rounded-sm object-cover' />
+              <img src={image.product_image} className='w-full h-full rounded-sm object-cover' />
             </div>
           ))}
 
@@ -73,15 +100,14 @@ const UpperProduct = () => {
         <div className='description flex h-[60%] flex-col w-full'>
           <div className='w-full h-fit'>
             <div className='w-full flex flex-col h-fit p-5 space-y-4'>
-              <h1 className='text-2xl font-bold'>Exquisitely Crafted, Captivatingly Brilliant</h1>
+              <h1 className='text-2xl font-bold'>{products?.product?.product_name}</h1>
               <p className='text-lg font-medium'>
-                Inspired by the works of glassblowers and artisan metalsmiths, the Samsung Galaxy S6 represents a seamless fusion of glass and metal. Make a breathtaking design statement with its beautiful curves and radiant glass surfaces that reflect a wide spectrum of dazzling colours.
+                {products?.product?.product_description}
               </p>
             </div>
           </div>
-
         </div>
-        <div className='line  flex flex-col laptop:w-[70%] desktop:w-[70%] w-[95%] justify-center m-auto h-fit  items-center border-2 border-gray-300 py-2 rounded-md' >
+        <div className='line  flex flex-col laptop:w-[60%] desktop:w-[60%] w-[95%] justify-center m-auto h-fit  items-center border-2 border-gray-300 py-2 rounded-md' >
           <CompareDiv />
           <div className="flex w-full justify-end pr-6">
             <button className='py-1 px-4 mt-2 border-blue-700 border flex justify-end float-right text-blue-700 rounded-md'>Compare</button>

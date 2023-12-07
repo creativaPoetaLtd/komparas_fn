@@ -130,7 +130,7 @@ const toggleModal = () => {
           throw new Error('Function not implemented.');
         } } />}
       </div>
-      <HomeProduct product_name={''} product_image={''} product_price={0} product_stars={0} product_reviews={0} product_category={''} product_store={''} product_link={''} product_description={''} />
+      <HomeProduct product_name={''} _id='' product_image={''} product_price={0} product_stars={0} product_reviews={0} product_category={''} product_store={''} product_link={''} product_description={''} />
     </div>
 
   );

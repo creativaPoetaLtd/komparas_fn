@@ -10,3 +10,9 @@ export const getPoductByCategory = async (category: string) => {
     const res = axios.get(`${baseUrl}/products/category/${category}`);
     return await res;
 }
+
+export const getPoductById = async (id: string) => {
+    const res = axios.get(`${baseUrl}/products/images/${id}`);
+    return await res;
+}
+
