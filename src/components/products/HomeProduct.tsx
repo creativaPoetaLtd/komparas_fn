@@ -62,11 +62,11 @@ const HomeProduct: React.FC<IProduct> = () => {
         )}
       <div className='productCard grid desktop:grid-cols-5 laptop:grid-cols-5 tablet:grid-cols-3 grid-cols-2 gap-6 mt-7 mb-7' >
         {currentProducts.map((product: IProduct, index: number) => (
-          <Link to={`product/${product._id}`} className='productCard1 h-fit min-h-[18rem] bg-gray-400 w-full flex flex-col' key={index}>
-            <div className='productCard1Img h-[10rem]  bg-gray-400 w-full'>
+          <Link to={`product/${product._id}`} className='productCard1 min-h-[20rem] h-fit   w-full flex flex-col' key={index}>
+            <div className='productCard1Img h-[10rem] bg-white w-full'>
               <img src={product?.product_image} alt='product' className='w-full h-full object-cover' />
             </div>
-            <div className='productCard1Text h-fit p-2  w-full flex flex-col justify-start text-start items-start'>
+            <div className='productCard1Text  p-2 h-[7rem] bg-gray-400  w-full flex flex-col justify-start text-start items-start'>
               <p className='productStarsRevew text-center text-xs text-yellow-300'>product Stars</p>
               <p className='text-stert'>{product?.product_name.length > 40 ? product?.product_name.substring(0, 40) +'...': product?.product_name.substring(0, 40) }</p>
               <p className='text-start'>From <span className='font-bold'>${product.product_price}</span> in  <span className='font-bold'>5</span> stores</p>
