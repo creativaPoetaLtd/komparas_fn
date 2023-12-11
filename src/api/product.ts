@@ -16,3 +16,8 @@ export const getPoductById = async (id: string) => {
     return await res;
 }
 
+export const getProductOnCategory = async (category: string) => {
+    const res = axios.get(`${baseUrl}/products/category/${category}`);
+    return await res;
+}
+
