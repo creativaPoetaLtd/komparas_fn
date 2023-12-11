@@ -12,8 +12,12 @@ const DraggableProduct = ({ product }: any) => {
     }),
   });
 
+  const viewProduct = (product:any) => {
+    window.location.href = `/product/${product}`;
+  }
+
   return (
-    <div ref={drag} className='productCard bg-white rounded-md shadow-md'>
+    <div ref={drag} className='productCard bg-white rounded-md shadow-md cursor-pointer' onClick={()=>viewProduct(product._id)}>
       <div className='w-full h-[200px]'>
         <img src={product.product_image} alt="product" className="w-full h-full rounded-sm object-cover" />
       </div>
