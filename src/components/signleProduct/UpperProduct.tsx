@@ -74,6 +74,7 @@ const UpperProduct = () => {
     fetchProduct();
   }, [productId]);
 
+
   return (
     <div className='laptop:w-[60%] desktop:w-[60%] tablet:w-[60%] w-full  flex-col space-y-8  h-fit'>
       <div className='w-full bg-white rounded-md flex flex-col h-fit pb-10'>
