@@ -2,15 +2,12 @@ import { useDrop } from 'react-dnd';
 import { getPoductById } from "../../api/product";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-
 const UpperProduct = () => {
-
   const CompareDiv = () => {
     const [, drop] = useDrop({
       accept: 'PRODUCT',
       drop: () => ({ name: 'CompareDiv' }),
     });
-
     const [products, setProducts] = useState<any>([]);
     const productId: any = useParams().id;
 
@@ -38,15 +35,8 @@ const UpperProduct = () => {
       </div>
     )
   }
-
-
-
-
   const productRating = 4.5;
   const renderRatingStars = () => {
-
-
-
     const stars = [];
     for (let i = 1; i <= 5; i++) {
       if (i <= productRating) {
@@ -65,7 +55,6 @@ const UpperProduct = () => {
 
   const [products, setProducts] = useState<any>([]);
   const productId: any = useParams().id;
-
   useEffect(() => {
     const fetchProduct = async () => {
       const { data } = await getPoductById(productId);
@@ -73,8 +62,6 @@ const UpperProduct = () => {
     };
     fetchProduct();
   }, [productId]);
-
-
   return (
     <div className='laptop:w-[60%] desktop:w-[60%] tablet:w-[60%] w-full  flex-col space-y-8  h-fit'>
       <div className='w-full bg-white rounded-md flex flex-col h-fit pb-10'>
@@ -120,20 +107,15 @@ const UpperProduct = () => {
           <button className='py-3 font-semibold text-xl text-gray-500 px-4 border-gray-300 border flex justify-center  rounded-md'>Review</button>
         </div>
         <h1 className='text-2xl font-bold mt-12 ml-10 pb-4'>Full specification</h1>
-        <div className="flex flex-col w-full text-gray-500 px-10">
-          <div className="flex justify-between w-full py-2 border-b-4">
-            <div className="flex w-1/2 font-medium">NetWork:</div>
-            <div className="flex w-1/2">2 mbps</div>
+        {products?.product?.product_specifications?.map((specification: any, index: any) => (
+          <div key={index} className="flex flex-col w-full text-gray-500 px-10">
+            <div className="flex justify-between w-full py-2 border-b-4">
+              <div className="flex w-1/2 font-medium">{specification?.key}</div>
+              <div className="flex w-1/2">{specification?.value}</div>
+            </div>
           </div>
-          <div className="flex justify-between w-full py-2 border-b-4">
-            <div className="flex w-1/2 font-medium">NetWork:</div>
-            <div className="flex w-1/2">2 mbps</div>
-          </div>
-          <div className="flex justify-between w-full py-2 border-b-4">
-            <div className="flex w-1/2 font-medium">NetWork:</div>
-            <div className="flex w-1/2">2 mbps</div>
-          </div>
-        </div>
+        ))
+        }
       </div>
 
     </div>

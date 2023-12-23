@@ -14,6 +14,8 @@ const ShopsProductTable = () => {
     fetchProduct();
   }, [productId]);
 
+  console.log(products, "pppppppppppppppppppp");
+  
   return (
     <div className='w-full flex flex-col h-fit'>
         <table className="rounded shadow w-full">
@@ -36,7 +38,7 @@ const ShopsProductTable = () => {
               </td>
               <td className="md:py-4 xs:py-2 whitespace-nowrap capitalize text-sm font-normal px-2 text-gray-800">
                 <p className="text-sm font-normal text-gray-800">
-                  {shop?.workingHours}
+                  {shop?.working_hours}
                 </p>
               </td>
               <td className="md:py-4 xs:py-2 whitespace-nowrap capitalize text-sm font-normal px-2 text-gray-800">
