@@ -2,6 +2,8 @@ import { useDrop } from 'react-dnd';
 import { getPoductById } from "../../api/product";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import ProductModel from '../models/ProductModel';
+
 const UpperProduct = () => {
   const CompareDiv = () => {
     const [, drop] = useDrop({
@@ -10,6 +12,7 @@ const UpperProduct = () => {
     });
     const [products, setProducts] = useState<any>([]);
     const productId: any = useParams().id;
+    const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
       const fetchProduct = async () => {
@@ -23,15 +26,21 @@ const UpperProduct = () => {
         <div className="w-[7rem] h-[7rem] border-bg-gray-400 border text-gray-500 rounded-sm">
           <img src={products?.product?.product_image} alt='product' className='w-full h-full rounded-sm object-cover' />
         </div>
-        <div className="w-[7rem] h-[7rem] border-bg-gray-400 border text-gray-500 rounded-sm flex">
+        <button onClick={()=>setIsOpen(true)} className="compareButton w-[7rem] h-[7rem] border-bg-gray-400 border text-gray-500 rounded-sm flex">
+          <p className='text-2xl font-bold flex justify-center text-center items-center m-auto'
+            onClick={() => setIsOpen(true)}
+          >+</p>
+        </button>
+        <button onClick={()=>setIsOpen(true)} className="compareButton w-[7rem] h-[7rem] border-bg-gray-400 border text-gray-500 rounded-sm flex">
           <p className='text-2xl font-bold flex justify-center text-center items-center m-auto'>+</p>
-        </div>
-        <div className="w-[7rem] h-[7rem] border-bg-gray-400 border text-gray-500 rounded-sm flex">
+        </button>
+        <button onClick={()=>setIsOpen(true)} className="compareButton w-[7rem] h-[7rem] border-bg-gray-400 border text-gray-500 rounded-sm flex">
           <p className='text-2xl font-bold flex justify-center text-center items-center m-auto'>+</p>
+        </button>
+        <div className='line  flex flex-col laptop:w-[60%] desktop:w-[60%] w-[95%] justify-center m-auto h-fit  items-center border-2 border-gray-300 py-2 rounded-md' >
+          <button onClick={() => setIsOpen(true)} className='py-1 px-4 mt-2 border-blue-700 border flex justify-end float-right text-blue-700 rounded-md'>Compare</button>
         </div>
-        <div className="w-[7rem] h-[7rem] border-bg-gray-400 border text-gray-500 rounded-sm flex">
-          <p className='text-2xl font-bold flex justify-center text-center items-center m-auto'>+</p>
-        </div>
+        <ProductModel isOpen={isOpen} onClose={() => setIsOpen(false)} onImport={() => { }} />
       </div>
     )
   }
