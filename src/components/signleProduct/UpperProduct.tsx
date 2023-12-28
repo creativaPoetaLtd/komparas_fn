@@ -87,7 +87,6 @@ const UpperProduct = () => {
         </div>
         <div className="relatedPictures flex  w-full justify-center items-center m-auto h-[7rem] space-x-2 p-2">
           {products?.product?.product_images?.map((image: any, index: any) => (
-
             <div key={index} className="w-[7rem] h-full bg-gray-400 rounded-sm">
               <img src={image.product_image} className='w-full h-full rounded-sm object-cover' />
             </div>

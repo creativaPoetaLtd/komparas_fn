@@ -11,6 +11,7 @@ import ForgotPasswordForm from './components/auth/ForgotPassword.tsx'
 import ResetPassword from './components/auth/ResetPassword.tsx'
 import SingleProductPage from './components/signleProduct/SingleProductPage.tsx'
 import NavBar from './components/Navigations/NavBar.tsx'
+import Dashboard from './components/dashboard/dash.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -18,6 +19,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <Routes>
         <Route path="/login" element={<LoginForm />} />
         <Route path="/signup" element={<SignupForm />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/forgot_password" element={<ForgotPasswordForm />} />
         <Route path="/reset_password?resetToken=:resetToken" element={<ResetPassword />} />
       </Routes>
