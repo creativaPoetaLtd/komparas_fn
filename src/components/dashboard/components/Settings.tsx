@@ -1,7 +1,7 @@
 
 const Settings = () => {
   return (
-    <div>Settings</div>
+    <div className="h-screen w-full flex mx-auto justify-center items-center text-center text-3xl">Settings</div>
   )
 }
 

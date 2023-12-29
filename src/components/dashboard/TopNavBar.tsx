@@ -20,7 +20,7 @@ const TopNavbar = () => {
             <FaBell />
           </div>
           <div className="search-bar__right__icon flex text-4xl justify-center items-center">
-            <FaUserCircle />
+            <img src="https://i.pravatar.cc/150?img=8" alt="user" className="w-[40px] h-[40px] rounded-full" />
           </div>
         </div>
       </div>

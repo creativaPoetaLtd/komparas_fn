@@ -21,15 +21,18 @@ const LoginForm = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    console.log(">>>>>>>>>>>>>>>>>>>1111111111111111111111>>>>>>>>>>>>>>>>>>>>>>>", email, password);
-  
     try {
       const res = await login({ email, password });
       if(res.status===true){
       localStorage.setItem("KomparasLoginsInfo", JSON.stringify(res.user));
       toast.success("Login successful");
       setLoading(false);
-      navigate("/");
+      console.log(">>>>>>>>>>>", res?.user?.role);
+      if(res?.user?.role === "admin"){
+        navigate("/dashboard");
+      } else {
+        navigate("/");
+      }
       }
 
       else{
