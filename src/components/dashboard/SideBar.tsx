@@ -7,51 +7,33 @@ import { CgProfile } from "react-icons/cg";
 import { IoMdSettings } from "react-icons/io";
 import { IoMdHelpCircleOutline } from "react-icons/io";
 
-const Sidebar = ({ selectedMenu, onMenuClick }: any) => {
-    return (
-        <div className="w-[15%] min-h-screen bg-gray-200 p-3">
-            <h1 className="text-2xl font-bold">KOMPARAS</h1>
-            <div className='text-md font-medium mt-5 flex flex-col h-[85%]  justify-between'>
-                <div className="flex flex-col ">
-                    <div className={`menu-item flex cursor-pointer text-md font-medium mt-5  py-2 ${selectedMenu === 'dashboard' ? 'active' : ''}`} onClick={() => onMenuClick('dashboard')}>
-                        <MdDashboard className="mr-2 flex justify-center items-center my-auto" />
-                        Dashboard
-                    </div>
-                    <div className={`menu-item flex cursor-pointer text-md font-medium py-2 ${selectedMenu === 'users' ? 'active' : ''}`} onClick={() => onMenuClick('users')}>
-                    <FaUsers className="mr-2 flex justify-center items-center my-auto" />
-                        Users
-                    </div>
-                    <div className={`menu-item flex cursor-pointer text-md font-medium py-2 ${selectedMenu === 'shops' ? 'active' : ''}`} onClick={() => onMenuClick('shops')}>
-                    <FaShopSlash className="mr-2 flex justify-center items-center my-auto" />
+const MenuItem = ({ icon: Icon, label, selected, onClick }:any) => (
+  <div className={`menu-item flex cursor-pointer text-md font-medium py-2 ${selected ? 'active' : ''}`} onClick={onClick}>
+    <Icon className="mr-2 flex justify-center items-center my-auto" />
+    {label}
+  </div>
+);
 
-                        Shops
-                    </div>
-                    <div className={`menu-item flex cursor-pointer text-md font-medium py-2 ${selectedMenu === 'products' ? 'active' : ''}`} onClick={() => onMenuClick('products')}>
-                    <FaProductHunt className="mr-2 flex justify-center items-center my-auto" />
-                        Products
-                    </div>
-                    <div className={`menu-item flex cursor-pointer text-md font-medium py-2 ${selectedMenu === 'categories' ? 'active' : ''}`} onClick={() => onMenuClick('categories')}>
-                    <MdCategory className="mr-2 flex justify-center items-center my-auto" />
-                        Categories
-                    </div>
-                </div>
-                <div className="flex flex-col ">
-                    <div className={`menu-item flex cursor-pointer text-md font-medium mt-5 py-2 ${selectedMenu === 'profile' ? 'active' : ''}`} onClick={() => onMenuClick('profile')}>
-                    <CgProfile className="mr-2 flex justify-center items-center my-auto" />
-                        Profile
-                    </div>
-                    <div className={`menu-item flex cursor-pointer text-md font-medium py-2 ${selectedMenu === 'settings' ? 'active' : ''}`} onClick={() => onMenuClick('settings')}>
-                    <IoMdSettings className="mr-2 flex justify-center items-center my-auto" />
-                        Settings
-                    </div>
-                    <div className={`menu-item flex cursor-pointer text-md font-medium py-2 ${selectedMenu === 'helps' ? 'active' : ''}`} onClick={() => onMenuClick('helps')}>
-                    <IoMdHelpCircleOutline className="mr-2 flex justify-center items-center my-auto" />
-                        Help
-                    </div>
-                </div>
-            </div>
+const Sidebar = ({ selectedMenu, onMenuClick }:any) => {
+  return (
+    <div className="w-[15%] fixed h-screen bg-gray-200 flex flex-col p-3">
+      <h1 className="text-2xl font-bold">KOMPARAS</h1>
+      <div className='text-md font-medium mt-5 flex flex-col h-screen justify-between'>
+        <div className="flex flex-col">
+          <MenuItem icon={MdDashboard} label="Dashboard" selected={selectedMenu === 'dashboard'} onClick={() => onMenuClick('dashboard')} />
+          <MenuItem icon={FaUsers} label="Users" selected={selectedMenu === 'users'} onClick={() => onMenuClick('users')} />
+          <MenuItem icon={FaShopSlash} label="Shops" selected={selectedMenu === 'shops'} onClick={() => onMenuClick('shops')} />
+          <MenuItem icon={FaProductHunt} label="Products" selected={selectedMenu === 'products'} onClick={() => onMenuClick('products')} />
+          <MenuItem icon={MdCategory} label="Categories" selected={selectedMenu === 'categories'} onClick={() => onMenuClick('categories')} />
         </div>
-    );
+        <div className="flex flex-col">
+          <MenuItem icon={CgProfile} label="Profile" selected={selectedMenu === 'profile'} onClick={() => onMenuClick('profile')} />
+          <MenuItem icon={IoMdSettings} label="Settings" selected={selectedMenu === 'settings'} onClick={() => onMenuClick('settings')} />
+          <MenuItem icon={IoMdHelpCircleOutline} label="Help" selected={selectedMenu === 'helps'} onClick={() => onMenuClick('helps')} />
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Sidebar;
