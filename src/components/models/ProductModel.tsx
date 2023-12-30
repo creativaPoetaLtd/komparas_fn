@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Modal from 'react-modal';
-import checked from '../../assets/checked.png'
-import { Link, useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 import { getPoductById, getProductOnCategory } from "../../api/product";
 
 interface ImportModalProps {
@@ -23,13 +22,12 @@ const ProductModel: React.FC<ImportModalProps> = ({ isOpen, onClose }) => {
         fetchProduct();
     }, [productId]);
 
-    console.log(products1?.product?.category?.name, "+++++++++++++++++++++++++++++++++++");
 
     const category = products1?.product?.category?.name;
 
 
     const [relatedProducts, setRelatedProducts] = useState<any>([]);
-    const [loading, setLoading] = useState(false);
+    const [, setLoading] = useState(false);
     const [, setError] = useState(false);
 
     useEffect(() => {
