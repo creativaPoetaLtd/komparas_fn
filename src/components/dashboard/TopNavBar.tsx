@@ -1,4 +1,4 @@
-import { FaBell, FaSearch, FaUserCircle } from "react-icons/fa";
+import { FaBell, FaSearch } from "react-icons/fa";
 import { FaMessage } from "react-icons/fa6";
 
 const TopNavbar = () => {
@@ -29,3 +29,5 @@ const TopNavbar = () => {
 };
 
 export default TopNavbar;
+
+
