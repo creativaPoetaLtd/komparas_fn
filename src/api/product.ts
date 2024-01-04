@@ -48,3 +48,11 @@ export const addProduct = async (productData: any) => {
 
     return await res.json();
 };
+
+export const deleteProduct = async (id: string) => {
+    const res = await fetch(`${baseUrl}/products/${id}`, {
+        method: 'DELETE',
+    });
+
+    return await res.json();
+};

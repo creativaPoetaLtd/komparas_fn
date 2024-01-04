@@ -1,28 +1,32 @@
 import { useEffect, useState } from "react"
 import { getAllProducts } from "../../../../../api/product";
+import { deleteProduct } from "../../../../../api/product";
 interface AddProductProps {
     setIsAddProduct: (isAddProduct: boolean) => void;
-}
-const ProductListing = (
-    { setIsAddProduct }: AddProductProps
-) => {
+  }
+  
+  const ProductListing = ({ setIsAddProduct }: AddProductProps) => {
     const [products, setProducts] = useState<any>([]);
     const [loading, setLoading] = useState(false);
-   
-    const handleAddProduct = () => {
-        setIsAddProduct(true)
-    }
-    useEffect(() => {
-        const fetchProducts = async () => {
-            setLoading(true);
-            const products = await getAllProducts();
-            console.log(products, "ss");
+    const [refresh, setRefresh] = useState(false);
 
-            setProducts(products?.data);
-            setLoading(false);
-        };
-        fetchProducts();
-    }, []);
+  
+    const fetchProducts = async () => {
+      setLoading(true);
+      const products = await getAllProducts();
+      setProducts(products?.data);
+      setLoading(false);
+    };
+  
+    useEffect(() => {
+      fetchProducts();
+    }, [refresh]); // This line should be [refresh], not [setRefresh]
+  
+    const handleDeleteProduct = async (id: any) => {
+      const response = await deleteProduct(id);
+      setRefresh((prev) => !prev);    
+    };
+    
     return (
 
         <><div className="w-full flex justify-between">
@@ -37,7 +41,7 @@ const ProductListing = (
                 <button className="shadow px-6 ">
                     Print
                 </button>
-                <button className="shadow px-6" onClick={handleAddProduct}>
+                <button className="shadow px-6" onClick={() => setIsAddProduct(true)}>
                     Add New Product
                 </button>
             </div>
@@ -106,7 +110,10 @@ const ProductListing = (
                                                 <path fillRule="evenodd" d="M13.707 3.293a1 1 0 00-1.414 0L4 11.586V16h4.414l8.293-8.293a1 1 0 000-1.414L13.707 3.293zM6 14.414V12h2.414L15.707 6.707l-2.293-2.293L6 9.586v4.828zM13.586 5L15 6.414 16.586 5 15 3.414 13.586 5z" clipRule="evenodd" />
                                             </svg>
                                         </button>
-                                        <button className="shadow px-2">
+                                        <button 
+                                        className="shadow px-2"
+                                        onClick={() => handleDeleteProduct(product?._id)}
+                                        >
                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-red-500" viewBox="0 0 20 20" fill="currentColor">
                                                 <path fillRule="evenodd" d="M5.293 3.293a1 1 0 011.414 0L10 7.586l3.293-3.293a1 1 0 111.414 1.414L11.414 9l3.293 3.293a1 1 0 01-1.414 1.414L10 10.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 9 5.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
                                             </svg>
