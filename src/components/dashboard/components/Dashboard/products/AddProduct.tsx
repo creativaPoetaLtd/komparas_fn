@@ -281,7 +281,7 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                         <div className="laptop:w-[88%] desktop:w-[88%] tablet:w-[88%] laptop:mt-0 tablet:mt-0 desktop:mt-0  mt-2 w-full justify-between flex felx-col space-y-4">
                             <div className="flex flex-col w-full">
                                 <label className="text-sm mb-1 font-normal text-grey-700 ">
-                                    Profile Image
+                                    Product Image
                                 </label>
                                 {formData?.product_image ? (
                                     <div className="relative w-full h-[250px]">
@@ -321,7 +321,7 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                                                 size={22}
                                             />
                                             <p className="text-sm text-grey-700">
-                                                Upload Profile
+                                                Upload Product Image
                                             </p>
                                         </div>
                                     </div>
