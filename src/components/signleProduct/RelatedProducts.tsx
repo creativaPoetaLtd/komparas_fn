@@ -47,16 +47,10 @@ const RelatedProducts = () => {
     };
     fetchProduct();
   }, [productId]);
-
-  console.log(products1?.product?.category?.name, "+++++++++++++++++++++++++++++++++++");
-
   const category = products1?.product?.category?.name;
-
-
   const [relatedProducts, setRelatedProducts] = useState<any>([]);
   const [loading, setLoading] = useState(false);
   const [, setError] = useState(false);
-
   useEffect(() => {
     const fetchRelatedProducts = async () => {
       setLoading(true);

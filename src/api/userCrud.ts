@@ -16,3 +16,8 @@ export const addUsers = async (user:any) => {
 
     return await res.json();
 };
+
+export const getUsers = async () => {
+    const res = await fetch(`${baseUrl}/users`);    
+    return await res.json();
+};

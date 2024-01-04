@@ -64,7 +64,7 @@ const SignupForm = () => {
     };
 
 
-    
+
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
@@ -72,7 +72,6 @@ const SignupForm = () => {
                 ...prevFormData,
                 profile_picture: file,
             }));
-
             const reader = new FileReader();
             reader.onload = () => {
                 setImageUrl(reader.result as string);
@@ -91,17 +90,17 @@ const SignupForm = () => {
 
     const handleRemoveProfilePicture = () => {
         setFormData((prevFormData: any) => ({
-          ...prevFormData,
-          profile_picture: undefined,
+            ...prevFormData,
+            profile_picture: undefined,
         }));
         setImageUrl(null);
-      };
+    };
 
-      const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-    
+
         setLoading(true);
-    
+
         try {
             const response = await addUsers(formData);
             if (response.user) {
@@ -111,7 +110,7 @@ const SignupForm = () => {
                 });
                 setLoading(false);
                 navigate("/login");
-                
+
                 setFormData({
                     first_name: "",
                     last_name: "",
@@ -137,8 +136,8 @@ const SignupForm = () => {
             setLoading(false);
         }
     };
-    
-    
+
+
     return (
         <div className="h-screen relative">
 
@@ -254,7 +253,6 @@ const SignupForm = () => {
                                             </div>
                                         </div>
                                     </div>
-
                                     <div className="laptop:w-1/2 desktop:w-1/2 tablet:w-1/2 laptop:mt-0 tablet:mt-0 desktop:mt-0  mt-2 w-full justify-between flex felx-col space-y-4">
                                         <div className="flex flex-col w-full">
                                             <label className="text-sm mb-1 font-normal text-grey-700 ">
@@ -303,18 +301,18 @@ const SignupForm = () => {
                                                     </div>
                                                 </div>
                                             )}
-                                            <button type="button" className={`bg-blue-700 text-white space-x-3 rounded-md flex justify-center m-auto items-center p-2 h-[47px] mt-5 w-full ${formData?.profile_picture? 'opacity-50 cursor-not-allowed':''}`} onClick={handleImageUpload}
->
-                                            <p>Upload Profile</p>
-                                            <UploadSimple color="#90A8A2" size={22} />
+                                            <button type="button" className={`bg-blue-700 text-white space-x-3 rounded-md flex justify-center m-auto items-center p-2 h-[47px] mt-5 w-full ${formData?.profile_picture ? 'opacity-50 cursor-not-allowed' : ''}`} onClick={handleImageUpload}
+                                            >
+                                                <p>Upload Profile</p>
+                                                <UploadSimple color="#90A8A2" size={22} />
 
-                                        </button>
+                                            </button>
                                         </div>
-                                        
+
                                     </div>
-                                    
+
                                 </div>
-                                
+
                                 <div className="input-field">
                                     <button
                                         data-testid="login-button"
