@@ -13,4 +13,7 @@ export const deleteCategory = (id: string) => {
   return axios.delete(`${baseUrl}/categories/${id}`);
 }
 
+export const addCategory = (categoryData: any) => {
+  return axios.post(`${baseUrl}/category/add`, categoryData);
+}
 

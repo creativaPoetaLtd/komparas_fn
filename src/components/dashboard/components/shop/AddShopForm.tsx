@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { addShop } from "../../../../../api/getAllShops"
+import { addShop } from "../../../../api/getAllShops"
 
 interface AddShopFormProps {
     setIsAddShop: (isShopFormOpen: boolean) => void
@@ -31,9 +31,6 @@ const AddShopForm = (
         setLoading(false)
         setIsAddShop(false)
     }
-
-        
-
     return (
         <div className="w-full h-full bg-black bg-opacity-50 fixed top-0 left-0 flex justify-center items-center">
             <div className="w-[60%] h-fit bg-gray-300 pb-10 rounded-md flex flex-col justify-center items-center">

@@ -1,5 +1,5 @@
-import ShopListing from "./Dashboard/shop/ShopListing"
-import AddShopForm from "./Dashboard/shop/AddShopForm"
+import ShopListing from "./shop/ShopListing"
+import AddShopForm from "./shop/AddShopForm"
 import { useState } from "react"
 const Shops = () => {
   const [addShop, setAddShop] = useState(false)
