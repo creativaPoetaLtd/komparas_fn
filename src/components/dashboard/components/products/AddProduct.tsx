@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { IoIosArrowRoundBack } from "react-icons/io";
-import { getAllCategories } from "../../../../../api/getAllCategories";
-import { addProduct } from "../../../../../api/product";
+import { getAllCategories } from "../../../../api/getAllCategories";
+import { addProduct } from "../../../../api/product";
 import { useEffect } from "react";
-import { getAllShops } from "../../../../../api/getAllShops";
+import { getAllShops } from "../../../../api/getAllShops";
 import { UploadSimple } from "@phosphor-icons/react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { toast } from "react-toastify";

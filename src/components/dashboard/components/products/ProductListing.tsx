@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
-import { getAllProducts } from "../../../../../api/product";
-import { deleteProduct } from "../../../../../api/product";
+import { getAllProducts } from "../../../../api/product";
+import { deleteProduct } from "../../../../api/product";
 interface AddProductProps {
     setIsAddProduct: (isAddProduct: boolean) => void;
 }
@@ -15,11 +15,9 @@ const ProductListing = ({ setIsAddProduct }: AddProductProps) => {
         setProducts(products?.data);
         setLoading(false);
     };
-
     useEffect(() => {
         fetchProducts();
     }, [refresh]);
-
     const handleDeleteProduct = async (id: any) => {
         await deleteProduct(id);
         setRefresh((prev) => !prev);

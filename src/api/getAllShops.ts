@@ -22,14 +22,11 @@ export const getShopBySearch = (search: string) => {
 }
 
 export const addShop = (shopData: any) => {
-  const formData = new FormData();
-  formData.append('shop_name', shopData.shop_name);
-  formData.append('shop_description', shopData.shop_description);
-  formData.append('shop_address', shopData.shop_address);
-  formData.append('shop_category', shopData.shop_category);
-  formData.append('shop_image', shopData.shop_image);
+  return axios.post(`${baseUrl}/shops/add`, shopData);
+}
 
-  return axios.post(`${baseUrl}/shops/add`, formData);
+export const updateShop = (shopData: any) => {
+  return axios.put(`${baseUrl}/shops`, shopData);
 }
 
 export const deleteShop = (id: string) => {
