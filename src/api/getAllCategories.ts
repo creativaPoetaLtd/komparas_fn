@@ -9,3 +9,8 @@ export const getAllCategories = () => {
   return axios.get(`${baseUrl}/categories/all`);
 }
 
+export const deleteCategory = (id: string) => {
+  return axios.delete(`${baseUrl}/categories/${id}`);
+}
+
+
