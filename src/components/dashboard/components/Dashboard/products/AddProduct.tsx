@@ -328,7 +328,7 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                                 )}
                                 <button type="button" className={`bg-blue-700 mb-12 text-white space-x-3 rounded-md flex justify-center m-auto items-center p-2 h-[47px] mt-5 w-full ${formData?.product_image ? 'opacity-50 cursor-not-allowed' : ''}`} onClick={handleImageUpload}
                                 >
-                                    <p>Upload Profile</p>
+                                    <p>Upload Product</p>
                                     <UploadSimple color="#90A8A2" size={22} />
                                 </button>
                             </div>
