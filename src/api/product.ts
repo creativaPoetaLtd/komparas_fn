@@ -38,8 +38,8 @@ export const addProduct = async (productData: any) => {
     // Convert specifications array to JSON string and append it
   // Append each specification separately
   productData.specifications.forEach((specification: { key: string | Blob; value: string | Blob; }, index: any) => {
-    formData.append(`specifications[${index}][key]`, specification.key);
-    formData.append(`specifications[${index}][value]`, specification.value);
+    formData.append(`specifications[${index}][key]`, specification.key ? specification.key : '-');
+    formData.append(`specifications[${index}][value]`, specification.value ? specification.value: '-');
 });
     const res = await fetch(`${baseUrl}/products/add`, {
         method: 'POST',

@@ -3,30 +3,28 @@ import { getAllProducts } from "../../../../../api/product";
 import { deleteProduct } from "../../../../../api/product";
 interface AddProductProps {
     setIsAddProduct: (isAddProduct: boolean) => void;
-  }
-  
-  const ProductListing = ({ setIsAddProduct }: AddProductProps) => {
+}
+
+const ProductListing = ({ setIsAddProduct }: AddProductProps) => {
     const [products, setProducts] = useState<any>([]);
     const [loading, setLoading] = useState(false);
     const [refresh, setRefresh] = useState(false);
-
-  
     const fetchProducts = async () => {
-      setLoading(true);
-      const products = await getAllProducts();
-      setProducts(products?.data);
-      setLoading(false);
+        setLoading(true);
+        const products = await getAllProducts();
+        setProducts(products?.data);
+        setLoading(false);
     };
-  
+
     useEffect(() => {
-      fetchProducts();
-    }, [refresh]); // This line should be [refresh], not [setRefresh]
-  
+        fetchProducts();
+    }, [refresh]);
+
     const handleDeleteProduct = async (id: any) => {
-      const response = await deleteProduct(id);
-      setRefresh((prev) => !prev);    
+        await deleteProduct(id);
+        setRefresh((prev) => !prev);
     };
-    
+
     return (
 
         <><div className="w-full flex justify-between">
@@ -58,18 +56,11 @@ interface AddProductProps {
                             <th className="w-[10%] text-sm font-bold text-start py-3 px-2">Action</th>
                         </tr>
                     </thead>
+
                     <tbody className="w-full mt-3">
-                        {loading && (
-                            <tr className="w-full mt-3 shadow-sm">
-                                <td className="text-sm font-medium py-2 flex justify-center items-center m-auto text-center w-full px-2">Loading...</td>
-                            </tr>
-                        )}
-                        {!loading && products?.products?.length === 0 && (
-                            <tr className="w-full mt-3 shadow-sm">
-                                <td className="text-sm font-medium py-2 flex justify-center items-center m-auto text-center w-full px-2">No Products</td>
-                            </tr>
-                        )}
-                        {products?.products?.map((product: any, index: any) => (
+
+
+                        {products?.products?.reverse().map((product: any, index: any) => (
                             <tr className="w-full mt-3 shadow-sm">
                                 <td className="w-[10%] text-sm font-medium py-2 px-2">
                                     {index + 1}
@@ -110,9 +101,9 @@ interface AddProductProps {
                                                 <path fillRule="evenodd" d="M13.707 3.293a1 1 0 00-1.414 0L4 11.586V16h4.414l8.293-8.293a1 1 0 000-1.414L13.707 3.293zM6 14.414V12h2.414L15.707 6.707l-2.293-2.293L6 9.586v4.828zM13.586 5L15 6.414 16.586 5 15 3.414 13.586 5z" clipRule="evenodd" />
                                             </svg>
                                         </button>
-                                        <button 
-                                        className="shadow px-2"
-                                        onClick={() => handleDeleteProduct(product?._id)}
+                                        <button
+                                            className="shadow px-2"
+                                            onClick={() => handleDeleteProduct(product?._id)}
                                         >
                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-red-500" viewBox="0 0 20 20" fill="currentColor">
                                                 <path fillRule="evenodd" d="M5.293 3.293a1 1 0 011.414 0L10 7.586l3.293-3.293a1 1 0 111.414 1.414L11.414 9l3.293 3.293a1 1 0 01-1.414 1.414L10 10.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 9 5.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
@@ -124,6 +115,16 @@ interface AddProductProps {
                         ))}
                     </tbody>
                 </table>
+                {loading && (
+                    <div className="w-full mt-3 shadow-sm">
+                        <td className="text-sm font-medium py-2 flex justify-center items-center m-auto text-center  w-full px-2">Loading...</td>
+                    </div>
+                )}
+                {!loading && products?.products?.length === 0 && (
+                    <tr className="w-full mt-3 shadow-sm">
+                        <td className="text-sm font-medium py-2 flex justify-center items-center m-auto text-center w-full px-2">No Products</td>
+                    </tr>
+                )}
             </div></>
     )
 }

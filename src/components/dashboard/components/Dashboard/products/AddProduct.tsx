@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { getAllShops } from "../../../../../api/getAllShops";
 import { UploadSimple } from "@phosphor-icons/react";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { toast } from "react-toastify";
 
 interface AddProductProps {
     setIsAddProduct: (isAddProduct: boolean) => void;
@@ -13,7 +14,7 @@ interface AddProductProps {
 
 const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
     const [categories, setCategories] = useState<any>([]);
-    const [, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [shops, setShops] = useState<any>([]);
     const [, setLoadingShops] = useState(false);
     const [specifications, setSpecifications] = useState([{ key: "", value: "" }]);
@@ -136,20 +137,34 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
 
     const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setLoading(true);
         try {
             const updatedFormData = {
                 ...formData,
-                specifications: specifications, // Use the latest specifications state
+                specifications: specifications, 
             };
 
             const response = await addProduct(updatedFormData);
             console.log(response);
-
+            setLoading(false);
+            
             if (response?.message === 'Product added successfully') {
                 clearFormAfterSubmit();
+                toast.success('Product added successfully');
+                setLoading(false);  
+                handleBackButton();
+            }
+            else if(response?.message !== 'Product added successfully'){
+                toast.error(response?.message);
+                setLoading(false);
+            }
+            else {
+                toast.error('Something went wrong');
+                setLoading(false);
             }
         } catch (error) {
             console.log(error);
+            setLoading(false);
         }
     };
 
@@ -317,10 +332,14 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                                     <UploadSimple color="#90A8A2" size={22} />
                                 </button>
                             </div>
-
                         </div>
-
-                        <button type="submit" className='AddProductForm__form__inputs__submit w-96 h-10 rounded-md bg-blue-500 text-white font-bold text-xl'>Add Product</button>
+                        <button
+                         type="submit"
+                         disabled={formData?.shop === "" || formData?.category === "" || formData?.product_name === "" || formData?.product_price === "" || formData?.product_description === "" || formData?.product_image === undefined} 
+                         className={`AddProductForm__form__inputs__submit w-96 h-10 rounded-md bg-blue-500 text-white font-bold text-xl ${formData?.shop === "" || formData?.category === "" || formData?.product_name === "" || formData?.product_price === "" || formData?.product_description === "" || formData?.product_image === undefined  || loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                         >
+                            {loading ? "Loading..." : "Add Product"}
+                         </button>
                     </form>
                 </div>
             </div>
