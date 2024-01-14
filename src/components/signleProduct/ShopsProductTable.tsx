@@ -43,7 +43,6 @@ const ShopsProductTable = () => {
                   </td>
                 )
               ))}
-
               <td className="md:py-4 xs:py-2 whitespace-nowrap capitalize text-sm font-normal px-2 text-gray-800">
                 <p className="text-sm font-normal text-gray-800">
                   {shop?.working_hours}
@@ -62,7 +61,6 @@ const ShopsProductTable = () => {
               </td>
             </tr>
           ))}
-
         </tbody>
       </table>
     </div>

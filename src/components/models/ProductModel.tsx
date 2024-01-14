@@ -1,49 +1,49 @@
 import React, { useEffect, useState } from "react";
 import Modal from 'react-modal';
-import {  useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getPoductById, getProductOnCategory } from "../../api/product";
 
 interface ImportModalProps {
-    isOpen: boolean;
-    onClose: () => void;
-    onImport: () => void;
+  isOpen: boolean;
+  onClose: () => void;
+  selected_id: any;
+  onSelectProduct: (productId: string) => void; // New prop for passing selected product ID
 }
 
-const ProductModel: React.FC<ImportModalProps> = ({ isOpen, onClose }) => {
+const ProductModel: React.FC<ImportModalProps> = ({ isOpen, onClose, onSelectProduct }) => {
+  const [products1, setProducts] = useState<any>([]);
+  const productId: any = useParams().id;
 
-    const [products1, setProducts] = useState<any>([]);
-    const productId: any = useParams().id;
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const { data } = await getPoductById(productId);
+      setProducts(data);
+    };
+    fetchProduct();
+  }, [productId]);
 
-    useEffect(() => {
-        const fetchProduct = async () => {
-            const { data } = await getPoductById(productId);
-            setProducts(data);
-        };
-        fetchProduct();
-    }, [productId]);
+  const category = products1?.product?.category?.name;
+  const [relatedProducts, setRelatedProducts] = useState<any>([]);
+  const [, setLoading] = useState(false);
+  const [, setError] = useState(false);
 
+  useEffect(() => {
+    const fetchRelatedProducts = async () => {
+      setLoading(true);
+      try {
+        const { data } = await getProductOnCategory(category);
+        setRelatedProducts(data);
+      } catch (error) {
+        setError(true);
+      }
+      setLoading(false);
+    };
+    fetchRelatedProducts();
+  }, [category]);
 
-    const category = products1?.product?.category?.name;
-
-
-    const [relatedProducts, setRelatedProducts] = useState<any>([]);
-    const [, setLoading] = useState(false);
-    const [, setError] = useState(false);
-
-    useEffect(() => {
-        const fetchRelatedProducts = async () => {
-            setLoading(true);
-            try {
-                const { data } = await getProductOnCategory(category);
-                setRelatedProducts(data);
-            } catch (error) {
-                setError(true);
-            }
-            setLoading(false);
-        };
-        fetchRelatedProducts();
-    }
-        , [category]);
+  const selectSingleProduct = (productId: string) => {
+    onSelectProduct(productId);
+  };
     return (
         <Modal
             isOpen={isOpen}
@@ -66,9 +66,9 @@ const ProductModel: React.FC<ImportModalProps> = ({ isOpen, onClose }) => {
                 <div className="products w-full h-fit flex flex-col space-y-3 m-auto justify-center text-center items-center">
                     <div className="productCard flex flex-wrap gap-2 w-full h-fit">
                         {relatedProducts?.products?.map((product: any, index: any) => (
-                            <div key={index} className="w-[12rem] h-[12rem] space-x-3 border-bg-gray-400 border text-gray-500 rounded-sm">
+                            <button onClick={()=>selectSingleProduct(product?._id)} key={index} className="w-[12rem] h-[12rem] space-x-3 border-bg-gray-400 border text-gray-500 rounded-sm">
                                 <img src={product.product_image} alt='product' className='w-full cursor-pointer h-full rounded-sm object-cover' />
-                            </div>
+                            </button>
                         ))}
                     </div>
                 </div>
