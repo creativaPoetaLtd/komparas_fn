@@ -14,8 +14,6 @@ const ShopsProductTable = () => {
     fetchProduct();
   }, [productId]);
 
-  console.log(products, "pppppppppppppppppppp");
-
   return (
     <div className='w-full flex flex-col h-fit'>
       <table className="rounded shadow w-full">

@@ -68,15 +68,7 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
             category: event.target.value,
         }));
     };
-    // const handleShopChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    //     setFormData((prevFormData) => ({
-    //         ...prevFormData,
-    //         shop: event.target.value,
-    //     }));
-    // };
-
-
-
+ 
     const handleSpecificationChange = (index: number, field: string, value: string) => {
         const updatedSpecifications: any = [...specifications];
         updatedSpecifications[index][field] = value;
