@@ -79,7 +79,7 @@ const ProductListing = ({ setIsAddProduct }: AddProductProps) => {
                                     {product?.product_category}
                                 </td>
                                 <td className="w-[20%] text-sm font-medium py-2 px-2">
-                                    {product?.product_price}
+                                    {product?.vendor_prices?.length > 0 ? product?.vendor_prices[0]?.price : "-"}
                                 </td>
                                 <td className="w-[10%] text-sm font-medium py-2 px-2">
                                     <div className="flex flex-row justify-between items-center">

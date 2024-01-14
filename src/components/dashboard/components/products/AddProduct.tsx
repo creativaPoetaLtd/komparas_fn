@@ -18,12 +18,13 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
     const [shops, setShops] = useState<any>([]);
     const [, setLoadingShops] = useState(false);
     const [specifications, setSpecifications] = useState([{ key: "", value: "" }]);
+    const [vendor_prices, setVendorPrices] = useState([{ key: "", value: "" }]);
     const [formData, setFormData] = useState({
         product_name: "",
         product_price: "",
         product_description: "",
         category: "",
-        shop: "",
+        vendor_prices: [],
         specifications: [],
         product_image: undefined,
     });
@@ -67,12 +68,12 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
             category: event.target.value,
         }));
     };
-    const handleShopChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            shop: event.target.value,
-        }));
-    };
+    // const handleShopChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    //     setFormData((prevFormData) => ({
+    //         ...prevFormData,
+    //         shop: event.target.value,
+    //     }));
+    // };
 
 
 
@@ -82,15 +83,37 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
         setSpecifications(updatedSpecifications);
     };
 
+
     const addSpecificationField = () => {
         setSpecifications([...specifications, { key: "", value: "" }]);
     };
+    const handleVendorsChange = (index: number, field: string, value: string) => {
+        const updatedVendors: any = [...vendor_prices];
+        updatedVendors[index][field] = value;
+        setVendorPrices(updatedVendors);
+    };
+    const handleVendorsSelectChange = (event: React.ChangeEvent<HTMLSelectElement>, index: number) => {
+        const { value } = event.target;
+        handleVendorsChange(index, "key", value);
+    };
+
+
+    const addVendorField = () => {
+        setVendorPrices([...vendor_prices, { key: "", value: "" }]);
+    };
+
 
     const removeSpecificationField = (index: number) => {
         const updatedSpecifications = [...specifications];
         updatedSpecifications.splice(index, 1);
         setSpecifications(updatedSpecifications);
     };
+    const removeVendors = (index: number) => {
+        const updatedVendors = [...vendor_prices];
+        updatedVendors.splice(index, 1);
+        setVendorPrices(updatedVendors);
+    };
+
     const handleRemoveProfilePicture = () => {
         setFormData((prevFormData: any) => ({
             ...prevFormData,
@@ -126,11 +149,12 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
             product_price: "",
             product_description: "",
             category: "",
-            shop: "",
+            vendor_prices: [],
             specifications: [],
             product_image: undefined,
         });
         setSpecifications([{ key: "", value: "" }]);
+        setVendorPrices([{ key: "", value: "" }]);
         setImageUrl(null);
     };
 
@@ -141,20 +165,22 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
         try {
             const updatedFormData = {
                 ...formData,
-                specifications: specifications, 
+                specifications: specifications,
+                vendor_prices: vendor_prices
             };
 
             const response = await addProduct(updatedFormData);
-            console.log(response);
+            console.log(">>>>>>>>>>>>>>>>>>>", response);
+
             setLoading(false);
-            
+
             if (response?.message === 'Product added successfully') {
                 clearFormAfterSubmit();
                 toast.success('Product added successfully');
-                setLoading(false);  
+                setLoading(false);
                 handleBackButton();
             }
-            else if(response?.message !== 'Product added successfully'){
+            else if (response?.message !== 'Product added successfully') {
                 toast.error(response?.message);
                 setLoading(false);
             }
@@ -224,21 +250,52 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                                 ))}
                             </select>
                         </div>
-                        <div className="SelectShops flex flex-col justify-start items-start mb-5">
-                            <label className='SelectShops__label  mb-2'>Select Shops</label>
-                            <select
-                                className='SelectShops__input w-96 h-10 rounded-md border outline-blue-700 border-gray-300 px-2'
-                                onChange={handleShopChange}
-                                value={formData.shop}
-                            >
-                                <option value="" disabled selected>Select Shop</option>
-                                {shops?.map((shop: any) => (
-                                    <option key={shop._id} value={shop._id}>
-                                        {shop.name}
-                                    </option>
-                                ))}
-                            </select>
+
+                        <div className="AddProductForm__form__inputs__specifications flex flex-col justify-start items-start mb-5">
+                            <label className="AddProductForm__form__inputs__specifications__label mb-2">
+                                Shops
+                            </label>
+                            {vendor_prices.map((spec, index) => (
+                                <div key={index} className="flex w-[88%] space-x-2 mb-2">
+                                    <select
+                                        className='AddProductForm__form__inputs__category__input w-96 h-10 rounded-md border outline-blue-700 border-gray-300 px-2'
+                                        onChange={(e) => handleVendorsSelectChange(e, index)}
+                                        value={spec.key}
+                                    >
+                                        <option value="" disabled selected>Select Shop</option>
+                                        {shops?.map((shop: any) => (
+                                            <option key={shop.name} value={shop._id}>
+                                                {shop.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    <input
+                                        type="text"
+                                        placeholder="Value"
+                                        value={spec.value}
+                                        onChange={(e) => handleVendorsChange(index, "value", e.target.value)}
+                                        className="w-1/2 h-10 rounded-md border outline-blue-700 border-gray-300 px-2"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => removeVendors(index)}
+                                        className="border px-2 py-0 text-black hover:text-white bg-red-100 hover:bg-red-500 rounded-md"
+                                    >
+                                        x
+                                    </button>
+                                </div>
+                            ))}
+                            <div className="w-[88%]">
+                                <button
+                                    type="button"
+                                    onClick={addVendorField}
+                                    className="border p-2 text-white bg-blue-600 rounded-md float-right"
+                                >
+                                    Add Vendor Field
+                                </button>
+                            </div>
                         </div>
+
                         <div className="AddProductForm__form__inputs__specifications flex flex-col justify-start items-start mb-5">
                             <label className="AddProductForm__form__inputs__specifications__label mb-2">
                                 Specifications
@@ -334,12 +391,10 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                             </div>
                         </div>
                         <button
-                         type="submit"
-                         disabled={formData?.shop === "" || formData?.category === "" || formData?.product_name === "" || formData?.product_price === "" || formData?.product_description === "" || formData?.product_image === undefined} 
-                         className={`AddProductForm__form__inputs__submit w-96 h-10 rounded-md bg-blue-500 text-white font-bold text-xl ${formData?.shop === "" || formData?.category === "" || formData?.product_name === "" || formData?.product_price === "" || formData?.product_description === "" || formData?.product_image === undefined  || loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-                         >
+                            type="submit"
+                        >
                             {loading ? "Loading..." : "Add Product"}
-                         </button>
+                        </button>
                     </form>
                 </div>
             </div>
