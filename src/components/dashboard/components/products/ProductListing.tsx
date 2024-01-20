@@ -3,9 +3,10 @@ import { getAllProducts } from "../../../../api/product";
 import { deleteProduct } from "../../../../api/product";
 interface AddProductProps {
     setIsAddProduct: (isAddProduct: boolean) => void;
+    setIsEditProduct: (isEditProduct: boolean) => void;
 }
 
-const ProductListing = ({ setIsAddProduct }: AddProductProps) => {
+const ProductListing = ({ setIsAddProduct, setIsEditProduct }: AddProductProps) => {
     const [products, setProducts] = useState<any>([]);
     const [loading, setLoading] = useState(false);
     const [refresh, setRefresh] = useState(false);
@@ -22,6 +23,14 @@ const ProductListing = ({ setIsAddProduct }: AddProductProps) => {
         await deleteProduct(id);
         setRefresh((prev) => !prev);
     };
+
+    const handleEdit = async (id: any) => {
+        setIsAddProduct(false);
+        setIsEditProduct(true);
+        localStorage.setItem("editProductID", id);
+    }
+
+    
 
     return (
 
@@ -94,7 +103,9 @@ const ProductListing = ({ setIsAddProduct }: AddProductProps) => {
                                                 <path fillRule="evenodd" d="M10.707 3.293a1 1 0 00-1.414 0L3 9.586V17h6v-2a1 1 0 011-1h2a1 1 0 011 1v2h6v-7.414l-6.293-6.293zM12 10a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
                                             </svg>
                                         </button>
-                                        <button className="shadow px-2">
+                                        <button className="shadow px-2"
+                                            onClick={() => handleEdit(product?._id)}
+                                        >
                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
                                                 <path fillRule="evenodd" d="M13.707 3.293a1 1 0 00-1.414 0L4 11.586V16h4.414l8.293-8.293a1 1 0 000-1.414L13.707 3.293zM6 14.414V12h2.414L15.707 6.707l-2.293-2.293L6 9.586v4.828zM13.586 5L15 6.414 16.586 5 15 3.414 13.586 5z" clipRule="evenodd" />
                                             </svg>

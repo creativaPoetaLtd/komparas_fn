@@ -8,7 +8,7 @@ interface EditShopFormProps {
     selectedShopId?: string
 }
 const EditShopForm = (
-    { setIsEditShop, selectedShopId }: EditShopFormProps
+    { setIsEditShop,  }: EditShopFormProps
 ) => {
     const [loading, setLoading] = useState(false)
     const [formData, setFormData] = useState({
@@ -21,8 +21,6 @@ const EditShopForm = (
     })
     const [shopData, setShopData] = useState<any>()
     const editID: any = localStorage.getItem("editID")
-    console.log(selectedShopId);
-
     const handleShopFormClose = () => {
         setIsEditShop(false)
     }

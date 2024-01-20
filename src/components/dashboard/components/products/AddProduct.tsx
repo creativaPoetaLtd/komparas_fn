@@ -162,8 +162,6 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
             };
 
             const response = await addProduct(updatedFormData);
-            console.log(">>>>>>>>>>>>>>>>>>>", response);
-
             setLoading(false);
 
             if (response?.message === 'Product added successfully') {
@@ -208,14 +206,6 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                                 value={formData?.product_name}
                                 onChange={handleInputChange}
                             />
-                        </div>
-                        <div className='AddProductForm__form__inputs__price flex flex-col justify-start items-start mb-5'>
-                            <label className='AddProductForm__form__inputs__price__label  mb-2'>Product Price</label>
-                            <input className='AddProductForm__form__inputs__price__input w-96 h-10 rounded-md border outline-blue-700 border-gray-300 px-2' type="number"
-                                name='product_price'
-                                value={formData?.product_price}
-                                onChange={handleInputChange}
-                                placeholder='Product Price' />
                         </div>
                         <div className='AddProductForm__form__inputs__description flex flex-col justify-start items-start mb-5'>
                             <label className='AddProductForm__form__inputs__description__label  mb-2'>Product Description</label>
