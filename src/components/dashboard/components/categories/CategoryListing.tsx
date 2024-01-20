@@ -3,9 +3,11 @@ import { getAllCategories, deleteCategory } from "../../../../api/getAllCategori
 
 interface CategoriesProps {
   setIsAddCategory: (value: boolean) => void
+  setIsEditCategory: (value: boolean) => void
+  setSelectedCategoryId?: (id: string) => void
 }
 const CategoryListing = (
-  { setIsAddCategory }: CategoriesProps
+  { setIsAddCategory, setIsEditCategory, setSelectedCategoryId }: CategoriesProps
 ) => {
   const [categories, setCategories] = useState([])
   const [loading, setLoading] = useState(true)
@@ -25,6 +27,14 @@ const CategoryListing = (
       })
       .catch((err) => console.log(err))
   }
+
+  const handleEditCategory = async (id: any) => {
+    setIsEditCategory(true);
+    setIsAddCategory(false);
+    setSelectedCategoryId && setSelectedCategoryId(id); 
+    localStorage.setItem("editCategoryID", id);
+  };
+
   return (
     <div>
       <div className="w-full flex justify-between">
@@ -89,7 +99,9 @@ const CategoryListing = (
                         <path fillRule="evenodd" d="M10.707 3.293a1 1 0 00-1.414 0L3 9.586V17h6v-2a1 1 0 011-1h2a1 1 0 011 1v2h6v-7.414l-6.293-6.293zM12 10a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
                       </svg>
                     </button>
-                    <button className="shadow px-2">
+                    <button className="shadow px-2" onClick={
+                      () => handleEditCategory(category?._id)
+                    }>
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
                         <path fillRule="evenodd" d="M13.707 3.293a1 1 0 00-1.414 0L4 11.586V16h4.414l8.293-8.293a1 1 0 000-1.414L13.707 3.293zM6 14.414V12h2.414L15.707 6.707l-2.293-2.293L6 9.586v4.828zM13.586 5L15 6.414 16.586 5 15 3.414 13.586 5z" clipRule="evenodd" />
                       </svg>

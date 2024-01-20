@@ -27,11 +27,6 @@ const ComparisonModel = ({ onClose }: ComparisonModelProps) => {
         fetchProduct();
       }, [selectedProductId]);
 
-
-
-
-
-
     return (
         <div className="w-full h-full overflow-y-auto bg-black bg-opacity-50 fixed top-0 left-0 flex justify-center items-center">
             <div className="w-[80%] h-fit bg-gray-300 pb-10 rounded-md flex flex-col justify-center items-center">

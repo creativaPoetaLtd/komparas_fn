@@ -55,7 +55,7 @@ const HomeProduct: React.FC<IProduct> = () => {
     <div className='w-full px-3 h-fit flex flex-col'>
       <ProdCategories onCategoryChange={handleCategoryChange} />
 
-      {currentProducts.length === 0 && (
+      {currentProducts?.length === 0 && (
           <div className='w-full h-full flex justify-center m-auto items-center mt-12 '>
             <p className='text-2xl font-bold flex justify-center w-full items-center text-center m-auto'>No products found on that category</p>
           </div>
@@ -68,7 +68,7 @@ const HomeProduct: React.FC<IProduct> = () => {
             </div>
             <div className='productCard1Text  p-2 h-[7rem] bg-gray-400  w-full flex flex-col justify-start text-start items-start'>
               <p className='productStarsRevew text-center text-xs text-yellow-300'>product Stars</p>
-              <p className='text-stert'>{product?.product_name.length > 40 ? product?.product_name.substring(0, 40) +'...': product?.product_name.substring(0, 40) }</p>
+              <p className='text-stert'>{product?.product_name?.length > 40 ? product?.product_name?.substring(0, 40) +'...': product?.product_name?.substring(0, 40) }</p>
               <p className='text-start'>From <span className='font-bold'>${product.product_price}</span> in  <span className='font-bold'>5</span> stores</p>
             </div>
           </Link>
@@ -76,7 +76,7 @@ const HomeProduct: React.FC<IProduct> = () => {
       </div>
 
       <div className='pagination flex m-auto justify-center items-center text-center space-x-12 mb-5'>
-        {Array.from({ length: Math.ceil(products.length / productsPerPage) }, (_, i) => (
+        {Array.from({ length: Math.ceil(products?.length / productsPerPage) }, (_, i) => (
           <button  key={i} onClick={() => paginate(i + 1)} className={currentPage === i + 1 ? 'active bg-blue-700 px-3 py-1 text-white font-bold' : 'bg-blue-500 px-3 py-1 text-white font-thin' }>
             {i + 1}
           </button>

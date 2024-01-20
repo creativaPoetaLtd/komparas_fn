@@ -25,8 +25,8 @@ export const addShop = (shopData: any) => {
   return axios.post(`${baseUrl}/shops/add`, shopData);
 }
 
-export const updateShop = (shopData: any) => {
-  return axios.put(`${baseUrl}/shops`, shopData);
+export const updateShop = (shopData: any, id:string) => {
+  return axios.put(`${baseUrl}/shops/${id}`, shopData);
 }
 
 export const deleteShop = (id: string) => {

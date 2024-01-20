@@ -29,7 +29,7 @@ const DraggableProduct = ({ product }: any) => {
           <span className='f font-semibold'>Price</span> {product?.product_price}$
         </p>
         <p className='text-sm font-normal text-gray-800'>
-          <span className='f font-semibold'>description:</span> {(product?.product_description).slice(0, 23)+'...'}
+          <span className='f font-semibold'>description:</span> {(product?.product_description)?.slice(0, 23)+'...'}
         </p>
       </div>
     </div>
