@@ -196,14 +196,14 @@ const UpperProduct = () => {
         {isCompare && (
           <ComparisonModel onClose={handleCompareClose} />
         )}
-        <div className="threeButtons mt-12 grid grid-cols-3 gap-4 space-x-2 px-12">
-          <button className={`py-3 font-semibold text-xl px-4 text-gray-500 border-gray-300 border flex justify-center  rounded-md ${isShowReview ? 'bg-blue-700 text-white' : ''} `}
+        <div className="threeButtons mt-12 grid grid-cols-3 gap-4 space-x-2 laptop:px-12 desktop:px-12 tablet:px-2 px-2">
+          <button className={`py-3 font-semibold laptop:text-xl desktop:text-xl tablet:text-sm text-sm laptop:px-4 desktop:px-4 tablet:px-1 px-1 text-gray-500 border-gray-300 border flex justify-center  rounded-md ${isShowReview ? 'bg-blue-700 text-white' : ''} `}
             onClick={handleShowReview}
           >Our review</button>
-          <button className={`py-3 font-semibold text-xl px-4 text-gray-500 border-gray-300 border flex justify-center  rounded-md ${isShowSpecifications ? 'bg-blue-700 text-white' : ''}`}
+          <button className={`py-3 font-semibold laptop:text-xl desktop:text-xl tablet:text-sm text-sm laptop:px-4 desktop:px-4 tablet:px-1 px-1 text-gray-500 border-gray-300 border flex justify-center  rounded-md ${isShowSpecifications ? 'bg-blue-700 text-white' : ''}`}
             onClick={handleShowSpecification}
-          >Full spcesification</button>
-          <button className={`py-3 font-semibold text-xl text-gray-500 px-4 border-gray-300 border flex justify-center  rounded-md ${isShowOthersReview ? 'bg-blue-700 text-white' : ''}`}
+          >Specifications</button>
+          <button className={`py-3 font-semibold laptop:text-xl desktop:text-xl tablet:text-sm text-sm text-gray-500 laptop:px-4 desktop:px-4 tablet:px-1 px-1 border-gray-300 border flex justify-center  rounded-md ${isShowOthersReview ? 'bg-blue-700 text-white' : ''}`}
             onClick={handleShowOthersReview}
           >Others Review</button>
         </div>
@@ -231,19 +231,6 @@ const UpperProduct = () => {
             }
           </div>
         )}
-
-        {/* <div className='flex flex-col'>
-          <h1 className='text-2xl font-bold mt-12 ml-10 pb-4'>Full specification</h1>
-          {products?.product?.product_specifications?.map((specification: any, index: any) => (
-            <div key={index} className="flex flex-col w-full text-gray-500 px-10">
-              <div className="flex justify-between w-full py-2 border-b-4">
-                <div className="flex w-1/2 font-medium">{specification?.key}</div>
-                <div className="flex w-1/2">{specification?.value}</div>
-              </div>
-            </div>
-          ))
-          }
-        </div> */}
       </div>
     </div>
   )

@@ -12,6 +12,8 @@ import ResetPassword from './components/auth/ResetPassword.tsx'
 import SingleProductPage from './components/signleProduct/SingleProductPage.tsx'
 import NavBar from './components/Navigations/NavBar.tsx'
 import Dashboard from './components/dashboard/dash.tsx'
+import Contact from './Contact.tsx'
+import About from './About.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -27,6 +29,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/product/:id" element={<SingleProductPage />} />
+        <Route path="/contact_us" element={<Contact />} />
+        <Route path="/about_us" element={<About />} />
       </Routes>
     </BrowserRouter>
     <ToastContainer />

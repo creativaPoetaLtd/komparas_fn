@@ -80,7 +80,7 @@ const ProductModel: React.FC<ImportModalProps> = ({
                 <button
                   onClick={() => selectSingleProduct(product?._id)}
                   key={index}
-                  className="w-[12rem] h-[12rem] space-x-3 border-bg-gray-400 border text-gray-500 rounded-sm"
+                  className="laptop:w-[10rem] desktop:w-[10rem] tablet:w-[10rem] w-[8rem] desktop:h-[10rem] tablet:h-[10rem] laptop:h-[10rem] h-[8rem] space-x-3 border-bg-gray-400 border text-gray-500 rounded-sm"
                 >
                   <img
                     src={product.product_image}
@@ -98,7 +98,7 @@ const ProductModel: React.FC<ImportModalProps> = ({
                 <button
                   onClick={() => selectSingleProduct1(product?._id)}
                   key={index}
-                  className="w-[12rem] h-[12rem] space-x-3 border-bg-gray-400 border text-gray-500 rounded-sm"
+                  className="laptop:w-[10rem] desktop:w-[10rem] tablet:w-[10rem] w-[8rem] desktop:h-[10rem] tablet:h-[10rem] laptop:h-[10rem] h-[8rem] space-x-3 border-bg-gray-400 border text-gray-500 rounded-sm"
                 >
                   <img
                     src={product.product_image}
