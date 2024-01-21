@@ -1,36 +1,36 @@
-// import { Faders } from '@phosphor-icons/react';
+import { Faders } from '@phosphor-icons/react';
 import React, { useState } from 'react';
 import Modal from 'react-modal';
-
+import { getAllProductsWithCategoryNames } from '../api/product';
 interface Product {
+  n_shops: number;
   id: number;
   name: string;
   category: string;
   image: string;
 }
 
-const mockProducts: Product[] = [
-  { id: 1, name: 'Phone 1', category: 'Phones', image: 'https://i.ebayimg.com/images/g/35IAAOSwZDhkTt44/s-l1200.webp' },
-  { id: 2, name: 'Phone 2', category: 'Phones', image: 'https://i.ebayimg.com/images/g/35IAAOSwZDhkTt44/s-l1200.webp' },
-  { id: 3, name: 'Phone 2', category: 'Phones', image: 'https://i.ebayimg.com/images/g/35IAAOSwZDhkTt44/s-l1200.webp' },
-  { id: 4, name: 'Phone 2', category: 'Phones', image: 'https://i.ebayimg.com/images/g/35IAAOSwZDhkTt44/s-l1200.webp' },
-  { id: 5, name: 'Phone 2', category: 'Phones', image: 'https://i.ebayimg.com/images/g/35IAAOSwZDhkTt44/s-l1200.webp' },
-  { id: 6, name: 'Phone 2', category: 'Phones', image: 'https://i.ebayimg.com/images/g/35IAAOSwZDhkTt44/s-l1200.webp' },
-  { id: 7, name: 'Phone 2', category: 'Phones', image: 'https://i.ebayimg.com/images/g/35IAAOSwZDhkTt44/s-l1200.webp' },
-  { id: 8, name: 'Phone 2', category: 'Phones', image: 'https://i.ebayimg.com/images/g/35IAAOSwZDhkTt44/s-l1200.webp' },
-  { id: 9, name: 'Computer 1', category: 'Computers', image: 'https://i.ebayimg.com/images/g/35IAAOSwZDhkTt44/s-l1200.webp' },
-  { id: 10, name: 'Computer 2', category: 'Computers', image: 'https://i.ebayimg.com/images/g/35IAAOSwZDhkTt44/s-l1200.webp' },
-  { id: 10, name: 'Clothes 1', category: 'Clothes', image: 'https://i.ebayimg.com/images/g/35IAAOSwZDhkTt44/s-l1200.webp' },
-  { id: 10, name: 'Clothes 2', category: 'Clothes', image: 'https://i.ebayimg.com/images/g/35IAAOSwZDhkTt44/s-l1200.webp' },
-];
-
-
 const Products: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [categoryPages, setCategoryPages] = useState<{ [key: string]: number }>({});
+    const [mockProducts, setMockProducts] = useState<Product[]>([]);
     const productsPerPage = 6;
+
+    React.useEffect(() => {
+        const fetchProducts = async () => {
+            const data:any = await getAllProductsWithCategoryNames();
+            console.log("data", data);
+            
+            setMockProducts(data);
+        };
+        fetchProducts();
+    }, []);
+
+
+    console.log("mockProducts", mockProducts);
+    
   
     const filteredProducts = mockProducts.filter(
       (product) =>
@@ -97,7 +97,7 @@ const Products: React.FC = () => {
             <h2 className="text-sm font-semibold mb-4">Filter by Category</h2>
             <div className="flex space-x-4 items-center rounded-md w-fit">
               <div className="flex space-x-1 px-1 py-1 items-center bg-blue-500">
-                {/* ... (your icon component) */}
+                <Faders size={16} color='white' />
                 <button
                   className={` ${
                     selectedCategory ? ' text-white' : 'bg-blue-500 text-white'
@@ -155,8 +155,8 @@ const Products: React.FC = () => {
                           alt={product.name}
                           className="w-full h-56 object-cover mb-4 rounded-md"
                         />
-                        <h3 className="text-xs font-semibold mb-2">{product.name}</h3>
-                        <p className="text-gray-600">{product.category}</p>
+                        <h3 className="text-xs font-semibold mb-2">{product?.name}</h3>
+                        <p className="text-gray-600">Located in {product?.n_shops} {product?.n_shops > 1 ? 'shops':'shop'}</p>
                       </div>
                     ))}
                   </div>
