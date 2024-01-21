@@ -14,6 +14,8 @@ import NavBar from './components/Navigations/NavBar.tsx'
 import Dashboard from './components/dashboard/dash.tsx'
 import Contact from './Contact.tsx'
 import About from './About.tsx'
+import UserProfile from './Profile.tsx'
+import Products from './Products/Products.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -31,6 +33,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/product/:id" element={<SingleProductPage />} />
         <Route path="/contact_us" element={<Contact />} />
         <Route path="/about_us" element={<About />} />
+        <Route path="/profile" element={<UserProfile />} />
+        <Route path="/products" element={<Products />} />
       </Routes>
     </BrowserRouter>
     <ToastContainer />

@@ -3,11 +3,11 @@ import NavIndex from './Navigations/NavIndex';
 import SearchComponent from './SearchComponent';
 import { VscChevronRight } from "react-icons/vsc";
 import { VscChevronLeft } from "react-icons/vsc";
-import './Home.css'; // Import your custom CSS file
+import './Home.css';
 import CategoryIndex from './categories/CategoryIndex';
 import HomeProduct from './products/HomeProduct';
 import UpdatePswdModel from './models/UpdatePswdModel';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 
 const Home = () => {
@@ -122,9 +122,9 @@ const toggleModal = () => {
           <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             Learn More
           </button>
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          <Link to={'/contact_us'} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             Contact Us
-          </button>
+          </Link>
         </div>
         {resetToken && isOpen && <UpdatePswdModel isOpen={true} onClose={toggleModal} onImport={function (): void {
           throw new Error('Function not implemented.');

@@ -1,8 +1,6 @@
-import { AiOutlineShoppingCart } from 'react-icons/ai';
-import { BsFillSuitHeartFill } from 'react-icons/bs';
+
+import { Link } from 'react-router-dom';
 import UserAvatar from './UserAvatar';
-
-
 const NavBar = () => {
   return (
 
@@ -11,9 +9,9 @@ const NavBar = () => {
         <button className='bg-white'>KOMPARAS</button>
       </div>
       <div className='laptop:flex tablet:flex desktop:flex hidden  justify-between space-x-10'>
-        <button className='bg-white'>Products</button>
-        <button className='bg-white'>About</button>
-        <button className='bg-white'>Contact</button>
+        <Link to={'/products'} className='bg-white'>Products</Link>
+        <Link to={'/about_us'} className='bg-white'>About</Link>
+        <Link to={'/contact_us'} className='bg-white'>Contact</Link>
       </div>
       <div className='flex laptop:space-x-12 desktop:space-x-12 tablet:space-x-12 space-x-6'>
         {/* <button className='bg-white text-2xl'>

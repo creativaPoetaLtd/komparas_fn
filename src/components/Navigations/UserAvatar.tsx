@@ -1,5 +1,5 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const UserAvatal = () => {
 
@@ -25,7 +25,7 @@ const UserAvatal = () => {
         />
         {showProfileInfo && (
           <div className="absolute top-[150%] w-[6rem] right-0 z-50 bg-white p-2  flex flex-col space-y-3 rounded shadow">
-            <button className="text-sm font-semibold bg-white">{firstName}</button>
+            <Link to={'/profile'} className="text-sm font-semibold bg-white">{firstName}</Link>
             <button className="text-sm bg-white" onClick={handleLogout}>{
               localStorage.getItem("KomparasLoginsInfo") ? "Logout" : "Login"}</button>
           </div>

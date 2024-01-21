@@ -74,7 +74,6 @@ const HomeProduct: React.FC<IProduct> = () => {
           </Link>
         ))}
       </div>
-
       <div className='pagination flex m-auto justify-center items-center text-center space-x-12 mb-5'>
         {Array.from({ length: Math.ceil(products?.length / productsPerPage) }, (_, i) => (
           <button  key={i} onClick={() => paginate(i + 1)} className={currentPage === i + 1 ? 'active bg-blue-700 px-3 py-1 text-white font-bold' : 'bg-blue-500 px-3 py-1 text-white font-thin' }>
