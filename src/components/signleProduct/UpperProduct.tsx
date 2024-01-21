@@ -15,8 +15,12 @@ const UpperProduct = () => {
     const productId: any = useParams().id;
     const [isOpen, setIsOpen] = useState(false);
     const [selectedProductId, setSelectedProductId] = useState<string | any>(null);
+    const [selectedProductId1, setSelectedProductId1] = useState<string | any>(null);
     const [isSelectedId, setIsSelectedId] = useState(true);
+    const [isSelectedId1, setIsSelectedId1] = useState(true);
     const [getOtherProducts, setGetOtherProducts] = useState<any>([])
+    const [getOtherProducts1, setGetOtherProducts1] = useState<any>([])
+
     useEffect(() => {
       const fetchProduct = async () => {
         const { data } = await getPoductById(productId);
@@ -25,13 +29,21 @@ const UpperProduct = () => {
       fetchProduct();
     }, [productId]);
 
-    
-  
+
+
     const handleSelectProduct = (selectedProductId: string) => {
       setSelectedProductId(selectedProductId);
       console.log("selected product ID: ", selectedProductId);
       localStorage.setItem('selectedProductId', selectedProductId);
       setIsSelectedId(false);
+      setIsOpen(false);
+    };
+
+    const handleSelectProduct1 = (selectedProductId1: string) => {
+      setSelectedProductId1(selectedProductId1);
+      console.log("selected product ID: ", selectedProductId1);
+      localStorage.setItem('selectedProductId1', selectedProductId1);
+      setIsSelectedId1(false);
       setIsOpen(false);
     };
 
@@ -43,28 +55,47 @@ const UpperProduct = () => {
       fetchProduct();
     }, [selectedProductId]);
 
-    
+    useEffect(() => {
+      const fetchProduct = async () => {
+        const { data } = await getPoductById(selectedProductId1);
+        setGetOtherProducts1(data);
+      };
+      fetchProduct();
+    }, [selectedProductId1]);
+
     return (
       <div ref={drop} className="CompareDiv flex gap-2 flex-wrap justify-center  items-center m-auto h-fit">
         <div className="w-[7rem] h-[7rem] border-bg-gray-400 border text-gray-500 rounded-sm">
           <img src={products?.product?.product_image} alt='product' className='w-full h-full rounded-sm object-cover' />
         </div>
-        <button onClick={()=>setIsOpen(true)} className="compareButton w-[7rem] h-[7rem] border-bg-gray-400 border text-gray-500 rounded-sm flex">
+        <button onClick={() => setIsOpen(true)} className="isProductsDivModel_Button compareButton w-[7rem] h-[7rem] border-bg-gray-400 border text-gray-500 rounded-sm flex">
           {isSelectedId ? (
-          <p className='text-2xl font-bold flex justify-center text-center items-center m-auto'
-            onClick={() => setIsOpen(true)}
-          >+</p>
+            <p className='text-2xl font-bold flex justify-center text-center items-center m-auto'
+              onClick={() => setIsOpen(true)}
+            >+</p>
           ) : (
             <img src={getOtherProducts?.product?.product_image} alt='product' className='w-full h-full rounded-sm object-cover' />
           )}
         </button>
-        <button onClick={()=>setIsOpen(true)} className="compareButton w-[7rem] h-[7rem] border-bg-gray-400 border text-gray-500 rounded-sm flex">
-          <p className='text-sm font-bold flex justify-center text-center items-center m-auto'>
-            Choose othe product to compare
-          </p>
+        <button onClick={() => setIsOpen(true)} className="isProductsDivModel1_Button compareButton w-[7rem] h-[7rem] border-bg-gray-400 border text-gray-500 rounded-sm flex">
+          {isSelectedId1 ? (
+            <p className='text-2xl font-bold flex justify-center text-center items-center m-auto'
+              onClick={() => setIsOpen(true)}
+            >+</p>
+          ) : (
+            <img src={getOtherProducts1?.product?.product_image} alt='product' className='w-full h-full rounded-sm object-cover' />
+          )}
         </button>
        
-        <ProductModel isOpen={isOpen} onClose={() => setIsOpen(false)} onSelectProduct={handleSelectProduct} selected_id={selectedProductId} />
+    <ProductModel
+      isOpen={isOpen}
+      onClose={() => setIsOpen(false)}
+      onSelectProduct={handleSelectProduct}
+      onSelectProduct1={handleSelectProduct1}
+      selected_id={selectedProductId}
+      selected_id1={selectedProductId1}
+      activeModal={isSelectedId ? 'productsDivModel' : 'productsDivModel1'}
+    />
       </div>
     )
   }
@@ -89,13 +120,13 @@ const UpperProduct = () => {
   const [products, setProducts] = useState<any>([]);
   const productId: any = useParams().id;
   const [isCompare, setIsCompare] = useState(false);
-    
-    const handleCompare = () => {
-      setIsCompare(true)
-    }
-    const handleCompareClose = () => {
-      setIsCompare(false)
-    }
+
+  const handleCompare = () => {
+    setIsCompare(true)
+  }
+  const handleCompareClose = () => {
+    setIsCompare(false)
+  }
   useEffect(() => {
     const fetchProduct = async () => {
       const { data } = await getPoductById(productId);
@@ -123,7 +154,6 @@ const UpperProduct = () => {
               <img src={image.product_image} className='w-full h-full rounded-sm object-cover' />
             </div>
           ))}
-
         </div>
         <div className='description flex h-[60%] flex-col w-full'>
           <div className='w-full h-fit'>
@@ -142,7 +172,7 @@ const UpperProduct = () => {
           </div>
         </div>
         {isCompare && (
-        <ComparisonModel onClose={handleCompareClose} />
+          <ComparisonModel onClose={handleCompareClose} />
         )}
         <div className="threeButtons mt-12 grid grid-cols-3 gap-4 space-x-2 px-12">
           <button className='py-3 font-semibold text-xl px-4 text-gray-500 border-gray-300 border flex justify-center  rounded-md'>Discription</button>
@@ -160,7 +190,6 @@ const UpperProduct = () => {
         ))
         }
       </div>
-
     </div>
   )
 }
