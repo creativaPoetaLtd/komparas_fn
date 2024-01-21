@@ -48,6 +48,16 @@ export const addProduct = async (productData: any) => {
   return await res.json();
 };
 
+export const addPRoductimage = async (productData: any , id:any) => {
+  const formData = new FormData();
+  formData.append('product_image', productData.product_image);
+  const res = await fetch(`${baseUrl}/product_images/${id}`, {
+    method: 'POST',
+    body: formData,
+  });
+  return await res.json();
+}
+
 export const updateProduct = async (productData: any, id: string) => {
   const formData = new FormData();
   formData.append('product_name', productData.product_name);
@@ -71,6 +81,8 @@ export const updateProduct = async (productData: any, id: string) => {
 };
 
 
+
+
 export const deleteProduct = async (id: string) => {
   const res = await fetch(`${baseUrl}/products/${id}`, {
     method: 'DELETE',
@@ -81,9 +93,7 @@ export const deleteProduct = async (id: string) => {
 
 export const getAllProductsWithCategoryNames = async () => {
   const res = await fetch(`${baseUrl}/products/category`);
-  const data = await res.json();
-  console.log("llllllllllllllllllllllllll",data);
-  
+  const data = await res.json();  
   const products = data?.products?.map((product: any) => {
     return {
       id: product?._id,

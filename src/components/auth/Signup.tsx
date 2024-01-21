@@ -117,7 +117,7 @@ const SignupForm = () => {
                     email: "",
                     password: "",
                     confirm_password: "",
-                    profile_picture: undefined as any, // Change 'File' to 'undefined'
+                    profile_picture: undefined as any,
                 });
                 setImageUrl(null);
             } else {

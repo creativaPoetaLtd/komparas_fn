@@ -4,9 +4,10 @@ import { deleteProduct } from "../../../../api/product";
 interface AddProductProps {
     setIsAddProduct: (isAddProduct: boolean) => void;
     setIsEditProduct: (isEditProduct: boolean) => void;
+    setIsAddProductImage: (isAddProductImage: boolean) => void;
 }
 
-const ProductListing = ({ setIsAddProduct, setIsEditProduct }: AddProductProps) => {
+const ProductListing = ({ setIsAddProduct, setIsEditProduct, setIsAddProductImage }: AddProductProps) => {
     const [products, setProducts] = useState<any>([]);
     const [loading, setLoading] = useState(false);
     const [refresh, setRefresh] = useState(false);
@@ -30,6 +31,12 @@ const ProductListing = ({ setIsAddProduct, setIsEditProduct }: AddProductProps) 
         localStorage.setItem("editProductID", id);
     }
 
+    const handleAddProductImage = async (id: any) => {
+        setIsAddProduct(false);
+        setIsEditProduct(false);
+        setIsAddProductImage(true);
+        localStorage.setItem("editProductID", id);
+    }
     
 
     return (
@@ -98,7 +105,7 @@ const ProductListing = ({ setIsAddProduct, setIsEditProduct }: AddProductProps) 
                                             </svg>
                                         </button>
 
-                                        <button className="shadow px-2">
+                                        <button className="shadow px-2" onClick={()=>handleAddProductImage(product?._id)}>
                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-yellow-500" viewBox="0 0 20 20" fill="currentColor">
                                                 <path fillRule="evenodd" d="M10.707 3.293a1 1 0 00-1.414 0L3 9.586V17h6v-2a1 1 0 011-1h2a1 1 0 011 1v2h6v-7.414l-6.293-6.293zM12 10a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
                                             </svg>
