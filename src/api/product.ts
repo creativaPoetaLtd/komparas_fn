@@ -32,6 +32,7 @@ export const addProduct = async (productData: any) => {
     formData.append('product_description', productData.product_description);
     formData.append('category_name', productData.category);
     formData.append('product_image', productData.product_image);
+    formData.append('our_review', productData.our_review)
     productData.specifications.forEach((specification: { key: string | Blob; value: string | Blob; }, index: any) => {
       formData.append(`specifications[${index}][key]`, specification.key ? specification.key : '-');
       formData.append(`specifications[${index}][value]`, specification.value ? specification.value : '-');
@@ -53,6 +54,7 @@ export const updateProduct = async (productData: any, id: string) => {
     formData.append('product_description', productData.product_description);
     formData.append('category_name', productData.category);
     formData.append('product_image', productData.product_image);
+    formData.append('our_review', productData.our_review)
     productData.specifications.forEach((specification: { key: string | Blob; value: string | Blob; }, index: any) => {
       formData.append(`specifications[${index}][key]`, specification.key ? specification.key : '-');
       formData.append(`specifications[${index}][value]`, specification.value ? specification.value : '-');

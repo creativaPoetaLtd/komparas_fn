@@ -29,6 +29,7 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
         vendor_prices: [],
         specifications: [],
         product_image: undefined,
+        our_review: "",
     });
     const [imageUrl, setImageUrl] = useState<string | null>(null);
     const editID: any = localStorage.getItem("editProductID");
@@ -65,10 +66,7 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
 
         };
         fetchProduct();
-    }, [editID]);
-
-    console.log("productData", "===========================================================================", productData);
-    
+    }, [editID]);    
 
     useEffect(() => {
         if (productData) {
@@ -76,10 +74,11 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
                 product_name: productData.product_name,
                 product_price: productData.product_price,
                 product_description: productData.product_description,
-                category: productData.category?.name || "", // Handle nested category object
+                category: productData.category?.name || "", 
                 vendor_prices: productData.vendor_prices || [],
-                specifications: productData.product_specifications || [], // Handle nested specifications array
+                specifications: productData.product_specifications || [], 
                 product_image: productData.product_image,
+                our_review: productData?.our_review,
             });
         }
     }, [productData]);
@@ -175,6 +174,7 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
             vendor_prices: [],
             specifications: [],
             product_image: undefined,
+            our_review: "",
         });
         setSpecifications([{ key: "", value: "" }]);
         setVendorPrices([{ key: "", value: "" }]);
@@ -186,13 +186,15 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
         event.preventDefault();
         setLoading(true);
         const product = {
-            product_name: formData.product_name,
-            product_price: formData.product_price,
-            product_description: formData.product_description,
+            product_name: formData?.product_name,
+            product_price: formData?.product_price,
+            product_description: formData?.product_description,
             category: formData.category,
             vendor_prices: vendor_prices,
             specifications: specifications,
             product_image: formData.product_image,
+            our_review: productData?.our_review,
+
         };
         try {
             await updateProduct(product, editID);
@@ -366,6 +368,16 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
                                     Add Specification
                                 </button>
                             </div>
+                        </div>
+                        <div className='AddProductForm__form__inputs__description flex flex-col justify-start items-start mb-5'>
+                            <label className='AddProductForm__form__inputs__description__label  mb-2'>Our Review</label>
+                            <textarea
+                                className='AddProductForm__form__inputs__description__input w-96 h-28 rounded-md border outline-blue-700 border-gray-300 px-2'
+                                placeholder='Product Description'
+                                name='product_description'
+                                value={formData?.our_review}
+                                onChange={handleInputChange}
+                            />
                         </div>
                         <div className="laptop:w-[88%] desktop:w-[88%] tablet:w-[88%] laptop:mt-0 tablet:mt-0 desktop:mt-0  mt-2 w-full justify-between flex felx-col space-y-4">
                             <div className="flex flex-col w-full">

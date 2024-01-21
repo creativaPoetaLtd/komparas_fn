@@ -11,7 +11,6 @@ import { toast } from "react-toastify";
 interface AddProductProps {
     setIsAddProduct: (isAddProduct: boolean) => void;
 }
-
 const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
     const [categories, setCategories] = useState<any>([]);
     const [loading, setLoading] = useState(false);
@@ -27,6 +26,7 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
         vendor_prices: [],
         specifications: [],
         product_image: undefined,
+        our_review: ""
     });
     const [imageUrl, setImageUrl] = useState<string | null>(null);
     const fetchCategories = async () => {
@@ -94,7 +94,6 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
         setVendorPrices([...vendor_prices, { key: "", value: "" }]);
     };
 
-
     const removeSpecificationField = (index: number) => {
         const updatedSpecifications = [...specifications];
         updatedSpecifications.splice(index, 1);
@@ -144,12 +143,12 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
             vendor_prices: [],
             specifications: [],
             product_image: undefined,
+            our_review: ""
         });
         setSpecifications([{ key: "", value: "" }]);
         setVendorPrices([{ key: "", value: "" }]);
         setImageUrl(null);
     };
-
 
     const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -184,6 +183,7 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
         }
     };
 
+    
 
     return (
         <div className='AddProductForm w-full h-fit flex flex-col pb-12 bg-gray-300 p-2'>
@@ -316,6 +316,16 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                                     Add Specification
                                 </button>
                             </div>
+                        </div>
+                        <div className='AddProductForm__form__inputs__description flex flex-col justify-start items-start mb-5'>
+                            <label className='AddProductForm__form__inputs__description__label  mb-2'>Our Review</label>
+                            <textarea
+                                className='AddProductForm__form__inputs__description__input w-96 h-28 rounded-md border outline-blue-700 border-gray-300 px-2'
+                                placeholder='Our review'
+                                name='our_review'
+                                value={formData?.our_review}
+                                onChange={handleInputChange}
+                            />
                         </div>
                         <div className="laptop:w-[88%] desktop:w-[88%] tablet:w-[88%] laptop:mt-0 tablet:mt-0 desktop:mt-0  mt-2 w-full justify-between flex felx-col space-y-4">
                             <div className="flex flex-col w-full">

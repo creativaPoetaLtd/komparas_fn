@@ -86,16 +86,16 @@ const UpperProduct = () => {
             <img src={getOtherProducts1?.product?.product_image} alt='product' className='w-full h-full rounded-sm object-cover' />
           )}
         </button>
-       
-    <ProductModel
-      isOpen={isOpen}
-      onClose={() => setIsOpen(false)}
-      onSelectProduct={handleSelectProduct}
-      onSelectProduct1={handleSelectProduct1}
-      selected_id={selectedProductId}
-      selected_id1={selectedProductId1}
-      activeModal={isSelectedId ? 'productsDivModel' : 'productsDivModel1'}
-    />
+
+        <ProductModel
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          onSelectProduct={handleSelectProduct}
+          onSelectProduct1={handleSelectProduct1}
+          selected_id={selectedProductId}
+          selected_id1={selectedProductId1}
+          activeModal={isSelectedId ? 'productsDivModel' : 'productsDivModel1'}
+        />
       </div>
     )
   }
@@ -120,6 +120,28 @@ const UpperProduct = () => {
   const [products, setProducts] = useState<any>([]);
   const productId: any = useParams().id;
   const [isCompare, setIsCompare] = useState(false);
+  const [isShowSpecifications, setIsSpecification] = useState(true);
+  const [isShowReview, setIsReview] = useState(false);
+  const [isShowOthersReview, setIsOthersReview] = useState(false);
+
+  const handleShowSpecification = () => {
+    setIsOthersReview(false)
+    setIsReview(false)
+    setIsSpecification(true)
+  }
+
+  const handleShowReview = () => {
+    setIsOthersReview(false)
+    setIsSpecification(false)
+    setIsReview(true)
+  }
+
+  const handleShowOthersReview = () => {
+    setIsReview(false)
+    setIsSpecification(false)
+    setIsOthersReview(true)
+  }
+
 
   const handleCompare = () => {
     setIsCompare(true)
@@ -175,20 +197,53 @@ const UpperProduct = () => {
           <ComparisonModel onClose={handleCompareClose} />
         )}
         <div className="threeButtons mt-12 grid grid-cols-3 gap-4 space-x-2 px-12">
-          <button className='py-3 font-semibold text-xl px-4 text-gray-500 border-gray-300 border flex justify-center  rounded-md'>Discription</button>
-          <button className='py-3 font-semibold text-xl px-4 text-white border-gray-300 border flex justify-center bg-red-600  rounded-md'>Full spcesification</button>
-          <button className='py-3 font-semibold text-xl text-gray-500 px-4 border-gray-300 border flex justify-center  rounded-md'>Review</button>
+          <button className={`py-3 font-semibold text-xl px-4 text-gray-500 border-gray-300 border flex justify-center  rounded-md ${isShowReview ? 'bg-blue-700 text-white' : ''} `}
+            onClick={handleShowReview}
+          >Our review</button>
+          <button className={`py-3 font-semibold text-xl px-4 text-gray-500 border-gray-300 border flex justify-center  rounded-md ${isShowSpecifications ? 'bg-blue-700 text-white' : ''}`}
+            onClick={handleShowSpecification}
+          >Full spcesification</button>
+          <button className={`py-3 font-semibold text-xl text-gray-500 px-4 border-gray-300 border flex justify-center  rounded-md ${isShowOthersReview ? 'bg-blue-700 text-white' : ''}`}
+            onClick={handleShowOthersReview}
+          >Others Review</button>
         </div>
-        <h1 className='text-2xl font-bold mt-12 ml-10 pb-4'>Full specification</h1>
-        {products?.product?.product_specifications?.map((specification: any, index: any) => (
-          <div key={index} className="flex flex-col w-full text-gray-500 px-10">
-            <div className="flex justify-between w-full py-2 border-b-4">
-              <div className="flex w-1/2 font-medium">{specification?.key}</div>
-              <div className="flex w-1/2">{specification?.value}</div>
-            </div>
+        {isShowReview ? (
+          <div className='flex flex-col'>
+            <h1 className='text-2xl font-bold mt-12 ml-10 pb-4'>Our review</h1>
+            <p className='text-gray-500 ml-10'>{products?.product?.our_review}</p>
           </div>
-        ))
-        }
+        ) : isShowOthersReview ? (
+          <div className='flex flex-col'>
+            <h1 className='text-2xl font-bold mt-12 ml-10 pb-4'>Others review</h1>
+            <div className='text-gray-500 w-full justify-center text-center items-center m-auto'>NO OTHER'S REVIEW YET</div>
+          </div>
+        ) : (
+          <div className='flex flex-col'>
+            <h1 className='text-2xl font-bold mt-12 ml-10 pb-4'>Full specification</h1>
+            {products?.product?.product_specifications?.map((specification: any, index: any) => (
+              <div key={index} className="flex flex-col w-full text-gray-500 px-10">
+                <div className="flex justify-between w-full py-2 border-b-4">
+                  <div className="flex w-1/2 font-medium">{specification?.key}</div>
+                  <div className="flex w-1/2">{specification?.value}</div>
+                </div>
+              </div>
+            ))
+            }
+          </div>
+        )}
+
+        {/* <div className='flex flex-col'>
+          <h1 className='text-2xl font-bold mt-12 ml-10 pb-4'>Full specification</h1>
+          {products?.product?.product_specifications?.map((specification: any, index: any) => (
+            <div key={index} className="flex flex-col w-full text-gray-500 px-10">
+              <div className="flex justify-between w-full py-2 border-b-4">
+                <div className="flex w-1/2 font-medium">{specification?.key}</div>
+                <div className="flex w-1/2">{specification?.value}</div>
+              </div>
+            </div>
+          ))
+          }
+        </div> */}
       </div>
     </div>
   )

@@ -57,8 +57,8 @@ const ComparisonModel = ({ onClose }: ComparisonModelProps) => {
                         </button>
                     </h1>
                 </div>
-                <div className='divComp laptop:w-[90rem] desktop:w-[90rem] tablet:w-[40rem] w-[20rem] h-[30rem] overflow-x-auto flex justify-center mx-auto space-x-5 p-2'>
-                    <div className="products_div1 laptop:w-[25rem] desktop:w-[28rem] tablet:w-[20rem] w-[15rem] h-fit flex flex-col space-y-3 m-auto justify-center text-center items-center flex-shrink-0">
+                <div className='divComp laptop:w-[90rem] desktop:w-[90rem] tablet:w-[40rem] w-[20rem] h-[30rem] overflow-x-auto flex space-x-5 p-2'>
+                <div className="products_div1 laptop:w-[25rem] desktop:w-[28rem] tablet:w-[20rem] w-[15rem] h-fit flex flex-col space-y-3 m-auto justify-center text-center items-center flex-shrink-0">
                         <div className='w-full bg-white rounded-md flex flex-col h-fit pb-10'>
                             <div className='w-full desktop:px-10 laptop:px-10 tablet:px-5 px-2 flex flex-col  h-fit p-2 space-y-2'>
                                 <h1 className='text-xl justify-start flex font-bold'>{products?.product?.product_name}</h1>
