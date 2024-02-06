@@ -63,7 +63,7 @@ const toggleModal = () => {
           {sliderImages.map((image, index) => (
             <div
               key={index}
-              className={`absolute top-0 left-0 w-full h-[95%] transition-opacity duration-500 ${index === currentSlide ? 'opacity-100' : 'opacity-0'
+              className={`absolute top-0  left-0 w-full h-[95%] transition-opacity duration-500 ${index === currentSlide ? 'opacity-100' : 'opacity-0'
                 }`}
             >
               <img
@@ -71,7 +71,7 @@ const toggleModal = () => {
                 alt={`Slider ${index}`}
                 className="w-full h-full object-cover transition-transform duration-500"
               />
-              <div className="absolute top-1/2 left-1/2 w-full laptop:w-fit desktop:w-fit tablet:px-5 laptop:px-0 desktop:px-0 px-9 transform -translate-x-1/2 -translate-y-1/2 text-white laptop:text-5xl desktop:text-5xl text-justify tablet:text-4xl text-xl flex  leading-loosefont-bold">
+              <div className="absolute text-3xl bg-black top-1/2 left-1/2 w-full laptop:w-fit desktop:w-fit tablet:px-5 laptop:px-0 desktop:px-0 px-9 transform -translate-x-1/2 -translate-y-1/2 text-white laptop:text-5xl desktop:text-5xl text-justify tablet:text-4xl  flex  leading-loosefont-bold">
                 {image.text}
               </div>
             </div>

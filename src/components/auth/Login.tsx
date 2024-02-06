@@ -27,7 +27,6 @@ const LoginForm = () => {
       localStorage.setItem("KomparasLoginsInfo", JSON.stringify(res.user));
       toast.success("Login successful");
       setLoading(false);
-      console.log(">>>>>>>>>>>", res?.user?.role);
       if(res?.user?.role === "admin"){
         navigate("/dashboard");
       } else {
