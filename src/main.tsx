@@ -16,7 +16,6 @@ import Contact from './Contact.tsx'
 import About from './About.tsx'
 import UserProfile from './Profile.tsx'
 import Products from './Products/Products.tsx'
-import SubNavBar from './components/Navigations/subNavBar.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -28,7 +27,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/forgot_password" element={<ForgotPasswordForm />} />
         <Route path="/reset_password?resetToken=:resetToken" element={<ResetPassword />} />
       </Routes>
-      {/* <SubNavBar /> */}
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/product/:id" element={<SingleProductPage />} />
