@@ -1,6 +1,6 @@
 import { ArrowRight } from '@phosphor-icons/react';
 import image6 from '../../assets/image6.png'
-import image7 from '../../assets/image7.png'
+import image7 from '../../assets/img7.png'
 
 const NewProduct = () => {
 
