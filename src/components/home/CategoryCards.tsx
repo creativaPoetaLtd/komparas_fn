@@ -7,7 +7,7 @@ import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 // import { FaComputer } from "react-icons/fa6";
 // import { TbShoppingBagSearch } from "react-icons/tb";
 // import { GiConverseShoe, GiLoincloth } from "react-icons/gi";
-import {  IoPhonePortraitOutline } from "react-icons/io5";
+// import {  IoPhonePortraitOutline } from "react-icons/io5";
 import { Phone } from '@phosphor-icons/react';
 // import { MdNoDrinks, MdOutlineElectricCar } from 'react-icons/md';
 // import { CgGirl } from 'react-icons/cg';
