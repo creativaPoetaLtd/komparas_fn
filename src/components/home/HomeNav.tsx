@@ -9,7 +9,7 @@ const HomeNav = () => {
     };
   
   return (
-    <nav className='w-full flex justify-between px-20 pb-3 pt-7 border-black border-b bg-white'>
+    <nav className='w-full lg:flex hidden justify-between px-20 pb-3 pt-7 border-black border-b bg-white'>
         <div className='logo flex my-auto justify-center'>
           <h1 className='text-xl text-[#0C203B] font-semibold'>Komparas</h1>
         </div>

@@ -3,15 +3,13 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { GoArrowLeft, GoArrowRight } from "react-icons/go";
-import { FaShopify, FaShoppingBag } from 'react-icons/fa';
-import { FiShoppingBag } from "react-icons/fi";
-import { FaBasketShopping } from "react-icons/fa6";
-import { TbShoppingBagSearch } from "react-icons/tb";
-import { GiShop } from "react-icons/gi";
-
+import { FaShoppingBag } from 'react-icons/fa';
+// import { FiShoppingBag } from "react-icons/fi";
+// import { FaBasketShopping } from "react-icons/fa6";
+// import { TbShoppingBagSearch } from "react-icons/tb";
+// import { GiShop } from "react-icons/gi";
 
 const ShopCards: React.FC = () => {
-
 
   const PrevArrow = (props: any) => {
     const { onClick } = props;
@@ -36,6 +34,7 @@ const ShopCards: React.FC = () => {
       </button>
     );
   };
+
   const settings = {
     dots: false,
     infinite: true,
@@ -45,11 +44,25 @@ const ShopCards: React.FC = () => {
     slidesToScroll: 1,
     prevArrow: <NextArrow />,
     nextArrow: <PrevArrow />,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 4,
+        }
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 3,
+        }
+      }
+    ]
   };
 
   return (
-    <div className="px-16 py-10">
-      <div className='flex flex-col px-7 pb-6'>
+    <div className="lg:px-16 px-2 py-10">
+      <div className='flex flex-col md:px-7 px-3 pb-6'>
         <div className="flex justify-start items-start">
           <div className="flex w-[20px] h-[40px] rounded-md bg-[#EDB62E]">
           </div>
@@ -60,74 +73,14 @@ const ShopCards: React.FC = () => {
       <Slider {...settings}
         className="flex justify-center"
       >
-       
-        <div className="bg-white p-2 px-6  w-32 h-32 rounded-md shadow-md">
-          <div className="flex flex-col space-y-2 rounded-md border-gray-300 border-[1px] items-center justify-center h-full">
-          <FaShoppingBag className="text-5xl" />
-          <h1 className='text-sm'>Ibanga Shop</h1>
+        {[...Array(10)].map((_, index) => (
+          <div key={index} className="bg-white p-2 md:px-6 px-3  w-32 h-32 rounded-md ">
+            <div className="flex flex-col space-y-2 rounded-md border-gray-300 border-[1px] items-center justify-center h-full">
+              <FaShoppingBag className="text-5xl" />
+              <h1 className='text-sm'>Ibanga Shop</h1>
+            </div>
           </div>
-        </div>
-        <div className="bg-white p-2 px-6  w-32 h-32 rounded-md shadow-md">
-          <div className="flex flex-col space-y-2 rounded-md border-gray-300 border-[1px] items-center justify-center h-full">
-          <FiShoppingBag className="text-5xl" />
-          <h1 className='text-sm'>Ishami Shop</h1>
-          </div>
-        </div>
-        <div className="bg-white p-2 px-6  w-32 h-32 rounded-md shadow-md">
-          <div className="flex flex-col space-y-2 rounded-md border-gray-300 border-[1px] items-center justify-center h-full">
-          <FaBasketShopping className="text-5xl" />
-          <h1 className='text-sm'>Ikibondo Shop</h1>
-          </div>
-        </div>
-        <div className="bg-white p-2 px-6  w-32 h-32 rounded-md shadow-md">
-          <div className="flex flex-col space-y-2 rounded-md border-gray-300 border-[1px] items-center justify-center h-full">
-          <FaShopify className="text-5xl" />
-          <h1 className='text-sm'>Ineza Shop</h1>
-          </div>
-        </div>
-        <div className="bg-white p-2 px-6  w-32 h-32 rounded-md shadow-md">
-          <div className="flex flex-col space-y-2 rounded-md border-gray-300 border-[1px] items-center justify-center h-full">
-          <FaShopify className="text-5xl" />
-          <h1 className='text-sm'>Ineza Shop</h1>
-          </div>
-        </div>
-        <div className="bg-white p-2 px-6  w-32 h-32 rounded-md shadow-md">
-          <div className="flex flex-col space-y-2 rounded-md border-gray-300 border-[1px] items-center justify-center h-full">
-          <GiShop className="text-5xl" />
-          <h1 className='text-sm'>Impamo Shop</h1>
-          </div>
-        </div>
-        <div className="bg-white p-2 px-6  w-32 h-32 rounded-md shadow-md">
-          <div className="flex flex-col space-y-2 rounded-md border-gray-300 border-[1px] items-center justify-center h-full">
-          <FaShopify className="text-5xl" />
-          <h1 className='text-sm'>Ineza Shop</h1>
-          </div>
-        </div>
-        <div className="bg-white p-2 px-6  w-32 h-32 rounded-md shadow-md">
-          <div className="flex flex-col space-y-2 rounded-md border-gray-300 border-[1px] items-center justify-center h-full">
-          <FaShopify className="text-5xl" />
-          <h1 className='text-sm'>Ineza Shop</h1>
-          </div>
-        </div>
-        <div className="bg-white p-2 px-6  w-32 h-32 rounded-md shadow-md">
-          <div className="flex flex-col space-y-2 rounded-md border-gray-300 border-[1px] items-center justify-center h-full">
-          <TbShoppingBagSearch className="text-5xl" />
-          <h1 className='text-sm'>Icyeza Shop</h1>
-          </div>
-        </div>
-        <div className="bg-white p-2 px-6  w-32 h-32 rounded-md shadow-md">
-          <div className="flex flex-col space-y-2 rounded-md border-gray-300 border-[1px] items-center justify-center h-full">
-          <FaShopify className="text-5xl" />
-          <h1 className='text-sm'>Ineza Shop</h1>
-          </div>
-        </div>
-        <div className="bg-white p-2 px-6  w-32 h-32 rounded-md shadow-md">
-          <div className="flex flex-col space-y-2 rounded-md border-gray-300 border-[1px] items-center justify-center h-full">
-          <FaShopify className="text-5xl" />
-          <h1 className='text-sm'>Ineza Shop</h1>
-          </div>
-        </div>
-
+        ))}
       </Slider>
     </div>
   );

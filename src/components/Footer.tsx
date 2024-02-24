@@ -4,13 +4,13 @@ import { IoMdSend } from "react-icons/io";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="flex flex-col text-white w-full px-[4.9rem] bg-[#0C203B] py-8">
-      <div className='grid grid-cols-4 gap-4 border-gray-700 border-b pb-5'>
+    <footer className="flex flex-col text-white w-full lg:px-[4.9rem] px-2 bg-[#0C203B] py-8">
+      <div className='grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-4 border-gray-700 border-b pb-5'>
         <div className='flex card1 flex-col space-y-3'>
           <h1 className='flex font-bold text-[#EDB62E]'>Komparas</h1>
           <p className='flex font-semibold'>Subscribe</p>
           <p className='flex font-semibold'>Get 10% off your first order</p>
-          <div className='w-[217px] flex border border-white p-2 rounded-md justify-between'>
+          <div className='md:w-[217px] w-[180px] flex border border-white p-2 rounded-md justify-between'>
             <input
               type='email'
               placeholder='Enter your email'

@@ -27,16 +27,16 @@ const RadioSection = () => {
     });
 
     return (
-        <div className='flex flex-col w-full px-[4.5rem]'>
-            <div className='flex w-full justify-between h-[520px]'>
-                <div className='bunner w-full h-full  py-4 pl-4'>
-                    <div className='mainPage flex bg-[#0C203B] justify-between h-full relative'>
-                        <div className='mainPageContent w-[30%] h-full p-8'>
+        <div className='flex flex-col w-full lg:px-[4.5rem] lg:mt-0 2xl:mt-0 xl:mt-0 md:mt-96 px-2'>
+            <div className='flex md:flex-row flex-col w-full justify-between md:h-[520px] h-fit'>
+                <div className='bunner w-full h-full  py-4 lg:pl-4 pl-1'>
+                    <div className='mainPage flex md:flex-row flex-col m-auto items-center bg-[#0C203B] justify-between h-full relative'>
+                        <div className='mainPageContent lg:w-[30%] md:w-[50%] w-full flex flex-col m-auto justify-center items-start h-full p-8'>
                            
                             <div className='flex mt-6'>
                                 <p className='my-auto font-thin text-[#EDB62E] justify-center'>Categories</p>
                             </div>
-                            <p className='text-4xl font-semibold mt-6 text-white pr-3'>
+                            <p className='lg:text-4xl md:text-2xl text-xl font-semibold mt-6 text-white pr-3'>
                             Enhance Your Music Experience
                             </p>
                             
@@ -63,9 +63,9 @@ const RadioSection = () => {
                                 <ArrowRight className="m-auto justify-center" />
                             </button>
                         </div>
-                        <div className="image w-[50%] h-full  justify-center items-center m-auto pt-5 relative">
+                        <div className="image md:w-[50%] w-full h-full  flex  justify-center items-center m-auto pt-5 relative">
                             
-                            <div className="w-[600px] h-[420px] justify-center items-center m-auto object-cover">
+                            <div className="lg:w-[600px] lg:h-[420px] md:w-[359px] md:h-[218px] w-[358px] h-[217.39px] justify-center items-center m-auto object-cover">
                                 <img src={Frame9} height={420} width={600} alt="" className="w-full h-full " />
                             </div>
                         </div>

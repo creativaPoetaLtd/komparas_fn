@@ -11,12 +11,14 @@ import DifferentProduct from "./home/DifferentProduct";
 import NewArrival from "./home/NewArrival";
 import Parteners from "./home/Parteners";
 import Questions from "./home/Questions";
+import MobileHomeNav from "./home/HomeMobileNav";
 
 const Home = () => {
   
   return (
-    <div className='w-full bg-white h-full flex flex-col'>
+    <div className='w-full bg-white h-fit justify-between flex flex-col'>
       <HomeNav />
+      <MobileHomeNav />
       <HomeBurner />
       <SlidingCards />
       <ProductOfTheDay />

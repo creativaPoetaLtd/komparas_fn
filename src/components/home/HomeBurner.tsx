@@ -4,8 +4,8 @@ import { ArrowRight } from "@phosphor-icons/react";
 
 const HomeBurner = () => {
   return (
-    <div className='bunnerPage flex w-full px-20 h-[344px]'>
-    <div className='sideCategories w-1/4 h-full border-black border-r '>
+    <div className='bunnerPage flex w-full lg:px-20 px-0 h-[344px]'>
+    <div className='sideCategories w-1/4 hidden lg:flex h-full border-black border-r '>
       <ul className='flex flex-col space-y-4 py-4'>
         <li>Category 1</li>
         <li>Category 2</li>
@@ -14,14 +14,14 @@ const HomeBurner = () => {
         <li>Category 5</li>
       </ul>
     </div>
-    <div className='bunner w-3/4 h-full py-4 pl-4'>
-      <div className='mainPage flex bg-[#0C203B] h-full relative'>
-        <div className='mainPageContent w-[44%] h-full p-12'>
+    <div className='bunner lg:w-3/4 w-full h-full md:py-4 py-4 md:pl-4 px-2'>
+      <div className='mainPage flex md:flex-row flex-col bg-[#0C203B] md:h-full h-fit relative'>
+        <div className='mainPageContent md:w-[44%] w-full h-full md:p-12 p-5'>
           <div className='flex'>
-            <FaApple className='text-white text-5xl my-auto justify-center' />
+            <FaApple className='text-white md:text-5xl text-2xl my-auto justify-center' />
             <p className='text-white text-sm ml-2 my-auto font-thin justify-center'>iPhone 14 Series</p>
           </div>
-          <p className='text-6xl mt-6 text-white'>
+          <p className='lg:text-5xl text-3xl mt-6 text-white'>
             Up to 10% off Voucher
           </p>
           <button className="flex space-x-2 pl-1 text-sm mt-1 text-[#EDB62E]">
@@ -29,7 +29,7 @@ const HomeBurner = () => {
             <ArrowRight className="m-auto justify-center" />
           </button>
         </div>
-        <div className="image w-[60%] h-full p-4 pb-12">
+        <div className="image md:w-[60%] w-full h-full md:p-4 p-1 pb-12">
           <div className="w-full h-full object-cover">
             <img src={img7} height={100} width={100} alt="" className="w-full h-full " />
           </div>
