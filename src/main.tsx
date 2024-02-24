@@ -12,10 +12,11 @@ import ResetPassword from './components/auth/ResetPassword.tsx'
 import SingleProductPage from './components/signleProduct/SingleProductPage.tsx'
 // import 'swiper/swiper.min.css';
 import Dashboard from './components/dashboard/dash.tsx'
-import Contact from './Contact.tsx'
+// import Contact from './Contact.tsx'
 import AboutPage from './components/about/page.tsx'
 import UserProfile from './Profile.tsx'
 import Products from './Products/Products.tsx'
+import ContactPage from './components/Contact/ContactPage.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -30,7 +31,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/product/:id" element={<SingleProductPage />} />
-        <Route path="/contact_us" element={<Contact />} />
+        <Route path="/contact_us" element={<ContactPage />} />
         <Route path="/about_us" element={<AboutPage />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/products" element={<Products />} />

@@ -15,13 +15,13 @@ const HomeNav = () => {
         </div>
         <ul className='flex space-x-8 my-auto justify-center'>
           <li className={`text-black ${selectedMenu === 'home' ? 'underline underline-offset-4' : ''}`} onClick={() => handleMenuClick('home')}>
-            <a href='#home'>Home</a>
+            <a href='/#'>Home</a>
           </li>
           <li className={`text-black ${selectedMenu === 'about' ? 'underline underline-offset-4' : ''}`} onClick={() => handleMenuClick('about')}>
             <a href='/about_us'>About</a>
           </li>
           <li className={`text-black ${selectedMenu === 'contact' ? 'underline underline-offset-4' : ''}`} onClick={() => handleMenuClick('contact')}>
-            <a href='#contact'>Contact</a>
+            <a href='/contact_us'>Contact</a>
           </li>
           <li className={`text-black ${selectedMenu === 'signup' ? 'underline underline-offset-4' : ''}`} onClick={() => handleMenuClick('signup')}>
             <a href='#signup'>Signup</a>
