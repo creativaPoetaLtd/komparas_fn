@@ -11,10 +11,10 @@ const ContactPage = () => {
                 <SubNav />
                 <HomeNav />
                 <MobileHomeNav />
-                <div className='w-full flex flex-col h-full'>
-                    <div className='flex md:flex-row flex-col w-full md:h-[457px] mt-16'>
-                        <div className="w-[30%] flex flex-col  space-y-6 m-auto justify-center items-center">
-                            <div className="felx flex-col space-y-2 w-[262px]">
+                <div className='lg:w-full md:w-[737px] w-full pb-5 m-auto self-center flex flex-col h-full'>
+                    <div className='flex lg:flex-row flex-col w-full lg:h-[457px] mt-16'>
+                        <div className="lg:w-[30%] w-full flex flex-col space-y-6 lg:m-auto lg:justify-center lg:items-center">
+                            <div className="felx flex-col space-y-2 lg:w-[262px]">
                                 <div className="flex m-auto items-start">
                                     <div className="w-[40px] h-[40px] rounded-full flex bg-[#EDB62E]">
                                         <Phone className="text-white text-xl m-auto justify-center items-center" />
@@ -25,7 +25,7 @@ const ContactPage = () => {
                                 <p className="text-sm">Phone: +250 784 534 678</p>
                             </div>
                             <div className="line w-[262px] h-[1px] bg-[#EDB62E]"></div>
-                            <div className="felx flex-col space-y-2 w-[262px]">
+                            <div className="felx flex-col space-y-2 lg:w-[262px]">
                                 <div className="flex m-auto items-start">
                                     <div className="w-[40px] h-[40px] rounded-full flex bg-[#EDB62E]">
                                         <Envelope className="text-white text-xl m-auto justify-center items-center" />
@@ -37,12 +37,12 @@ const ContactPage = () => {
                                 <p className="email text-sm">Email:  support@komparas.com</p>
                             </div>
                         </div>
-                        <div className="w-[70%] flex flex-col shadow">
-                            <form action="" className="flex flex-col w-[737px] m-auto justify-center  h-full space-y-6">
-                                <div className="flex flex-row justify-between">
-                                    <input type="text" placeholder="Your Name *" className="w-[235px] h-[50px] bg-[#F5F5F5] rounded-md p-2" />
-                                    <input type="text" placeholder="Your Email *" className="w-[235px] h-[50px] bg-[#F5F5F5] rounded-md p-2" />
-                                    <input type="text" placeholder="Your Phone *" className="w-[235px] h-[50px] bg-[#F5F5F5] rounded-md p-2" />
+                        <div className="lg:w-[70%] w-full lg:p-0 lg:mt-0 mt-12 flex flex-col lg:shadow">
+                            <form action="" className="flex flex-col md:w-[737px] w-full m-auto justify-center  h-full space-y-6">
+                                <div className="flex md:flex-row flex-col md:space-y-0 space-y-3 justify-between">
+                                    <input type="text" placeholder="Your Name *" className="md:w-[235px] w-full h-[50px] bg-[#F5F5F5] rounded-md p-2" />
+                                    <input type="text" placeholder="Your Email *" className="md:w-[235px] w-full h-[50px] bg-[#F5F5F5] rounded-md p-2" />
+                                    <input type="text" placeholder="Your Phone *" className="md:w-[235px] w-full h-[50px] bg-[#F5F5F5] rounded-md p-2" />
                                 </div>
                                 <textarea name="" id="" cols={30} rows={10} placeholder="Your Message *" className="w-full h-[200px] bg-[#F5F5F5] rounded-md p-2 mt-4"></textarea>
                                 <button className="bg-[#EDB62E] text-white px-4 py-3 w-fit float-right justify-end self-end rounded-md">Send Massage</button>
