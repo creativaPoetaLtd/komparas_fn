@@ -4,10 +4,6 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 import { FaShoppingBag } from 'react-icons/fa';
-// import { FiShoppingBag } from "react-icons/fi";
-// import { FaBasketShopping } from "react-icons/fa6";
-// import { TbShoppingBagSearch } from "react-icons/tb";
-// import { GiShop } from "react-icons/gi";
 
 const ShopCards: React.FC = () => {
 

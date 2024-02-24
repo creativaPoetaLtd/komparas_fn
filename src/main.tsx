@@ -13,7 +13,7 @@ import SingleProductPage from './components/signleProduct/SingleProductPage.tsx'
 // import 'swiper/swiper.min.css';
 import Dashboard from './components/dashboard/dash.tsx'
 import Contact from './Contact.tsx'
-import About from './About.tsx'
+import AboutPage from './components/about/page.tsx'
 import UserProfile from './Profile.tsx'
 import Products from './Products/Products.tsx'
 
@@ -31,7 +31,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/" element={<App />} />
         <Route path="/product/:id" element={<SingleProductPage />} />
         <Route path="/contact_us" element={<Contact />} />
-        <Route path="/about_us" element={<About />} />
+        <Route path="/about_us" element={<AboutPage />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/products" element={<Products />} />
       </Routes>
