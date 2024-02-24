@@ -5,7 +5,7 @@ import slide from '../../assets/slide.png';
 
 const SlidingCards: React.FC = () => {
   return (
-    <div className="w-full py-12 mt-[20%]">
+    <div className="w-full py-12 lg:mt-0 md:mt-0 xl:mt-0 2xl:mt-0 mt-[20%]">
       <Swiper
         spaceBetween={20}
         slidesPerView={1}

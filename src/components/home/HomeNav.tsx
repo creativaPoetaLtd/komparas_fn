@@ -18,7 +18,7 @@ const HomeNav = () => {
             <a href='#home'>Home</a>
           </li>
           <li className={`text-black ${selectedMenu === 'about' ? 'underline underline-offset-4' : ''}`} onClick={() => handleMenuClick('about')}>
-            <a href='#about'>About</a>
+            <a href='/about_us'>About</a>
           </li>
           <li className={`text-black ${selectedMenu === 'contact' ? 'underline underline-offset-4' : ''}`} onClick={() => handleMenuClick('contact')}>
             <a href='#contact'>Contact</a>

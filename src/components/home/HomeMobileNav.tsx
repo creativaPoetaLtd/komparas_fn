@@ -33,7 +33,7 @@ const MobileHomeNav = () => {
         </Link>
       </Menu.Item>
       <Menu.Item key="1">
-        <Link to="/about">
+        <Link to="/about_us">
           <a>About</a>
         </Link>
       </Menu.Item>
