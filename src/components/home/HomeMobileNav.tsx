@@ -28,7 +28,7 @@ const MobileHomeNav = () => {
   const burgerMenu = (
     <Menu>
       <Menu.Item key="0">
-        <Link to="/about">
+        <Link to="/">
           <a>Home</a>
         </Link>
       </Menu.Item>

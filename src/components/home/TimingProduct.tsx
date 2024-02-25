@@ -7,7 +7,7 @@ import image4 from '../../assets/image4.png'
 
 const TimingProduct = () => {
     const calculateTimeLeft = () => {
-        const difference = +new Date("2024-02-24") - +new Date();
+        const difference = +new Date("2024-05-24") - +new Date();
         let timeLeft: any = {};
 
         if (difference > 0) {
