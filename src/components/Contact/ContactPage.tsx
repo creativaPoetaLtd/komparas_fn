@@ -6,11 +6,16 @@ import Footer from "../Footer"
 
 const ContactPage = () => {
     return (
-        <>
+        <div className="flex flex-col h-fit">
+            <SubNav />
+            <HomeNav />
+            <MobileHomeNav />
             <div className='w-full bg-white h-fit justify-between lg:px-6 px-2 lg:pl-10 pl-2 flex flex-col'>
-                <SubNav />
-                <HomeNav />
-                <MobileHomeNav />
+                <div className="navs flex mt-8 ml-11 w-fit">
+                    <a href="/home" className="text-[#0C203B] text-sm">Home</a>
+                    <p className="text-[#0C203B] text-sm mx-1">/</p>
+                    <a href="/product" className="text-[#EDB62E] text-sm">Contact</a>
+                </div>
                 <div className='lg:w-full md:w-[737px] w-full pb-5 m-auto self-center flex flex-col h-full'>
                     <div className='flex lg:flex-row flex-col w-full lg:h-[457px] mt-16'>
                         <div className="lg:w-[30%] w-full flex flex-col space-y-6 lg:m-auto lg:justify-center lg:items-center">
@@ -52,7 +57,7 @@ const ContactPage = () => {
                 </div>
             </div>
             <Footer />
-        </>
+        </div>
     )
 }
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
 import slide from '../../assets/slide.png';
+import { Link } from 'react-router-dom';
 
 const SlidingCards: React.FC = () => {
   return (
@@ -22,13 +23,13 @@ const SlidingCards: React.FC = () => {
       >
         {[...Array(8)].map((_, index) => (
           <SwiperSlide key={index}>
-            <div className="p-4 flex flex-col rounded-md border-[1px] border-gray-300">
+            <Link className="p-4 flex flex-col rounded-md border-[1px] border-gray-300" to={'/product/1'}>
               <div className="flex justify-center">
                 <img src={slide} height={152} width={172} alt="" className="w-[172px] h-[152px] object-cover mb-4" />
               </div>
               <p className='flex text-sm'>HAVIT HV-G92 Gamepad</p>
               <p className='flex text-sm text-[#EDB62E] mt-1'>Shops(5)</p>
-            </div>
+            </Link>
           </SwiperSlide>
         ))}
       </Swiper>

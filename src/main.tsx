@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 // import SignupForm from './components/auth/Signup.tsx'
 import ForgotPasswordForm from './components/auth/ForgotPassword.tsx'
 import ResetPassword from './components/auth/ResetPassword.tsx'
-import SingleProductPage from './components/signleProduct/SingleProductPage.tsx'
+// import SingleProductPage from './components/signleProduct/SingleProductPage.tsx'
 // import 'swiper/swiper.min.css';
 import Dashboard from './components/dashboard/dash.tsx'
 // import Contact from './Contact.tsx'
@@ -19,6 +19,7 @@ import Products from './Products/Products.tsx'
 import ContactPage from './components/Contact/ContactPage.tsx'
 import SignupPage from './components/SignUp/SignupPage.tsx'
 import SigninPage from './components/SignIn/SignInPage.tsx'
+import ProductPage from './components/Product/ProductPage.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -32,7 +33,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       </Routes>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="/product/:id" element={<SingleProductPage />} />
+        <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/contact_us" element={<ContactPage />} />
         <Route path="/about_us" element={<AboutPage />} />
         <Route path="/profile" element={<UserProfile />} />
