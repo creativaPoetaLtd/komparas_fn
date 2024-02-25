@@ -3,7 +3,6 @@ import { FaSearch } from 'react-icons/fa'
 
 const HomeNav = () => {
     const [selectedMenu, setSelectedMenu] = useState('home');
-
     const handleMenuClick = (menu: React.SetStateAction<string>) => {
       setSelectedMenu(menu);
     };
@@ -24,7 +23,7 @@ const HomeNav = () => {
             <a href='/contact_us'>Contact</a>
           </li>
           <li className={`text-black ${selectedMenu === 'signup' ? 'underline underline-offset-4' : ''}`} onClick={() => handleMenuClick('signup')}>
-            <a href='#signup'>Signup</a>
+            <a href='/login'>Signup</a>
           </li>
         </ul> 
         <div className='searchBar bg-[#F5F5F5] rounded-md pr-3'>

@@ -18,7 +18,7 @@ const MobileHomeNav = () => {
         </Link>
       </Menu.Item>
       <Menu.Item key="2">
-        <Link to="/contact">
+        <Link to="/login">
           <a>Login</a>
         </Link>
       </Menu.Item>
@@ -43,7 +43,7 @@ const MobileHomeNav = () => {
         </Link>
       </Menu.Item>
       <Menu.Item key="3">
-        <Link to="/contact">
+        <Link to="/login">
           <a>Signup</a>
         </Link>
       </Menu.Item>
