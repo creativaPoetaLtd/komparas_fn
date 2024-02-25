@@ -18,7 +18,7 @@ const ProductPage = () => {
             <HomeNav />
             <MobileHomeNav />
             <div className='w-full bg-white h-fit justify-between lg:px-6 px-2 lg:pl-10 pl-2 flex flex-col'>
-                <div className="navs flex mt-8 ml-10 w-fit">
+                <div className="navs flex mt-8 lg:ml-11 ml-4 w-fit">
                     <a href="/home" className="text-[#0C203B] text-sm">Home</a>
                     <p className="text-[#0C203B] text-sm mx-1">/</p>
                     <a href="/product" className="text-[#0C203B] text-sm">Product</a>

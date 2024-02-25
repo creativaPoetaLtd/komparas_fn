@@ -33,7 +33,7 @@ const SigninPage = () => {
                     </form>
                     <div className="flex mt-3">
                         <p className="text-sm">Don’t have an account?</p>
-                        <a href="/sign" className="text-[#EDB62E] ml-1 text-sm flex my-auto justify-center underline underline-offset-4">Login</a>
+                        <a href="/signup" className="text-[#EDB62E] ml-1 text-sm flex my-auto justify-center underline underline-offset-4">Sign up</a>
                     </div>
                 </div>
             </div>
