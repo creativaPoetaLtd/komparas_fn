@@ -15,7 +15,7 @@ import Dashboard from './components/dashboard/dash.tsx'
 // import Contact from './Contact.tsx'
 import AboutPage from './components/about/page.tsx'
 import UserProfile from './Profile.tsx'
-import Products from './Products/Products.tsx'
+import Products from './components/products-page/Products.tsx'
 import ContactPage from './components/Contact/ContactPage.tsx'
 import SignupPage from './components/SignUp/SignupPage.tsx'
 import SigninPage from './components/SignIn/SignInPage.tsx'
@@ -38,6 +38,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/about_us" element={<AboutPage />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/products" element={<Products />} />
+
       </Routes>
     </BrowserRouter>
     <ToastContainer />
