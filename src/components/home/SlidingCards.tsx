@@ -34,7 +34,7 @@ const SlidingCards: React.FC = () => {
         ))}
       </Swiper>
       <div className='flex justify-center mt-12 w-full'>
-        <button className='bg-[#0C203B] text-white p-2 rounded-md'>View All Products</button>
+        <Link className='bg-[#0C203B] text-white p-2 rounded-md' to={'/products'}>View All Products</Link>
       </div>
     </div>
   );

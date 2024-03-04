@@ -8,6 +8,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
 import slide from '../../assets/slide.png';
 import React from "react"
+import { Link } from "react-router-dom"
 const ProductPage = () => {
     React.useEffect(() => {
         window.scrollTo(0, 0);
@@ -176,7 +177,7 @@ const ProductPage = () => {
                         ))}
                     </Swiper>
                     <div className='flex justify-center mt-12 w-full'>
-                        <button className='bg-[#0C203B] text-white p-2 rounded-md'>View All Products</button>
+                        <Link className='bg-[#0C203B] text-white p-2 rounded-md' to={"/products"}>View All Products</Link>
                     </div>
                 </div>
             </div>

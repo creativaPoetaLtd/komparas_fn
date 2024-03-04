@@ -1,13 +1,25 @@
+import { FaTimes } from 'react-icons/fa';
 import ads from '../../assets/ads.png'
 import CheckboxInput from './CheckboxButton'
 import RadioInputMain from './RadioButtonMain'
 import SliderBar from './Slider'
 
-const SideBar = () => {
+interface SideBarProps {
+    isOpen: boolean;
+    toggleSidebar: () => void;
+}
+
+const SideBar: React.FC<SideBarProps> = ({ isOpen, toggleSidebar }) => {
+
+console.log("isOpen", isOpen);
+
   return (
-    <div className='lg:w-[25%] md:hidden hidden min-h-screen  lg:flex flex-col h-fit pr-4'>
-    <div className='flex flex-col'>
+    <div className={`lg:w-[25%] md:hiddenf hiddenf min-h-screen  lg:flex flex-col h-fit pr-4 ${isOpen ? 'md:flex flex w-full z-30':'h hidden'}`}>
+    <div className='flex flex-col relative'>
         <p className='text-sm font-semibold text-gray-600'>Categories</p>
+        <button className='' onClick={toggleSidebar}>
+            <FaTimes className='text-xl cursor-pointer flex lg:hidden my-auto mr-4 absolute top-3 right-3' />
+        </button>
         <div className='flex flex-col mt-4'>
             <RadioInputMain label='All' name='category' />
             <RadioInputMain label='Electronic' name='category' />
