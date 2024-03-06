@@ -17,6 +17,7 @@
     "chart.js": "^4.4.1",
     "phosphor-icons": "^1.4.2",
     "react": "^18.2.0",
+    "react-autosuggest": "^10.1.0",
     "react-datepicker": "^4.25.0",
     "react-datetime-picker": "^5.6.0",
     "react-dnd": "^16.0.1",
@@ -39,6 +40,7 @@
   "devDependencies": {
     "@types/node": "^20.10.0",
     "@types/react": "^18.2.15",
+    "@types/react-autosuggest": "^10.1.11",
     "@types/react-datepicker": "^4.19.5",
     "@types/react-dom": "^18.2.7",
     "@types/react-modal": "^3.16.3",

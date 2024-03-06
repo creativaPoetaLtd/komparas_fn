@@ -33,7 +33,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       </Routes>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="/product/:id" element={<ProductPage />} />
+        <Route path="/product/:productId" element={<ProductPage />} />
         <Route path="/contact_us" element={<ContactPage />} />
         <Route path="/about_us" element={<AboutPage />} />
         <Route path="/profile" element={<UserProfile />} />

@@ -11,9 +11,18 @@ import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 import { Phone } from '@phosphor-icons/react';
 // import { MdNoDrinks, MdOutlineElectricCar } from 'react-icons/md';
 // import { CgGirl } from 'react-icons/cg';
+import { getAllCategories } from '../../api/getAllCategories';
 
 const CategoryCards: React.FC = () => {
+  const [categories, setCategories] = React.useState<any[]>([]);
 
+  React.useEffect(() => {
+    const fetchCategories = async () => {
+      const response = await getAllCategories();
+      setCategories(response?.data);
+    }
+    fetchCategories();
+  }, []);
   const PrevArrow = (props: any) => {
     const { onClick } = props;
     return (
@@ -62,25 +71,28 @@ const CategoryCards: React.FC = () => {
       }
     ]
   };
+ 
 
+  
   return (
     <div className="lg:px-16 px-2 py-10">
       <div className='flex flex-col md:px-7 px-3 pb-6'>
         <div className="flex justify-start items-start">
           <div className="flex w-[20px] h-[40px] rounded-md bg-[#EDB62E]">
           </div>
-          <h1 className="text-lg flex my-auto justify-center font-bold ml-2 text-[#EDB62E]">Shops</h1>
+          <h1 className="text-lg flex my-auto justify-center font-bold ml-2 text-[#EDB62E]">Category</h1>
         </div>
-        <h1 className='flex text-2xl text-[#0C203B] mt-3 font-semibold'>Browse By Shop</h1>
+        <h1 className='flex text-2xl text-[#0C203B] mt-3 font-semibold'>Browse By Category</h1>
       </div>
       <Slider {...settings}
         className="flex justify-center"
       >
-        {[...Array(10)].map((_, index) => (
-          <div key={index} className="bg-white p-2 md:px-6 px-3  w-32 h-32 rounded-md ">
-            <div className="flex flex-col space-y-2 rounded-md border-gray-300 border-[1px] items-center justify-center h-full">
+
+        {categories?.map((category, index) => (
+          <div className="bg-white p-2 md:px-6 px-3  w-32 h-32 rounded-md ">
+            <div key={index+1} className="flex flex-col space-y-2 rounded-md border-gray-300 border-[1px] items-center justify-center h-full">
               <Phone className="text-5xl" />
-              <h1 className='text-sm'>Phone</h1>
+              <h1 className='text-sm'>{category?.name}</h1>
             </div>
           </div>
         ))}

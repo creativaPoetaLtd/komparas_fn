@@ -20,7 +20,7 @@ const SlidingCards: React.FC = () => {
   ,[]);
   
   return (
-    <div className="w-full py-12 lg:mt-0 md:mt-0 xl:mt-0 2xl:mt-0 mt-[20%]">
+    <div className="w-full py-12 lg:mt-0 md:mt-0 xl:mt-0 2xl:mt-0 mt-[35%]">
       <Swiper
         spaceBetween={20}
         slidesPerView={1}
@@ -37,7 +37,7 @@ const SlidingCards: React.FC = () => {
       >
         {products?.map((slide, index) => (
           <SwiperSlide key={index}>
-            <Link className="p-4 flex flex-col rounded-md border-[1px] border-gray-300" to={'/product/1'}>
+            <Link className="p-4 flex flex-col rounded-md border-[1px] border-gray-300" to={`/product/${slide?._id}`}>
               <div className="flex justify-center">
                 <img src={slide?.product_image} height={152} width={172} alt="" className="w-[172px] h-[152px] object-cover mb-4" />
               </div>

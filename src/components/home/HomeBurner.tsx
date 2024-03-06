@@ -52,11 +52,11 @@ const HomeBurner = () => {
     fetchProducts();
   }
     , []);
-  const settings: { current: number, customPaging: (i: any) => JSX.Element, dots: boolean, dotsClass: string, infinite: boolean, speed: number, slidesToShow: number, slidesToScroll: number } = {
+  const settings: { current: number, customPaging: (i: any) => JSX.Element, dots: boolean, dotsClass: string, infinite: boolean, speed: number, slidesToShow: number, slidesToScroll: number, autoplay:boolean, autoplaySpeed:number, pauseOnHover: boolean  } = {
     current: 0,
     customPaging: function (i: any) {
       return (
-        <a className="ab absolute -top-3">
+        <a className="ab absolute md:-top-3 top-28">
           <div className={`smallCircle flex justify-center items-center ${i === this.current ? 'bg-yellow-600' : 'bg-white'} w-3 h-3 rounded-full`}></div>
         </a>
       );
@@ -66,7 +66,10 @@ const HomeBurner = () => {
     infinite: true,
     speed: 500,
     slidesToShow: 1,
-    slidesToScroll: 1
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    pauseOnHover: true
   };
 
   return (
@@ -82,7 +85,7 @@ const HomeBurner = () => {
       </div>
       <Slider {...settings} className='lg:w-3/4 w-full h-full'>
         {products?.slice(0,4)?.map((slide, index) => (
-          <div key={index+1} className='bunner lg:w-3/4 w-full h-full md:py-4 py-4 md:pl-4 px-2'>
+          <div key={index+1} className='bunner lg:w-3/4 w-full h-full md:py-4 py-4 md:pl-4 px-0'>
             <div className='mainPage flex md:flex-row flex-col bg-[#0C203B] md:h-[344px] h-fit relative'>
               <div className='mainPageContent md:w-[44%] w-full h-full md:p-12 p-5'>
                 <div className='flex'>
