@@ -1,32 +1,41 @@
 import React from 'react';
-import { Drawer } from 'antd';
+import { Button, Drawer } from 'antd';
 import { FaTimes } from 'react-icons/fa';
+import Image from 'antd/lib/image';
+import { Eye } from '@phosphor-icons/react';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
     open: boolean;
     onClose: () => void;
+    comparisonData: any;
+    handleDelete: (id: string) => void;
 }
 
-const ComparisonDrawer: React.FC<Props> = ({ open, onClose }) => {
-    // Sample data for demonstration
-    const products = [
-        {
-            id: 1,
-            name: 'Product 1',
-            image: 'https://www.cnet.com/a/img/resize/592e5101f4fee1caf72f9e0169c8784ddf9eb12a/hub/2023/05/04/31dfdcf2-1ac3-4320-b40c-4c356300f06e/google-pixel-7a-phone-14.jpg?auto=webp&fit=crop&height=576&width=768',
-            price: '$100',
-            specifications: ['Spec 1', 'Spec 2', 'Spec 3'],
-            description: 'Product 1 description',
-        },
-        {
-            id: 2,
-            name: 'Product 2',
-            image: 'https://media.4rgos.it/i/Argos/9520103_R_Z001A?w=750&h=440&qlt=70',
-            price: '$200',
-            specifications: ['Spec A', 'Spec B', 'Spec C'],
-            description: 'Product 2 description Product 2 descriptionProduct 2 descriptionProduct 2 descriptionProduct 2 descriptionProduct 2 descriptionProduct 2 description',
-        },
-    ];
+const ComparisonDrawer: React.FC<Props> = ({ open, onClose, comparisonData, handleDelete }) => {
+
+
+    const product = comparisonData?.productsInfo?.map((product: any) => {
+        return {
+            id: product._id,
+            image: product.product_image,
+            name: product.product_name,
+            price: product.vendor_prices[0].price,
+            specifications: product.product_specifications,
+            description: product.product_description,
+        };
+    }
+    );
+
+    const navigate = useNavigate();
+
+    const handleView = (id: string) => {
+        navigate(`/product/${id}`);
+    }
+
+
+
+  
 
     return (
         <Drawer
@@ -48,29 +57,43 @@ const ComparisonDrawer: React.FC<Props> = ({ open, onClose }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {products.map((product) => (
+                        {product?.map((product: any) => (
                             <tr key={product.id} className="border-t border-gray-300">
                                 <td className="px-4 py-2  items-center h-full">
-                                  <div className="flex items-center">
-                                    <div className='w-10 h-10 rounded-full mr-2'>
-                                    <img src={product.image} alt={product.name} className=" mr-2 object-conain rounded-full h-full w-full " />
+                                    <div className="flex items-center">
+                                        <div className='w-10 h-10 mr-2'>
+                                            <Image src={product.image} className='flex my-auto justify-center' />
+                                        </div>
+                                        <p>
+                                            {product.name}
+                                        </p>
                                     </div>
-                                    <p>
-                                    {product.name}
-                                    </p>
-                                  </div>
                                 </td>
                                 <td className="px-4 py-2">{product.price}</td>
-                                <td className="px-4 py-2 flex flex-col">
-                                    {product.specifications.map((spec, index) => (
-                                        <span key={index}>{spec}</span>
+                                <td className="px-4 py-2">
+                                    {product?.specifications?.map((spec: { key: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; value: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; }, index: React.Key | null | undefined) => (
+                                        <span key={index} className="flex justify-start items-start text-start my-auto space-x-1 h-full">
+                                            <span className='font-bold'>{spec.key}:</span> <span>{spec.value}</span>
+                                        </span>
                                     ))}
                                 </td>
-                                <td className="px-4 py-2">{product.description}</td>
+                                <td className="px-4 py-2">
+                                    {(product?.description)?.length > 250 ? product?.description?.substring(0, 100) + "..." : product.description}
+
+                                </td>
                                 <td className="px-4 py-2  items-center">
-                                    <button className="text-red-500 hover:text-red-700">
+                                    <div className='flex'>
+                                        <Button
+                                            onClick={() => handleView(product.id)}
+                                         className='viewButton primary border-none'>
+                                            <Eye/>
+                                        </Button>
+                                    <Button 
+                                    onClick={() => handleDelete(product.id)}
+                                    className="text-red-500 hover:text-red-700 border-none">
                                         <FaTimes />
-                                    </button>
+                                    </Button>
+                                    </div>
                                 </td>
                             </tr>
                         ))}

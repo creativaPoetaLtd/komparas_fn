@@ -3,6 +3,8 @@ import ads from '../../assets/ads.png'
 import CheckboxInput from './CheckboxButton'
 import RadioInputMain from './RadioButtonMain'
 import SliderBar from './Slider'
+import { getAllCategories } from '../../api/getAllCategories';
+import { useEffect, useState } from 'react';
 
 interface SideBarProps {
     isOpen: boolean;
@@ -11,7 +13,23 @@ interface SideBarProps {
 
 const SideBar: React.FC<SideBarProps> = ({ isOpen, toggleSidebar }) => {
 
-console.log("isOpen", isOpen);
+    const [categories, setCategories] = useState<any>([]);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            const data = await getAllCategories();
+            console.log("-----------------------------------------------",data);
+            
+            setCategories(data?.data);
+        }
+        fetchCategories();
+    }
+    , []);
+
+    console.log("categories", categories);
+    
+
+
 
   return (
     <div className={`lg:w-[25%] md:hiddenf hiddenf min-h-screen  lg:flex flex-col h-fit pr-4 ${isOpen ? 'md:flex flex w-full z-30':'h hidden'}`}>
@@ -21,16 +39,9 @@ console.log("isOpen", isOpen);
             <FaTimes className='text-xl cursor-pointer flex lg:hidden my-auto mr-4 absolute top-3 right-3' />
         </button>
         <div className='flex flex-col mt-4'>
-            <RadioInputMain label='All' name='category' />
-            <RadioInputMain label='Electronic' name='category' />
-            <RadioInputMain label='Phones' name='category' />
-            <RadioInputMain label='Computers' name='category' />
-            <RadioInputMain label='Home Appliances' name='category' />
-            <RadioInputMain label='Health & Beauty' name='category' />
-            <RadioInputMain label='Home & Garden' name='category' />
-            <RadioInputMain label='Accessories' name='category' />
-            <RadioInputMain label='Entertainment' name='category' />
-            <RadioInputMain label='Others' name='category' />
+            {categories?.map((category: any) => (
+                <RadioInputMain key={category._id}  label={category.name} name='category' />
+            ))}
         </div>
     </div>
    <SliderBar />

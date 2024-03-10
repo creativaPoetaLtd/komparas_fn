@@ -15,33 +15,29 @@ import { toast } from 'react-toastify';
 const Products = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [productsData, setProductsData] = useState<any[]>([]);
+    const [refresh, setRefresh] = useState(false);
+    const [deleteRefresh, setDeleteRefresh] = useState(false);
     const loginInfo: any = localStorage.getItem('KomparasLoginsInfo');
     const userId = JSON.parse(loginInfo)._id;
-
+    const handleRefresh = () => {
+        setRefresh(!refresh);
+    }
+    const handleDeleteRefresh = () => { 
+        setDeleteRefresh(!deleteRefresh);
+    }
     const [comparisonData, setComparisonData] = useState<any>([]);
     useEffect(() => {
         const fetchComparison = async () => {
             const response = await getComparison(userId);
-            console.log("response", response);
-
             setComparisonData(response);
+            handleRefresh();
         };
         fetchComparison();
-    }, [userId]);
-
-    console.log("comparisonData", comparisonData);
-
+    }, [userId, deleteRefresh]);
+    const compLemgth = comparisonData?.productsInfo?.length;
     const comparedProductId = comparisonData?.productsInfo?.map((product: any) => product._id);
-
-    const compareId = comparisonData?.comparisons?.map((product: any) => product._id);
-
     const addProductToCompare = async (productData: { productId: any; }) => {
-
         const data = { userId, productId: productData.productId };
-
-        console.log("data", data);
-
-
         const res = await fetch(`${baseUrl}/comparison`, {
             method: 'POST',
             headers: {
@@ -49,41 +45,37 @@ const Products = () => {
             },
             body: JSON.stringify(data),
         });
-
         const resData = await res.json();
         if (resData?.comparison?.userId) {
             toast.success(resData?.message);
+            handleRefresh();
+            getComparison(userId);  
+            handleDeleteRefresh();
         } else {
             toast.error(resData?.message);
         }
-        return await res.json();
+        return await resData;
     };
-
     const cardsPerPage = 10;
     const totalProducts = productsData.length;
     const [open, setOpen] = useState(false);
     const showDrawer = () => {
         setOpen(true);
     };
-
     const onClose = () => {
         setOpen(false);
     };
-
     const handlePageChange = (page: SetStateAction<number>) => {
         setCurrentPage(page);
     };
-
     const startIndex = (currentPage - 1) * cardsPerPage;
     const endIndex = Math.min(startIndex + cardsPerPage, totalProducts);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
-
     const [searchValue, setSearchValue] = useState("");
     const [autocompleteOptions, setAutocompleteOptions] = useState<string[]>([]);
-
     useEffect(() => {
         const fetchProducts = async () => {
             const response = await getAllProducts();
@@ -99,43 +91,28 @@ const Products = () => {
             setProductsData(filteredProducts);
         };
         fetchProducts();
-    }, [searchValue]);
-
-
-
+    }, [searchValue,refresh, deleteRefresh]);
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchValue(event.target.value);
     };
-
-    const deleteProductFromComparison = async (productId: string, compareId: string) => {
-        try {
-            const res = await fetch(`${baseUrl}/comparison/${compareId}`, {
-                method: 'DELETE',
-            });
-    
-            const resData = await res.json();
-            if (resData?.comparison?.userId) {
-                toast.success(resData?.message);
-            } else {
-                toast.error(resData?.message);
-            }
-            return await res.json();
-        } catch (error) {
-            throw error;
-        }
-    };
-    
-    const handleCheckChange = (productId: string, checked: boolean) => {
-        if (!checked) {
-            const compareIdToDeleteFrom = comparisonData?.comparisons?.find((compare: any) => compare.productId === productId)?._id;
-            if (compareIdToDeleteFrom) {
-                deleteProductFromComparison(productId, compareIdToDeleteFrom);
+    const deleteProductFromComparison = async (productIdToDelete: any) => {
+        const comparisonToDelete = comparisonData.comparisons.find((comparison: { productId: any; }) =>
+            comparison.productId === productIdToDelete
+        );
+        if (comparisonToDelete) {
+            try {
+                const response = await fetch(`${baseUrl}/comparison/${comparisonToDelete._id}`, {
+                    method: 'DELETE',
+                });
+                const data = await response.json();
+                toast.success(data.message);
+                getComparison(userId);
+                handleDeleteRefresh()
+            } catch (error) {
+                console.error('Error deleting product from comparison:', error);
             }
         }
     };
-    
-
-
     return (
         <div className="flex flex-col h-fit">
             <SubNav />
@@ -154,7 +131,6 @@ const Products = () => {
                                     value={searchValue}
                                     onChange={handleInputChange}
                                     list="autocomplete-options"
-
                                 />
                                 <datalist draggable id="autocomplete-options" className=''>
                                     {autocompleteOptions.map((option, index) => (
@@ -184,7 +160,9 @@ const Products = () => {
                                 <FaTimes className='text-sm my-auto ml-2 font-semibold' />
                             </div>
                             <div className='flex flex-row'>
-                                <p className='text-sm my-auto font-semibold'>65,867</p>
+                                <p className='text-sm my-auto font-semibold'>
+                                    {productsData?.length}
+                                </p>
                                 <p className='text-sm my-auto ml-2'>Results found.</p>
                             </div>
                         </div>
@@ -203,12 +181,11 @@ const Products = () => {
                                         <PorductCheckInput
                                             label='Add to compare'
                                             name='compare'
-                                            productData={{ productId: product._id }} // Assuming the productId is stored in product._id
+                                            productData={{ productId: product._id }}
                                             checked={product.checked}
                                             addProductToCompare={addProductToCompare}
+                                            onUncheck={() => deleteProductFromComparison(product._id)}
                                         />
-
-
                                     </div>
                                 </div>
                             ))}
@@ -225,8 +202,15 @@ const Products = () => {
                     </div>
                 </div>
             </div>
-            <button onClick={showDrawer} className='fixed bottom-10 right-10 bg-yellow-500 p-3 rounded-full text-white'>Compare</button>
-            <ComparisonDrawer open={open} onClose={onClose} />
+            <button onClick={showDrawer} className='fixed bottom-10 right-10 bg-yellow-500 p-3 rounded-full text-white'>
+                <p className='text-sm'>Compare {compLemgth} items</p>
+            </button>
+            <ComparisonDrawer 
+            handleDelete={deleteProductFromComparison}
+            open={open} 
+            onClose={onClose}
+            comparisonData={comparisonData}
+             />
         </div>
     );
 };
