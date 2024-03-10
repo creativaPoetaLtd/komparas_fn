@@ -106,3 +106,8 @@ export const getAllProductsWithCategoryNames = async () => {
   )
   return products;
 }
+
+export const getComparison = async (userId: string) => {
+  const res = await fetch(`${baseUrl}/comparison/${userId}`);
+  return await res.json();
+}
