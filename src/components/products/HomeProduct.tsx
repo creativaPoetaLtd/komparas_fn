@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import ProdCategories from './ProdCategories';
 import { getAllProducts, getPoductByCategory } from '../../api/product';
 import { Link } from 'react-router-dom';
-
 interface IProduct {
   _id: string;
   product_name: string;

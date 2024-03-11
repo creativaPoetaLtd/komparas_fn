@@ -1,5 +1,5 @@
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 
 // export default function SimpleSlider() {
@@ -39,6 +39,7 @@ import Slider from "react-slick";
 import { FaApple } from "react-icons/fa";
 import { ArrowRight } from "@phosphor-icons/react";
 import { getAllProducts } from "../../api/product";
+import { getAllCategories } from "../../api/getAllCategories";
 const HomeBurner = () => {
   const [products, setProducts] = React.useState<any[]>([]);
 
@@ -72,15 +73,24 @@ const HomeBurner = () => {
     pauseOnHover: true
   };
 
+  const [categories, setCategories] = useState<any>([]);
+
+  useEffect(() => {
+      const fetchCategories = async () => {
+          const data = await getAllCategories();            
+          setCategories(data?.data);
+      }
+      fetchCategories();
+  }
+  , []);
+
   return (
     <div className='bunnerPage flex w-full lg:px-20 px-0 h-[344px]'>
       <div className='sideCategories w-1/4 hidden lg:flex h-full border-black border-r '>
         <ul className='flex flex-col space-y-4 py-4'>
-          <li>Category 1</li>
-          <li>Category 2</li>
-          <li>Category 3</li>
-          <li>Category 4</li>
-          <li>Category 5</li>
+          {categories?.map((category: any) => (
+            <li key={category._id} className='text-sm'>{category.name}</li>
+          ))}
         </ul>
       </div>
       <Slider {...settings} className='lg:w-3/4 w-full h-full'>

@@ -6,12 +6,14 @@ import HomeNav from '../home/HomeNav'
 import MobileHomeNav from '../home/HomeMobileNav'
 import { FaSearch, FaTimes } from 'react-icons/fa'
 import { MdFilterList } from 'react-icons/md';
-import { getAllProducts, getComparison } from '../../api/product';
+import { getAllProducts, getComparison, getProductOnCategory } from '../../api/product';
 import ComparisonDrawer from './ComparisonDrawer';
 import { baseUrl } from '../../api';
 import PorductCheckInput from './ProdCheck';
 import { toast } from 'react-toastify';
-
+import { getAllCategories } from '../../api/getAllCategories';
+import { getAllShops } from '../../api/getAllShops';
+import { getProductOnShop } from '../../api/product';
 const Products = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [productsData, setProductsData] = useState<any[]>([]);
@@ -19,6 +21,51 @@ const Products = () => {
     const [deleteRefresh, setDeleteRefresh] = useState(false);
     const loginInfo: any = localStorage.getItem('KomparasLoginsInfo');
     const userId = JSON.parse(loginInfo)._id;
+    const [categories, setCategories] = useState<any>([]);
+    const [shops, setShops] = useState<any>([]);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            const data = await getAllCategories();            
+            setCategories(data?.data);
+        }
+        fetchCategories();
+    }
+    , []);
+
+    useEffect(() => {
+        const fetchShops = async () => {
+            const data = await getAllShops();            
+            setShops(data?.data);
+        }
+        fetchShops();
+    }
+    , []);
+
+    // const handleCategoryClick = async (categoryId: string) => {
+    //     try {
+    //         const response = await getProductOnCategory(categoryId); // Implement this API function to fetch products by category
+    //         const productsByCategory = response?.data?.products;
+    //         setProductsData(productsByCategory);
+    //     } catch (error) {
+    //         console.error('Error fetching products by category:', error);
+    //     }
+    // };
+
+    const [selectedShop, setSelectedShop] = useState<string | null>(null);
+
+
+    const handleShopClick = async (shopId: string , name:any) => {
+        try {
+            setSelectedShop(name);
+            const response = await getProductOnShop(shopId); // Implement this API function to fetch products by category
+            const productsByShop = response?.data?.products;
+            setProductsData(productsByShop);
+        } catch (error) {
+            console.error('Error fetching products by category:', error);
+        }
+    };
+    
     const handleRefresh = () => {
         setRefresh(!refresh);
     }
@@ -113,6 +160,32 @@ const Products = () => {
             }
         }
     };
+    const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+
+    const handleCategoryClick = async (categoryName: string) => {
+        try {
+            setSelectedCategory(categoryName);
+            const response = await getProductOnCategory(categoryName);
+            const productsByCategory = response?.data?.products;
+            setProductsData(productsByCategory);
+        } catch (error) {
+            console.error('Error fetching products by category:');
+        }
+    };
+
+    const clearFilters = (filterType: string) => {
+        if (filterType === 'category' || filterType === 'shop') {
+            setSelectedCategory(null);
+            setSelectedShop(null);
+            const fetchAllProducts = async () => {
+                const response = await getAllProducts();
+                const allProducts = response?.data?.products;
+                setProductsData(allProducts);
+            };
+            fetchAllProducts();
+        }
+    };
+
     return (
         <div className="flex flex-col h-fit">
             <SubNav />
@@ -120,7 +193,7 @@ const Products = () => {
             <MobileHomeNav />
             <div className='w-full bg-white h-fit justify-between lg:px-6 px-2 lg:pl-20 pl-2 flex flex-col'>
                 <div className='w-full mt-6 h-fit flex flex-row'>
-                    <SideBar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+                    <SideBar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} categories={categories} shops={shops} handleCategoryClick={handleCategoryClick} handleShopCkik={handleShopClick} />
                     <div className={`lg:w-[70%] md:w-full w-full flex flex-col h-fit ${isSidebarOpen ? "hidden" : ""}`}>
                         <div className='topMenus w-full flex md:flex-row flex-col justify-between'>
                             <div className='searchBar md:w-[50%] w-full bg-[#F5F5F5] rounded-md pr-3'>
@@ -151,13 +224,17 @@ const Products = () => {
                             </div>
                         </div>
                         <div className='products justify-between w-full flex bg-[#F2F4F5] p-3 mt-3'>
-                            <div className='flex'>
+                            <div className='filtersDiv flex'>
                                 <button onClick={toggleSidebar}>
                                     <MdFilterList className='text-xl cursor-pointer flex lg:hidden my-auto mr-4' />
                                 </button>
-                                <p className='text-sm my-auto text-gray-600'>Active Filters</p>
+                                <p className='text-sm my-auto text-gray-600'>Active Filters:</p>
+                                <p className='text-xs my-auto ml-2 font-medium text-yellow-600'>{selectedCategory}</p>
+                                <p className='text-xs my-auto ml-2 font-medium text-yellow-600'>{selectedShop}</p>
+                                <button className='flex ml-2' onClick={() => clearFilters('category')}>
                                 <p className='text-sm my-auto ml-2 font-semibold'>Clear All</p>
                                 <FaTimes className='text-sm my-auto ml-2 font-semibold' />
+                                </button>
                             </div>
                             <div className='flex flex-row'>
                                 <p className='text-sm my-auto font-semibold'>

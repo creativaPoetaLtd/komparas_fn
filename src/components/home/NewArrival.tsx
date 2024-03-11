@@ -1,8 +1,12 @@
-import image1 from "../../assets/image1.png"
-import image2 from "../../assets/image2.png"
-import image3 from "../../assets/image3.png"
-import imag4 from "../../assets/imag4.png"
-const NewArrival = () => {
+// import image1 from "../../assets/image1.png"
+// import image2 from "../../assets/image2.png"
+// import image3 from "../../assets/image3.png"
+// import imag4 from "../../assets/imag4.png"
+
+interface NewArrivalProps {
+    productData: any;
+}
+const NewArrival: React.FC<NewArrivalProps> = ({ productData }) => {
     return (
         <div className='flex flex-col w-full lg:px-[4.9rem] px-2 py-12'>
             <div className='flex flex-col px-2 pb-6'>
@@ -21,7 +25,7 @@ const NewArrival = () => {
                         <button className="flex underline underline-offset-4 mt-4 text-[#FFAD33]">VIEW MORE</button>
                     </div>
                     <div className="flex h-[511px] w-[511px]  justify-center items-center m-auto">
-                        <img src={image1} width={100} height={100} className="w-full h-full" />
+                        <img src={productData[productData.length-8]?.product_image} width={100} height={100} className="w-full h-full" />
                     </div>
                 </div>
                 <div className="flex lg:w-1/2 w-full flex-col lg:space-y-8 space-y-3 h-[600px]">
@@ -32,7 +36,7 @@ const NewArrival = () => {
                             <button className="flex underline underline-offset-4 mt-3 md:text-base text-sm text-[#FFAD33]">VIEW MORE</button>
                         </div>
                         <div className="flex  md:h-[286px] md:w-[432px] float-right absolute right-0">
-                            <img src={image2} width={100} height={100} className="w-full  h-full right-0" />
+                            <img src={productData[productData.length-7]?.product_image} width={100} height={100} className="w-full object-contain  h-full right-0" />
                         </div>
                     </div>
 
@@ -44,7 +48,7 @@ const NewArrival = () => {
                                 <button className="flex underline underline-offset-4 mt-3 text-[#FFAD33] md:text-base text-sm">VIEW MORE</button>
                             </div>
                             <div className="flex h-[221px] w-[190px] justify-center items-center m-auto">
-                                <img src={image3} width={100} height={100} className="w-full h-full" />
+                                <img src={productData[productData.length-1]?.product_image}width={100} height={100} className="w-full h-full" />
                             </div>
                         </div>
                         <div className="flex w-1/2 relative bg-[#0C203B]">
@@ -54,7 +58,7 @@ const NewArrival = () => {
                                 <button className="flex underline underline-offset-4 mt-3 md:text-base text-sm text-[#FFAD33]">VIEW MORE</button>
                             </div>
                             <div className="flex h-[221px] w-[190px] justify-center items-center m-auto">
-                                <img src={imag4} width={100} height={100} className="w-full h-full" />
+                                <img src={productData[productData.length-2]?.product_image} width={100} height={100} className="w-full h-full" />
                             </div>
                         </div>
                     </div>
