@@ -4,22 +4,8 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 import { FaShoppingBag } from 'react-icons/fa';
-import { getAllShops } from '../../api/getAllShops';
 
 const ShopCards: React.FC = () => {
-
-  const [shops, setShops] = React.useState<any[]>([]);  
-  React.useEffect(() => {
-    const fetchShops = async () => {
-      const response = await getAllShops();
-      setShops(response?.data);
-    }
-    fetchShops();
-  }, []);
-
-
-  console.log('Shops....................', shops[0]?.name);
-  
 
   const PrevArrow = (props: any) => {
     const { onClick } = props;
@@ -83,11 +69,11 @@ const ShopCards: React.FC = () => {
       <Slider {...settings}
         className="flex justify-center"
       >
-        {shops.map((item, index) => (
+        {[...Array(10)].map((_, index) => (
           <div key={index} className="bg-white p-2 md:px-6 px-3  w-32 h-32 rounded-md ">
-            <div  className="flex flex-col space-y-2 rounded-md border-gray-300 border-[1px] items-center justify-center h-full">
+            <div className="flex flex-col space-y-2 rounded-md border-gray-300 border-[1px] items-center justify-center h-full">
               <FaShoppingBag className="text-5xl" />
-              <h1 className='text-sm'>{item.name}</h1>
+              <h1 className='text-sm'>Ibanga Shop</h1>
             </div>
           </div>
         ))}
