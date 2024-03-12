@@ -5,7 +5,7 @@ import HomeNav from "../home/HomeNav"
 import loginp from "../../assets/login.png"
 import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { login } from "../../api/auth/login"
 
 const SigninPage = () => {
@@ -14,7 +14,9 @@ const SigninPage = () => {
 //   const [showPassword, setShowPassword] = useState(true);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+}, []);
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
@@ -27,7 +29,7 @@ const SigninPage = () => {
       if(res?.user?.role === "admin"){
         navigate("/dashboard");
       } else {
-        navigate("/");
+        navigate("/products");
       }
       }
 
@@ -40,6 +42,7 @@ const SigninPage = () => {
       toast.error(error.response.data.message);
     }
   };
+
   
     return (
         <><div className='w-full bg-white h-fit justify-between'>
@@ -74,7 +77,7 @@ const SigninPage = () => {
                         </div>
                         <button
                         disabled={loading}
-                         className={`bg-[#EDB62E] text-white px-4 py-3 mt-2 w-full float-right justify-end self-end rounded-md ${loading ? 'cursor-not-allowed opacity-50':''}`}>Create Account</button>
+                         className={`bg-[#EDB62E] text-white px-4 py-3 mt-2 w-full float-right justify-end self-end rounded-md ${loading ? 'cursor-not-allowed opacity-50':''}`}>Login</button>
                     </form>
                     <div className="flex mt-3">
                         <p className="text-sm">Don’t have an account?</p>

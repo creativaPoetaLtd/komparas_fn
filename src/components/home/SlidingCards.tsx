@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getAllProducts } from '../../api/product';
+import { toast } from 'react-toastify';
 
 
 const SlidingCards: React.FC = () => {
@@ -18,6 +19,17 @@ const SlidingCards: React.FC = () => {
     fetchProducts();
   }
   ,[]);
+
+  const navigate = useNavigate();
+  const handleViewAllProducts = () => {
+    if (localStorage.getItem("KomparasLoginsInfo")) {
+        navigate("/products");
+    } else {
+        toast.error("You need to login to view all products");
+        navigate("/login");
+        }
+    }
+
   
   return (
     <div className="w-full py-12 lg:mt-0 md:mt-0 xl:mt-0 2xl:mt-0 mt-[35%]">
@@ -48,7 +60,7 @@ const SlidingCards: React.FC = () => {
         ))}
       </Swiper>
       <div className='flex justify-center mt-12 w-full'>
-        <Link className='bg-[#0C203B] text-white p-2 rounded-md' to={'/products'}>View All Products</Link>
+        <button className='bg-[#0C203B] text-white p-2 rounded-md' onClick={handleViewAllProducts}>View All Products</button>
       </div>
     </div>
   );

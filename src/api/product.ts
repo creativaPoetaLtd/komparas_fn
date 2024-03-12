@@ -11,6 +11,11 @@ export const getPoductByCategory = async (category: string) => {
   return await res;
 }
 
+export const getProductByMultpleIdsInQueryParams = async (ids: string[]) => {
+  const res = axios.get(`${baseUrl}/products/prod?productIds=${ids}`);
+  return await res;
+}
+
 export const getPoductById = async (id: string) => {
   const res = axios.get(`${baseUrl}/products/images/${id}`);
   return await res;

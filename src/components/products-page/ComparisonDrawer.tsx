@@ -45,7 +45,7 @@ const ComparisonDrawer: React.FC<Props> = ({ open, onClose, comparisonData, hand
             placement="right"
             width={800}
         >
-            <div className="flex justify-center items-center flex-col h-fit w-full">
+            <div className="flex w-[800px] justify-center items-center flex-col h-fit overflow-x-auto">
                 <table className="table-auto border border-gray-300 shadow-md">
                     <thead>
                         <tr className="bg-yellow-500 text-white">
@@ -78,7 +78,7 @@ const ComparisonDrawer: React.FC<Props> = ({ open, onClose, comparisonData, hand
                                     ))}
                                 </td>
                                 <td className="px-4 py-2">
-                                    {(product?.description)?.length > 250 ? product?.description?.substring(0, 100) + "..." : product.description}
+                                    {(product?.description)?.length > 140 ? product?.description?.substring(0, 140) + "..." : product.description}
 
                                 </td>
                                 <td className="px-4 py-2  items-center">

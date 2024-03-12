@@ -12,9 +12,17 @@ import ProdNavigations from "./NavIgations";
 import MainProductPage from "./MainProductPage";
 import ThreeButtons from "./ThreeButtons";
 import Footer from "../Footer";
+import ComparisonDrawer from './Pdrawer';
+import { SlRefresh } from "react-icons/sl";
+import { Trash } from '@phosphor-icons/react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
 
 const ProductPage = () => {
     const [products, setProduct] = useState<any>([]);
+    const navigate = useNavigate();
+
     const { productId }: any = useParams();
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -27,6 +35,11 @@ const ProductPage = () => {
         };
         fetchProduct();
     }, [productId]);
+    const [open, setOpen] = useState(false);
+
+    const onClose = () => {
+        setOpen(false);
+    };
 
     const category = products?.product?.category?.name;
     const [relatedProducts, setRelatedProducts] = useState<any>([]);
@@ -48,20 +61,51 @@ const ProductPage = () => {
 
     const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
     const [selectedProductId2, setSelectedProductId2] = useState<string | null>(null);
+    const [selectedProductImage, setSelectedProductImage] = useState<string | null>(null);
+    const imgeSelected = localStorage.getItem('selectedProductImage');
+    const img2Selected = localStorage.getItem('selectedProductImage2');
+const [selectedProductImage2, setSelectedProductImage2] = useState<string | null>(null); 
 
     const handleButtonClick = (productId: string, productImage: string) => {
         localStorage.setItem('selectedProductId', productId);
         localStorage.setItem('selectedProductImage', productImage);
+        imgeSelected && setSelectedProductImage(imgeSelected);
+
+        
         setSelectedProductId(productId);
     };
     const handleButtonClick2 = (productId: string, productImage: string) => {
         localStorage.setItem('selectedProductId2', productId);
+        img2Selected && setSelectedProductImage2(img2Selected);
         localStorage.setItem('selectedProductImage2', productImage);
         setSelectedProductId2(productId);
     };
 
-const selectedProductImage = localStorage.getItem('selectedProductImage');
-const selectedProductImage2 = localStorage.getItem('selectedProductImage2');
+
+const handleDelete = () => {
+    localStorage.removeItem('selectedProductId');
+    setSelectedProductId(null);
+    localStorage.removeItem('selectedProductImage');
+    setSelectedProductImage(null);
+};
+
+const handleDelete2 = () => {
+    localStorage.removeItem('selectedProductId2')
+    setSelectedProductId2(null);
+    localStorage.removeItem('selectedProductImage2');
+    setSelectedProductImage2(null);
+}
+
+
+const handleViewAllProducts = () => {
+    if (localStorage.getItem("KomparasLoginsInfo")) {
+        navigate("/products");
+    } else {
+        toast.error("You need to login to view all products");
+        navigate("/login");
+        }
+    }
+
     return (
         <div className="flex flex-col h-fit">
             <SubNav />
@@ -78,14 +122,37 @@ const selectedProductImage2 = localStorage.getItem('selectedProductImage2');
                                 <div className="flex w-[124px] h-[161px] m-auto justify-center items-center bg-white rounded-md">
                                     <Image src={products?.product?.product_image} width={100} height={100} alt="" className="md:w-[100px] w-[55px] md:h-[89px] h-[49px] object-contain" />
                                 </div>
-                                <button className="Prod1 flex w-[124px] h-[161px] m-auto justify-center items-center bg-white rounded-md border" onClick={() => handleButtonClick('prod1', products?.product?.product_image)}>
-                                    {selectedProductImage ? <Image src={selectedProductImage} width={100} height={100} alt="" className="md:w-[100px] w-[55px] md:h-[89px] h-[49px] object-contain" /> : '+' }
+                                <button className="Prod1 relative flex w-[124px] h-[161px] m-auto justify-center items-center bg-white rounded-md border">
+                                    {selectedProductImage && (
+                                        <>
+                                        <button className='replaceButton absolute bottom-0 left-1' onClick={() => handleButtonClick('prod1', products?.product?.product_image)} >
+                                            <SlRefresh className='text-lg font-bold' />
+                                        </button>
+                                        <button className='deleteButton absolute bottom-0 right-1' onClick={() => handleDelete()} >
+                                            <Trash className='text-lg text-red-600 font-bold' />
+                                        </button>
+                                        </>
+                                    )
+                                    }
+                                    {selectedProductImage ? <img src={selectedProductImage} width={100} height={100} alt="" className="md:w-[100px] w-[55px] md:h-[89px] h-[49px] object-contain" /> : <button  onClick={() => handleButtonClick('prod1', products?.product?.product_image)} >+</button> }
                                 </button>
-                                <button className="Prod2 flex w-[124px] h-[161px] m-auto justify-center items-center bg-white rounded-md border" onClick={() => handleButtonClick2('prod2', products?.product?.product_image)}>
-                                    {selectedProductImage2 ? <Image src={selectedProductImage2} width={100} height={100} alt="" className="md:w-[100px] w-[55px] md:h-[89px] h-[49px] object-contain" /> : '+' }
+                                <button className="Prod2 relative flex w-[124px] h-[161px] m-auto justify-center items-center bg-white rounded-md border">
+                                {selectedProductImage2 && (
+                                <>
+                                        <button className='replaceButton absolute bottom-0 left-1' onClick={() => handleButtonClick2('prod2', products?.product?.product_image)} >
+                                            <SlRefresh className='text-lg font-bold' />
+                                        </button>
+                                        <button className='deleteButton absolute bottom-0 right-1' onClick={() => handleDelete2()} >
+                                            <Trash className='text-lg text-red-600 font-bold' />
+                                        </button>
+                                        </>
+                                    )}
+                                    {selectedProductImage2? <img src={selectedProductImage2} width={100} height={100} alt="" className="md:w-[100px] w-[55px] md:h-[89px] h-[49px] object-contain" /> : <button  onClick={() => handleButtonClick2('prod2', products?.product?.product_image)} >+</button> }
                                 </button>
                             </div>
-                            <button className="w-fit bg-[#0C203B] mt-2 text-white p-2 px-3 rounded-md self-end">Compare</button>
+                            <button className="w-fit bg-[#0C203B] mt-2 text-white p-2 px-3 rounded-md self-end"
+                                onClick={() => setOpen(true)}
+                            >Compare</button>
                         </div>
                     </div>
                 </div>
@@ -124,7 +191,7 @@ const selectedProductImage2 = localStorage.getItem('selectedProductImage2');
                         ))}
                     </Swiper>
                     <div className='flex justify-center mt-12 w-full'>
-                        <Link className='bg-[#0C203B] text-white p-2 rounded-md' to={"/products"}>View All Products</Link>
+                        <button onClick={handleViewAllProducts} className='bg-[#0C203B] text-white p-2 rounded-md'>View All Products</button>
                     </div>
                 </div>
             </div>
@@ -171,6 +238,9 @@ const selectedProductImage2 = localStorage.getItem('selectedProductImage2');
                      </div>
                 ))}
             </Modal>
+            <ComparisonDrawer 
+                open={open}
+                onClose={onClose} comparisonData={undefined}             />
         </div>
     );
 };

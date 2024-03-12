@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { NavLink, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const HomeNav = () => {
   const location = useLocation();
@@ -10,6 +11,12 @@ const HomeNav = () => {
     const path = location.pathname.substring(1);
     setSelectedMenu(path || 'home');
   }, [location]);
+  const isLogin = localStorage.getItem("KomparasLoginsInfo");
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem("KomparasLoginsInfo");
+    navigate("/login");
+  }
 
   return (
     <nav className='w-full lg:flex hidden justify-between px-20 pb-3 pt-7 border-black border-b bg-white'>
@@ -43,7 +50,9 @@ const HomeNav = () => {
             selectedMenu === 'login' ? 'underline underline-offset-4' : ''
           }`}
         >
-          <NavLink to='/login'>Signup</NavLink>
+          <button onClick={handleLogout}>
+            {isLogin ? "Logout" : "Login"}
+          </button>
         </li>
       </ul>
       <div className='searchBar bg-[#F5F5F5] rounded-md pr-3'>

@@ -20,10 +20,12 @@ const Products = () => {
     const [refresh, setRefresh] = useState(false);
     const [deleteRefresh, setDeleteRefresh] = useState(false);
     const loginInfo: any = localStorage.getItem('KomparasLoginsInfo');
-    const userId = JSON.parse(loginInfo)._id;
+    const userId = JSON.parse(loginInfo)?._id;
     const [categories, setCategories] = useState<any>([]);
     const [shops, setShops] = useState<any>([]);
-
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
     useEffect(() => {
         const fetchCategories = async () => {
             const data = await getAllCategories();            

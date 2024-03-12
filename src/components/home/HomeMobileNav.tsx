@@ -1,8 +1,10 @@
 import { Menu, Dropdown, Button } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { HiBars3BottomLeft } from "react-icons/hi2";
 import { FaSearch } from 'react-icons/fa';
+
+
 
 const MobileHomeNav = () => {
   const menu = (
@@ -24,6 +26,12 @@ const MobileHomeNav = () => {
       </Menu.Item>
     </Menu>
   );
+  const isLogin = localStorage.getItem("KomparasLoginsInfo");
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem("KomparasLoginsInfo");
+    navigate("/login");
+  }
 
   const burgerMenu = (
     <Menu>
@@ -43,9 +51,11 @@ const MobileHomeNav = () => {
         </Link>
       </Menu.Item>
       <Menu.Item key="3">
-        <Link to="/login">
-          <a>Signup</a>
-        </Link>
+        <button onClick={handleLogout}>
+          <a>
+            {isLogin ? "Logout" : "Login"}
+          </a>
+        </button>
       </Menu.Item>
     </Menu>
   );
