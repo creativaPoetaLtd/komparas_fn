@@ -565,29 +565,41 @@ const Products = () => {
                                     <div className='w-full h-fit m-auto flex flex-col justify-center items-start bg-white rounded-md p-2'>
                                         <Link to={`/product/${product?._id}`} className='text-sm font-semibold'>{product?.product_name?.length > 40 ? product?.product_name?.substring(0, 40) + '...' : product?.product_name?.substring(0, 40)}</Link>
                                         {(() => {
-                                            const vendorPrices = product?.vendor_prices?.map((vendor: any) => vendor.price) || [];
+                                            // If shopst is empty, use all vendor prices; otherwise, filter by selected shops
+                                            const filteredVendorPrices =
+                                                shopst.length > 0
+                                                ? product?.vendor_prices?.filter((vendor: any) => shopst.includes(vendor.vendor_id)) || []
+                                                : product?.vendor_prices || [];
+
+                                            // Extract prices from the filtered vendor prices
+                                            const vendorPrices = filteredVendorPrices.map((vendor: any) => vendor.price) || [];
+
+                                            // Find the lowest price among the filtered vendor prices
                                             const lowestVendorPrice = vendorPrices.length > 0 ? Math.min(...vendorPrices) : null;
+
+                                            // Check if the lowest vendor price is less than our_price
                                             const shouldShowDiscount = lowestVendorPrice !== null && lowestVendorPrice < product.our_price;
 
+                                            // Format prices for display
                                             const formattedOurPrice = product.our_price.toLocaleString("en-US", { maximumFractionDigits: 2 });
                                             const formattedLowestVendorPrice = lowestVendorPrice !== null ? lowestVendorPrice.toLocaleString("en-US", { maximumFractionDigits: 2 }) : null;
 
                                             if (shouldShowDiscount) {
                                                 return (
-                                                    <>
-                                                        <p className="text-sm text-gray-600 line-through">
-                                                            {formattedOurPrice} Rwf
-                                                        </p>
-                                                        <Link to={`/product/${product?._id}`} className="text-sm text-green-600 flex justify-end mx-auto">
-                                                            {formattedLowestVendorPrice} Rwf
-                                                        </Link>
-                                                    </>
+                                                <>
+                                                    <p className="text-sm text-gray-600 line-through">
+                                                    {formattedOurPrice} Rwf
+                                                    </p>
+                                                    <Link to={`/product/${product?._id}`} className="text-sm text-green-600 flex justify-end mx-auto">
+                                                    {formattedLowestVendorPrice} Rwf
+                                                    </Link>
+                                                </>
                                                 );
                                             }
 
                                             return (
                                                 <Link to={`/product/${product?._id}`} className="text-sm text-green-600 flex justify-end mx-auto py-2">
-                                                    {formattedLowestVendorPrice !== null ? `${formattedLowestVendorPrice} Rwf` : `${formattedOurPrice} Rwf`}
+                                                {formattedLowestVendorPrice !== null ? `${formattedLowestVendorPrice} Rwf` : `${formattedOurPrice} Rwf`}
                                                 </Link>
                                             );
                                         })()}
