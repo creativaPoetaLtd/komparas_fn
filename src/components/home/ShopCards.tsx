@@ -4,8 +4,11 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 import { FaShoppingBag } from 'react-icons/fa';
+import { getAllShops } from '../../api/getAllShops';
 
 const ShopCards: React.FC = () => {
+
+
 
   const PrevArrow = (props: any) => {
     const { onClick } = props;
@@ -30,32 +33,42 @@ const ShopCards: React.FC = () => {
       </button>
     );
   };
-
-  const settings = {
-    dots: false,
+  const settings: { current: number, prevArrow:any,nextArrow:any, responsive:any, dots: boolean, dotsClass: string, infinite: boolean, speed: number, slidesToShow: number, slidesToScroll: number, autoplay:boolean, autoplaySpeed:number, pauseOnHover: boolean  } = {
+    current: 0,
+    dots: true,
+    dotsClass: "slick-dots slick-thumb",
     infinite: true,
     speed: 500,
-    slidesToShow: 7,
-    gap: 10,
+    slidesToShow: 5,
     slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    pauseOnHover: true,
     prevArrow: <NextArrow />,
     nextArrow: <PrevArrow />,
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 4,
+          slidesToShow: 1,
         }
       },
       {
         breakpoint: 768,
         settings: {
-          slidesToShow: 3,
+          slidesToShow: 1,
         }
       }
-    ]
+    ],
   };
-
+  const [shops, setShops] = React.useState<any>([]);
+  React.useEffect(() => {
+    const fetchShops = async () => {
+      const response = await getAllShops();
+      setShops(response?.data);
+    }
+    fetchShops();
+  }, []);  
   return (
     <div className="lg:px-16 px-2 py-10">
       <div className='flex flex-col md:px-7 px-3 pb-6'>
@@ -66,18 +79,25 @@ const ShopCards: React.FC = () => {
         </div>
         <h1 className='flex text-2xl text-[#0C203B] mt-3 font-semibold'>Browse By Shop</h1>
       </div>
+      {shops.length > 0 ? (
       <Slider {...settings}
         className="flex justify-center"
       >
-        {[...Array(10)].map((_, index) => (
-          <div key={index} className="bg-white p-2 md:px-6 px-3  w-32 h-32 rounded-md ">
+          {shops.map((category: any) => (
+          <div  className="bg-white p-2 md:px-6 px-3  w-32 h-32 rounded-md ">
             <div className="flex flex-col space-y-2 rounded-md border-gray-300 border-[1px] items-center justify-center h-full">
               <FaShoppingBag className="text-5xl" />
-              <h1 className='text-sm'>Ibanga Shop</h1>
+              <h1 className='text-sm'>{category?.name}</h1>
             </div>
           </div>
         ))}
       </Slider>
+      ) : (
+        <div className="loading flex justify-center items-center h-40">
+          <div className="loader"></div>  
+          </div>
+      )}
+
     </div>
   );
 };

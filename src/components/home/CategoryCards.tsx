@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -11,6 +11,7 @@ import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 import { Phone } from '@phosphor-icons/react';
 // import { MdNoDrinks, MdOutlineElectricCar } from 'react-icons/md';
 // import { CgGirl } from 'react-icons/cg';
+import { getAllCategories } from '../../api/getAllCategories';
 
 const CategoryCards: React.FC = () => {
 
@@ -38,30 +39,46 @@ const CategoryCards: React.FC = () => {
     );
   };
 
-  const settings = {
-    dots: false,
+  const settings: { current: number, prevArrow:any,nextArrow:any, responsive:any, dots: boolean, dotsClass: string, infinite: boolean, speed: number, slidesToShow: number, slidesToScroll: number, autoplay:boolean, autoplaySpeed:number, pauseOnHover: boolean  } = {
+    current: 0,
+    dots: true,
+    dotsClass: "slick-dots slick-thumb",
     infinite: true,
     speed: 500,
-    slidesToShow: 7,
-    gap: 10,
+    slidesToShow: 3,
     slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    pauseOnHover: true,
     prevArrow: <NextArrow />,
     nextArrow: <PrevArrow />,
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 4,
+          slidesToShow: 1,
         }
       },
       {
         breakpoint: 768,
         settings: {
-          slidesToShow: 3,
+          slidesToShow: 1,
         }
       }
-    ]
+    ],
   };
+  const [categories, setCategories] = useState<any>([]);
+
+  useEffect(() => {
+      const fetchCategories = async () => {
+          const data = await getAllCategories();            
+          setCategories(data?.data);
+          console.log('Categories', data?.data);
+          
+      }
+      fetchCategories();
+  }
+  , []);
 
   return (
     <div className="lg:px-16 px-2 py-10">
@@ -69,22 +86,27 @@ const CategoryCards: React.FC = () => {
         <div className="flex justify-start items-start">
           <div className="flex w-[20px] h-[40px] rounded-md bg-[#EDB62E]">
           </div>
-          <h1 className="text-lg flex my-auto justify-center font-bold ml-2 text-[#EDB62E]">Shops</h1>
+          <h1 className="text-lg flex my-auto justify-center font-bold ml-2 text-[#EDB62E]">Categories</h1>
         </div>
-        <h1 className='flex text-2xl text-[#0C203B] mt-3 font-semibold'>Browse By Shop</h1>
+        <h1 className='flex text-2xl text-[#0C203B] mt-3 font-semibold'>Browse By Categories</h1>
       </div>
+      {categories.length > 0 ? (
       <Slider {...settings}
         className="flex justify-center"
       >
-        {[...Array(10)].map((_, index) => (
-          <div key={index} className="bg-white p-2 md:px-6 px-3  w-32 h-32 rounded-md ">
+          {categories.map((category: any) => (
+          <div  className="bg-white p-2 md:px-6 px-3  w-32 h-32 rounded-md ">
             <div className="flex flex-col space-y-2 rounded-md border-gray-300 border-[1px] items-center justify-center h-full">
               <Phone className="text-5xl" />
-              <h1 className='text-sm'>Phone</h1>
+              <h1 className='text-sm'>{category?.name}</h1>
             </div>
           </div>
         ))}
       </Slider>
+      ) : (
+        <div>Loading...</div>
+      )}
+      
     </div>
   );
 };
