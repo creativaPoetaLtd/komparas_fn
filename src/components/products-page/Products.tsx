@@ -44,15 +44,7 @@ const Products = () => {
     }
     , []);
 
-    // const handleCategoryClick = async (categoryId: string) => {
-    //     try {
-    //         const response = await getProductOnCategory(categoryId); // Implement this API function to fetch products by category
-    //         const productsByCategory = response?.data?.products;
-    //         setProductsData(productsByCategory);
-    //     } catch (error) {
-    //         console.error('Error fetching products by category:', error);
-    //     }
-    // };
+ 
 
     const [selectedShop, setSelectedShop] = useState<string | null>(null);
 
@@ -106,7 +98,7 @@ const Products = () => {
         return await resData;
     };
     const cardsPerPage = 10;
-    const totalProducts = productsData.length;
+    const totalProducts = productsData?.length;
     const [open, setOpen] = useState(false);
     const showDrawer = () => {
         setOpen(true);
@@ -127,11 +119,11 @@ const Products = () => {
     const [autocompleteOptions, setAutocompleteOptions] = useState<string[]>([]);
     useEffect(() => {
         const fetchProducts = async () => {
-            const response = await getAllProducts();
+            const response = await getAllProducts(20,40);
             const allProducts = response?.data?.products;
-            const productNames = allProducts.map((product: any) => product.product_name);
+            const productNames = allProducts?.map((product: any) => product.product_name);
             setAutocompleteOptions(productNames);
-            const filteredProducts = allProducts.filter((product: any) =>
+            const filteredProducts = allProducts?.filter((product: any) =>
                 product.product_name.toLowerCase().includes(searchValue.toLowerCase())
             ).map((product: any) => ({
                 ...product,
@@ -145,7 +137,7 @@ const Products = () => {
         setSearchValue(event.target.value);
     };
     const deleteProductFromComparison = async (productIdToDelete: any) => {
-        const comparisonToDelete = comparisonData.comparisons.find((comparison: { productId: any; }) =>
+        const comparisonToDelete = comparisonData?.comparisons.find((comparison: { productId: any; }) =>
             comparison.productId === productIdToDelete
         );
         if (comparisonToDelete) {
@@ -195,7 +187,7 @@ const Products = () => {
             <MobileHomeNav />
             <div className='w-full bg-white h-fit justify-between lg:px-6 px-2 lg:pl-20 pl-2 flex flex-col'>
                 <div className='w-full mt-6 h-fit flex flex-row'>
-                    <SideBar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} categories={categories} shops={shops} handleCategoryClick={handleCategoryClick} handleShopCkik={handleShopClick} />
+                    <SideBar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} categories={categories} shops={shops} productsData={productsData} handleCategoryClick={handleCategoryClick} handleShopCkik={handleShopClick} />
                     <div className={`lg:w-[70%] md:w-full w-full flex flex-col h-fit ${isSidebarOpen ? "hidden" : ""}`}>
                         <div className='topMenus w-full flex md:flex-row flex-col justify-between'>
                             <div className='searchBar md:w-[50%] w-full bg-[#F5F5F5] rounded-md pr-3'>
@@ -208,7 +200,7 @@ const Products = () => {
                                     list="autocomplete-options"
                                 />
                                 <datalist draggable id="autocomplete-options" className=''>
-                                    {autocompleteOptions.map((option, index) => (
+                                    {autocompleteOptions?.map((option, index) => (
                                         <option key={index} value={option} />
                                     ))}
                                 </datalist>

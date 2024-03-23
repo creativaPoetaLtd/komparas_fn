@@ -2,7 +2,25 @@ import { useState } from 'react';
 import RadioInput from './RadioButton';
 import { Slider } from 'antd';
 
-const SliderBar = () => {
+interface SliderBarProps {
+    productsData: any;
+}
+
+const SliderBar = ({ productsData }: SliderBarProps) => {
+
+
+    const product = productsData?.map((product: any) => {
+        return {
+            id: product._id,
+            price: product.vendor_prices?.reduce((prev: any, current: any) => (prev.price < current.price) ? prev : current).price,
+        };
+    }
+    );
+
+    console.log("producdddddddddddddddddddddddtsData", product);
+
+ 
+    
     const [selectedPriceRange, setSelectedPriceRange] = useState<any>('All price');
     const handleSliderChange = (values: any) => {
         updateSelectedPriceRange(values);
