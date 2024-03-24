@@ -10,9 +10,9 @@ interface SideBarProps {
     shops: any;
     handleCategoryClick: (name: string) => void;
     handleShopCkik: (id: string, name:string) => void;
-    productsData: any;
+    onPriceRangeChange: (minPrice: number, maxPrice: number) => void;
 }
-const SideBar: React.FC<SideBarProps> = ({ isOpen, toggleSidebar, categories, shops, handleCategoryClick, handleShopCkik, productsData }) => {
+const SideBar: React.FC<SideBarProps> = ({ isOpen, toggleSidebar, categories, shops, handleCategoryClick, handleShopCkik, onPriceRangeChange }) => {
   return (
     <div className={`lg:w-[25%] md:hiddenf hiddenf min-h-screen  lg:flex flex-col h-fit pr-4 ${isOpen ? 'md:flex flex w-full z-30':'h hidden'}`}>
     <div className='flex flex-col relative'>
@@ -26,7 +26,7 @@ const SideBar: React.FC<SideBarProps> = ({ isOpen, toggleSidebar, categories, sh
             ))}
         </div>
     </div>
-   <SliderBar productsData={productsData} />
+   <SliderBar onPriceRangeChange={onPriceRangeChange}/>
     <div className='brands flex flex-col mt-3'>
         <p className='text-sm font-semibold text-gray-600'>Shops</p>
         <div className='flex-col grid grid-cols-2 mt-5'>

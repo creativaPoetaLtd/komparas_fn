@@ -1,33 +1,22 @@
-import { useState } from 'react';
-import RadioInput from './RadioButton';
+import React, { useState } from 'react';
 import { Slider } from 'antd';
+import RadioInput from './RadioButton';
 
 interface SliderBarProps {
-    productsData: any;
+    onPriceRangeChange: (minPrice: number, maxPrice: number) => void;
 }
 
-const SliderBar = ({ productsData }: SliderBarProps) => {
-
-
-    const product = productsData?.map((product: any) => {
-        return {
-            id: product._id,
-            price: product.vendor_prices?.reduce((prev: any, current: any) => (prev.price < current.price) ? prev : current).price,
-        };
-    }
-    );
-
-    console.log("producdddddddddddddddddddddddtsData", product);
-
- 
-    
+const SliderBar: React.FC<SliderBarProps> = ({ onPriceRangeChange }) => {
     const [selectedPriceRange, setSelectedPriceRange] = useState<any>('All price');
+
     const handleSliderChange = (values: any) => {
-        updateSelectedPriceRange(values);
+        const minPrice: number = values[0];
+        const maxPrice: number = values[1];
+        updateSelectedPriceRange(minPrice, maxPrice);
+        onPriceRangeChange(minPrice, maxPrice);
     };
-    const updateSelectedPriceRange = (values: any) => {
-        const min: any = values[0];
-        const max: any = values[1];
+
+    const updateSelectedPriceRange = (min: number, max: number) => {
         let selectedRange: any = '';
         if (min === 20 && max === 50) {
             selectedRange = 'All price';
@@ -52,7 +41,7 @@ const SliderBar = ({ productsData }: SliderBarProps) => {
             <Slider
                 style={{ color: '#EDB62E' }}
                 range
-                defaultValue={[0, 300]}
+                defaultValue={[20, 50]}
                 className='text-yellow-600 mt-5'
                 onChange={handleSliderChange}
                 max={300}

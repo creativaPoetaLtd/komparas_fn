@@ -117,22 +117,30 @@ const Products = () => {
     };
     const [searchValue, setSearchValue] = useState("");
     const [autocompleteOptions, setAutocompleteOptions] = useState<string[]>([]);
-    useEffect(() => {
-        const fetchProducts = async () => {
-            const response = await getAllProducts(20,40);
-            const allProducts = response?.data?.products;
-            const productNames = allProducts?.map((product: any) => product.product_name);
-            setAutocompleteOptions(productNames);
-            const filteredProducts = allProducts?.filter((product: any) =>
-                product.product_name.toLowerCase().includes(searchValue.toLowerCase())
-            ).map((product: any) => ({
-                ...product,
-                checked: comparedProductId?.includes(product._id)
-            }));
-            setProductsData(filteredProducts);
-        };
-        fetchProducts();
-    }, [searchValue,refresh, deleteRefresh]);
+    const [minPrice, setMinPrice] = useState<number>(0);
+const [maxPrice, setMaxPrice] = useState<number>(300);
+
+const handlePriceRangeChange = (min: number, max: number) => {
+    setMinPrice(min);
+    setMaxPrice(max);
+};
+
+useEffect(() => {
+    const fetchProducts = async () => {
+        const response = await getAllProducts(minPrice, maxPrice);
+        const allProducts = response?.data?.products;
+        const productNames = allProducts?.map((product: any) => product.product_name);
+        setAutocompleteOptions(productNames);
+        const filteredProducts = allProducts?.filter((product: any) =>
+            product.product_name.toLowerCase().includes(searchValue.toLowerCase())
+        ).map((product: any) => ({
+            ...product,
+            checked: comparedProductId?.includes(product._id)
+        }));
+        setProductsData(filteredProducts);
+    };
+    fetchProducts();
+}, [searchValue, refresh, deleteRefresh, minPrice, maxPrice]);
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchValue(event.target.value);
     };
@@ -187,7 +195,7 @@ const Products = () => {
             <MobileHomeNav />
             <div className='w-full bg-white h-fit justify-between lg:px-6 px-2 lg:pl-20 pl-2 flex flex-col'>
                 <div className='w-full mt-6 h-fit flex flex-row'>
-                    <SideBar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} categories={categories} shops={shops} productsData={productsData} handleCategoryClick={handleCategoryClick} handleShopCkik={handleShopClick} />
+                    <SideBar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} categories={categories} shops={shops} handleCategoryClick={handleCategoryClick} handleShopCkik={handleShopClick} onPriceRangeChange={handlePriceRangeChange} />
                     <div className={`lg:w-[70%] md:w-full w-full flex flex-col h-fit ${isSidebarOpen ? "hidden" : ""}`}>
                         <div className='topMenus w-full flex md:flex-row flex-col justify-between'>
                             <div className='searchBar md:w-[50%] w-full bg-[#F5F5F5] rounded-md pr-3'>
