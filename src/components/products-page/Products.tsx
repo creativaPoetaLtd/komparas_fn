@@ -6,7 +6,7 @@ import HomeNav from '../home/HomeNav'
 import MobileHomeNav from '../home/HomeMobileNav'
 import { FaSearch, FaTimes } from 'react-icons/fa'
 import { MdFilterList } from 'react-icons/md';
-import { getAllProducts, getComparison, getProductOnCategory } from '../../api/product';
+import { getAllProducts, getComparison } from '../../api/product';
 import ComparisonDrawer from './ComparisonDrawer';
 import { baseUrl } from '../../api';
 import PorductCheckInput from './ProdCheck';
@@ -28,28 +28,28 @@ const Products = () => {
     }, []);
     useEffect(() => {
         const fetchCategories = async () => {
-            const data = await getAllCategories();            
+            const data = await getAllCategories();
             setCategories(data?.data);
         }
         fetchCategories();
     }
-    , []);
+        , []);
 
     useEffect(() => {
         const fetchShops = async () => {
-            const data = await getAllShops();            
+            const data = await getAllShops();
             setShops(data?.data);
         }
         fetchShops();
     }
-    , []);
+        , []);
 
- 
+
 
     const [selectedShop, setSelectedShop] = useState<string | null>(null);
 
 
-    const handleShopClick = async (shopId: string , name:any) => {
+    const handleShopClick = async (shopId: string, name: any) => {
         try {
             setSelectedShop(name);
             const response = await getProductOnShop(shopId); // Implement this API function to fetch products by category
@@ -59,11 +59,11 @@ const Products = () => {
             console.error('Error fetching products by category:', error);
         }
     };
-    
+
     const handleRefresh = () => {
         setRefresh(!refresh);
     }
-    const handleDeleteRefresh = () => { 
+    const handleDeleteRefresh = () => {
         setDeleteRefresh(!deleteRefresh);
     }
     const [comparisonData, setComparisonData] = useState<any>([]);
@@ -90,7 +90,7 @@ const Products = () => {
         if (resData?.comparison?.userId) {
             toast.success(resData?.message);
             handleRefresh();
-            getComparison(userId);  
+            getComparison(userId);
             handleDeleteRefresh();
         } else {
             toast.error(resData?.message);
@@ -118,29 +118,39 @@ const Products = () => {
     const [searchValue, setSearchValue] = useState("");
     const [autocompleteOptions, setAutocompleteOptions] = useState<string[]>([]);
     const [minPrice, setMinPrice] = useState<number>(0);
-const [maxPrice, setMaxPrice] = useState<number>(300);
+    const [maxPrice, setMaxPrice] = useState<number>(300);
 
-const handlePriceRangeChange = (min: number, max: number) => {
-    setMinPrice(min);
-    setMaxPrice(max);
-};
-
-useEffect(() => {
-    const fetchProducts = async () => {
-        const response = await getAllProducts(minPrice, maxPrice);
-        const allProducts = response?.data?.products;
-        const productNames = allProducts?.map((product: any) => product.product_name);
-        setAutocompleteOptions(productNames);
-        const filteredProducts = allProducts?.filter((product: any) =>
-            product.product_name.toLowerCase().includes(searchValue.toLowerCase())
-        ).map((product: any) => ({
-            ...product,
-            checked: comparedProductId?.includes(product._id)
-        }));
-        setProductsData(filteredProducts);
+    const handlePriceRangeChange = (min: number, max: number) => {
+        setMinPrice(min);
+        setMaxPrice(max);
     };
-    fetchProducts();
-}, [searchValue, refresh, deleteRefresh, minPrice, maxPrice]);
+
+    const [categoryId, setCategoryId] = useState<string>("");
+
+    const handleCategoryClick = async (categoryId: string) => {
+        handleRefresh();
+        setCategoryId(categoryId);
+        handleRefresh();
+
+    }
+         
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            const response = await getAllProducts(minPrice, maxPrice, categoryId);
+            const allProducts = response?.data?.products;
+            const productNames = allProducts?.map((product: any) => product.product_name);
+            setAutocompleteOptions(productNames);
+            const filteredProducts = allProducts?.filter((product: any) =>
+                product.product_name.toLowerCase().includes(searchValue.toLowerCase())
+            ).map((product: any) => ({
+                ...product,
+                checked: comparedProductId?.includes(product._id)
+            }));
+            setProductsData(filteredProducts);
+        };
+        fetchProducts();
+    }, [searchValue, refresh, deleteRefresh, minPrice, maxPrice]);
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchValue(event.target.value);
     };
@@ -164,16 +174,16 @@ useEffect(() => {
     };
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
-    const handleCategoryClick = async (categoryName: string) => {
-        try {
-            setSelectedCategory(categoryName);
-            const response = await getProductOnCategory(categoryName);
-            const productsByCategory = response?.data?.products;
-            setProductsData(productsByCategory);
-        } catch (error) {
-            console.error('Error fetching products by category:');
-        }
-    };
+    // const  = async (categoryName: string) => {
+    //     try {
+    //         setSelectedCategory(categoryName);
+    //         const response = await getProductOnCategory(categoryName);
+    //         const productsByCategory = response?.data?.products;
+    //         setProductsData(productsByCategory);
+    //     } catch (error) {
+    //         console.error('Error fetching products by category:');
+    //     }
+    // };
 
     const clearFilters = (filterType: string) => {
         if (filterType === 'category' || filterType === 'shop') {
@@ -234,8 +244,8 @@ useEffect(() => {
                                 <p className='text-xs my-auto ml-2 font-medium text-yellow-600'>{selectedCategory}</p>
                                 <p className='text-xs my-auto ml-2 font-medium text-yellow-600'>{selectedShop}</p>
                                 <button className='flex ml-2' onClick={() => clearFilters('category')}>
-                                <p className='text-sm my-auto ml-2 font-semibold'>Clear All</p>
-                                <FaTimes className='text-sm my-auto ml-2 font-semibold' />
+                                    <p className='text-sm my-auto ml-2 font-semibold'>Clear All</p>
+                                    <FaTimes className='text-sm my-auto ml-2 font-semibold' />
                                 </button>
                             </div>
                             <div className='flex flex-row'>
@@ -284,12 +294,12 @@ useEffect(() => {
             <button onClick={showDrawer} className='fixed bottom-10 right-10 bg-yellow-500 p-3 rounded-full text-white'>
                 <p className='text-sm'>Compare {compLemgth} items</p>
             </button>
-            <ComparisonDrawer 
-            handleDelete={deleteProductFromComparison}
-            open={open} 
-            onClose={onClose}
-            comparisonData={comparisonData}
-             />
+            <ComparisonDrawer
+                handleDelete={deleteProductFromComparison}
+                open={open}
+                onClose={onClose}
+                comparisonData={comparisonData}
+            />
         </div>
     );
 };

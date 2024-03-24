@@ -22,7 +22,7 @@ const SideBar: React.FC<SideBarProps> = ({ isOpen, toggleSidebar, categories, sh
         </button>
         <div className='flex flex-col mt-4'>
             {categories?.map((category: any) => (
-                <RadioInputMain key={category._id} label={category.name} name='category' onClick={() => handleCategoryClick(category?.id)} />
+                <RadioInputMain key={category._id} label={category.name} name='category' onClick={() => handleCategoryClick(category?._id)} />
             ))}
         </div>
     </div>

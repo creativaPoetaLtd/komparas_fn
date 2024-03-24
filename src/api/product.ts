@@ -1,14 +1,25 @@
 import { baseUrl } from '.';
 import axios from "axios";
 
-export const getAllProducts = async (minPrice?:any, maxPrice?:any) => {
+export const getAllProducts = async (minPrice?: number, maxPrice?: number, categoryId?: string, vendorId?: string, ram?: string) => {
   let res:any
+  let url = `${baseUrl}/products`
   if(minPrice && maxPrice){
-     res = axios.get(`${baseUrl}/products?minPrice=${minPrice}&maxPrice=${maxPrice}`);
-    return await res;
+    url += `?minPrice=${minPrice}&maxPrice=${maxPrice}`;
   }
-   res = axios.get(`${baseUrl}/products`);
-  // const res = axios.get(`${baseUrl}/products?minPrice=${minPrice}`);
+  if (categoryId) {
+    url += `&category=${categoryId}`;
+  }
+
+  if (vendorId) {
+    url += `&vendor_id=${vendorId}`;
+  }
+
+  if (ram) {
+    url += `&ram=${ram}`;
+  }
+
+   res = axios.get(url);
   return await res;
 }
 
