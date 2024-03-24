@@ -15,7 +15,6 @@ const SliderBar: React.FC<SliderBarProps> = ({ onPriceRangeChange }) => {
         updateSelectedPriceRange(minPrice, maxPrice);
         onPriceRangeChange(minPrice, maxPrice);
     };
-
     const updateSelectedPriceRange = (min: number, max: number) => {
         let selectedRange: any = '';
         if (min === 20 && max === 50) {
@@ -31,7 +30,6 @@ const SliderBar: React.FC<SliderBarProps> = ({ onPriceRangeChange }) => {
         } else if (max > 200) {
             selectedRange = '$200 & Above';
         }
-
         setSelectedPriceRange(selectedRange);
     };
 
