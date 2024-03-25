@@ -8,20 +8,15 @@ interface Props {
     checked: boolean;
     onUncheck: (productData: any) => void;
 }   
-
-
 const PorductCheckInput: React.FC<Props> = ({ label, name, productData, addProductToCompare, checked, onUncheck }) => {
     const handleCheckboxChange = (event: { target: { checked: any; }; }) => {
         if (event.target.checked) {
             addProductToCompare(productData);
         }
     };
-
     const handleUncheck = () => {
         onUncheck(productData);
     }
-
-
     return (
         <div className='flex items-center'>
             <input

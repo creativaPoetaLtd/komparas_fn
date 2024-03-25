@@ -13,7 +13,8 @@ import PorductCheckInput from './ProdCheck';
 import { toast } from 'react-toastify';
 import { getAllCategories } from '../../api/getAllCategories';
 import { getAllShops } from '../../api/getAllShops';
-import { getProductOnShop } from '../../api/product';
+import { Eye, EyeSlash } from '@phosphor-icons/react';
+// import { getProductOnShop } from '../../api/product';
 const Products = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [productsData, setProductsData] = useState<any[]>([]);
@@ -23,6 +24,53 @@ const Products = () => {
     const userId = JSON.parse(loginInfo)?._id;
     const [categories, setCategories] = useState<any>([]);
     const [shops, setShops] = useState<any>([]);
+    const [activeFilters, setActiveFilters] = useState<any[]>([]);
+
+    const clearFilter = (filterType: any) => {
+        handleRefresh();
+        if (filterType === categoryName) {
+            handleRefresh();
+            setCategoryName('');
+            setCategoryId('');
+            handleRefresh();
+        } else if (filterType === selectedShop) {
+            handleRefresh();
+            setSelectedShop(null);
+            setSelectedShopId('');
+            handleRefresh();
+        } else if (filterType === `RAM: ${selectedRam}`) {
+            handleRefresh();
+            setSelectedRam('');
+            handleRefresh();
+        } else if (filterType === `Storage: ${selectedStorage}`) {
+            handleRefresh();
+            setSelectedStorage('');
+            handleRefresh();
+        } else if (filterType === `Camera: ${selectedCamera}`) {
+            handleRefresh();
+            setSelectedCamera('');
+            handleRefresh();
+        } else if (filterType === `Type: ${selectedType}`) {
+            handleRefresh();
+            setSelectedType('');
+            handleRefresh();
+        }
+        handleRefresh();
+    };
+
+    // Clear all filters
+    const clearFilters = () => {
+        handleRefresh();
+        setCategoryName('');
+        setCategoryId('');
+        setSelectedStorage('');
+        setSelectedCamera('');
+        setSelectedType('');
+        setSelectedShopId('');
+        setSelectedShop(null);
+        setSelectedRam('');
+        handleRefresh();
+    };
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -44,22 +92,14 @@ const Products = () => {
     }
         , []);
 
-
-
     const [selectedShop, setSelectedShop] = useState<string | null>(null);
-
-
+    const [selectedShopId, setSelectedShopId] = useState<string>();
     const handleShopClick = async (shopId: string, name: any) => {
-        try {
-            setSelectedShop(name);
-            const response = await getProductOnShop(shopId); // Implement this API function to fetch products by category
-            const productsByShop = response?.data?.products;
-            setProductsData(productsByShop);
-        } catch (error) {
-            console.error('Error fetching products by category:', error);
-        }
+        handleRefresh();
+        setSelectedShop(name);
+        setSelectedShopId(shopId);
+        handleRefresh();
     };
-
     const handleRefresh = () => {
         setRefresh(!refresh);
     }
@@ -126,22 +166,74 @@ const Products = () => {
     };
 
     const [categoryId, setCategoryId] = useState<string>("");
+    const [categoryName, setCategoryName] = useState<string>("");
 
-    const handleCategoryClick = async (categoryId: string) => {
+    const handleCategoryClick = async (categoryId: string, categoryName: string) => {
         handleRefresh();
         setCategoryId(categoryId);
+        setCategoryName(categoryName);
         handleRefresh();
-
     }
-         
+
+    const [selectedRam, setSelectedRam] = useState<string>();
+
+    const handleSelectRam = async (ram: string) => {
+        handleRefresh();
+        setSelectedRam(ram);
+        handleRefresh();
+    };
+
+    const [selectedStorage, setSelectedStorage] = useState<string>();
+
+    const handleSelectStorage = async (storage: string) => {
+        handleRefresh();
+        setSelectedStorage(storage);
+        handleRefresh();
+    };
+
+    const [selectedCamera, setSelectedCamera] = useState<string>();
+
+    const handleSelectCamera = async (camera: string) => {
+        handleRefresh();
+        setSelectedCamera(camera);
+        handleRefresh();
+    };
+
+    const [selectedType, setSelectedType] = useState<string>();
+
+    const handleSelectType = async (type: string) => {
+        handleRefresh();
+        setSelectedType(type);
+        handleRefresh();
+    };
+    const [sortOrder, setSortOrder] = useState<'ascending' | 'descending'>('ascending');
+
+    // Function to handle sorting based on the selected option
+    const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedValue = event.target.value;
+        if (selectedValue === 'ascending') {
+            setSortOrder('ascending');
+        } else if (selectedValue === 'descending') {
+            setSortOrder('descending');
+        }
+    };
 
     useEffect(() => {
         const fetchProducts = async () => {
-            const response = await getAllProducts(minPrice, maxPrice, categoryId);
+            const response = await getAllProducts(minPrice, maxPrice, categoryId, selectedShopId, selectedRam, selectedStorage, selectedCamera, selectedType);
             const allProducts = response?.data?.products;
-            const productNames = allProducts?.map((product: any) => product.product_name);
+            let sortedProducts = allProducts;
+
+            // Sort products based on the selected sort order
+            if (sortOrder === 'ascending') {
+                sortedProducts = allProducts?.sort((a:any, b:any) => a.product_name.localeCompare(b.product_name));
+            } else if (sortOrder === 'descending') {
+                sortedProducts = allProducts?.sort((a:any, b:any) => b.product_name.localeCompare(a.product_name));
+            }
+
+            const productNames = sortedProducts?.map((product: any) => product.product_name);
             setAutocompleteOptions(productNames);
-            const filteredProducts = allProducts?.filter((product: any) =>
+            const filteredProducts = sortedProducts?.filter((product: any) =>
                 product.product_name.toLowerCase().includes(searchValue.toLowerCase())
             ).map((product: any) => ({
                 ...product,
@@ -150,7 +242,7 @@ const Products = () => {
             setProductsData(filteredProducts);
         };
         fetchProducts();
-    }, [searchValue, refresh, deleteRefresh, minPrice, maxPrice]);
+    }, [searchValue, refresh, deleteRefresh, minPrice, maxPrice, sortOrder]);
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchValue(event.target.value);
     };
@@ -172,30 +264,45 @@ const Products = () => {
             }
         }
     };
-    const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
-    // const  = async (categoryName: string) => {
-    //     try {
-    //         setSelectedCategory(categoryName);
-    //         const response = await getProductOnCategory(categoryName);
-    //         const productsByCategory = response?.data?.products;
-    //         setProductsData(productsByCategory);
-    //     } catch (error) {
-    //         console.error('Error fetching products by category:');
-    //     }
-    // };
+    let filters: any[] = [];
 
-    const clearFilters = (filterType: string) => {
-        if (filterType === 'category' || filterType === 'shop') {
-            setSelectedCategory(null);
-            setSelectedShop(null);
-            const fetchAllProducts = async () => {
-                const response = await getAllProducts();
-                const allProducts = response?.data?.products;
-                setProductsData(allProducts);
-            };
-            fetchAllProducts();
+    const generateActiveFilters = () => {
+        if (categoryName) {
+            filters.push(categoryName);
         }
+        if (selectedShop) {
+            filters.push(selectedShop);
+        }
+        if (selectedRam) {
+            filters.push(`RAM: ${selectedRam}`);
+        }
+        if (selectedStorage) {
+            filters.push(`Storage: ${selectedStorage}`);
+        }
+        if (selectedCamera) {
+            filters.push(`Camera: ${selectedCamera}`);
+        }
+        if (selectedType) {
+            filters.push(`Type: ${selectedType}`);
+        }
+        // Add more filters as needed
+        return filters;
+    };
+
+    // Update active filters whenever relevant states change
+    useEffect(() => {
+        const activeFilters = generateActiveFilters();
+        setActiveFilters(activeFilters);
+    }, [categoryName, selectedShop, selectedRam]);
+
+    console.log("activeFilters", activeFilters);
+
+
+    const [isDropDownFilter, setIsDropDownFilter] = useState(false);
+
+    const handleSetDropDownFilter = () => {
+        setIsDropDownFilter(!isDropDownFilter);
     };
 
     return (
@@ -205,7 +312,7 @@ const Products = () => {
             <MobileHomeNav />
             <div className='w-full bg-white h-fit justify-between lg:px-6 px-2 lg:pl-20 pl-2 flex flex-col'>
                 <div className='w-full mt-6 h-fit flex flex-row'>
-                    <SideBar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} categories={categories} shops={shops} handleCategoryClick={handleCategoryClick} handleShopCkik={handleShopClick} onPriceRangeChange={handlePriceRangeChange} />
+                    <SideBar handleSelectRam={handleSelectRam} isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} categories={categories} shops={shops} handleCategoryClick={handleCategoryClick} handleShopCkik={handleShopClick} onPriceRangeChange={handlePriceRangeChange} handleSelectCamera={handleSelectCamera} handleSelectStorage={handleSelectStorage} handleSelectType={handleSelectType} />
                     <div className={`lg:w-[70%] md:w-full w-full flex flex-col h-fit ${isSidebarOpen ? "hidden" : ""}`}>
                         <div className='topMenus w-full flex md:flex-row flex-col justify-between'>
                             <div className='searchBar md:w-[50%] w-full bg-[#F5F5F5] rounded-md pr-3'>
@@ -228,24 +335,54 @@ const Products = () => {
                             </div>
                             <div className='w-fit flex md:mt-0 mt-3 self-end float-right justify-end'>
                                 <p className='text-sm my-auto'>Sort by:</p>
-                                <select className='ml-2 p-2 rounded-md bg-[#F5F5F5]'>
-                                    <option value="popularity">Popularity</option>
-                                    <option value="price">Price</option>
-                                    <option value="latest">Latest</option>
-                                </select>
+                                <select className='ml-2 p-2 rounded-md bg-[#F5F5F5]' onChange={handleSortChange}>
+                <option value="ascending">Ascending</option>
+                <option value="descending">Descending</option>
+            </select>
                             </div>
                         </div>
                         <div className='products justify-between w-full flex bg-[#F2F4F5] p-3 mt-3'>
-                            <div className='filtersDiv flex'>
+                            <div className='filtersDiv flex relative'>
                                 <button onClick={toggleSidebar}>
                                     <MdFilterList className='text-xl cursor-pointer flex lg:hidden my-auto mr-4' />
                                 </button>
                                 <p className='text-sm my-auto text-gray-600'>Active Filters:</p>
-                                <p className='text-xs my-auto ml-2 font-medium text-yellow-600'>{selectedCategory}</p>
-                                <p className='text-xs my-auto ml-2 font-medium text-yellow-600'>{selectedShop}</p>
-                                <button className='flex ml-2' onClick={() => clearFilters('category')}>
-                                    <p className='text-sm my-auto ml-2 font-semibold'>Clear All</p>
-                                    <FaTimes className='text-sm my-auto ml-2 font-semibold' />
+                                <button className='' onClick={handleSetDropDownFilter}><div className='flex md:hidden justify-center items-center my-auto ml-3 text-sm'>
+                                    {!isDropDownFilter ? <>
+                                        <Eye /><p className=' text-xs flex'>View</p>
+                                    </> : <><EyeSlash /><p className=' text-xs flex'>Hide</p></>}
+                                </div></button>
+                                {isDropDownFilter && (
+                                    <div className='flex z-0 absolute top-6 left-32 flex-col bg-gray-200 p-2 h-fit w-fit rounded-sm'>
+
+                                        {activeFilters.map((filter, index) => (
+                                            <div key={index} className=" items-center flex bg-gray-200 rounded-md p-1 m-1">
+                                                <p className="text-sm text-gray-800">{filter}</p>
+                                                <button onClick={() => clearFilter(filter)} className="ml-1 focus:outline-none">
+                                                    <FaTimes className="text-gray-500" />
+                                                </button>
+
+                                            </div>
+                                        ))}
+                                        <button onClick={() => {
+                                            clearFilters
+                                            handleSetDropDownFilter()
+                                        }} className="ml-2 w-fit text-sm flex text-gray-500 focus:outline-none">
+                                            <p className='text-sm'>Clear All</p>
+                                            <FaTimes className='flex justify-center my-auto ml-2' />
+                                        </button>
+                                    </div>
+                                )}
+                                {activeFilters.map((filter, index) => (
+                                    <div key={index} className="md:flex hidden items-center bg-gray-200 rounded-md p-1 m-1">
+                                        <p className="text-sm text-gray-800">{filter}</p>
+                                        <button onClick={() => clearFilter(filter)} className="ml-1 focus:outline-none">
+                                            <FaTimes className="text-gray-500" />
+                                        </button>
+                                    </div>
+                                ))}
+                                <button onClick={clearFilters} className="ml-2 md:flex hidden text-gray-500 focus:outline-none">
+                                    Clear All
                                 </button>
                             </div>
                             <div className='flex flex-row'>
