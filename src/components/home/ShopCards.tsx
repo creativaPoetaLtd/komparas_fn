@@ -5,6 +5,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 import { FaShoppingBag } from 'react-icons/fa';
 import { getAllShops } from '../../api/getAllShops';
+import { Link } from 'react-router-dom';
 
 const ShopCards: React.FC = () => {
 
@@ -84,12 +85,12 @@ const ShopCards: React.FC = () => {
         className="flex justify-center"
       >
           {shops.map((category: any) => (
-          <div  className="bg-white p-2 md:px-6 px-3  w-32 h-32 rounded-md ">
+          <Link  className="bg-white p-2 md:px-6 px-3  w-32 h-32 rounded-md " to={`/products?shopId=${category?._d}`}>
             <div className="flex flex-col space-y-2 rounded-md border-gray-300 border-[1px] items-center justify-center h-full">
               <FaShoppingBag className="text-5xl" />
               <h1 className='text-sm'>{category?.name}</h1>
             </div>
-          </div>
+          </Link>
         ))}
       </Slider>
       ) : (

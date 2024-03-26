@@ -28,8 +28,7 @@ const Products = () => {
     const [activeFilters, setActiveFilters] = useState<any[]>([]);
     const [searchParams] = useSearchParams();
     let catId = searchParams.get('categoryId');
-    console.log("categoryId", catId);
-    
+    let shopsId = searchParams.get('shopId');
     const clearFilter = (filterType: any) => {
         handleRefresh();
         if (filterType === categoryName) {
@@ -207,9 +206,10 @@ const Products = () => {
         }
     };
     const categoryIdToUse = categoryId ? categoryId : catId ? catId : '';
+    const shopIdToUse = selectedShopId ? selectedShopId : shopsId ? shopsId : '';
     useEffect(() => {
         const fetchProducts = async () => {
-            const response = await getAllProducts(minPrice, maxPrice, categoryIdToUse, selectedShopId, selectedRam, selectedStorage, selectedCamera, selectedType);
+            const response = await getAllProducts(minPrice, maxPrice, categoryIdToUse, shopIdToUse, selectedRam, selectedStorage, selectedCamera, selectedType);
             const allProducts = response?.data?.products;
             let sortedProducts = allProducts;
             if (sortOrder === 'ascending') {
