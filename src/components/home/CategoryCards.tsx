@@ -12,6 +12,7 @@ import { Phone } from '@phosphor-icons/react';
 // import { MdNoDrinks, MdOutlineElectricCar } from 'react-icons/md';
 // import { CgGirl } from 'react-icons/cg';
 import { getAllCategories } from '../../api/getAllCategories';
+import { Link } from 'react-router-dom';
 
 const CategoryCards: React.FC = () => {
 
@@ -95,12 +96,12 @@ const CategoryCards: React.FC = () => {
         className="flex justify-center"
       >
           {categories.map((category: any) => (
-          <div  className="bg-white p-2 md:px-6 px-3  w-32 h-32 rounded-md ">
+          <Link  className="bg-white p-2 md:px-6 px-3  w-32 h-32 rounded-md " to={`/products?categoryId=${category?._id}`}>
             <div className="flex flex-col space-y-2 rounded-md border-gray-300 border-[1px] items-center justify-center h-full">
               <Phone className="text-5xl" />
               <h1 className='text-sm'>{category?.name}</h1>
             </div>
-          </div>
+          </Link>
         ))}
       </Slider>
       ) : (

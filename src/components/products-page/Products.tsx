@@ -14,6 +14,7 @@ import { toast } from 'react-toastify';
 import { getAllCategories } from '../../api/getAllCategories';
 import { getAllShops } from '../../api/getAllShops';
 import { Eye, EyeSlash } from '@phosphor-icons/react';
+import { useSearchParams } from 'react-router-dom';
 // import { getProductOnShop } from '../../api/product';
 const Products = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -25,13 +26,17 @@ const Products = () => {
     const [categories, setCategories] = useState<any>([]);
     const [shops, setShops] = useState<any>([]);
     const [activeFilters, setActiveFilters] = useState<any[]>([]);
-
+    const [searchParams] = useSearchParams();
+    let catId = searchParams.get('categoryId');
+    console.log("categoryId", catId);
+    
     const clearFilter = (filterType: any) => {
         handleRefresh();
         if (filterType === categoryName) {
             handleRefresh();
             setCategoryName('');
             setCategoryId('');
+            catId = '';
             handleRefresh();
         } else if (filterType === selectedShop) {
             handleRefresh();
@@ -57,8 +62,6 @@ const Products = () => {
         }
         handleRefresh();
     };
-
-    // Clear all filters
     const clearFilters = () => {
         handleRefresh();
         setCategoryName('');
@@ -82,7 +85,6 @@ const Products = () => {
         fetchCategories();
     }
         , []);
-
     useEffect(() => {
         const fetchShops = async () => {
             const data = await getAllShops();
@@ -159,56 +161,43 @@ const Products = () => {
     const [autocompleteOptions, setAutocompleteOptions] = useState<string[]>([]);
     const [minPrice, setMinPrice] = useState<number>(0);
     const [maxPrice, setMaxPrice] = useState<number>(300);
-
     const handlePriceRangeChange = (min: number, max: number) => {
         setMinPrice(min);
         setMaxPrice(max);
     };
-
     const [categoryId, setCategoryId] = useState<string>("");
     const [categoryName, setCategoryName] = useState<string>("");
-
     const handleCategoryClick = async (categoryId: string, categoryName: string) => {
         handleRefresh();
         setCategoryId(categoryId);
         setCategoryName(categoryName);
         handleRefresh();
     }
-
     const [selectedRam, setSelectedRam] = useState<string>();
-
     const handleSelectRam = async (ram: string) => {
         handleRefresh();
         setSelectedRam(ram);
         handleRefresh();
     };
-
     const [selectedStorage, setSelectedStorage] = useState<string>();
-
     const handleSelectStorage = async (storage: string) => {
         handleRefresh();
         setSelectedStorage(storage);
         handleRefresh();
     };
-
     const [selectedCamera, setSelectedCamera] = useState<string>();
-
     const handleSelectCamera = async (camera: string) => {
         handleRefresh();
         setSelectedCamera(camera);
         handleRefresh();
     };
-
     const [selectedType, setSelectedType] = useState<string>();
-
     const handleSelectType = async (type: string) => {
         handleRefresh();
         setSelectedType(type);
         handleRefresh();
     };
     const [sortOrder, setSortOrder] = useState<'ascending' | 'descending'>('ascending');
-
-    // Function to handle sorting based on the selected option
     const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedValue = event.target.value;
         if (selectedValue === 'ascending') {
@@ -217,20 +206,17 @@ const Products = () => {
             setSortOrder('descending');
         }
     };
-
+    const categoryIdToUse = categoryId ? categoryId : catId ? catId : '';
     useEffect(() => {
         const fetchProducts = async () => {
-            const response = await getAllProducts(minPrice, maxPrice, categoryId, selectedShopId, selectedRam, selectedStorage, selectedCamera, selectedType);
+            const response = await getAllProducts(minPrice, maxPrice, categoryIdToUse, selectedShopId, selectedRam, selectedStorage, selectedCamera, selectedType);
             const allProducts = response?.data?.products;
             let sortedProducts = allProducts;
-
-            // Sort products based on the selected sort order
             if (sortOrder === 'ascending') {
                 sortedProducts = allProducts?.sort((a: any, b: any) => a.product_name.localeCompare(b.product_name));
             } else if (sortOrder === 'descending') {
                 sortedProducts = allProducts?.sort((a: any, b: any) => b.product_name.localeCompare(a.product_name));
             }
-
             const productNames = sortedProducts?.map((product: any) => product.product_name);
             setAutocompleteOptions(productNames);
             const filteredProducts = sortedProducts?.filter((product: any) =>
@@ -264,9 +250,7 @@ const Products = () => {
             }
         }
     };
-
     let filters: any[] = [];
-
     const generateActiveFilters = () => {
         if (categoryName) {
             filters.push(categoryName);
@@ -286,18 +270,12 @@ const Products = () => {
         if (selectedType) {
             filters.push(`Type: ${selectedType}`);
         }
-        // Add more filters as needed
         return filters;
     };
-
-    // Update active filters whenever relevant states change
     useEffect(() => {
         const activeFilters = generateActiveFilters();
         setActiveFilters(activeFilters);
     }, [categoryName, selectedShop, selectedRam, selectedCamera, selectedStorage, selectedType]);
-
-    console.log("activeFilters", activeFilters);
-
 
     const [isDropDownFilter, setIsDropDownFilter] = useState(false);
 
@@ -381,7 +359,7 @@ const Products = () => {
                                         </button>
                                     </div>
                                 ))}
-                                <button onClick={clearFilters} className="ml-2 md:flex hidden text-gray-500 focus:outline-none">
+                                <button onClick={clearFilters} className="ml-2 md:flex hidden text-gray-500 text-sm justify-center my-auto items-center focus:outline-none">
                                     Clear All
                                 </button>
                             </div>
@@ -400,7 +378,7 @@ const Products = () => {
                                     </div>
                                     <div className='w-full h-[124px] m-auto flex flex-col justify-center items-start bg-white rounded-md p-2'>
                                         <h1 className='text-sm font-semibold'>{product?.product_name?.length > 40 ? product?.product_name?.substring(0, 40) + '...' : product?.product_name?.substring(0, 40)}</h1>
-                                        <p className='text-sm text-gray-600'>${product.vendor_prices[0].price}</p>
+                                        <p className='text-sm text-gray-600'>${product.vendor_prices?.reduce((prev: any, current: any) => (prev.price < current.price) ? prev : current).price}</p>
                                         <p className='text-sm text-yellow-500'>Shops({product?.vendor_prices.length})</p>
                                     </div>
                                     <div className='checkboxWithvalues w-full flex'>

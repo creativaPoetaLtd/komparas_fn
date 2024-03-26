@@ -20,9 +20,6 @@ const ComparisonDrawer: React.FC<Props> = ({ open, onClose, comparisonData, hand
             id: product._id,
             image: product.product_image,
             name: product.product_name,
-
-            // price: product.vendor_prices,
-            //show minimum price
             price: product.vendor_prices?.reduce((prev: any, current: any) => (prev.price < current.price) ? prev : current).price,
             specifications: product.product_specifications,
             description: product.product_description,
@@ -37,7 +34,6 @@ const ComparisonDrawer: React.FC<Props> = ({ open, onClose, comparisonData, hand
     }
 
 
-    console.log("all productssssssssssssssssssssssssssssssss", product);
 
 
 
