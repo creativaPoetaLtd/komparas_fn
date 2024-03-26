@@ -226,9 +226,9 @@ const Products = () => {
 
             // Sort products based on the selected sort order
             if (sortOrder === 'ascending') {
-                sortedProducts = allProducts?.sort((a:any, b:any) => a.product_name.localeCompare(b.product_name));
+                sortedProducts = allProducts?.sort((a: any, b: any) => a.product_name.localeCompare(b.product_name));
             } else if (sortOrder === 'descending') {
-                sortedProducts = allProducts?.sort((a:any, b:any) => b.product_name.localeCompare(a.product_name));
+                sortedProducts = allProducts?.sort((a: any, b: any) => b.product_name.localeCompare(a.product_name));
             }
 
             const productNames = sortedProducts?.map((product: any) => product.product_name);
@@ -294,7 +294,7 @@ const Products = () => {
     useEffect(() => {
         const activeFilters = generateActiveFilters();
         setActiveFilters(activeFilters);
-    }, [categoryName, selectedShop, selectedRam]);
+    }, [categoryName, selectedShop, selectedRam, selectedCamera, selectedStorage, selectedType]);
 
     console.log("activeFilters", activeFilters);
 
@@ -336,9 +336,9 @@ const Products = () => {
                             <div className='w-fit flex md:mt-0 mt-3 self-end float-right justify-end'>
                                 <p className='text-sm my-auto'>Sort by:</p>
                                 <select className='ml-2 p-2 rounded-md bg-[#F5F5F5]' onChange={handleSortChange}>
-                <option value="ascending">Ascending</option>
-                <option value="descending">Descending</option>
-            </select>
+                                    <option value="ascending">Ascending</option>
+                                    <option value="descending">Descending</option>
+                                </select>
                             </div>
                         </div>
                         <div className='products justify-between w-full flex bg-[#F2F4F5] p-3 mt-3'>
