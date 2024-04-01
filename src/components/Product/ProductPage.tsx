@@ -67,18 +67,16 @@ const ProductPage = () => {
 const [selectedProductImage2, setSelectedProductImage2] = useState<string | null>(null); 
 
     const handleButtonClick = (productId: string, productImage: string) => {
+        setSelectedProductImage(imgeSelected);
+        setSelectedProductId(productId);
         localStorage.setItem('selectedProductId', productId);
         localStorage.setItem('selectedProductImage', productImage);
-        imgeSelected && setSelectedProductImage(imgeSelected);
-
-        
-        setSelectedProductId(productId);
     };
     const handleButtonClick2 = (productId: string, productImage: string) => {
-        localStorage.setItem('selectedProductId2', productId);
-        img2Selected && setSelectedProductImage2(img2Selected);
-        localStorage.setItem('selectedProductImage2', productImage);
+        setSelectedProductImage2(img2Selected);
         setSelectedProductId2(productId);
+        localStorage.setItem('selectedProductImage2', productImage);
+        localStorage.setItem('selectedProductId2', productId);
     };
 
 
@@ -125,12 +123,13 @@ const handleViewAllProducts = () => {
                                 <button className="Prod1 relative flex w-[124px] h-[161px] m-auto justify-center items-center bg-white rounded-md border">
                                     {selectedProductImage && (
                                         <>
-                                        <button className='replaceButton absolute bottom-0 left-1' onClick={() => handleButtonClick('prod1', products?.product?.product_image)} >
-                                            <SlRefresh className='text-lg font-bold' />
-                                        </button>
-                                        <button className='deleteButton absolute bottom-0 right-1' onClick={() => handleDelete()} >
-                                            <Trash className='text-lg text-red-600 font-bold' />
-                                        </button>
+                                       <button type='button' className='replaceButton absolute bottom-0 left-1' onClick={() => handleButtonClick('prod1', products?.product?.product_image)} >
+    <SlRefresh className='text-lg font-bold' />
+</button>
+<button type='button' className='deleteButton absolute bottom-0 right-1' onClick={() => handleDelete()} >
+    <Trash className='text-lg text-red-600 font-bold' />
+</button>
+
                                         </>
                                     )
                                     }
@@ -240,7 +239,7 @@ const handleViewAllProducts = () => {
             </Modal>
             <ComparisonDrawer 
                 open={open}
-                onClose={onClose} comparisonData={undefined}             />
+                onClose={onClose} comparisonData={undefined}/>
         </div>
     );
 };
