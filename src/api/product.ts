@@ -1,7 +1,7 @@
 import { baseUrl } from '.';
 import axios from "axios";
 
-export const getAllProducts = async (minPrice?: number, maxPrice?: number, categoryId?: string, vendorId?: string, ram?: string, storage?:string, camera?:string, types?:string) => {
+export const getAllProducts = async (minPrice?: number, maxPrice?: number, categoryId?: string, vendorId?: any[], ram?: string, storage?:string, camera?:string, types?:string) => {
   let res:any
   let url = `${baseUrl}/products?`
   if(minPrice && maxPrice){

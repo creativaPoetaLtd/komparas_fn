@@ -2,6 +2,8 @@ import { FaTimes } from 'react-icons/fa';
 import ads from '../../assets/ads.png'
 import RadioInputMain from './RadioButtonMain'
 import SliderBar from './Slider'
+// import PorductCheckInput from './ProdCheck';
+import CheckboxInput from './CheckboxButton';
 interface SideBarProps {
     isOpen: boolean;
     toggleSidebar: () => void;
@@ -34,7 +36,7 @@ const SideBar: React.FC<SideBarProps> = ({ isOpen, toggleSidebar, categories, sh
                 <p className='text-sm font-semibold text-gray-600'>Shops</p>
                 <div className='flex-col grid grid-cols-2 mt-5'>
                     {shops?.map((shop: any) => (
-                        <RadioInputMain key={shop._id} label={shop.name} name='category' onClick={() => handleShopCkik(shop?._id, shop?.name)} />
+                        <CheckboxInput key={shop._id} label={shop.name} name='category' onClick={() => handleShopCkik(shop?._id, shop?.name)} />
                     ))}
                 </div>
             </div>

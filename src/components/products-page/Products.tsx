@@ -95,12 +95,25 @@ const Products = () => {
 
     const [selectedShop, setSelectedShop] = useState<string | null>(null);
     const [selectedShopId, setSelectedShopId] = useState<string>();
-    const handleShopClick = async (shopId: string, name: any) => {
-        handleRefresh();
-        setSelectedShop(name);
-        setSelectedShopId(shopId);
-        handleRefresh();
+    // const [selectedShopId, setSelectedShopId] = useState<string>();
+    const [selectedShopNames, setSelectedShopNames] = useState<string[]>([]);
+    const [shopst, setShopst] = useState<string[]>([]);
+    
+    const handleShopClick = async (shopId: string, name: string) => {
+      handleRefresh();
+      setSelectedShopId(shopId);
+      const index = shopst.indexOf(shopId);
+      if (index === -1) {
+        setShopst([...shopst, shopId]);
+        setSelectedShopNames([...selectedShopNames, name]);
+      } else {
+        setShopst(shopst.filter(id => id !== shopId));
+        setSelectedShopNames(selectedShopNames.filter(shopName => shopName !== name));
+      }
+      handleRefresh();
     };
+    
+
     const handleRefresh = () => {
         setRefresh(!refresh);
     }
@@ -206,7 +219,7 @@ const Products = () => {
         }
     };
     const categoryIdToUse = categoryId ? categoryId : catId ? catId : '';
-    const shopIdToUse = selectedShopId ? selectedShopId : shopsId ? shopsId : '';
+    const shopIdToUse:any = selectedShopId ? selectedShopId : shopsId ? shopst : '';
     useEffect(() => {
         const fetchProducts = async () => {
             const response = await getAllProducts(minPrice, maxPrice, categoryIdToUse, shopIdToUse, selectedRam, selectedStorage, selectedCamera, selectedType);
@@ -256,7 +269,7 @@ const Products = () => {
             filters.push(categoryName);
         }
         if (selectedShop) {
-            filters.push(selectedShop);
+            filters.push(selectedShopNames);
         }
         if (selectedRam) {
             filters.push(`RAM: ${selectedRam}`);
@@ -275,10 +288,12 @@ const Products = () => {
     useEffect(() => {
         const activeFilters = generateActiveFilters();
         setActiveFilters(activeFilters);
-    }, [categoryName, selectedShop, selectedRam, selectedCamera, selectedStorage, selectedType]);
+    }, [categoryName, selectedShopNames, selectedRam, selectedCamera, selectedStorage, selectedType]);
 
     const [isDropDownFilter, setIsDropDownFilter] = useState(false);
 
+    console.log('selectedShopNames', selectedShopNames);
+    
     const handleSetDropDownFilter = () => {
         setIsDropDownFilter(!isDropDownFilter);
     };
