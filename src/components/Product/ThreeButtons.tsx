@@ -16,19 +16,19 @@ const ThreeButtons: React.FC<IProduct> = ({ products }) => {
             <div className="flex flex-col space-y-5 xl:w-[637px] lg:w-[537px] md:w-[337px] m-auto justify-center">
                 <div className="threeButtons flex flex-row">
                     <button
-                        className={`w-[30%] text-white p-2 rounded-l-md ${activeButton === 'ourReview' ? 'bg-[#EDB62E]' : 'bg-[#0C203B]'}`}
+                        className={`w-[39%] text-white p-2 rounded-l-md ${activeButton === 'ourReview' ? 'bg-[#EDB62E]' : 'bg-[#0C203B]'}`}
                         onClick={() => handleButtonClick('ourReview')}
                     >
                         Our Review
                     </button>
                     <button
-                        className={`w-[30%] text-white p-2 ${activeButton === 'specification' ? 'bg-[#EDB62E]' : 'bg-[#0C203B]'}`}
+                        className={`w-[32%] text-white p-2 ${activeButton === 'specification' ? 'bg-[#EDB62E]' : 'bg-[#0C203B]'}`}
                         onClick={() => handleButtonClick('specification')}
                     >
                         Specification
                     </button>
                     <button
-                        className={`w-[30%] text-white p-2 rounded-r-md ${activeButton === 'otherReview' ? 'bg-[#EDB62E]' : 'bg-[#0C203B]'}`}
+                        className={`w-[39%] text-white p-2 rounded-r-md ${activeButton === 'otherReview' ? 'bg-[#EDB62E]' : 'bg-[#0C203B]'}`}
                         onClick={() => handleButtonClick('otherReview')}
                     >
                         Other Review

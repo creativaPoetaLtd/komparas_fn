@@ -64,7 +64,7 @@ const ProductPage = () => {
     const [selectedProductImage, setSelectedProductImage] = useState<string | null>(null);
     const imgeSelected = localStorage.getItem('selectedProductImage');
     const img2Selected = localStorage.getItem('selectedProductImage2');
-const [selectedProductImage2, setSelectedProductImage2] = useState<string | null>(null); 
+    const [selectedProductImage2, setSelectedProductImage2] = useState<string | null>(null);
 
     const handleButtonClick = (productId: string, productImage: string) => {
         setSelectedProductImage(imgeSelected);
@@ -80,27 +80,27 @@ const [selectedProductImage2, setSelectedProductImage2] = useState<string | null
     };
 
 
-const handleDelete = () => {
-    localStorage.removeItem('selectedProductId');
-    setSelectedProductId(null);
-    localStorage.removeItem('selectedProductImage');
-    setSelectedProductImage(null);
-};
+    const handleDelete = () => {
+        localStorage.removeItem('selectedProductId');
+        setSelectedProductId(null);
+        localStorage.removeItem('selectedProductImage');
+        setSelectedProductImage(null);
+    };
 
-const handleDelete2 = () => {
-    localStorage.removeItem('selectedProductId2')
-    setSelectedProductId2(null);
-    localStorage.removeItem('selectedProductImage2');
-    setSelectedProductImage2(null);
-}
+    const handleDelete2 = () => {
+        localStorage.removeItem('selectedProductId2')
+        setSelectedProductId2(null);
+        localStorage.removeItem('selectedProductImage2');
+        setSelectedProductImage2(null);
+    }
 
 
-const handleViewAllProducts = () => {
-    if (localStorage.getItem("KomparasLoginsInfo")) {
-        navigate("/products");
-    } else {
-        toast.error("You need to login to view all products");
-        navigate("/login");
+    const handleViewAllProducts = () => {
+        if (localStorage.getItem("KomparasLoginsInfo")) {
+            navigate("/products");
+        } else {
+            toast.error("You need to login to view all products");
+            navigate("/login");
         }
     }
 
@@ -123,30 +123,30 @@ const handleViewAllProducts = () => {
                                 <button className="Prod1 relative flex w-[124px] h-[161px] m-auto justify-center items-center bg-white rounded-md border">
                                     {selectedProductImage && (
                                         <>
-                                       <button type='button' className='replaceButton absolute bottom-0 left-1' onClick={() => handleButtonClick('prod1', products?.product?.product_image)} >
-    <SlRefresh className='text-lg font-bold' />
-</button>
-<button type='button' className='deleteButton absolute bottom-0 right-1' onClick={() => handleDelete()} >
-    <Trash className='text-lg text-red-600 font-bold' />
-</button>
+                                            <button type='button' className='replaceButton absolute bottom-0 left-1' onClick={() => handleButtonClick('prod1', products?.product?.product_image)} >
+                                                <SlRefresh className='text-lg font-bold' />
+                                            </button>
+                                            <button type='button' className='deleteButton absolute bottom-0 right-1' onClick={() => handleDelete()} >
+                                                <Trash className='text-lg text-red-600 font-bold' />
+                                            </button>
 
                                         </>
                                     )
                                     }
-                                    {selectedProductImage ? <img src={selectedProductImage} width={100} height={100} alt="" className="md:w-[100px] w-[55px] md:h-[89px] h-[49px] object-contain" /> : <button  onClick={() => handleButtonClick('prod1', products?.product?.product_image)} >+</button> }
+                                    {selectedProductImage ? <img src={selectedProductImage} width={100} height={100} alt="" className="md:w-[100px] w-[55px] md:h-[89px] h-[49px] object-contain" /> : <button onClick={() => handleButtonClick('prod1', products?.product?.product_image)} >+</button>}
                                 </button>
                                 <button className="Prod2 relative flex w-[124px] h-[161px] m-auto justify-center items-center bg-white rounded-md border">
-                                {selectedProductImage2 && (
-                                <>
-                                        <button className='replaceButton absolute bottom-0 left-1' onClick={() => handleButtonClick2('prod2', products?.product?.product_image)} >
-                                            <SlRefresh className='text-lg font-bold' />
-                                        </button>
-                                        <button className='deleteButton absolute bottom-0 right-1' onClick={() => handleDelete2()} >
-                                            <Trash className='text-lg text-red-600 font-bold' />
-                                        </button>
+                                    {selectedProductImage2 && (
+                                        <>
+                                            <button className='replaceButton absolute bottom-0 left-1' onClick={() => handleButtonClick2('prod2', products?.product?.product_image)} >
+                                                <SlRefresh className='text-lg font-bold' />
+                                            </button>
+                                            <button className='deleteButton absolute bottom-0 right-1' onClick={() => handleDelete2()} >
+                                                <Trash className='text-lg text-red-600 font-bold' />
+                                            </button>
                                         </>
                                     )}
-                                    {selectedProductImage2? <img src={selectedProductImage2} width={100} height={100} alt="" className="md:w-[100px] w-[55px] md:h-[89px] h-[49px] object-contain" /> : <button  onClick={() => handleButtonClick2('prod2', products?.product?.product_image)} >+</button> }
+                                    {selectedProductImage2 ? <img src={selectedProductImage2} width={100} height={100} alt="" className="md:w-[100px] w-[55px] md:h-[89px] h-[49px] object-contain" /> : <button onClick={() => handleButtonClick2('prod2', products?.product?.product_image)} >+</button>}
                                 </button>
                             </div>
                             <button className="w-fit bg-[#0C203B] mt-2 text-white p-2 px-3 rounded-md self-end"
@@ -206,14 +206,14 @@ const handleViewAllProducts = () => {
                     </Button>,
                 ]}
             >
-               {relatedProducts?.products?.map((product: any, index: any) => (
-                     <div key={index}>
-                          <div className="flex justify-between items-center">
+                {relatedProducts?.products?.map((product: any, index: any) => (
+                    <div key={index}>
+                        <div className="flex justify-between items-center">
                             <img src={product.product_image} width={100} height={100} alt="" />
                             <p>{product.product_name}</p>
                             <Button onClick={() => handleButtonClick(product._id, product.product_image)}>Select</Button>
-                          </div>
-                     </div>
+                        </div>
+                    </div>
                 ))}
             </Modal>
             <Modal
@@ -227,19 +227,19 @@ const handleViewAllProducts = () => {
                     </Button>,
                 ]}
             >
-               {relatedProducts?.products?.map((product: any, index: any) => (
-                     <div key={index}>
-                          <div className="flex justify-between items-center">
+                {relatedProducts?.products?.map((product: any, index: any) => (
+                    <div key={index}>
+                        <div className="flex justify-between items-center">
                             <img src={product.product_image} width={100} height={100} alt="" />
                             <p>{product.product_name}</p>
                             <Button onClick={() => handleButtonClick2(product._id, product.product_image)}>Select</Button>
-                          </div>
-                     </div>
+                        </div>
+                    </div>
                 ))}
             </Modal>
-            <ComparisonDrawer 
+            <ComparisonDrawer
                 open={open}
-                onClose={onClose} comparisonData={undefined}/>
+                onClose={onClose} comparisonData={undefined} />
         </div>
     );
 };
