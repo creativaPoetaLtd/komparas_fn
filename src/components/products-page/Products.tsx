@@ -186,26 +186,54 @@ const Products = () => {
         handleRefresh();
     }
     const [selectedRam, setSelectedRam] = useState<string>();
+    const [multipleRam, setMultipleRam] = useState<string[]>([]);
     const handleSelectRam = async (ram: string) => {
         handleRefresh();
         setSelectedRam(ram);
+        const index = multipleRam.indexOf(ram);
+        if (index === -1) {
+            setMultipleRam([...multipleRam, ram]);
+        } else {
+            setMultipleRam(multipleRam.filter(ram => ram !== ram));
+        }
         handleRefresh();
     };
     const [selectedStorage, setSelectedStorage] = useState<string>();
+    const [multioletStorage, setMultioletStorage] = useState<string[]>([]);
     const handleSelectStorage = async (storage: string) => {
         handleRefresh();
+        const index = multioletStorage.indexOf(storage);
+        if (index === -1) {
+            setMultioletStorage([...multioletStorage, storage]);
+        } else {
+            setMultioletStorage(multioletStorage.filter(storage => storage !== storage));
+        }
         setSelectedStorage(storage);
         handleRefresh();
     };
     const [selectedCamera, setSelectedCamera] = useState<string>();
+    const [multipleCamera, setMultipleCamera] = useState<string[]>([]);
     const handleSelectCamera = async (camera: string) => {
         handleRefresh();
+        const index = multipleCamera.indexOf(camera);
+        if (index === -1) {
+            setMultipleCamera([...multipleCamera, camera]);
+        } else {
+            setMultipleCamera(multipleCamera.filter(camera => camera !== camera));
+        }
         setSelectedCamera(camera);
         handleRefresh();
     };
     const [selectedType, setSelectedType] = useState<string>();
+    const [multipleType, setMultipleType] = useState<string[]>([]);
     const handleSelectType = async (type: string) => {
         handleRefresh();
+        const index = multipleType.indexOf(type);
+        if (index === -1) {
+            setMultipleType([...multipleType, type]);
+        } else {
+            setMultipleType(multipleType.filter(type => type !== type));
+        }
         setSelectedType(type);
         handleRefresh();
     };
@@ -222,7 +250,7 @@ const Products = () => {
     const shopIdToUse:any = selectedShopId ? selectedShopId : shopsId ? shopst : '';
     useEffect(() => {
         const fetchProducts = async () => {
-            const response = await getAllProducts(minPrice, maxPrice, categoryIdToUse, shopIdToUse, selectedRam, selectedStorage, selectedCamera, selectedType);
+            const response = await getAllProducts(minPrice, maxPrice, categoryIdToUse, shopIdToUse, multipleRam, multioletStorage, multipleCamera, multipleType);
             const allProducts = response?.data?.products;
             let sortedProducts = allProducts;
             if (sortOrder === 'ascending') {

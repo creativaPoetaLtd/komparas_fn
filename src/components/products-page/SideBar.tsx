@@ -43,47 +43,47 @@ const SideBar: React.FC<SideBarProps> = ({ isOpen, toggleSidebar, categories, sh
             <div className='flex flex-col mt-3'>
                 <p className='text-sm font-semibold text-gray-600'>Types</p>
                 <div className='flex-col grid grid-cols-2 mt-5'>
-                    <RadioInputMain label='Smartphones' name='type' onClick={() => handleSelectType('Smartphones')} />
-                    <RadioInputMain label='mobile' name='type' onClick={() => handleSelectType('mobile')} />
-                    <RadioInputMain label='Tablet' name='type' onClick={() => handleSelectType('Tablet')} />
-                    <RadioInputMain label='Sumsung' name='type' onClick={() => handleSelectType('Sumsung')} />
-                    <RadioInputMain label='Apple' name='type' onClick={() => handleSelectType('Apple')} />
+                    <CheckboxInput label='Smartphones' name='type' onClick={() => handleSelectType('Smartphones')} />
+                    <CheckboxInput label='mobile' name='type' onClick={() => handleSelectType('mobile')} />
+                    <CheckboxInput label='Tablet' name='type' onClick={() => handleSelectType('Tablet')} />
+                    <CheckboxInput label='Sumsung' name='type' onClick={() => handleSelectType('Sumsung')} />
+                    <CheckboxInput label='Apple' name='type' onClick={() => handleSelectType('Apple')} />
                 </div>
             </div>
             <div className='flex flex-col mt-3'>
                 <p className='text-sm font-semibold text-gray-600'>Storage</p>
                 <div className='flex-col grid grid-cols-2 mt-5'>
-                    <RadioInputMain label='32GB' name='storage' onClick={() => handleSelectStorage('32GB')} />
-                    <RadioInputMain label='64GB' name='storage' onClick={() => handleSelectStorage('64GB')} />
-                    <RadioInputMain label='128GB' name='storage' onClick={() => handleSelectStorage('128GB')} />
-                    <RadioInputMain label='256GB' name='storage' onClick={() => handleSelectStorage('256GB')} />
-                    <RadioInputMain label='512GB' name='storage' onClick={() => handleSelectStorage('512GB')} />
-                    <RadioInputMain label='1TB' name='storage' onClick={() => handleSelectStorage('1TB')} />
-                    <RadioInputMain label='2TB' name='storage' onClick={() => handleSelectStorage('2TB')} />
+                    <CheckboxInput label='32GB' name='storage' onClick={() => handleSelectStorage('32GB')} />
+                    <CheckboxInput label='64GB' name='storage' onClick={() => handleSelectStorage('64GB')} />
+                    <CheckboxInput label='128GB' name='storage' onClick={() => handleSelectStorage('128GB')} />
+                    <CheckboxInput label='256GB' name='storage' onClick={() => handleSelectStorage('256GB')} />
+                    <CheckboxInput label='512GB' name='storage' onClick={() => handleSelectStorage('512GB')} />
+                    <CheckboxInput label='1TB' name='storage' onClick={() => handleSelectStorage('1TB')} />
+                    <CheckboxInput label='2TB' name='storage' onClick={() => handleSelectStorage('2TB')} />
                 </div>
             </div>
             <div className='flex flex-col mt-3'>
                 <p className='text-sm font-semibold text-gray-600'>RAM Size</p>
                 <div className='flex-col grid grid-cols-2 mt-5'>
-                    <RadioInputMain label='2GB' name='ram' onClick={() => handleSelectRam('2GB')} />
-                    <RadioInputMain label='4GB' name='ram' onClick={() => handleSelectRam('4GB')} />
-                    <RadioInputMain label='8GB' name='ram' onClick={() => handleSelectRam('8GB')} />
-                    <RadioInputMain label='16GB' name='ram' onClick={() => handleSelectRam('16GB')} />
-                    <RadioInputMain label='32GB' name='ram' onClick={() => handleSelectRam('32GB')} />
-                    <RadioInputMain label='64GB' name='ram' onClick={() => handleSelectRam('64GB')} />
-                    <RadioInputMain label='128GB' name='ram' onClick={() => handleSelectRam('128GB')} />
+                    <CheckboxInput label='2GB' name='ram' onClick={() => handleSelectRam('2GB')} />
+                    <CheckboxInput label='4GB' name='ram' onClick={() => handleSelectRam('4GB')} />
+                    <CheckboxInput label='8GB' name='ram' onClick={() => handleSelectRam('8GB')} />
+                    <CheckboxInput label='16GB' name='ram' onClick={() => handleSelectRam('16GB')} />
+                    <CheckboxInput label='32GB' name='ram' onClick={() => handleSelectRam('32GB')} />
+                    <CheckboxInput label='64GB' name='ram' onClick={() => handleSelectRam('64GB')} />
+                    <CheckboxInput label='128GB' name='ram' onClick={() => handleSelectRam('128GB')} />
                 </div>
             </div>
             <div className='flex flex-col mt-3'>
                 <p className='text-sm font-semibold text-gray-600'>Camera</p>
                 <div className='flex-col grid grid-cols-2 mt-5'>
-                    <RadioInputMain label='12MP' name='camera' onClick={() => handleSelectCamera('12MP')} />
-                    <RadioInputMain label='16MP' name='camera' onClick={() => handleSelectCamera('16MP')} />
-                    <RadioInputMain label='20MP' name='camera' onClick={() => handleSelectCamera('20MP')} />
-                    <RadioInputMain label='24MP' name='camera' onClick={() => handleSelectCamera('24MP')} />
-                    <RadioInputMain label='32MP' name='camera' onClick={() => handleSelectCamera('32MP')} />
-                    <RadioInputMain label='48MP' name='camera' onClick={() => handleSelectCamera('48MP')} />
-                    <RadioInputMain label='64MP' name='camera' onClick={() => handleSelectCamera('64MP')} />
+                    <CheckboxInput label='12MP' name='camera' onClick={() => handleSelectCamera('12MP')} />
+                    <CheckboxInput label='16MP' name='camera' onClick={() => handleSelectCamera('16MP')} />
+                    <CheckboxInput label='20MP' name='camera' onClick={() => handleSelectCamera('20MP')} />
+                    <CheckboxInput label='24MP' name='camera' onClick={() => handleSelectCamera('24MP')} />
+                    <CheckboxInput label='32MP' name='camera' onClick={() => handleSelectCamera('32MP')} />
+                    <CheckboxInput label='48MP' name='camera' onClick={() => handleSelectCamera('48MP')} />
+                    <CheckboxInput label='64MP' name='camera' onClick={() => handleSelectCamera('64MP')} />
                 </div>
             </div>
             <div className='flex flex-col mt-5 items-center justify-center border-4 border-yellow-600 w-[312px] py-5'>
