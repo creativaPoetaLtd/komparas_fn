@@ -370,7 +370,7 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                                     onClick={addOurReview}
                                     className="border p-2 text-white bg-blue-600 rounded-md float-right"
                                 >
-                                    Add Specification
+                                    Add Our Review
                                 </button>
                             </div>
                         </div>

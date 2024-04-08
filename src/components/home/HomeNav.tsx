@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { FaSearch } from 'react-icons/fa';
-import { NavLink, useLocation } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 const HomeNav = () => {
@@ -21,7 +21,7 @@ const HomeNav = () => {
   return (
     <nav className='w-full lg:flex hidden justify-between px-20 pb-3 pt-7 border-black border-b bg-white'>
       <div className='logo flex my-auto justify-center'>
-        <h1 className='text-xl text-[#0C203B] font-semibold'>Komparas</h1>
+        <Link className='text-xl text-[#0C203B] font-semibold' to={'/'}>Komparas</Link>
       </div>
       <ul className='flex space-x-8 my-auto justify-center'>
         <li
