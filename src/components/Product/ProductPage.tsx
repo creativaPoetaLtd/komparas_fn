@@ -201,8 +201,8 @@ const ProductPage = () => {
                 onCancel={() => setSelectedProductId(null)}
                 footer={[
                     <Button key="cancel" onClick={() => setSelectedProductId(null)}>Cancel</Button>,
-                    <Button key="ok" type="primary" onClick={() => setSelectedProductId(null)}>
-                        OK
+                    <Button key="ok"  onClick={() => setSelectedProductId(null)}>
+                        CONTINUE
                     </Button>,
                 ]}
             >

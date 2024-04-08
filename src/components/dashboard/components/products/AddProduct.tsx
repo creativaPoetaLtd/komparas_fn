@@ -18,6 +18,7 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
     const [, setLoadingShops] = useState(false);
     const [specifications, setSpecifications] = useState([{ key: "", value: "" }]);
     const [vendor_prices, setVendorPrices] = useState([{ key: "", value: "" }]);
+    const [our_review, setOur_review] = useState([{key:"", value: ""}])
     const [formData, setFormData] = useState({
         product_name: "",
         product_price: "",
@@ -26,7 +27,7 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
         vendor_prices: [],
         specifications: [],
         product_image: undefined,
-        our_review: ""
+        our_review: []
     });
     const [imageUrl, setImageUrl] = useState<string | null>(null);
     const fetchCategories = async () => {
@@ -79,6 +80,16 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
     const addSpecificationField = () => {
         setSpecifications([...specifications, { key: "", value: "" }]);
     };
+    const handleOurReviewChange = (index: number, field: string, value: string) => {
+        const updatedOurReview: any = [...our_review];
+        updatedOurReview[index][field] = value;
+        setOur_review(updatedOurReview);
+    };
+
+    const addOurReview = () => {
+        setOur_review([...our_review, {key:"", value: ""}])
+    }
+
     const handleVendorsChange = (index: number, field: string, value: string) => {
         const updatedVendors: any = [...vendor_prices];
         updatedVendors[index][field] = value;
@@ -98,6 +109,11 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
         const updatedSpecifications = [...specifications];
         updatedSpecifications.splice(index, 1);
         setSpecifications(updatedSpecifications);
+    };
+    const removeOurReviewField = (index: number) => {
+        const updatedOurReview = [...our_review];
+        updatedOurReview.splice(index, 1);
+        setOur_review(updatedOurReview);
     };
     const removeVendors = (index: number) => {
         const updatedVendors = [...vendor_prices];
@@ -143,10 +159,11 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
             vendor_prices: [],
             specifications: [],
             product_image: undefined,
-            our_review: ""
+            our_review: []
         });
         setSpecifications([{ key: "", value: "" }]);
         setVendorPrices([{ key: "", value: "" }]);
+        setShops([{key:"", value: ""}])
         setImageUrl(null);
     };
 
@@ -157,7 +174,8 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
             const updatedFormData = {
                 ...formData,
                 specifications: specifications,
-                vendor_prices: vendor_prices
+                vendor_prices: vendor_prices,
+                our_review: our_review
             };
 
             const response = await addProduct(updatedFormData);
@@ -317,7 +335,46 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                                 </button>
                             </div>
                         </div>
-                        <div className='AddProductForm__form__inputs__description flex flex-col justify-start items-start mb-5'>
+                        <div className="AddProductForm__form__inputs__specifications flex flex-col justify-start items-start mb-5">
+                            <label className="AddProductForm__form__inputs__specifications__label mb-2">
+                                Our Review
+                            </label>
+                            {our_review.map((rev, index) => (
+                                <div key={index} className="flex w-[88%] space-x-2 mb-2">
+                                    <input
+                                        type="text"
+                                        placeholder="Key"
+                                        value={rev.key}
+                                        onChange={(e) => handleOurReviewChange(index, "key", e.target.value)}
+                                        className="w-1/2 h-10 rounded-md border outline-blue-700 border-gray-300 px-2"
+                                    />
+                                    <input
+                                        type="text"
+                                        placeholder="Value"
+                                        value={rev.value}
+                                        onChange={(e) => handleOurReviewChange(index, "value", e.target.value)}
+                                        className="w-1/2 h-10 rounded-md border outline-blue-700 border-gray-300 px-2"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => removeOurReviewField(index)}
+                                        className="border px-2 py-0 text-black hover:text-white bg-red-100 hover:bg-red-500 rounded-md"
+                                    >
+                                        x
+                                    </button>
+                                </div>
+                            ))}
+                            <div className="w-[88%]">
+                                <button
+                                    type="button"
+                                    onClick={addOurReview}
+                                    className="border p-2 text-white bg-blue-600 rounded-md float-right"
+                                >
+                                    Add Specification
+                                </button>
+                            </div>
+                        </div>
+                        {/* <div className='AddProductForm__form__inputs__description flex flex-col justify-start items-start mb-5'>
                             <label className='AddProductForm__form__inputs__description__label  mb-2'>Our Review</label>
                             <textarea
                                 className='AddProductForm__form__inputs__description__input w-96 h-28 rounded-md border outline-blue-700 border-gray-300 px-2'
@@ -326,7 +383,7 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                                 value={formData?.our_review}
                                 onChange={handleInputChange}
                             />
-                        </div>
+                        </div> */}
                         <div className="laptop:w-[88%] desktop:w-[88%] tablet:w-[88%] laptop:mt-0 tablet:mt-0 desktop:mt-0  mt-2 w-full justify-between flex felx-col space-y-4">
                             <div className="flex flex-col w-full">
                                 <label className="text-sm mb-1 font-normal text-grey-700 ">
