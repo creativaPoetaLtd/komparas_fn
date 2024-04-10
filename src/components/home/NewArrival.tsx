@@ -13,9 +13,9 @@ const NewArrival: React.FC<NewArrivalProps> = ({ productData }) => {
                 <div className="flex justify-start items-start">
                     <div className="flex w-[20px] h-[40px] rounded-md bg-[#EDB62E]">
                     </div>
-                    <h1 className="text-lg flex my-auto justify-center font-bold ml-2 text-[#EDB62E]">Arrival</h1>
+                    <h1 className="text-lg flex my-auto justify-center font-bold ml-2 text-[#EDB62E]">Telefone zihari</h1>
                 </div>
-                <h1 className='flex text-2xl text-[#0C203B] mt-3 font-semibold'>New Arrival</h1>
+                <h1 className='flex text-2xl text-[#0C203B] mt-3 font-semibold'>Telefoni zikigera ku isoko</h1>
             </div>
             <div className="flex lg:flex-row md:flex-col flex-col w-full lg:space-x-8 lg:space-y-0 space-y-3">
                 <div className="flex lg:w-1/2 md:w-full w-full h-[600px] relative bg-[#0C203B]">

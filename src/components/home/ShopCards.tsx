@@ -78,7 +78,7 @@ const ShopCards: React.FC = () => {
           </div>
           <h1 className="text-lg flex my-auto justify-center font-bold ml-2 text-[#EDB62E]">Shops</h1>
         </div>
-        <h1 className='flex text-2xl text-[#0C203B] mt-3 font-semibold'>Browse By Shop</h1>
+        <h1 className='flex text-2xl text-[#0C203B] mt-3 font-semibold'>Hitamo telefoni ugendeye ku iduka</h1>
       </div>
       {shops.length > 0 ? (
       <Slider {...settings}

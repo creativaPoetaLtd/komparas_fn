@@ -29,21 +29,21 @@ const HomeNav = () => {
             selectedMenu === 'home' ? 'underline underline-offset-4' : ''
           }`}
         >
-          <NavLink to='/'>Home</NavLink>
+          <NavLink to='/'>Ahabanza</NavLink>
         </li>
         <li
           className={`text-black ${
             selectedMenu === 'about_us' ? 'underline underline-offset-4' : ''
           }`}
         >
-          <NavLink to='/about_us'>About</NavLink>
+          <NavLink to='/about_us'>Abo turibo</NavLink>
         </li>
         <li
           className={`text-black ${
             selectedMenu === 'contact_us' ? 'underline underline-offset-4' : ''
           }`}
         >
-          <NavLink to='/contact_us'>Contact</NavLink>
+          <NavLink to='/contact_us'>Twandikire</NavLink>
         </li>
         <li
           className={`text-black ${
@@ -51,14 +51,14 @@ const HomeNav = () => {
           }`}
         >
           <button onClick={handleLogout}>
-            {isLogin ? "Logout" : "Login"}
+            {isLogin ? "  Sohoka" : "Injira"}
           </button>
         </li>
       </ul>
       <div className='searchBar bg-[#F5F5F5] rounded-md pr-3'>
         <input
           type='text'
-          placeholder='Search'
+          placeholder='Shakisha'
           className='p-2 outline-none rounded-md bg-[#F5F5F5]'
         />
         <button>
