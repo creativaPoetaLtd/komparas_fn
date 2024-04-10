@@ -34,7 +34,18 @@ const MobileHomeNav = () => {
   }
 
   const burgerMenu = (
-    <Menu>
+    <Menu style={
+      {
+        width: '90vw',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'start',
+        alignItems: 'start',
+        gap: '1rem',
+        
+      }
+    
+    }>
       <Menu.Item key="0">
         <Link to="/">
           <a>Home</a>

@@ -13,8 +13,11 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
 
     return (
         <div className='w-full flex flex-col h-fit'>
+                        <h1 className="text-xl w-[20rem] mt-12 lg:pl-32 md:pl-16 pl-2 font-semibold">{products?.product?.product_name}</h1>
+
             <div className="w-full h-fit flex lg:flex-row  flex-col ">
                 <div className="flex md:flex-row flex-col-reverse lg:w-[65%] w-full m-auto justify-center items-center h-full">
+                    
                     <div className="flex md:[w-20%] w-full md:flex-col justify-between flex-row">
                         {products?.product?.product_images?.map((image: any, index: number) => (
                             <div key={index} className="otherImages md:w-[170px] w-[77px] m-auto items-center flex justify-center md:h-[138px] h-[79px]" onClick={() => handleImageClick(index)}>
@@ -30,7 +33,6 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
                 </div>
                 <div className="flex lg:flex-col md:flex-row sm:flex-col flex-col space-y-4 m-auto items-center justify-center lg:w-[40%] w-full ">
                     <div className="md:w-[415px] w-full p-2 flex flex-col space-y-3">
-                        <h1 className="text-xl font-semibold">{products?.product?.product_name}</h1>
                         <h1 className="text-base font-light">Rwf 100,000</h1>
                         <p className="text-sm">{products?.product?.product_description}</p>
                     </div>
