@@ -54,7 +54,7 @@ const ProductListing = ({ setIsAddProduct, setIsEditProduct, setIsAddProductImag
                     Print
                 </button>
                 <button className="shadow px-6" onClick={() => setIsAddProduct(true)}>
-                    Add New Product
+                   Ongeramo telefoni
                 </button>
             </div>
         </div><div className="users__table flex flex-col w-full rounded-md py-2 mt-2">

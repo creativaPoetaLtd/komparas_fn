@@ -60,7 +60,7 @@ const SlidingCards: React.FC = () => {
         ))}
       </Swiper>
       <div className='flex justify-center mt-12 w-full'>
-        <button className='bg-[#0C203B] text-white p-2 rounded-md' onClick={handleViewAllProducts}>View All Products</button>
+        <button className='bg-[#0C203B] text-white p-2 rounded-md' onClick={handleViewAllProducts}>Reba ibicuruzwa byose</button>
       </div>
     </div>
   );

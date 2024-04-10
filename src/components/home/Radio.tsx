@@ -34,32 +34,32 @@ const RadioSection = () => {
                         <div className='mainPageContent lg:w-[30%] md:w-[50%] w-full flex flex-col m-auto justify-center items-start h-full p-8'>
                            
                             <div className='flex mt-6'>
-                                <p className='my-auto font-thin text-[#EDB62E] justify-center'>Categories</p>
+                                <p className='my-auto font-thin text-[#EDB62E] justify-center'>Ibyiciro</p>
                             </div>
                             <p className='lg:text-4xl md:text-2xl text-xl font-semibold mt-6 text-white pr-3'>
-                            Enhance Your Music Experience
+                            Ryoherwa n'muziki ku kigero gihebuje
                             </p>
                             
                             <div className='timers py-5 justify-between flex w-full'>
                                 <div className='timerCircle text-xs flex-col p-2 items-center bg-white flex rounded-full h-[62px] w-[62px] my-auto justify-center'>
                                     <div className='circle font-semibold'>{timeLeft.days}</div>
-                                    <div className='label'>Days</div>
+                                    <div className='label'>Iminsi</div>
                                 </div>
                                 <div className='timerCircle text-xs flex-col p-2 items-center bg-white flex rounded-full h-[62px] w-[62px] my-auto justify-center'>
                                     <div className='circle font-semibold'>{timeLeft.hours}</div>
-                                    <div className='label'>Hours</div>
+                                    <div className='label'>Amasaha</div>
                                 </div>
                                 <div className='timerCircle text-xs flex-col p-2 items-center bg-white flex rounded-full h-[62px] w-[62px] my-auto justify-center'>
                                     <div className='circle font-semibold'>{timeLeft.minutes}</div>
-                                    <div className='label'>Minutes</div>
+                                    <div className='label'>Iminota</div>
                                 </div>
                                 <div className='timerCircle text-xs flex-col p-2 items-center bg-white flex rounded-full h-[62px] w-[62px] my-auto justify-center'>
                                     <div className='circle font-semibold'>{timeLeft.seconds}</div>
-                                    <div className='label'>Seconds</div>
+                                    <div className='label'>Amasegonda</div>
                                 </div>
                             </div>
                             <button className="flex space-x-2 rounded-md text-sm mt-8 p-3 px-4 font-semibold bg-[#EDB62E] text-white">
-                                <p className="">View More</p>
+                                <p className="">Reba byose</p>
                                 <ArrowRight className="m-auto justify-center" />
                             </button>
                         </div>

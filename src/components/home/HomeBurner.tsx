@@ -102,13 +102,13 @@ const HomeBurner = () => {
               <div className='mainPageContent md:w-[44%] w-full h-full md:p-12 p-5'>
                 <div className='flex'>
                   <FaApple className='text-white md:text-5xl text-2xl my-auto justify-center' />
-                  <p className='text-white text-sm ml-2 my-auto font-thin justify-center'>iPhone 14 Series</p>
+                  <p className='text-white text-sm ml-2 my-auto font-thin justify-center'> ibyiciro bya iPhone 14</p>
                 </div>
                 <p className='lg:text-5xl text-3xl mt-6 text-white'>
-                  Up to 10% off Voucher
+                  Kugera ku 10% byagabanyijwe
                 </p>
                 <button className="flex space-x-2 pl-1 text-sm mt-1 text-[#EDB62E]">
-                  <p className="underline underline-offset-4">Shop Now</p>
+                  <p className="underline underline-offset-4">Gura</p>
                   <ArrowRight className="m-auto justify-center" />
                 </button>
               </div>

@@ -212,7 +212,7 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
             <div className="AddProductForm__form py-10 w-[70%] mb-12 rounded-md h-fit justify-center mx-auto mt-8 bg-white items-cente">
                 <div className='AddProductForm__form w-1/2 h-full flex flex-col justify-center mx-auto items-center'>
                     <div className='AddProductForm__form__title text-2xl font-bold mb-5'>
-                        <button onClick={handleAddProduct}>Add New Product</button>
+                        <button onClick={handleAddProduct}>Ongeramo telefoni</button>
                     </div>
                     <form onSubmit={handleFormSubmit} className='AddProductForm__form__inputs flex flex-col justify-center items-start'>
                         <div className='AddProductForm__form__inputs__name flex flex-col justify-start items-start mb-5'>
