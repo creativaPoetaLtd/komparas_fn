@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Drawer } from 'antd';
 // import { FaTimes } from 'react-icons/fa';
-import Image from 'antd/lib/image';
-import { Eye, Trash } from '@phosphor-icons/react';
+import { Eye, Minus, Plus, Trash } from '@phosphor-icons/react';
 import { useNavigate } from 'react-router-dom';
 
 interface Props {
@@ -14,7 +13,13 @@ interface Props {
 
 const ComparisonDrawer: React.FC<Props> = ({ open, onClose, comparisonData, handleDelete }) => {
 
-
+    const [showValueMap, setShowValueMap] = useState<{ [key: number]: boolean }>({});
+    const handleValueClick = (index: number) => {
+        setShowValueMap({
+            ...showValueMap,
+            [index]: !showValueMap[index]
+        });
+    };
     const product = comparisonData?.productsInfo?.map((product: any) => {
         return {
             id: product._id,
@@ -34,6 +39,10 @@ const ComparisonDrawer: React.FC<Props> = ({ open, onClose, comparisonData, hand
     }
 
 
+
+    function addSpaceBetweenWords(str: any) {
+        return str.replace(/\//g, ' /');
+    }
 
 
 
@@ -107,9 +116,9 @@ const ComparisonDrawer: React.FC<Props> = ({ open, onClose, comparisonData, hand
                 <div className='ProductCards flex overflow-x-auto lg:w-[900px] w-[900px] p-12  gap-4'>
                     {product?.map((product: any) => (
                         <div key={product._id} className="flex flex-col items-center w-[15rem] py-0 p-2 justify-center rounded-md border">
-                            <div className="flex justify-center items-center h-[13rem] w-[14rem]">
-                                <Image src={product.image} alt="product image" className='h-full w-full object-contain' />
-                            </div>
+                            <div className="flex justify-center">
+                                        <img src={product?.image} height={152} width={172} alt="" className="w-[172px] h-[152px] object-contain mb-4" />
+                                    </div>
                             <div className='flex flex-col items-center h-fit  w-[13rem] justify-start mt-4 '>
                                 <h1 className="text-xl font-semibold text-start items-start flex float-left self-start">{product.product_name}</h1>
                                 <div className='flex justify-start w-full'>
@@ -117,11 +126,14 @@ const ComparisonDrawer: React.FC<Props> = ({ open, onClose, comparisonData, hand
                                 </div>
                                 <h1 className='text-lg font-bold mt-4 self-start text-[#EDB62E]'>Specifications</h1>
                                 <ul className='text-sm'>
-                                    {product?.specifications?.map((spec: { key: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; value: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; }, index: React.Key | null | undefined) => (
-                                        <span key={index} className=" self-start flex justify-start items-start text-start space-x-1 float-left ">
-                                            <span className='font-bold gap-2'>{spec.key}:</span> <span className='text-gray-800'>{spec.value}</span>
-                                            <p className='space-x-3 w-[3rem]'>,  </p>
-                                        </span>
+                                    {product?.specifications?.map((spec: { key: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; value: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; }, index: any) => (
+                                        <div key={index + 1} className='ourReview flex-wrap rounded-md border border-black  w-full space-y-3 mb-2 mt-2 flex flex-col'>
+                                            <div className="maindiv text-sm font-semibold text-start rounded-md bg-slate-200 p-2 flex" onClick={() => handleValueClick(index)}>
+                                                <p className='KeyDiv flex-wrap flex text-sm overflow-hidden'>{addSpaceBetweenWords(spec?.key)}</p>
+                                                {showValueMap[index] ? <Minus className='ml-auto' /> : <Plus className='ml-auto' />}
+                                            </div>
+                                            {showValueMap[index] && <p className='ValusePargrapth text-sm p-3'>{spec?.value}</p>}
+                                        </div>
                                     ))}
                                 </ul>
                             </div>

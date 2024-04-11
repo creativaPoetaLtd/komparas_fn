@@ -416,8 +416,8 @@ const Products = () => {
                         <div className='products grid lg:grid-cols-3 md:grid-cols-3 grid-cols-2 lg:gap-12 md:gap-8 gap-3 mx-auto justify-center items-center mt-3'>
                             {productsData?.slice(startIndex, endIndex)?.map((product, index) => (
                                 <div key={index} className='productCard md:w-[222px] w-[170px] border border-black rounded-md p-3 md:h-[296px] h-[256px]  m-auto justify-center flex flex-col'>
-                                    <div className='md:w-[202px] w-[150px] m-auto self-center justify-center flex h-[172px]  rounded-md'>
-                                        <img src={product?.product_image} alt="" className='w-full h-full' />
+                                    <div className="flex justify-center">
+                                        <img src={product.product_image} height={152} width={172} alt="" className="w-[172px] h-[152px] object-contain mb-4" />
                                     </div>
                                     <div className='w-full h-[124px] m-auto flex flex-col justify-center items-start bg-white rounded-md p-2'>
                                         <h1 className='text-sm font-semibold'>{product?.product_name?.length > 40 ? product?.product_name?.substring(0, 40) + '...' : product?.product_name?.substring(0, 40)}</h1>
