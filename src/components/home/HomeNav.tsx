@@ -3,6 +3,7 @@ import { FaSearch } from 'react-icons/fa';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
+
 const HomeNav = () => {
   const location = useLocation();
   const [selectedMenu, setSelectedMenu] = useState('home');
@@ -19,34 +20,34 @@ const HomeNav = () => {
   }
 
   return (
-    <nav className='w-full lg:flex hidden justify-between px-20 pb-3 pt-7 border-black border-b bg-white'>
-      <div className='logo flex my-auto justify-center'>
-        <Link className='text-xl text-[#0C203B] font-semibold' to={'/'}>Komparas</Link>
+    <nav className='w-full text-white lg:flex hidden justify-between px-20 pb-3 pt-7 bg-[#0C203B]'>
+      <div className='logo flex my-auto justify-center md:pl-6'>
+        <Link className='text-xl text-white font-semibold' to={'/'}>Komparas</Link>
       </div>
       <ul className='flex space-x-8 my-auto justify-center'>
         <li
-          className={`text-black ${
+          className={`text-white ${
             selectedMenu === 'home' ? 'underline underline-offset-4' : ''
           }`}
         >
           <NavLink to='/'>Ahabanza</NavLink>
         </li>
         <li
-          className={`text-black ${
+          className={`text-white ${
             selectedMenu === 'about_us' ? 'underline underline-offset-4' : ''
           }`}
         >
           <NavLink to='/about_us'>Abo turibo</NavLink>
         </li>
         <li
-          className={`text-black ${
+          className={`text-white ${
             selectedMenu === 'contact_us' ? 'underline underline-offset-4' : ''
           }`}
         >
           <NavLink to='/contact_us'>Twandikire</NavLink>
         </li>
         <li
-          className={`text-black ${
+          className={`text-white ${
             selectedMenu === 'login' ? 'underline underline-offset-4' : ''
           }`}
         >
@@ -62,7 +63,7 @@ const HomeNav = () => {
           className='p-2 outline-none rounded-md bg-[#F5F5F5]'
         />
         <button>
-          <FaSearch />
+          <FaSearch className='text-black' />
         </button>
       </div>
     </nav>

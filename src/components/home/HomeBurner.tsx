@@ -1,53 +1,42 @@
 
 import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
-
-// export default function SimpleSlider() {
-//   var settings = {
-//     dots: true,
-//     infinite: true,
-//     speed: 500,
-//     slidesToShow: 1,
-//     slidesToScroll: 1,
-//   };
-//   return (
-//     <Slider {...settings}>
-//       <div>
-//         <h3>1</h3>
-//       </div>
-//       <div>
-//         <h3>2</h3>
-//       </div>
-//       <div>
-//         <h3>3</h3>
-//       </div>
-//       <div>
-//         <h3>4</h3>
-//       </div>
-//       <div>
-//         <h3>5</h3>
-//       </div>
-//       <div>
-//         <h3>6</h3>
-//       </div>
-//     </Slider>
-//   );
-// }
-
-
-// import img7 from "../../assets/img7.png";
 import { FaApple } from "react-icons/fa";
 import { ArrowRight } from "@phosphor-icons/react";
 import { getAllProducts } from "../../api/product";
-import { getAllCategories } from "../../api/getAllCategories";
+import { fetchParentCategories } from "../../api/getAllCategories";
+import { Phone } from "@phosphor-icons/react";
+import type { MenuProps } from 'antd';
+import { Menu } from 'antd';
+
+type MenuItem = Required<MenuProps>['items'][number];
+function getItem(
+  label: React.ReactNode,
+  key?: React.Key | null,
+  icon?: React.ReactNode,
+  children?: MenuItem[],
+  type?: 'group',
+): MenuItem {
+  return {
+    key,
+    icon,
+    children,
+    label,
+    type,
+  } as MenuItem;
+}
+
+
+
+const onClick: MenuProps['onClick'] = (e) => {
+  console.log('click', e);
+};
 const HomeBurner = () => {
   const [products, setProducts] = React.useState<any[]>([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
       const response = await getAllProducts();
-      console.log('SlidingCards', response);
-
       setProducts(response?.data?.products);
     }
     fetchProducts();
@@ -74,26 +63,30 @@ const HomeBurner = () => {
   };
 
   const [categories, setCategories] = useState<any>([]);
-
   useEffect(() => {
       const fetchCategories = async () => {
-          const data = await getAllCategories();            
-          setCategories(data?.data);
-          console.log('Categories', data?.data);
-          
+          const data = await fetchParentCategories();            
+          setCategories(data?.data);          
       }
       fetchCategories();
   }
   , []);
 
+  const cagetoryItems = categories?.map((category: any) => {
+    // Check if the category has children
+    const hasChildren = category.children && category.children.length > 0;
+    return getItem(category.name, category._id, <Phone />,  !hasChildren ? category.id ? category.id : null : category.children.map((child: any) => {
+      return getItem(child.name, child._id, <Phone />)
+    }
+    ));
+  }
+  );
+
+  
   return (
     <div className='bunnerPage flex w-full lg:px-20 px-0 h-[344px]'>
-      <div className='sideCategories w-1/4 hidden lg:flex h-full border-black border-r '>
-        <ul className='flex flex-col space-y-4 py-4'>
-          {categories?.map((category: any) => (
-            <li key={category._id} className='text-sm'>{category.name}</li>
-          ))}
-        </ul>
+      <div className='sideCategories w-1/4 hidden lg:flex h-full  '>
+        <Menu onClick={onClick} style={{ width: 200 }} mode="vertical" items={cagetoryItems} />
       </div>
       <Slider {...settings} className='lg:w-3/4 w-full h-full'>
         {products?.slice(0,4)?.map((slide, index) => (
