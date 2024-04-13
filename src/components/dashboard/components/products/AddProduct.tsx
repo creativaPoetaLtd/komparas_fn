@@ -7,6 +7,9 @@ import { getAllShops } from "../../../../api/getAllShops";
 import { UploadSimple } from "@phosphor-icons/react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { toast } from "react-toastify";
+// import { CKEditor } from '@ckeditor/ckeditor5-react';
+// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { Editor } from "primereact/editor";
 
 interface AddProductProps {
     setIsAddProduct: (isAddProduct: boolean) => void;
@@ -29,6 +32,9 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
         product_image: undefined,
         our_review: []
     });
+    // const [editorState, setEditorState] = useState(
+    //     () => EditorState.createEmpty(),
+    //   );
     const [imageUrl, setImageUrl] = useState<string | null>(null);
     const fetchCategories = async () => {
         setLoading(true);
@@ -201,7 +207,6 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
         }
     };
 
-    
 
     return (
         <div className='AddProductForm w-full h-fit flex flex-col pb-12 bg-gray-300 p-2'>
@@ -340,7 +345,8 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                                 Our Review
                             </label>
                             {our_review.map((rev, index) => (
-                                <div key={index} className="flex w-[88%] space-x-2 mb-2">
+                                <div key={index} className="flex flex-col w-[88%] space-y-2 mb-2">
+                                    <div className="flex w-[88%] space-x-2 mb-2">
                                     <input
                                         type="text"
                                         placeholder="Key"
@@ -348,20 +354,22 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                                         onChange={(e) => handleOurReviewChange(index, "key", e.target.value)}
                                         className="w-1/2 h-10 rounded-md border outline-blue-700 border-gray-300 px-2"
                                     />
-                                    <input
-                                        type="text"
-                                        placeholder="Value"
-                                        value={rev.value}
-                                        onChange={(e) => handleOurReviewChange(index, "value", e.target.value)}
-                                        className="w-1/2 h-10 rounded-md border outline-blue-700 border-gray-300 px-2"
-                                    />
-                                    <button
+                                     <button
                                         type="button"
                                         onClick={() => removeOurReviewField(index)}
                                         className="border px-2 py-0 text-black hover:text-white bg-red-100 hover:bg-red-500 rounded-md"
                                     >
                                         x
                                     </button>
+                                    </div>
+
+                                    <Editor
+                                        style={{ height: "100px" }}
+                                        value={rev.value}
+                                        onTextChange={(e:any) => handleOurReviewChange(index, "value", e.htmlValue)}
+                                    />
+                                   
+                                   
                                 </div>
                             ))}
                             <div className="w-[88%]">
@@ -383,7 +391,13 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                                 value={formData?.our_review}
                                 onChange={handleInputChange}
                             />
+
                         </div> */}
+
+
+
+
+        
                         <div className="laptop:w-[88%] desktop:w-[88%] tablet:w-[88%] laptop:mt-0 tablet:mt-0 desktop:mt-0  mt-2 w-full justify-between flex felx-col space-y-4">
                             <div className="flex flex-col w-full">
                                 <label className="text-sm mb-1 font-normal text-grey-700 ">

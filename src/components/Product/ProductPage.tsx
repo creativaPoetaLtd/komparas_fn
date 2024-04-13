@@ -17,6 +17,7 @@ import { SlRefresh } from "react-icons/sl";
 import { Trash } from '@phosphor-icons/react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { getAllProducts } from '../../api/product';
 
 
 const ProductPage = () => {
@@ -43,6 +44,7 @@ const ProductPage = () => {
 
     const category = products?.product?.category?.name;
     const [relatedProducts, setRelatedProducts] = useState<any>([]);
+    const [allProd, setAllProd] = useState<any>([])
     const [, setLoading] = useState(false);
     const [, setError] = useState(false);
     useEffect(() => {
@@ -58,6 +60,14 @@ const ProductPage = () => {
         };
         fetchRelatedProducts();
     }, [category]);
+    useEffect(() => {
+        const handleProd = async () => {
+            const response = await getAllProducts();
+            setAllProd(response?.data?.products);
+        }
+        handleProd();
+    }
+        , []);
 
     const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
     const [selectedProductId2, setSelectedProductId2] = useState<string | null>(null);
@@ -66,7 +76,7 @@ const ProductPage = () => {
     const img2Selected = localStorage.getItem('selectedProductImage2');
     const [selectedProductImage2, setSelectedProductImage2] = useState<string | null>(null);
 
-    const handleButtonClick = (productId: string, productImage: string) => {
+    const handleButtonClick = async (productId: string, productImage: string) => {
         setSelectedProductImage(imgeSelected);
         setSelectedProductId(productId);
         localStorage.setItem('selectedProductId', productId);
@@ -78,8 +88,6 @@ const ProductPage = () => {
         localStorage.setItem('selectedProductImage2', productImage);
         localStorage.setItem('selectedProductId2', productId);
     };
-
-
     const handleDelete = () => {
         localStorage.removeItem('selectedProductId');
         setSelectedProductId(null);
@@ -103,7 +111,6 @@ const ProductPage = () => {
             navigate("/login");
         }
     }
-
     return (
         <div className="flex flex-col h-fit">
             <SubNav />
@@ -112,7 +119,7 @@ const ProductPage = () => {
             <div className='w-full bg-white h-fit justify-between lg:px-6 px-2 lg:pl-10 pl-2 flex flex-col'>
                 <ProdNavigations products={products} />
                 <MainProductPage products={products} />
-                <div className="w-full h-fit flex md:flex-row flex-col mt-12">
+                <div className="w-full h-fit justify-between flex md:flex-row flex-col mt-12">
                     <ThreeButtons products={products} />
                     <div className="md:w-[40%] w-full md:mt-0 mt-4 flex flex-col">
                         <div className="compareDiv border border-[#0C203B] p-2 rounded-md lg:w-[414px] md:w-[360px] flex flex-col">
@@ -156,7 +163,7 @@ const ProductPage = () => {
                     </div>
                 </div>
                 <div className="w-full py-12 lg:mt-0 md:mt-0 xl:mt-0 2xl:mt-0 mt-[20%]">
-                    <div className='flex flex-col md:px-7 px-12 lg:ml-5 pb-6'>
+                    <div className='flex flex-col md:px-14 px-12 lg:ml-5 pb-6'>
                         <div className="flex justify-start items-start">
                             <div className="flex w-[20px] h-[40px] rounded-md bg-[#EDB62E]">
                             </div>
@@ -167,7 +174,7 @@ const ProductPage = () => {
                         spaceBetween={20}
                         slidesPerView={1}
                         pagination={{ clickable: true }}
-                        className='w-full h-full flex justify-center items-center px-12 '
+                        className='w-full h-full flex justify-center items-center md:px-20 px-12 '
                         breakpoints={{
                             768: {
                                 slidesPerView: 3,
@@ -196,17 +203,17 @@ const ProductPage = () => {
             </div>
             <Footer />
             <Modal
-                title="Related Products"
+                title="Choose Products"
                 visible={selectedProductId !== null}
                 onCancel={() => setSelectedProductId(null)}
                 footer={[
                     <Button key="cancel" onClick={() => setSelectedProductId(null)}>Cancel</Button>,
-                    <Button key="ok"  onClick={() => setSelectedProductId(null)}>
+                    <Button key="ok" onClick={() => setSelectedProductId(null)}>
                         CONTINUE
                     </Button>,
                 ]}
             >
-                {relatedProducts?.products?.map((product: any, index: any) => (
+                {allProd?.map((product: any, index: any) => (
                     <div key={index}>
                         <div className="flex justify-between items-center">
                             <img src={product.product_image} width={100} height={100} alt="" />
@@ -217,17 +224,17 @@ const ProductPage = () => {
                 ))}
             </Modal>
             <Modal
-                title="Related Products"
+                title="Choose Products"
                 visible={selectedProductId2 !== null}
                 onCancel={() => setSelectedProductId2(null)}
                 footer={[
                     <Button key="cancel" onClick={() => setSelectedProductId2(null)}>Cancel</Button>,
-                    <Button key="ok" type="primary" onClick={() => setSelectedProductId2(null)}>
-                        OK
+                    <Button key="ok" onClick={() => setSelectedProductId2(null)}>
+                        CONTINUE
                     </Button>,
                 ]}
             >
-                {relatedProducts?.products?.map((product: any, index: any) => (
+                {allProd?.map((product: any, index: any) => (
                     <div key={index}>
                         <div className="flex justify-between items-center">
                             <img src={product.product_image} width={100} height={100} alt="" />

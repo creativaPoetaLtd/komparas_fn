@@ -12,26 +12,27 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
     };
 
     return (
-        <div className='w-full flex flex-col h-fit'>
-                        <h1 className="text-xl w-[20rem] mt-12 lg:pl-32 md:pl-16 pl-2 font-semibold">{products?.product?.product_name}</h1>
+        <div className='w-full md:pl-9 pl-0 flex flex-col h-fit'>
 
             <div className="w-full h-fit flex lg:flex-row  flex-col ">
-                <div className="flex md:flex-row flex-col-reverse lg:w-[65%] w-full m-auto justify-center items-center h-full">
-                    
-                    <div className="flex md:[w-20%] w-full md:flex-col justify-between flex-row">
+                <div className="flex md:flex-row  flex-col-reverse lg:w-[50%] w-full m-auto justify-center items-center h-full">
+                    <div className="flex md:[w-20%] md:h-[450px] space-y-4 py-4 md:overflow-y-auto  w-full md:flex-col justify-between flex-row">
                         {products?.product?.product_images?.map((image: any, index: number) => (
-                            <div key={index} className="otherImages md:w-[170px] w-[77px] m-auto items-center flex justify-center md:h-[138px] h-[79px]" onClick={() => handleImageClick(index)}>
-                                <img src={image.product_image} width={100} height={100} alt="" className="md:w-[100px] w-[55px] md:h-[89px] h-[49px] object-cover" />
+                            <div key={index} className="otherImages md:w-[170px] w-[77px] m-auto items-start flex justify-start md:h-[138px] h-[79px]" onClick={() => handleImageClick(index)}>
+                                <img src={image.product_image} width={100} height={100} alt="" className="md:w-[100px] w-[55px] md:h-[89px] h-[49px] object-contain" />
                             </div>
                         ))}
                     </div>
                     <div className="md:w-[80%] w-full h-full">
+                    <div className='w-full mt-12'>
+                    <h1 className="text-xl w-[20rem] mt-12 lg:pl-32 md:pl-16 pl-2 font-semibold">{products?.product?.product_name}</h1>
+                    </div>
                         <div className="MainIMageDiv md:w-[500px] w-[350px] md:h-[600px] h-[285px] flex m-auto justify-center items-center">
                             <img src={products?.product?.product_images[selectedImageIndex]?.product_image} alt="" className="md:w-[446px] w-[296px] md:h-[315px] h-[228px] object-contain" />
                         </div>
                     </div>
                 </div>
-                <div className="flex lg:flex-col md:flex-row sm:flex-col flex-col space-y-4 m-auto items-center justify-center lg:w-[40%] w-full ">
+                <div className="flex lg:flex-col md:flex-row sm:flex-col flex-col space-y-4 mx-auto items-start justify-start py-20 lg:w-[40%] w-full ">
                     <div className="md:w-[415px] w-full p-2 flex flex-col space-y-3">
                         <h1 className="text-base font-light">Rwf 100,000</h1>
                         <p className="text-sm">{products?.product?.product_description}</p>

@@ -9,6 +9,8 @@ interface Props {
     onClose: () => void;
     comparisonData: any;
 }
+
+
 const ComparisonDrawer: React.FC<Props> = ({ open, onClose }) => {
     const id1 = localStorage.getItem('selectedProductId') as string;
     const id2: string = localStorage.getItem('selectedProductId2') as string;
@@ -26,6 +28,12 @@ const ComparisonDrawer: React.FC<Props> = ({ open, onClose }) => {
         const fetchData = async () => {
             const response = await getProductByMultpleIdsInQueryParams(ids);
             setProduct(response.data);
+            // Populate showValueMap with true values for each index
+            const initialShowValueMap: { [key: number]: boolean } = {};
+            response.data?.product?.forEach((_product: any, index: number) => {
+                initialShowValueMap[index] = true;
+            });
+            setShowValueMap(initialShowValueMap);
         }
         fetchData();
     }, [id1, id2, productId]);
@@ -37,8 +45,6 @@ const ComparisonDrawer: React.FC<Props> = ({ open, onClose }) => {
     function addSpaceBetweenWords(str: any) {
         return str.replace(/\//g, ' /');
     }
-
-
 
     return (
         <Drawer
@@ -52,12 +58,9 @@ const ComparisonDrawer: React.FC<Props> = ({ open, onClose }) => {
                 <div className='ProductCards overflow-x-auto flex flex-row scr lg:w-[900px] w-fit mx-auto gap-4'>
                     {product?.product?.map((product: any) => (
                         <div key={product._id} className="flex flex-col items-start justify-start rounded-md border md:p-5 p-2">
-                            {/* <div className="flex justify-center items-center h-[13rem] md:w-[13rem] w-[7rem]">
-                                <Image src={product.product_image} alt="product image" className='h-[10rem]' />
-                            </div> */}
                             <div className="flex justify-center">
-                                        <img src={product.product_image} height={152} width={172} alt="" className="w-[172px] h-[152px] object-contain mb-4" />
-                                    </div>
+                                <img src={product.product_image} height={152} width={172} alt="" className="w-[172px] h-[152px] object-contain mb-4" />
+                            </div>
                             <div className='flex flex-col items-strt h-fit  md:w-[13rem] w-[7rem] justify-start mt-4 '>
                                 <h1 className="md:text-xl text-base font-semibold text-start items-start flex float-left self-start">{product.product_name}</h1>
                                 <p className='text-sm w-full'>{(product.product_description).length > 100 ? (product.product_description).substring(0, 100) + '...' : product.product_description}</p>

@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Minus, Plus } from '@phosphor-icons/react';
+import { useLocation } from 'react-router-dom';
 
 interface IProduct {
     products: any
@@ -13,15 +14,23 @@ const ThreeButtons: React.FC<IProduct> = ({ products }) => {
         setActiveButton(buttonType);
     };
 
+    const location = useLocation();
+    useEffect(() => {
+        localStorage.clear();
+    }, [location.pathname]);
     const handleValueClick = (index: number) => {
-        setShowValueMap({
-            ...showValueMap,
-            [index]: !showValueMap[index]
+        const updatedShowValueMap: { [key: number]: boolean } = {};
+        updatedShowValueMap[index] = !showValueMap[index];
+        Object.keys(showValueMap).forEach((key) => {
+            if (parseInt(key) !== index) {
+                updatedShowValueMap[parseInt(key)] = false;
+            }
         });
-    };
 
-    return (
-        <div className="lg:w-[60%] md:w-[337px] flex flex-col">
+        setShowValueMap(updatedShowValueMap);
+    };
+   return (
+        <div className="lg:w-[54%] md:w-[337px] flex flex-col">
             <div className="flex flex-col space-y-5 xl:w-[637px] lg:w-[537px] md:w-full w-full m-auto justify-center">
                 <div className="threeButtons flex flex-row">
                     <button
@@ -51,7 +60,9 @@ const ThreeButtons: React.FC<IProduct> = ({ products }) => {
                                     <p className='KeyDiv text-sm'>{review?.key}</p>
                                     {showValueMap[index] ? <Minus className='ml-auto' /> : <Plus className='ml-auto' />}
                                 </div>
-                                {showValueMap[index] && <p className='ValusePargrapth text-sm p-3'>{review?.value}</p>}
+                                {showValueMap[index] && (
+                                    <div className='ValusePargrapth text-sm p-3' dangerouslySetInnerHTML={{ __html: review?.value }}></div>
+                                )}
                             </div>
                         ))}
                     </>
