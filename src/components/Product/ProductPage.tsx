@@ -69,37 +69,38 @@ const ProductPage = () => {
     }
         , []);
 
-    const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
-    const [selectedProductId2, setSelectedProductId2] = useState<string | null>(null);
-    const [selectedProductImage, setSelectedProductImage] = useState<string | null>(null);
     const imgeSelected = localStorage.getItem('selectedProductImage');
     const img2Selected = localStorage.getItem('selectedProductImage2');
-    const [selectedProductImage2, setSelectedProductImage2] = useState<string | null>(null);
+    const [openModel1, setOpenModel1] = useState(false);
+    const [openModel2, setOpenModel2] = useState(false);
+
+    const handelOpenModel1 = () => {
+        setOpenModel1(!openModel1);
+    }
+
+    const handleOpenModel2 = () => {
+        setOpenModel2(!openModel2);
+    }
 
     const handleButtonClick = async (productId: string, productImage: string) => {
-        setSelectedProductImage(imgeSelected);
-        setSelectedProductId(productId);
+
         localStorage.setItem('selectedProductId', productId);
         localStorage.setItem('selectedProductImage', productImage);
     };
     const handleButtonClick2 = (productId: string, productImage: string) => {
-        setSelectedProductImage2(img2Selected);
-        setSelectedProductId2(productId);
+    
         localStorage.setItem('selectedProductImage2', productImage);
         localStorage.setItem('selectedProductId2', productId);
     };
     const handleDelete = () => {
         localStorage.removeItem('selectedProductId');
-        setSelectedProductId(null);
         localStorage.removeItem('selectedProductImage');
-        setSelectedProductImage(null);
     };
 
     const handleDelete2 = () => {
         localStorage.removeItem('selectedProductId2')
-        setSelectedProductId2(null);
         localStorage.removeItem('selectedProductImage2');
-        setSelectedProductImage2(null);
+        
     }
 
 
@@ -128,24 +129,23 @@ const ProductPage = () => {
                                     <Image src={products?.product?.product_image} width={100} height={100} alt="" className="md:w-[100px] w-[55px] md:h-[89px] h-[49px] object-contain" />
                                 </div>
                                 <button className="Prod1 relative flex w-[124px] h-[161px] m-auto justify-center items-center bg-white rounded-md border">
-                                    {selectedProductImage && (
+                                    {imgeSelected && (
                                         <>
-                                            <button type='button' className='replaceButton absolute bottom-0 left-1' onClick={() => handleButtonClick('prod1', products?.product?.product_image)} >
+                                            <button type='button' className='replaceButton absolute bottom-0 left-1' onClick={handelOpenModel1} >
                                                 <SlRefresh className='text-lg font-bold' />
                                             </button>
                                             <button type='button' className='deleteButton absolute bottom-0 right-1' onClick={() => handleDelete()} >
                                                 <Trash className='text-lg text-red-600 font-bold' />
                                             </button>
-
                                         </>
                                     )
                                     }
-                                    {selectedProductImage ? <img src={selectedProductImage} width={100} height={100} alt="" className="md:w-[100px] w-[55px] md:h-[89px] h-[49px] object-contain" /> : <button onClick={() => handleButtonClick('prod1', products?.product?.product_image)} >+</button>}
+                                    {imgeSelected ? <img src={imgeSelected} width={100} height={100} alt="" className="md:w-[100px] w-[55px] md:h-[89px] h-[49px] object-contain" /> : <button onClick={handelOpenModel1} >+</button>}
                                 </button>
                                 <button className="Prod2 relative flex w-[124px] h-[161px] m-auto justify-center items-center bg-white rounded-md border">
-                                    {selectedProductImage2 && (
+                                    {img2Selected && (
                                         <>
-                                            <button className='replaceButton absolute bottom-0 left-1' onClick={() => handleButtonClick2('prod2', products?.product?.product_image)} >
+                                            <button className='replaceButton absolute bottom-0 left-1' onClick={handleOpenModel2} >
                                                 <SlRefresh className='text-lg font-bold' />
                                             </button>
                                             <button className='deleteButton absolute bottom-0 right-1' onClick={() => handleDelete2()} >
@@ -153,7 +153,7 @@ const ProductPage = () => {
                                             </button>
                                         </>
                                     )}
-                                    {selectedProductImage2 ? <img src={selectedProductImage2} width={100} height={100} alt="" className="md:w-[100px] w-[55px] md:h-[89px] h-[49px] object-contain" /> : <button onClick={() => handleButtonClick2('prod2', products?.product?.product_image)} >+</button>}
+                                    {img2Selected ? <img src={img2Selected} width={100} height={100} alt="" className="md:w-[100px] w-[55px] md:h-[89px] h-[49px] object-contain" /> : <button onClick={handleOpenModel2} >+</button>}
                                 </button>
                             </div>
                             <button className="w-fit bg-[#0C203B] mt-2 text-white p-2 px-3 rounded-md self-end"
@@ -202,13 +202,14 @@ const ProductPage = () => {
                 </div>
             </div>
             <Footer />
+            {openModel1 &&  (
             <Modal
                 title="Choose Products"
-                visible={selectedProductId !== null}
-                onCancel={() => setSelectedProductId(null)}
+                visible={openModel1}
+                onCancel={handelOpenModel1}
                 footer={[
-                    <Button key="cancel" onClick={() => setSelectedProductId(null)}>Cancel</Button>,
-                    <Button key="ok" onClick={() => setSelectedProductId(null)}>
+                    <Button key="cancel" onClick={handelOpenModel1}>Cancel</Button>,
+                    <Button key="ok" onClick={handelOpenModel1}>
                         CONTINUE
                     </Button>,
                 ]}
@@ -223,13 +224,15 @@ const ProductPage = () => {
                     </div>
                 ))}
             </Modal>
+            )}
+            {openModel2 && (
             <Modal
                 title="Choose Products"
-                visible={selectedProductId2 !== null}
-                onCancel={() => setSelectedProductId2(null)}
+                visible={openModel2}
+                onCancel={handleOpenModel2}
                 footer={[
-                    <Button key="cancel" onClick={() => setSelectedProductId2(null)}>Cancel</Button>,
-                    <Button key="ok" onClick={() => setSelectedProductId2(null)}>
+                    <Button key="cancel" onClick={handleOpenModel2}>Cancel</Button>,
+                    <Button key="ok" onClick={handleOpenModel2}>
                         CONTINUE
                     </Button>,
                 ]}
@@ -244,6 +247,7 @@ const ProductPage = () => {
                     </div>
                 ))}
             </Modal>
+            )}
             <ComparisonDrawer
                 open={open}
                 onClose={onClose} comparisonData={undefined} />
