@@ -57,10 +57,10 @@ const ForgotPasswordForm = () => {
               </div>
               <div className="flex flex-col space-y-7 w-[400px] laptop:px-0 px-8 ">
                 <div className="flex justify-center m-auto">
-                  <h1 className="text-2xl font-bold text-black">Forgot Password ?</h1>
+                  <h1 className="text-2xl font-bold text-black">Wibagiwe ijambobanga?</h1>
                 </div>
                 <div className="input-field">
-                  <label htmlFor="email">Email</label>
+                  <label htmlFor="email">Emeyili</label>
                   <input
                     data-testid="email"
                     type="email"

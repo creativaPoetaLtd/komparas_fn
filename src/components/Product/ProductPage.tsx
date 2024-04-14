@@ -197,7 +197,7 @@ const ProductPage = () => {
                         ))}
                     </Swiper>
                     <div className='flex justify-center mt-12 w-full'>
-                        <button onClick={handleViewAllProducts} className='bg-[#0C203B] text-white p-2 rounded-md'>View All Products</button>
+                        <button onClick={handleViewAllProducts} className='bg-[#0C203B] text-white p-2 rounded-md'>Reba telefoni zose</button>
                     </div>
                 </div>
             </div>

@@ -23,11 +23,11 @@ const Contact: React.FC = () => {
   return (
     <><div className="min-h-screen flex items-center justify-center">
           <div className="w-full max-w-md p-6 bg-white rounded-md shadow-md">
-              <h1 className="text-3xl font-semibold mb-6">Contact Us</h1>
+              <h1 className="text-3xl font-semibold mb-6">Twandikire</h1>
               <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
                       <label htmlFor="name" className="block text-sm font-medium text-gray-600">
-                          Name
+                          Amazina
                       </label>
                       <input
                           type="text"
@@ -40,7 +40,7 @@ const Contact: React.FC = () => {
                   </div>
                   <div>
                       <label htmlFor="email" className="block text-sm font-medium text-gray-600">
-                          Email
+                          Emeyili
                       </label>
                       <input
                           type="email"
@@ -53,7 +53,7 @@ const Contact: React.FC = () => {
                   </div>
                   <div>
                       <label htmlFor="message" className="block text-sm font-medium text-gray-600">
-                          Message
+                          Ubutumwa
                       </label>
                       <textarea
                           id="message"
@@ -69,7 +69,7 @@ const Contact: React.FC = () => {
                       type="submit"
                       className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-all"
                   >
-                      Submit
+                      Ohereza
                   </button>
               </form>
           </div>

@@ -370,7 +370,7 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
                             </div>
                         </div>
                         <div className='AddProductForm__form__inputs__description flex flex-col justify-start items-start mb-5'>
-                            <label className='AddProductForm__form__inputs__description__label  mb-2'>Our Review</label>
+                            <label className='AddProductForm__form__inputs__description__label  mb-2'>Ibyo twavuga kuri iyi telefoni</label>
                             <textarea
                                 className='AddProductForm__form__inputs__description__input w-96 h-28 rounded-md border outline-blue-700 border-gray-300 px-2'
                                 placeholder='Product Description'
@@ -382,7 +382,7 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
                         <div className="laptop:w-[88%] desktop:w-[88%] tablet:w-[88%] laptop:mt-0 tablet:mt-0 desktop:mt-0  mt-2 w-full justify-between flex felx-col space-y-4">
                             <div className="flex flex-col w-full">
                                 <label className="text-sm mb-1 font-normal text-grey-700 ">
-                                    Product Image
+                                    Ifoto ya telefoni
                                 </label>
                                 {formData?.product_image ? (
                                     <div className="relative w-full h-[250px]">
@@ -422,14 +422,14 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
                                                 size={22}
                                             />
                                             <p className="text-sm text-grey-700">
-                                                Upload Product Image
+                                                Shyiramo ifoto ya telefoni
                                             </p>
                                         </div>
                                     </div>
                                 )}
                                 <button type="button" className={`bg-blue-700 mb-12 text-white space-x-3 rounded-md flex justify-center m-auto items-center p-2 h-[47px] mt-5 w-full ${formData?.product_image ? 'opacity-50 cursor-not-allowed' : ''}`} onClick={handleImageUpload}
                                 >
-                                    <p>Upload Product</p>
+                                    <p>Shyiramo telefoni</p>
                                     <UploadSimple color="#90A8A2" size={22} />
                                 </button>
                             </div>

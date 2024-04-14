@@ -37,19 +37,19 @@ const ThreeButtons: React.FC<IProduct> = ({ products }) => {
                         className={`w-[39%] text-white p-2 rounded-l-md ${activeButton === 'ourReview' ? 'bg-[#EDB62E]' : 'bg-[#0C203B]'}`}
                         onClick={() => handleButtonClick('ourReview')}
                     >
-                        Our Review
+                        Ibyo twavuga kuri iyi telefoni
                     </button>
                     <button
                         className={`w-[32%] text-white p-2 ${activeButton === 'specification' ? 'bg-[#EDB62E]' : 'bg-[#0C203B]'}`}
                         onClick={() => handleButtonClick('specification')}
                     >
-                        Specification
+                        Ibiranga iyi telefoni
                     </button>
                     <button
                         className={`w-[39%] text-white p-2 rounded-r-md ${activeButton === 'otherReview' ? 'bg-[#EDB62E]' : 'bg-[#0C203B]'}`}
                         onClick={() => handleButtonClick('otherReview')}
                     >
-                        Other Review
+                        Ibyo abandi bayivugaho
                     </button>
                 </div>
                 {activeButton === 'ourReview' && (
@@ -71,8 +71,8 @@ const ThreeButtons: React.FC<IProduct> = ({ products }) => {
                     <table className="specificationTable">
                         <thead>
                             <tr>
-                                <th className="text-[#353535] border-b item-start m-auto p-2 text-start">Specification</th>
-                                <th className="text-[#353535] border-b item-start m-auto p-2 text-start">Description</th>
+                                <th className="text-[#353535] border-b item-start m-auto p-2 text-start">Ibiranga telefoni</th>
+                                <th className="text-[#353535] border-b item-start m-auto p-2 text-start">Amakuru ajyanye na telefoni</th>
                             </tr>
                         </thead>
                         <tbody>

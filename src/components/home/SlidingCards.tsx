@@ -55,13 +55,13 @@ const SlidingCards: React.FC = () => {
                 <img src={slide.product_image} height={152} width={172} alt="" className="w-[172px] h-[152px] object-contain mb-4" />
               </div>
               <p className='flex text-sm'>{slide?.product_name}</p>
-              <p className='flex text-sm text-[#EDB62E] mt-1'>Shops({slide?.vendor_prices.length})</p>
+              <p className='flex text-sm text-[#EDB62E] mt-1'>Amaduka({slide?.vendor_prices.length})</p>
             </Link>
           </SwiperSlide>
         ))}
       </Swiper>
       <div className='flex justify-center mt-12 w-full'>
-        <button className='bg-[#0C203B] text-white p-2 rounded-md' onClick={handleViewAllProducts}>Reba ibicuruzwa byose</button>
+        <button className='bg-[#0C203B] text-white p-3 rounded-md' onClick={handleViewAllProducts}>Reba telefoni zose zihari</button>
       </div>
     </div>
   );

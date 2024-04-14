@@ -41,19 +41,19 @@ const TimingProduct = () => {
                             <div className='timers md:p-2 p-1 justify-between flex w-full'>
                                 <div className='timerCircle text-xs flex-col md:p-2 p-1 items-center bg-white flex rounded-full md:h-[62px] h-[55px] md:w-[62px] w-[55px] my-auto justify-center'>
                                     <div className='circle'>{timeLeft.days}</div>
-                                    <div className='label'>Days</div>
+                                    <div className='label'> Iminsi</div>
                                 </div>
                                 <div className='timerCircle text-xs flex-col md:p-2 p-1 items-center bg-white flex rounded-full md:h-[62px] h-[55px] md:w-[62px] w-[55px] my-auto justify-center'>
                                     <div className='circle'>{timeLeft.hours}</div>
-                                    <div className='label'>Hours</div>
+                                    <div className='label'>Amasaha</div>
                                 </div>
                                 <div className='timerCircle text-xs flex-col md:p-2 p-1 items-center bg-white flex rounded-full md:h-[62px] h-[55px] md:w-[62px] w-[55px] my-auto justify-center'>
                                     <div className='circle'>{timeLeft.minutes}</div>
-                                    <div className='label'>Minutes</div>
+                                    <div className='label'>Iminota</div>
                                 </div>
                                 <div className='timerCircle text-xs flex-col md:p-2 p-1 items-center bg-white flex rounded-full md:h-[62px] h-[55px] md:w-[62px] w-[55px] my-auto justify-center'>
                                     <div className='circle'>{timeLeft.seconds}</div>
-                                    <div className='label'>Seconds</div>
+                                    <div className='label'>Amasegonda</div>
                                 </div>
                             </div>
                             <div className='flex mt-6'>

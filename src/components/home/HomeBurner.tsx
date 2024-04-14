@@ -101,7 +101,7 @@ const HomeBurner = () => {
                   Kugera ku 10% byagabanyijwe
                 </p>
                 <button className="flex space-x-2 pl-1 text-sm mt-1 text-[#EDB62E]">
-                  <p className="underline underline-offset-4">Gura</p>
+                  <p className="underline underline-offset-4">Reba aho wayigurira</p>
                   <ArrowRight className="m-auto justify-center" />
                 </button>
               </div>

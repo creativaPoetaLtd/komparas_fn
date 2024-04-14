@@ -62,12 +62,12 @@ const ProductListing = ({ setIsAddProduct, setIsEditProduct, setIsAddProductImag
                     <thead className="w-full bg-slate-200 rounded-md">
                         <tr className="w-full shadow-sm rounded-md">
                             <th className="w-[10%] text-sm font-bold text-start py-3 px-2">No</th>
-                            <th className="w-[10%] text-sm font-bold text-start py-3 px-2">Image</th>
+                            <th className="w-[10%] text-sm font-bold text-start py-3 px-2">Ifoto</th>
                             <th className="w-[20%] text-sm font-bold text-start py-3 px-2">Name</th>
-                            <th className="w-[20%] text-sm font-bold text-start py-3 px-2">Description</th>
-                            <th className="w-[20%] text-sm font-bold text-start py-3 px-2">Category</th>
-                            <th className="w-[20%] text-sm font-bold text-start py-3 px-2">Price</th>
-                            <th className="w-[10%] text-sm font-bold text-start py-3 px-2">Action</th>
+                            <th className="w-[20%] text-sm font-bold text-start py-3 px-2">Amakuru</th>
+                            <th className="w-[20%] text-sm font-bold text-start py-3 px-2">Ubwoko</th>
+                            <th className="w-[20%] text-sm font-bold text-start py-3 px-2">Igiciro</th>
+                            <th className="w-[10%] text-sm font-bold text-start py-3 px-2">Igikorwa</th>
                         </tr>
                     </thead>
 
