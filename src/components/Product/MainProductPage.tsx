@@ -42,11 +42,11 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
                         <table className="md:w-[415px] w-full">
                             <thead>
                                 <tr>
-                                    <th className="text-[#353535] item-start m-auto p-2 text-start">Shop logo</th>
-                                    <th className="text-[#353535] item-start m-auto p-2 text-start">Price</th>
-                                    <th className="text-[#353535] item-start m-auto p-2 text-start">Working hours</th>
+                                    <th className="text-[#353535] item-start m-auto p-2 text-start">Iduka</th>
+                                    <th className="text-[#353535] item-start m-auto p-2 text-start">Igociro</th>
+                                    <th className="text-[#353535] item-start m-auto p-2 text-start">Amasaha y'akazi</th>
                                     <th className="text-[#353535] item-start m-auto p-2 text-start">
-                                        Address
+                                        Gura
                                     </th>
                                 </tr>
                             </thead>
@@ -63,7 +63,7 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
                                         ))}
                                         <td className="text-[#353535] item-start m-auto p-2">{shop?.working_hours}</td>
                                         <td className="text-[#353535] item-start m-auto p-2 text-start">
-                                            <button className="w-fit p-2 text-white bg-[#353535] rounded-md font-light text-sm">Shop Here</button>
+                                            <button className="w-fit p-2 text-white bg-[#353535] rounded-md font-light text-sm">Gurira hano</button>
                                         </td>
                                     </tr>
                                 ))}

@@ -19,10 +19,10 @@ const ShopsProductTable = () => {
       <table className="rounded shadow w-full">
         <thead>
           <tr className="gap-1 px-2 py-6 text-black-1000 font-[400] bg-blue-200">
-            <th className="p-2 py-3 font-[400] text-left">Shop Logo</th>
-            <th className="p-2 py-3 font-[400] text-left">Price</th>
-            <th className="p-2 py-3 font-[400] text-left">Working hours</th>
-            <th className="p-2 py-3 font-[400] text-left">Address</th>
+            <th className="p-2 py-3 font-[400] text-left">  Ikirango</th>
+            <th className="p-2 py-3 font-[400] text-left">Igiciro</th>
+            <th className="p-2 py-3 font-[400] text-left">Amasaha y'akazi</th>
+            <th className="p-2 py-3 font-[400] text-left">Aho babarizwa</th>
           </tr>
         </thead>
         <tbody className="bg-white">
@@ -50,13 +50,13 @@ const ShopsProductTable = () => {
               </td>
               <td className="md:py-4 xs:py-2 whitespace-nowrap capitalize text-sm font-normal px-2 text-gray-800">
                 <p className="text-sm font-normal text-gray-800">
-                  Location: {shop?.location}
+                  Aho babarizwa: {shop?.location}
                 </p>
                 <p className="text-sm font-normal text-gray-800">
-                  phone: {shop?.phone}
+                  Telefoni: {shop?.phone}
                 </p>
                 <p className="text-sm font-normal text-gray-800">
-                  email: {shop?.email}
+                  Emeyili: {shop?.email}
                 </p>
               </td>
             </tr>

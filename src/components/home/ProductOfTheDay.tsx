@@ -16,7 +16,7 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = ({ productData }) => {
           </p>
           <p className='text-[#FFFFFF] text-sm mt-2 font-thin '>Yakorewe ibyiza kandi buri umwe wese. Nawe wayitunga</p>
           <button className="flex space-x-2 p-2 px-4 rounded w-fit h-fit text-sm mt-2 bg-[#EDB62E]">
-            <p className="">Gura</p>
+            <p className="">Reba aho wayigurira</p>
           </button>
         </div>
         <div className="image md:w-[40%] w-full h-full pt-4 pbm-12">

@@ -19,7 +19,7 @@ const SingleProductPage = () => {
             <UpperProduct />
             <div className='laptop:w-[40%] desktop:w-[40%] tablet:w-[40%] w-full h-fit flex flex-col space-y-4'>
               <ShopsProductTable />
-              <p className='font-bold text-xl text-gray-700'>Related products</p>
+              <p className='font-bold text-xl text-gray-700'>Telefoni bihuje</p>
               <RelatedProducts />
             </div>
           </div>

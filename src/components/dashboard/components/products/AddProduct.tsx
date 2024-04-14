@@ -221,7 +221,7 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                     </div>
                     <form onSubmit={handleFormSubmit} className='AddProductForm__form__inputs flex flex-col justify-center items-start'>
                         <div className='AddProductForm__form__inputs__name flex flex-col justify-start items-start mb-5'>
-                            <label className='AddProductForm__form__inputs__name__label  mb-2'>Product Name</label>
+                            <label className='AddProductForm__form__inputs__name__label  mb-2'>Izina rya telefoni</label>
                             <input className='AddProductForm__form__inputs__name__input w-96 h-10 rounded-md border outline-blue-700 border-gray-300 px-2'
                                 type="text"
                                 name='product_name'
@@ -231,7 +231,7 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                             />
                         </div>
                         <div className='AddProductForm__form__inputs__description flex flex-col justify-start items-start mb-5'>
-                            <label className='AddProductForm__form__inputs__description__label  mb-2'>Product Description</label>
+                            <label className='AddProductForm__form__inputs__description__label  mb-2'>Ibijyane na telefoni</label>
                             <textarea
                                 className='AddProductForm__form__inputs__description__input w-96 h-28 rounded-md border outline-blue-700 border-gray-300 px-2'
                                 placeholder='Product Description'
@@ -241,13 +241,13 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                             />
                         </div>
                         <div className='AddProductForm__form__inputs__category flex flex-col justify-start items-start mb-5'>
-                            <label className='AddProductForm__form__inputs__category__label  mb-2'>Product Category</label>
+                            <label className='AddProductForm__form__inputs__category__label  mb-2'>Ubwoko bwa telefoni</label>
                             <select
                                 className='AddProductForm__form__inputs__category__input w-96 h-10 rounded-md border outline-blue-700 border-gray-300 px-2'
                                 onChange={handleCategoryChange}
                                 value={formData.category}
                             >
-                                <option value="" disabled selected>Select Category</option>
+                                <option value="" disabled selected>Hotamo ubwoko</option>
                                 {categories?.map((category: any) => (
                                     <option key={category.name} value={category.name}>
                                         {category.name}
@@ -258,7 +258,7 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
 
                         <div className="AddProductForm__form__inputs__specifications flex flex-col justify-start items-start mb-5">
                             <label className="AddProductForm__form__inputs__specifications__label mb-2">
-                                Shops
+                                Amaduka
                             </label>
                             {vendor_prices.map((spec, index) => (
                                 <div key={index} className="flex w-[88%] space-x-2 mb-2">
@@ -267,7 +267,7 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                                         onChange={(e) => handleVendorsSelectChange(e, index)}
                                         value={spec.key}
                                     >
-                                        <option value="" disabled selected>Select Shop</option>
+                                        <option value="" disabled selected>Hitamo iduka</option>
                                         {shops?.map((shop: any) => (
                                             <option key={shop.name} value={shop._id}>
                                                 {shop.name}
@@ -296,14 +296,14 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                                     onClick={addVendorField}
                                     className="border p-2 text-white bg-blue-600 rounded-md float-right"
                                 >
-                                    Add Vendor Field
+                                    Ongeramo irindi duka
                                 </button>
                             </div>
                         </div>
 
                         <div className="AddProductForm__form__inputs__specifications flex flex-col justify-start items-start mb-5">
                             <label className="AddProductForm__form__inputs__specifications__label mb-2">
-                                Specifications
+                                Ibiranga iyi telefoni
                             </label>
                             {specifications.map((spec, index) => (
                                 <div key={index} className="flex w-[88%] space-x-2 mb-2">
@@ -336,13 +336,13 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                                     onClick={addSpecificationField}
                                     className="border p-2 text-white bg-blue-600 rounded-md float-right"
                                 >
-                                    Add Specification
+                                    Ongeramo ibiyiranga
                                 </button>
                             </div>
                         </div>
                         <div className="AddProductForm__form__inputs__specifications flex flex-col justify-start items-start mb-5">
                             <label className="AddProductForm__form__inputs__specifications__label mb-2">
-                                Our Review
+                                Ibyo twavuga kuri iyi telefoni
                             </label>
                             {our_review.map((rev, index) => (
                                 <div key={index} className="flex flex-col w-[88%] space-y-2 mb-2">
@@ -378,7 +378,7 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                                     onClick={addOurReview}
                                     className="border p-2 text-white bg-blue-600 rounded-md float-right"
                                 >
-                                    Add Our Review
+                                    Ongeramo andi makuru
                                 </button>
                             </div>
                         </div>
@@ -401,7 +401,7 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                         <div className="laptop:w-[88%] desktop:w-[88%] tablet:w-[88%] laptop:mt-0 tablet:mt-0 desktop:mt-0  mt-2 w-full justify-between flex felx-col space-y-4">
                             <div className="flex flex-col w-full">
                                 <label className="text-sm mb-1 font-normal text-grey-700 ">
-                                    Product Image
+                                    Ifoto ya telefoni
                                 </label>
                                 {formData?.product_image ? (
                                     <div className="relative w-full h-[250px]">
@@ -441,14 +441,14 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                                                 size={22}
                                             />
                                             <p className="text-sm text-grey-700">
-                                                Upload Product Image
+                                               Shyiramo ifoto ya telefoni
                                             </p>
                                         </div>
                                     </div>
                                 )}
                                 <button type="button" className={`bg-blue-700 mb-12 text-white space-x-3 rounded-md flex justify-center m-auto items-center p-2 h-[47px] mt-5 w-full ${formData?.product_image ? 'opacity-50 cursor-not-allowed' : ''}`} onClick={handleImageUpload}
                                 >
-                                    <p>Upload Product</p>
+                                    <p>Shiramo telefoni</p>
                                     <UploadSimple color="#90A8A2" size={22} />
                                 </button>
                             </div>

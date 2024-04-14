@@ -450,7 +450,7 @@ const Products = () => {
                 </div>
             </div>
             <button onClick={showDrawer} className='fixed bottom-10 right-10 bg-yellow-500 p-3 rounded-full text-white'>
-                <p className='text-sm'>Compare {compLemgth} items</p>
+                <p className='text-sm'>{compLemgth} items</p>
             </button>
             <ComparisonDrawer
                 handleDelete={deleteProductFromComparison}

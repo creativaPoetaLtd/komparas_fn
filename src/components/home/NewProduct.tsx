@@ -10,7 +10,7 @@ const NewProduct = () => {
                 <div className="flex justify-start items-start">
                     <div className="flex w-[20px] h-[40px] rounded-md bg-[#EDB62E]">
                     </div>
-                    <h1 className="text-lg flex my-auto justify-center font-bold ml-2 text-[#EDB62E]">New</h1>
+                    <h1 className="text-lg flex my-auto justify-center font-bold ml-2 text-[#EDB62E]">Izigezweho</h1>
                 </div>
                 <h1 className='flex text-2xl text-[#0C203B] mt-3 font-semibold'>Telefoni nshya</h1>
             </div>
