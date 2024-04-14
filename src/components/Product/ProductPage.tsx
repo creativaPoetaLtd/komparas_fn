@@ -88,7 +88,7 @@ const ProductPage = () => {
         localStorage.setItem('selectedProductImage', productImage);
     };
     const handleButtonClick2 = (productId: string, productImage: string) => {
-    
+
         localStorage.setItem('selectedProductImage2', productImage);
         localStorage.setItem('selectedProductId2', productId);
     };
@@ -100,7 +100,7 @@ const ProductPage = () => {
     const handleDelete2 = () => {
         localStorage.removeItem('selectedProductId2')
         localStorage.removeItem('selectedProductImage2');
-        
+
     }
 
 
@@ -117,7 +117,7 @@ const ProductPage = () => {
             <SubNav />
             <HomeNav />
             <MobileHomeNav />
-            <div className='w-full bg-white h-fit justify-between lg:px-6 px-2 lg:pl-10 pl-2 flex flex-col'>
+            <div className='w-full bg-white h-fit justify-between lg:px-24 px-2 flex flex-col'>
                 <ProdNavigations products={products} />
                 <MainProductPage products={products} />
                 <div className="w-full h-fit justify-between flex md:flex-row flex-col mt-12">
@@ -163,7 +163,7 @@ const ProductPage = () => {
                     </div>
                 </div>
                 <div className="w-full py-12 lg:mt-0 md:mt-0 xl:mt-0 2xl:mt-0 mt-[20%]">
-                    <div className='flex flex-col md:px-14 px-12 lg:ml-5 pb-6'>
+                    <div className='flex flex-col md:px-6 px-12 lg:ml-5 pb-6'>
                         <div className="flex justify-start items-start">
                             <div className="flex w-[20px] h-[40px] rounded-md bg-[#EDB62E]">
                             </div>
@@ -174,7 +174,7 @@ const ProductPage = () => {
                         spaceBetween={20}
                         slidesPerView={1}
                         pagination={{ clickable: true }}
-                        className='w-full h-full flex justify-center items-center md:px-20 px-12 '
+                        className='w-full h-full flex justify-center items-center md:px-10 px-12 '
                         breakpoints={{
                             768: {
                                 slidesPerView: 3,
@@ -191,8 +191,11 @@ const ProductPage = () => {
                                         <img src={product.product_image} height={152} width={172} alt="" className="w-[172px] h-[152px] object-contain mb-4" />
                                     </div>
                                     <p className='flex text-sm'>{product.product_name}</p>
-                                    <p className='flex text-sm text-[#EDB62E] mt-1'>Shops(5)</p>
-                                </Link>
+                                    <p className='flex text-sm text-[#EDB62E] mt-1'>
+                                        Igiciro: {' '}
+                                        {product.vendor_prices?.reduce((prev: any, current: any) => (prev.price < current.price) ? prev : current).price
+                                            .toLocaleString('en-US', { maximumFractionDigits: 4 })} Rwf
+                                    </p>                                </Link>
                             </SwiperSlide>
                         ))}
                     </Swiper>
@@ -202,51 +205,51 @@ const ProductPage = () => {
                 </div>
             </div>
             <Footer />
-            {openModel1 &&  (
-            <Modal
-                title="Choose Products"
-                visible={openModel1}
-                onCancel={handelOpenModel1}
-                footer={[
-                    <Button key="cancel" onClick={handelOpenModel1}>Cancel</Button>,
-                    <Button key="ok" onClick={handelOpenModel1}>
-                        CONTINUE
-                    </Button>,
-                ]}
-            >
-                {allProd?.map((product: any, index: any) => (
-                    <div key={index}>
-                        <div className="flex justify-between items-center">
-                            <img src={product.product_image} width={100} height={100} alt="" />
-                            <p>{product.product_name}</p>
-                            <Button onClick={() => handleButtonClick(product._id, product.product_image)}>Select</Button>
+            {openModel1 && (
+                <Modal
+                    title="Choose Products"
+                    visible={openModel1}
+                    onCancel={handelOpenModel1}
+                    footer={[
+                        <Button key="cancel" onClick={handelOpenModel1}>Cancel</Button>,
+                        <Button key="ok" onClick={handelOpenModel1}>
+                            CONTINUE
+                        </Button>,
+                    ]}
+                >
+                    {allProd?.map((product: any, index: any) => (
+                        <div key={index}>
+                            <div className="flex justify-between items-center">
+                                <img src={product.product_image} width={100} height={100} alt="" />
+                                <p>{product.product_name}</p>
+                                <Button onClick={() => handleButtonClick(product._id, product.product_image)}>Select</Button>
+                            </div>
                         </div>
-                    </div>
-                ))}
-            </Modal>
+                    ))}
+                </Modal>
             )}
             {openModel2 && (
-            <Modal
-                title="Choose Products"
-                visible={openModel2}
-                onCancel={handleOpenModel2}
-                footer={[
-                    <Button key="cancel" onClick={handleOpenModel2}>Cancel</Button>,
-                    <Button key="ok" onClick={handleOpenModel2}>
-                        CONTINUE
-                    </Button>,
-                ]}
-            >
-                {allProd?.map((product: any, index: any) => (
-                    <div key={index}>
-                        <div className="flex justify-between items-center">
-                            <img src={product.product_image} width={100} height={100} alt="" />
-                            <p>{product.product_name}</p>
-                            <Button onClick={() => handleButtonClick2(product._id, product.product_image)}>Select</Button>
+                <Modal
+                    title="Choose Products"
+                    visible={openModel2}
+                    onCancel={handleOpenModel2}
+                    footer={[
+                        <Button key="cancel" onClick={handleOpenModel2}>Cancel</Button>,
+                        <Button key="ok" onClick={handleOpenModel2}>
+                            CONTINUE
+                        </Button>,
+                    ]}
+                >
+                    {allProd?.map((product: any, index: any) => (
+                        <div key={index}>
+                            <div className="flex justify-between items-center">
+                                <img src={product.product_image} width={100} height={100} alt="" />
+                                <p>{product.product_name}</p>
+                                <Button onClick={() => handleButtonClick2(product._id, product.product_image)}>Select</Button>
+                            </div>
                         </div>
-                    </div>
-                ))}
-            </Modal>
+                    ))}
+                </Modal>
             )}
             <ComparisonDrawer
                 open={open}

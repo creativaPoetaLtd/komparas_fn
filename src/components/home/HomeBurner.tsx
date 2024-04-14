@@ -84,13 +84,13 @@ const HomeBurner = () => {
 
   
   return (
-    <div className='bunnerPage flex w-full lg:px-20 px-0 h-[344px]'>
+    <div className='bunnerPage flex w-[100%] m-auto '>
       <div className='sideCategories w-1/4 hidden lg:flex h-full  '>
         <Menu onClick={onClick} style={{ width: 200 }} mode="vertical" items={cagetoryItems} />
       </div>
-      <Slider {...settings} className='lg:w-3/4 w-full h-full'>
+      <Slider {...settings} className='lg:w-3/4 sticky w-full m-auto self-center h-full'>
         {products?.slice(0,4)?.map((slide, index) => (
-          <div key={index+1} className='bunner lg:w-3/4 w-full h-full md:py-4 py-4 md:pl-4 px-0'>
+          <div key={index+1} className='bunner lg:w-3/4 w-[50%] h-full md:py-4 py-4 md:pl-4 px-0'>
             <div className='mainPage flex md:flex-row flex-col bg-[#0C203B] md:h-[344px] h-fit relative'>
               <div className='mainPageContent md:w-[44%] w-full h-full md:p-12 p-5'>
                 <div className='flex'>
@@ -110,7 +110,6 @@ const HomeBurner = () => {
                   <img src={slide?.product_image} height={100} width={100} alt="" className="w-full h-[274px] object-contain" />
                 </div>
               </div>
-
             </div>
           </div>
         ))}

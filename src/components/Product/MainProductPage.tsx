@@ -11,8 +11,10 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
         setSelectedImageIndex(index);
     };
 
+    console.log("dddddddddddddddddddd", products);
+
     return (
-        <div className='w-full md:pl-9 pl-0 flex flex-col h-fit'>
+        <div className='w-full  pl-0 flex flex-col h-fit'>
 
             <div className="w-full h-fit flex lg:flex-row  flex-col ">
                 <div className="flex md:flex-row  flex-col-reverse lg:w-[50%] w-full m-auto justify-center items-center h-full">
@@ -24,9 +26,9 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
                         ))}
                     </div>
                     <div className="md:w-[80%] w-full h-full">
-                    <div className='w-full mt-12'>
-                    <h1 className="text-xl w-[20rem] mt-12 lg:pl-32 md:pl-16 pl-2 font-semibold">{products?.product?.product_name}</h1>
-                    </div>
+                        <div className='w-full mt-12'>
+                            <h1 className="text-xl w-[20rem] mt-12 lg:pl-32 md:pl-16 pl-2 font-semibold">{products?.product?.product_name}</h1>
+                        </div>
                         <div className="MainIMageDiv md:w-[500px] w-[350px] md:h-[600px] h-[285px] flex m-auto justify-center items-center">
                             <img src={products?.product?.product_images[selectedImageIndex]?.product_image} alt="" className="md:w-[446px] w-[296px] md:h-[315px] h-[228px] object-contain" />
                         </div>
@@ -34,17 +36,26 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
                 </div>
                 <div className="flex lg:flex-col md:flex-row sm:flex-col flex-col space-y-4 mx-auto items-start justify-start py-20 lg:w-[40%] w-full ">
                     <div className="md:w-[415px] w-full p-2 flex flex-col space-y-3">
-                        <h1 className="text-base font-light">Rwf 100,000</h1>
+                        <div className='flex space-x-3'>
+                        <h1 className="text-base text-red-500 font-light line-through">
+                            {products?.product?.vendor_prices?.reduce((prev: any, current: any) => (prev.price < current.price) ? prev : current).price
+                                .toLocaleString('en-US', { maximumFractionDigits: 4 })} Rwf
+                        </h1>
+                        <h1 className='realprice font-semibold'>
+                        {products?.product?.our_price.toLocaleString('en-US', { maximumFractionDigits: 4 })} Rwf
+                        </h1>
+                        </div>
                         <p className="text-sm">{products?.product?.product_description}</p>
                     </div>
                     <div className="line md:w-[412px] w-full h-[1px] md:hidden flex lg:flex bg-[#EDB62E]"></div>
-                    <div className="flex flex-col shopTable">
-                        <table className="md:w-[415px] w-full">
+                    <div className="flex flex-col text-sm shopTable">
+                        <table className="w-full">
                             <thead>
                                 <tr>
                                     <th className="text-[#353535] item-start m-auto p-2 text-start">Iduka</th>
                                     <th className="text-[#353535] item-start m-auto p-2 text-start">Igociro</th>
-                                    <th className="text-[#353535] item-start m-auto p-2 text-start">Amasaha y'akazi</th>
+                                    <th className="text-[#353535] item-start m-auto p-2 md:flex hidden text-start">Amasaha y'akazi</th>
+                                    <th className="text-[#353535] item-start m-auto p-2 md:hidden flex text-start">Amasaha..</th>
                                     <th className="text-[#353535] item-start m-auto p-2 text-start">
                                         Gura
                                     </th>
@@ -63,7 +74,7 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
                                         ))}
                                         <td className="text-[#353535] item-start m-auto p-2">{shop?.working_hours}</td>
                                         <td className="text-[#353535] item-start m-auto p-2 text-start">
-                                            <button className="w-fit p-2 text-white bg-[#353535] rounded-md font-light text-sm">Gurira hano</button>
+                                            <button className="w-fit p-1 text-white bg-[#353535] rounded-md font-light text-sm">Gurira hano</button>
                                         </td>
                                     </tr>
                                 ))}

@@ -55,7 +55,12 @@ const SlidingCards: React.FC = () => {
                 <img src={slide.product_image} height={152} width={172} alt="" className="w-[172px] h-[152px] object-contain mb-4" />
               </div>
               <p className='flex text-sm'>{slide?.product_name}</p>
-              <p className='flex text-sm text-[#EDB62E] mt-1'>Amaduka({slide?.vendor_prices.length})</p>
+              <p className='flex text-sm text-[#EDB62E] mt-1'>
+                Igiciro: {' '}
+                {slide.vendor_prices?.reduce((prev: any, current: any) => (prev.price < current.price) ? prev : current).price
+                  .toLocaleString('en-US', { maximumFractionDigits: 4 })} Rwf
+              </p>
+
             </Link>
           </SwiperSlide>
         ))}

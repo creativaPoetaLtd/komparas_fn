@@ -22,12 +22,14 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
     const [specifications, setSpecifications] = useState([{ key: "", value: "" }]);
     const [vendor_prices, setVendorPrices] = useState([{ key: "", value: "" }]);
     const [our_review, setOur_review] = useState([{key:"", value: ""}])
+
     const [formData, setFormData] = useState({
         product_name: "",
         product_price: "",
         product_description: "",
         category: "",
         vendor_prices: [],
+        our_price:"",
         specifications: [],
         product_image: undefined,
         our_review: []
@@ -163,6 +165,7 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
             product_description: "",
             category: "",
             vendor_prices: [],
+            our_price: "",
             specifications: [],
             product_image: undefined,
             our_review: []
@@ -202,7 +205,6 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                 setLoading(false);
             }
         } catch (error) {
-            console.log(error);
             setLoading(false);
         }
     };
@@ -299,6 +301,17 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                                     Ongeramo irindi duka
                                 </button>
                             </div>
+                        </div>
+
+                        <div className='AddProductForm__form__inputs__name flex flex-col justify-start items-start mb-5'>
+                            <label className='AddProductForm__form__inputs__name__label  mb-2'>Igiciro cyacu</label>
+                            <input className='AddProductForm__form__inputs__name__input w-96 h-10 rounded-md border outline-blue-700 border-gray-300 px-2'
+                                type="text"
+                                name='our_price'
+                                placeholder='Igicuro cyacu'
+                                value={formData?.our_price}
+                                onChange={handleInputChange}
+                            />
                         </div>
 
                         <div className="AddProductForm__form__inputs__specifications flex flex-col justify-start items-start mb-5">

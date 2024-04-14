@@ -65,6 +65,7 @@ export const addProduct = async (productData: any) => {
   formData.append('product_name', productData.product_name);
   formData.append('product_description', productData.product_description);
   formData.append('category_name', productData.category);
+  formData.append('our_price', productData.our_price)
   formData.append('product_image', productData.product_image);
   // formData.append('our_review', productData.our_review)
   productData.specifications.forEach((specification: { key: string | Blob; value: string | Blob; }, index: any) => {

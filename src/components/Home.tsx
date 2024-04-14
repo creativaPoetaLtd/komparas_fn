@@ -38,6 +38,7 @@ const Home = () => {
   return (
     <div className='w-full bg-white h-fit justify-between flex flex-col'>
       <HomeNav />
+      <div className="xl:px-24 lg:px-24 px-0 w-full bg-white h-fit justify-between flex flex-col">
       <MobileHomeNav />
       <HomeBurner />
       <SlidingCards />
@@ -51,6 +52,7 @@ const Home = () => {
       <NewArrival productData={productsData} />
       <Parteners />
       <Questions />
+      </div>
     </div>
   );
 };
