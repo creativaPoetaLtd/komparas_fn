@@ -11,8 +11,6 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
         setSelectedImageIndex(index);
     };
 
-    console.log("dddddddddddddddddddd", products);
-
     return (
         <div className='w-full  pl-0 flex flex-col h-fit'>
 

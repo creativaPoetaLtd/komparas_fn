@@ -3,8 +3,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { getAllProducts } from '../../api/product';
-import { toast } from 'react-toastify';
-
 
 const SlidingCards: React.FC = () => {
   const [products, setProducts] = React.useState<any[]>([]);
@@ -12,8 +10,6 @@ const SlidingCards: React.FC = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       const response = await getAllProducts();
-      console.log('SlidingCards', response);
-
       setProducts(response?.data?.products);
     }
     fetchProducts();
@@ -22,14 +18,8 @@ const SlidingCards: React.FC = () => {
 
   const navigate = useNavigate();
   const handleViewAllProducts = () => {
-    if (localStorage.getItem("KomparasLoginsInfo")) {
       navigate("/products");
-    } else {
-      toast.error("You need to login to view all products");
-      navigate("/login");
-    }
   }
-
 
   return (
     <div className="w-full py-12 lg:mt-0 md:mt-0 xl:mt-0 2xl:mt-0 mt-[35%]">
@@ -43,7 +33,7 @@ const SlidingCards: React.FC = () => {
             slidesPerView: 3,
           },
           1024: {
-            slidesPerView: 5,
+            slidesPerView: 4,
           },
         }}
       >

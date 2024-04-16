@@ -26,6 +26,11 @@ const Products = () => {
     const [categories, setCategories] = useState<any>([]);
     const [shops, setShops] = useState<any>([]);
     const [activeFilters, setActiveFilters] = useState<any[]>([]);
+    const [locastorageCompareProductIds, setLocastorageCompareProductIds] = useState<any>(
+        localStorage.getItem("compareProductIds")
+          ? JSON.parse(localStorage.getItem("compareProductIds")!)
+          : []
+      );      
     const [searchParams] = useSearchParams();
     let catId = searchParams.get('categoryId');
     let shopsId = searchParams.get('shopId');
@@ -112,8 +117,6 @@ const Products = () => {
       }
       handleRefresh();
     };
-    
-
     const handleRefresh = () => {
         setRefresh(!refresh);
     }
@@ -129,28 +132,59 @@ const Products = () => {
         };
         fetchComparison();
     }, [userId, deleteRefresh]);
-    const compLemgth = comparisonData?.productsInfo?.length;
+
+    
+
     const comparedProductId = comparisonData?.productsInfo?.map((product: any) => product._id);
-    const addProductToCompare = async (productData: { productId: any; }) => {
-        const data = { userId, productId: productData.productId };
-        const res = await fetch(`${baseUrl}/comparison`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        });
-        const resData = await res.json();
-        if (resData?.comparison?.userId) {
-            toast.success(resData?.message);
-            handleRefresh();
-            getComparison(userId);
-            handleDeleteRefresh();
+    // const addProductToCompare = async (productData: { productId: any; }) => {
+    //     const data = { userId, productId: productData.productId };
+    //     const res = await fetch(`${baseUrl}/comparison`, {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify(data),
+    //     });
+    //     const resData = await res.json();
+    //     if (resData?.comparison?.userId) {
+    //         toast.success(resData?.message);
+    //         handleRefresh();
+    //         getComparison(userId);
+    //         handleDeleteRefresh();
+    //     } else {
+    //         toast.error(resData?.message);
+    //     }
+    //     return await resData;
+    // };
+
+    const handleAddProductIdToLocalStorageCompare = (productId: any) => {
+        const productIds = localStorage.getItem('compareProductIds');
+        if (productIds) {
+            const productIdsArray = JSON.parse(productIds);
+            if (productIdsArray.length < 10) {
+                localStorage.setItem('compareProductIds', JSON.stringify([...productIdsArray, productId]));
+                setLocastorageCompareProductIds(
+                    JSON.stringify([...productIdsArray, productId])
+                );
+
+            } else {
+                toast.error('You can only compare two products at a time');
+            }
         } else {
-            toast.error(resData?.message);
+            localStorage.setItem('compareProductIds', JSON.stringify([productId]));
         }
-        return await resData;
-    };
+    }
+
+    const handleRemoveProductIdFromLocalStorageCompare = (productId: any) => {
+        const productIds = localStorage.getItem('compareProductIds');
+        if (productIds) {
+            const productIdsArray = JSON.parse(productIds);
+            const updatedProductIdsArray = productIdsArray.filter((id: any) => id !== productId);
+            localStorage.setItem('compareProductIds', JSON.stringify(updatedProductIdsArray));
+            setLocastorageCompareProductIds(JSON.stringify(updatedProductIdsArray));
+        }
+    }
+    
     const cardsPerPage = 10;
     const totalProducts = productsData?.length;
     const [open, setOpen] = useState(false);
@@ -319,9 +353,6 @@ const Products = () => {
     }, [categoryName, selectedShopNames, selectedRam, selectedCamera, selectedStorage, selectedType]);
 
     const [isDropDownFilter, setIsDropDownFilter] = useState(false);
-
-    console.log('selectedShopNames', selectedShopNames);
-    
     const handleSetDropDownFilter = () => {
         setIsDropDownFilter(!isDropDownFilter);
     };
@@ -429,9 +460,11 @@ const Products = () => {
                                             label='Add to compare'
                                             name='compare'
                                             productData={{ productId: product._id }}
-                                            checked={product.checked}
-                                            addProductToCompare={addProductToCompare}
-                                            onUncheck={() => deleteProductFromComparison(product._id)}
+                                            checked={
+                                                locastorageCompareProductIds?.includes(product._id) || comparedProductId?.includes(product._id)
+                                            }
+                                            addProductToCompare={()=>handleAddProductIdToLocalStorageCompare((product._id))}
+                                            onUncheck={() => handleRemoveProductIdFromLocalStorageCompare(product._id)}
                                         />
                                     </div>
                                 </div>
@@ -450,7 +483,9 @@ const Products = () => {
                 </div>
             </div>
             <button onClick={showDrawer} className='fixed bottom-10 right-10 bg-yellow-500 p-3 rounded-full text-white'>
-                <p className='text-sm'>{compLemgth} items</p>
+                <p className='text-sm'>{
+                    JSON.parse(localStorage.getItem("compareProductIds") as any)?.length < 2 ? JSON.parse(localStorage.getItem("compareProductIds") as any)?.length + ' Item' : JSON.parse(localStorage.getItem("compareProductIds") as any)?.length + ' Items'
+                }</p>
             </button>
             <ComparisonDrawer
                 handleDelete={deleteProductFromComparison}
