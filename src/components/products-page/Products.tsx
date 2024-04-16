@@ -8,7 +8,7 @@ import { FaSearch, FaTimes } from 'react-icons/fa'
 import { MdFilterList } from 'react-icons/md';
 import { getAllProducts, getComparison } from '../../api/product';
 import ComparisonDrawer from './ComparisonDrawer';
-import { baseUrl } from '../../api';
+// import { baseUrl } from '../../api';
 import PorductCheckInput from './ProdCheck';
 import { toast } from 'react-toastify';
 import { getAllCategories } from '../../api/getAllCategories';
@@ -20,7 +20,7 @@ const Products = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [productsData, setProductsData] = useState<any[]>([]);
     const [refresh, setRefresh] = useState(false);
-    const [deleteRefresh, setDeleteRefresh] = useState(false);
+    const [deleteRefresh, ] = useState(false);
     const loginInfo: any = localStorage.getItem('KomparasLoginsInfo');
     const userId = JSON.parse(loginInfo)?._id;
     const [categories, setCategories] = useState<any>([]);
@@ -120,9 +120,7 @@ const Products = () => {
     const handleRefresh = () => {
         setRefresh(!refresh);
     }
-    const handleDeleteRefresh = () => {
-        setDeleteRefresh(!deleteRefresh);
-    }
+
     const [comparisonData, setComparisonData] = useState<any>([]);
     useEffect(() => {
         const fetchComparison = async () => {
@@ -159,19 +157,29 @@ const Products = () => {
 
     const handleAddProductIdToLocalStorageCompare = (productId: any) => {
         const productIds = localStorage.getItem('compareProductIds');
+        handleRefresh();
         if (productIds) {
             const productIdsArray = JSON.parse(productIds);
+        handleRefresh();
+
             if (productIdsArray.length < 10) {
                 localStorage.setItem('compareProductIds', JSON.stringify([...productIdsArray, productId]));
                 setLocastorageCompareProductIds(
                     JSON.stringify([...productIdsArray, productId])
                 );
+                handleRefresh();
 
             } else {
                 toast.error('You can only compare two products at a time');
             }
+        handleRefresh();
+
         } else {
+        handleRefresh();
+
             localStorage.setItem('compareProductIds', JSON.stringify([productId]));
+        handleRefresh();
+
         }
     }
 
@@ -307,24 +315,24 @@ const Products = () => {
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchValue(event.target.value);
     };
-    const deleteProductFromComparison = async (productIdToDelete: any) => {
-        const comparisonToDelete = comparisonData?.comparisons.find((comparison: { productId: any; }) =>
-            comparison.productId === productIdToDelete
-        );
-        if (comparisonToDelete) {
-            try {
-                const response = await fetch(`${baseUrl}/comparison/${comparisonToDelete._id}`, {
-                    method: 'DELETE',
-                });
-                const data = await response.json();
-                toast.success(data.message);
-                getComparison(userId);
-                handleDeleteRefresh()
-            } catch (error) {
-                console.error('Error deleting product from comparison:', error);
-            }
-        }
-    };
+    // const deleteProductFromComparison = async (productIdToDelete: any) => {
+    //     const comparisonToDelete = comparisonData?.comparisons.find((comparison: { productId: any; }) =>
+    //         comparison.productId === productIdToDelete
+    //     );
+    //     if (comparisonToDelete) {
+    //         try {
+    //             const response = await fetch(`${baseUrl}/comparison/${comparisonToDelete._id}`, {
+    //                 method: 'DELETE',
+    //             });
+    //             const data = await response.json();
+    //             toast.success(data.message);
+    //             getComparison(userId);
+    //             handleDeleteRefresh()
+    //         } catch (error) {
+    //             console.error('Error deleting product from comparison:', error);
+    //         }
+    //     }
+    // };
     let filters: any[] = [];
     const generateActiveFilters = () => {
         if (categoryName) {
@@ -484,14 +492,12 @@ const Products = () => {
             </div>
             <button onClick={showDrawer} className='fixed bottom-10 right-10 bg-yellow-500 p-3 rounded-full text-white'>
                 <p className='text-sm'>{
-                    JSON.parse(localStorage.getItem("compareProductIds") as any)?.length < 2 ? JSON.parse(localStorage.getItem("compareProductIds") as any)?.length + ' Item' : JSON.parse(localStorage.getItem("compareProductIds") as any)?.length + ' Items'
+                 ! JSON.parse(localStorage.getItem("compareProductIds") as any) ? [] :  JSON.parse(localStorage.getItem("compareProductIds") as any)?.length < 2 ? JSON.parse(localStorage.getItem("compareProductIds") as any)?.length + ' Item' : JSON.parse(localStorage.getItem("compareProductIds") as any)?.length + ' Items'
                 }</p>
             </button>
             <ComparisonDrawer
-                handleDelete={deleteProductFromComparison}
                 open={open}
                 onClose={onClose}
-                comparisonData={comparisonData}
             />
         </div>
     );
