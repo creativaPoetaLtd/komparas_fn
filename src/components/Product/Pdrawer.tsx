@@ -45,7 +45,6 @@ const ComparisonDrawer: React.FC<Props> = ({ open, onClose }) => {
     function addSpaceBetweenWords(str: any) {
         return str.replace(/\//g, ' /');
     }
-
     return (
         <Drawer
             title="Comparison Section"
