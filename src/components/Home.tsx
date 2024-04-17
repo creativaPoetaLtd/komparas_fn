@@ -42,14 +42,14 @@ const Home = () => {
       <MobileHomeNav />
       <HomeBurner />
       <SlidingCards />
-      <ProductOfTheDay productData={productsData} />
-      <ShopCards />
-      <TimingProduct />
       <CategoryCards />
+      <ProductOfTheDay productData={productsData} />
+      <TimingProduct />
       <NewProduct />
       <RadioSection />
       <DifferentProduct productData={productsData} />
       <NewArrival productData={productsData} />
+      <ShopCards />
       <Parteners />
       <Questions />
       </div>
