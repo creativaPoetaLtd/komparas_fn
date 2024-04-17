@@ -10,28 +10,28 @@ const MobileHomeNav = () => {
   const menu = (
     <Menu>
       <Menu.Item key="0">
-        <Link to="/about">
+        <Link to="/">
           <a>Profile</a>
         </Link>
       </Menu.Item>
       <Menu.Item key="1">
-        <Link to="/setting">
+        <Link to="/">
           <a>Setting</a>
         </Link>
       </Menu.Item>
       <Menu.Item key="2">
         <Link to="/login">
-          <a>Login</a>
+          <a>Injira</a>
         </Link>
       </Menu.Item>
     </Menu>
   );
-  const isLogin = localStorage.getItem("KomparasLoginsInfo");
-  const navigate = useNavigate();
-  const handleLogout = () => {
-    localStorage.removeItem("KomparasLoginsInfo");
-    navigate("/login");
-  }
+  // const isLogin = localStorage.getItem("KomparasLoginsInfo");
+  // const navigate = useNavigate();
+  // const handleLogout = () => {
+  //   localStorage.removeItem("KomparasLoginsInfo");
+  //   navigate("/login");
+  // }
 
   const burgerMenu = (
     <Menu style={
@@ -48,26 +48,26 @@ const MobileHomeNav = () => {
     }>
       <Menu.Item key="0">
         <Link to="/">
-          <a>Home</a>
+          <a>Ahabanza</a>
         </Link>
       </Menu.Item>
       <Menu.Item key="1">
         <Link to="/about_us">
-          <a>About</a>
+          <a>Ibitwerekeyeho</a>
         </Link>
       </Menu.Item>
       <Menu.Item key="2">
         <Link to="/contact">
-          <a>Contact</a>
+          <a>Tuvugishe</a>
         </Link>
       </Menu.Item>
-      <Menu.Item key="3">
+      {/* <Menu.Item key="3">
         <button onClick={handleLogout}>
           <a>
             {isLogin ? "Logout" : "Login"}
           </a>
         </button>
-      </Menu.Item>
+      </Menu.Item> */}
     </Menu>
   );
   return (

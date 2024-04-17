@@ -84,7 +84,7 @@ const HomeBurner = () => {
 
   
   return (
-    <div className='bunnerPage flex w-[100%] m-auto px-16'>
+    <div className='bunnerPage flex w-[100%] m-auto md:px-16'>
       <div className='sideCategories w-fit hidden bg-white lg:flex h-full  '>
         <Menu onClick={onClick} style={{ width: 200, boxShadow: 'white', border: 'none', borderRight:"white" }} mode="vertical" items={cagetoryItems} />
       </div>
