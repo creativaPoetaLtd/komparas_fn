@@ -22,12 +22,12 @@ const SlidingCards: React.FC = () => {
   }
 
   return (
-    <div className="w-full py-12 lg:mt-0 md:mt-0 xl:mt-0 2xl:mt-0 mt-[35%]">
+    <div className="w-full py-12 lg:mt-0 md:mt-0 xl:mt-0 2xl:mt-0 mt-[35%] md:px-20 px-0">
       <Swiper
         spaceBetween={20}
         slidesPerView={1}
         pagination={{ clickable: true }}
-        className='w-full h-full flex justify-center items-center px-24 '
+        className='w-full h-full flex justify-center items-center '
         breakpoints={{
           768: {
             slidesPerView: 3,
