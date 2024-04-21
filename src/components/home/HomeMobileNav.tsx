@@ -71,7 +71,7 @@ const MobileHomeNav = () => {
     </Menu>
   );
   return (
-    <div className='w-full lg:hidden flex bg-white h-fit justify-between flex-col'>
+    <div className='w-full text-white lg:hidden flex bg-[#0C203B] h-fit justify-between flex-col'>
       <nav className=" flex justify-between items-center p-4">
         <div>
           <Dropdown overlay={burgerMenu}>
@@ -82,15 +82,15 @@ const MobileHomeNav = () => {
         <div>
           <Dropdown overlay={menu}>
             <Button>
-              <UserOutlined />
+              <UserOutlined className='test text-white' />
             </Button>
           </Dropdown>
         </div>
       </nav>
-      <div className='searchBar flex justify-center md:w-3/5 w-[96%] rounded-md self-center mt-3 items-center border-gray-300 border'>
-        <input type="text" placeholder="Search" className=" w-full h-full p-2 outline-none rounded-md " />
+      <div className='searchBar flex justify-center md:w-3/5 bg-white w-[96%] rounded-md self-center mt-2 mb-2 items-center border-gray-300 border'>
+        <input type="text" placeholder="Search" className="t text-black w-full h-full p-2 outline-none rounded-md " />
         <button className="rounded-md">
-          <FaSearch className="text-lg]" />
+          <FaSearch className="text-lg text-black" />
         </button>
       </div>
     </div>

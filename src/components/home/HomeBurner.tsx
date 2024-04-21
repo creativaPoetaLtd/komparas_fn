@@ -84,13 +84,13 @@ const HomeBurner = () => {
 
   
   return (
-    <div className='bunnerPage flex w-[100%] m-auto md:px-16'>
+    <div className='bunnerPage flex md:w-[100%] w-[92%] m-auto md:px-16 px-0'>
       <div className='sideCategories w-fit hidden bg-white lg:flex h-full  '>
         <Menu onClick={onClick} style={{ width: 200, boxShadow: 'white', border: 'none', borderRight:"white" }} mode="vertical" items={cagetoryItems} />
       </div>
-      <Slider {...settings} className='lg:w-[80%] w-full m-auto self-center h-full'>
+      <Slider {...settings} className='lg:w-[80%] w-[100%] self-center h-full'>
         {products?.slice(0,4)?.map((slide, index) => (
-          <div key={index+1} className='bunner lg:w-3/4 w-[80%] bg-[#0C203B] mt-6 h-full md:py-4 py-4 md:pl-4 px-0'>
+          <div key={index+1} className='bunner lg:w-3/4 w-[90%] bg-[#0C203B] mt-6 h-full md:py-4 py-4 md:pl-4 pl-0 px-0'>
             <div className='mainPage flex md:flex-row flex-col  md:h-[344px] h-fit relative'>
               <div className='mainPageContent md:w-[44%] w-full h-full md:p-12 p-5'>
                 <div className='flex'>

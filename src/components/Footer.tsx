@@ -4,7 +4,7 @@ import { IoMdSend } from "react-icons/io";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="flex flex-col justify-center items-center text-white w-full lg:px-[8Telefoni zitandukanye
+    <footer className="flex md:text-base text-sm flex-col justify-center items-center text-white w-full lg:px-[8Telefoni zitandukanye
       rem] px-2 bg-[#0C203B] py-8">
       <div className='grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-16 border-gray-700 border-b pb-5'>
         <div className='flex card1 flex-col space-y-3'>

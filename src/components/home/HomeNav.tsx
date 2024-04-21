@@ -20,8 +20,8 @@ const HomeNav = () => {
   }
 
   return (
-    <nav className='w-full text-white lg:flex hidden justify-between px-28 pb-3 pt-7 bg-[#0C203B]'>
-      <div className='logo flex my-auto justify-center md:pl-10'>
+    <nav className='w-full text-white lg:flex hidden justify-between px-32 pb-3 pt-7 bg-[#0C203B]'>
+      <div className='logo flex my-auto justify-center pl-5 '>
         <Link className='text-xl text-white font-semibold' to={'/'}>Komparas</Link>
       </div>
       <ul className='flex space-x-8 my-auto justify-center'>
