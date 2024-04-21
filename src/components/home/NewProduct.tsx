@@ -5,8 +5,8 @@ import image7 from '../../assets/img7.png'
 const NewProduct = () => {
 
     return (
-        <div className='flex flex-col w-full lg:px-[4.5rem] px-2'>
-            <div className='flex flex-col px-3 pb-6'>
+        <div className='flex flex-col w-full lg:px-[4rem] px-2'>
+            <div className='flex flex-col px-2 pb-6'>
                 <div className="flex justify-start items-start">
                     <div className="flex w-[20px] h-[40px] rounded-md bg-[#EDB62E]">
                     </div>
@@ -15,7 +15,7 @@ const NewProduct = () => {
                 {/* <h1 className='flex text-2xl text-[#0C203B] mt-3 font-semibold'>Telefoni nshya</h1> */}
             </div>
             <div className='flex lg:flex-row md:flex-col flex-col w-full justify-between md:h-[336px] h-fit'>
-                <div className='bunner lg:w-[50%] w-full h-full  py-4 lg:pl-4 pl-2'>
+                <div className='bunner lg:w-[50%] w-full h-full  py-4 lg:pl-1 pl-2'>
                     <div className='mainPage flex  md:flex-row flex-col bg-[#F2F4F5] h-full relative'>
                         <div className='mainPageContent md:w-[45%] w-full md:h-full h-fit p-2'>
 

@@ -57,7 +57,7 @@ const CategoryCards: React.FC = () => {
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 1,
+          slidesToShow: 4,
         }
       },
       {
@@ -82,8 +82,8 @@ const CategoryCards: React.FC = () => {
   , []);
 
   return (
-    <div className="lg:px-16 px-2 py-10">
-      <div className='flex flex-col md:px-7 px-3 pb-6'>
+    <div className="lg:px-14 px-2 py-10">
+      <div className='flex flex-col md:px-4 px-3 pb-6'>
         <div className="flex justify-start items-start">
           <div className="flex w-[20px] h-[40px] rounded-md bg-[#EDB62E]">
           </div>
@@ -96,7 +96,7 @@ const CategoryCards: React.FC = () => {
         className="flex justify-center"
       >
           {categories.map((category: any) => (
-          <Link  className="bg-white p-2 md:px-6 px-3  w-32 h-32 rounded-md " to={`/products?categoryId=${category?._id}`}>
+          <Link  className="bg-white p-2 md:px-4 px-3  w-32 h-32 rounded-md " to={`/products?categoryId=${category?._id}`}>
             <div className="flex flex-col space-y-2 rounded-md border-gray-300 border-[1px] items-center justify-center h-full">
               <Phone className="text-5xl" />
               <h1 className='text-sm'>{category?.name}</h1>

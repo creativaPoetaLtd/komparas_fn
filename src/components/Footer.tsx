@@ -4,8 +4,9 @@ import { IoMdSend } from "react-icons/io";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="flex flex-col text-white w-full lg:px-[4.9rem] px-2 bg-[#0C203B] py-8">
-      <div className='grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-4 border-gray-700 border-b pb-5'>
+    <footer className="flex flex-col justify-center items-center text-white w-full lg:px-[8Telefoni zitandukanye
+      rem] px-2 bg-[#0C203B] py-8">
+      <div className='grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-16 border-gray-700 border-b pb-5'>
         <div className='flex card1 flex-col space-y-3'>
           <h1 className='flex font-bold text-[#EDB62E]'>Komparas</h1>
           <p className='flex font-semibold'>Subscribe</p>

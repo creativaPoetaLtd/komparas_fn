@@ -45,11 +45,11 @@ const Questions = () => {
     };
 
     return (
-        <div className='flex flex-col w-full lg:px-[4.8rem] px-2 mt-6 py-12'>
+        <div className='flex flex-col w-full lg:px-[4rem] px-2 mt-6 py-12'>
             <div className="flex  lg:w-[621px] flex-col justify-center m-auto items-center text-center space-y-2 p-3">
                 <h1 className="flex font-bold text-3xl" ><span>Frequently Asked</span> <span className="text-[#EDB62E] ml-2">Questions</span></h1>
             </div>
-            <div className="lg:w-[1170px] md:w-[738px] w-full flex flex-col gap-3 py-12 mx-auto justify-center items-center">
+            <div className="lg:w-[1000px] md:w-[738px] w-full flex flex-col gap-3 py-12 mx-auto justify-center items-center">
                 {questions.map((q) => (
                     <div key={q.id} className="w-full flex flex-col p-4 border border-[#D6D6D6] rounded-md">
                         <div className="w-full flex justify-between items-center">

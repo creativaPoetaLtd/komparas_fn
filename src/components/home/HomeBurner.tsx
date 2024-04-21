@@ -46,7 +46,7 @@ const HomeBurner = () => {
     current: 0,
     customPaging: function (i: any) {
       return (
-        <a className="ab absolute md:-top-3 top-28">
+        <a className="ab absolute mb md:-top-4 top-28">
           <div className={`smallCircle flex justify-center items-center ${i === this.current ? 'bg-yellow-600' : 'bg-white'} w-3 h-3 rounded-full`}></div>
         </a>
       );

@@ -43,7 +43,7 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
                         {products?.product?.our_price.toLocaleString('en-US', { maximumFractionDigits: 4 })} Rwf
                         </h1>
                         </div>
-                        <p className="text-sm">{products?.product?.product_description}</p>
+                        <p className="text-sm text-justify">{products?.product?.product_description}</p>
                     </div>
                     <div className="line md:w-[412px] w-full h-[1px] md:hidden flex lg:flex bg-[#EDB62E]"></div>
                     <div className="flex flex-col text-sm shopTable">

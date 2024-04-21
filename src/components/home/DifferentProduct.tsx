@@ -8,8 +8,8 @@ interface DifferentProductProps {
 }
 const DifferentProduct: React.FC<DifferentProductProps> = ({productData}) => {
   return (
-    <div className='flex flex-col w-full lg:px-[4.8rem] px-1 mt-6 py-12'>
-      <div className='flex flex-col px-2 pb-6'>
+    <div className='flex flex-col w-full lg:px-[2rem] px-1 mt-6 py-12'>
+      <div className='flex flex-col px-8 pb-6'>
         <div className="flex justify-start items-start">
           <div className="flex w-[20px] h-[40px] rounded-md bg-[#EDB62E]">
           </div>
@@ -17,14 +17,14 @@ const DifferentProduct: React.FC<DifferentProductProps> = ({productData}) => {
         </div>
         {/* <h1 className='flex text-2xl text-[#0C203B] mt-3 font-semibold'>Telefoni zitandukanye</h1> */}
       </div>
-      <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 lg:pl-3">
+      <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2">
         {productData?.slice(productData.length-5, productData.length-1).map((product: any, index: number) => (
           <div key={index} className="Card bg-[] flex flex-col p-3 md:px-5 px-2">
             <div className="h-[13rem] mx-auto justify-center flex md:w-[13rem]">
               <img src={product?.product_image} height={300} width={300} className="h-full object-contain w-full" />
             </div>
             <h1 className="flex font-semibold mt-8">{product?.product_name}</h1>
-            <p className="text-xs text-[#909090] mt-2">{product?.product_description}</p>
+            <p className="text-xs text-[#909090] mt-2 text-justify">{product?.product_description}</p>
             <button className="bg-[#EDB62E] mt-2 w-fit h-fit p-1 md:px-4 px-2 md:py-2 rounded-md">Read more</button>
           </div>
         ))}

@@ -27,9 +27,9 @@ const RadioSection = () => {
     });
 
     return (
-        <div className='flex flex-col w-full lg:px-[4.5rem] lg:mt-0 2xl:mt-0 xl:mt-0 md:mt-96 px-2'>
+        <div className='flex flex-col w-full lg:px-[4rem] lg:mt-0 2xl:mt-0 xl:mt-0 md:mt-96 px-2'>
             <div className='flex md:flex-row flex-col w-full justify-between md:h-[520px] h-fit'>
-                <div className='bunner w-full h-full  py-4 lg:pl-4 pl-1'>
+                <div className='bunner w-full h-full  py-4 lg:pl-1 pl-1'>
                     <div className='mainPage flex md:flex-row flex-col m-auto items-center bg-[#0C203B] justify-between h-full relative'>
                         <div className='mainPageContent lg:w-[30%] md:w-[50%] w-full flex flex-col m-auto justify-center items-start h-full p-8'>
                            

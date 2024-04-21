@@ -8,7 +8,7 @@ interface NewArrivalProps {
 }
 const NewArrival: React.FC<NewArrivalProps> = ({ productData }) => {
     return (
-        <div className='flex flex-col w-full lg:px-[4.9rem] px-2 py-12'>
+        <div className='flex flex-col w-full lg:px-[3rem] px-2 py-12'>
             <div className='flex flex-col px-2 pb-6'>
                 <div className="flex justify-start items-start">
                     <div className="flex w-[20px] h-[40px] rounded-md bg-[#EDB62E]">
@@ -17,7 +17,7 @@ const NewArrival: React.FC<NewArrivalProps> = ({ productData }) => {
                 </div>
                 {/* <h1 className='flex text-2xl text-[#0C203B] mt-3 font-semibold'>Telefoni zikigera ku isoko</h1> */}
             </div>
-            <div className="flex lg:flex-row md:flex-col flex-col w-full lg:space-x-8 lg:space-y-0 space-y-3">
+            <div className="flex lg:flex-row px-2 md:flex-col flex-col w-full lg:space-x-8 lg:space-y-0 space-y-3">
                 <div className="flex lg:w-1/2 md:w-full w-full h-[600px] relative bg-[#0C203B]">
                     <div className="absolute bottom-8 left-8 text-white flex flex-col">
                         <h1 className="flex font-semibold">PlayStation 5</h1>

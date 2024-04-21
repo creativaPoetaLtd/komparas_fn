@@ -61,7 +61,7 @@ const ThreeButtons: React.FC<IProduct> = ({ products }) => {
                                     {showValueMap[index] ? <Minus className='ml-auto' /> : <Plus className='ml-auto' />}
                                 </div>
                                 {showValueMap[index] && (
-                                    <div className='ValusePargrapth text-sm p-3' dangerouslySetInnerHTML={{ __html: review?.value }}></div>
+                                    <div className='ValusePargrapth text-sm text-justify p-3' dangerouslySetInnerHTML={{ __html: review?.value }}></div>
                                 )}
                             </div>
                         ))}

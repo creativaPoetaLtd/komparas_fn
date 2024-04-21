@@ -22,7 +22,7 @@ const SlidingCards: React.FC = () => {
   }
 
   return (
-    <div className="w-full py-12 lg:mt-0 md:mt-0 xl:mt-0 2xl:mt-0 mt-[35%] md:px-20 px-0">
+    <div className="w-full py-12 lg:mt-0 md:mt-0 xl:mt-0 2xl:mt-0 mt-[35%] md:px-[4rem] px-0">
       <Swiper
         spaceBetween={20}
         slidesPerView={1}
@@ -33,7 +33,7 @@ const SlidingCards: React.FC = () => {
             slidesPerView: 3,
           },
           1024: {
-            slidesPerView: 4,
+            slidesPerView: 3.5,
           },
         }}
       >
@@ -45,11 +45,16 @@ const SlidingCards: React.FC = () => {
                 <img src={slide.product_image} height={152} width={172} alt="" className="w-[172px] h-[152px] object-contain mb-4" />
               </div>
               <p className='flex text-sm'>{slide?.product_name}</p>
-              <p className='flex text-sm text-[#EDB62E] mt-1'>
+              <p className='flex text-sm text-red-500 mt-1 line-through'>
                 Igiciro: {' '}
                 {slide.vendor_prices?.reduce((prev: any, current: any) => (prev.price < current.price) ? prev : current).price
                   .toLocaleString('en-US', { maximumFractionDigits: 4 })} Rwf
               </p>
+            
+                        <h1 className='realprice text-[#EDB62E] font-semibold'>
+                        Igiciro: {' '}
+                        {slide?.our_price.toLocaleString('en-US', { maximumFractionDigits: 4 })} Rwf
+                        </h1>
 
             </Link>
           </SwiperSlide>

@@ -33,9 +33,9 @@ const TimingProduct = () => {
     });
 
     return (
-        <div className='flex flex-col w-full lg:px-[4.5rem] px-2'>
+        <div className='flex flex-col w-full lg:px-[4rem] px-2'>
             <div className='flex lg:flex-row md:flex-col flex-col w-full justify-between md:h-[520px] h-fit'>
-                <div className='bunner lg:w-[63%] md:w-full w-full h-full  py-4 lg:pl-4 pl-2'>
+                <div className='bunner lg:w-[63%] md:w-full w-full h-full  py-4 lg:pl-2 pl-2'>
                     <div className='mainPage flex bg-[#0C203B] pb-5 h-full relative'>
                         <div className='mainPageContent w-[50%] h-full lg:p-8 md:p-2 p-2'>
                             <div className='timers md:p-2 p-1 justify-between flex w-full'>
