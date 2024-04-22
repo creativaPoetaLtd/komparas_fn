@@ -118,12 +118,12 @@ const TimingProduct = () => {
                                 <img src={image4} height={160} width={160} alt="" className="w-full h-full " />
                             </div>
                         </div>
-                        <div className='mainPageContent w-[50%] h-full pr-8 py-2'>
-                            <p className='text-2xl mt-1 '>
+                        <div className='mainPageContent pl-2 items-start flex flex-col justify-start w-[50%] h-full pr-1 py-2'>
+                            <p className='text-xl mt-1 '>
                             Xiaomi FlipBuds Pro
                             </p>
-                            <div className='flex'>
-                                <p className=' font-thin justify-center'>$299 USD</p>
+                            <div className='flex justify-center text-start'>
+                                <p className=' font-thin justify-start text-start flex'>$299 USD</p>
                             </div>
                             <button className="flex space-x-2 rounded-md text-sm mt-6 md:p-3 p-2 md:px-4 px-2 font-semibold bg-[#EDB62E] text-white">
                                 <p className="">View More</p>
