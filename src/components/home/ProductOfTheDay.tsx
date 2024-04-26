@@ -16,6 +16,9 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
   const handleRefresh = () => {
     setRefresh(!refresh);
   }
+const isAdminFromLocalStorage:any = JSON.parse(localStorage.getItem("KomparasLoginsInfo") as any) || {};
+console.log(isAdminFromLocalStorage.role);
+
 
   useEffect(() => {
     const fetchDayProduct = async () => {
@@ -129,7 +132,10 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
           <div className="w-full h-full object-cover">
             <img src={dayProduct[0]?.image} height={998} width={406} alt="" className="w-[406px] object-contain h-full" />
           </div>
-          <button onClick={() => setIsFormVisible(true)} className="bg-[#EDB62E] absolute right-3 bottom-2 text-white px-4 py-2 rounded mt-4">Upload New Product</button>
+          {isAdminFromLocalStorage.role === "admin" && (
+            <button onClick={() => setIsFormVisible(true)} className="bg-[#EDB62E] absolute right-3 bottom-2 text-white px-4 py-2 rounded mt-4">Upload New Product</button>
+          )}
+          {/* <button onClick={() => setIsFormVisible(true)} className="bg-[#EDB62E] absolute right-3 bottom-2 text-white px-4 py-2 rounded mt-4">Upload New Product</button> */}
         </div>
       </div>
       {isFormVisible && (
