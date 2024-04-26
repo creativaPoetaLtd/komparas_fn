@@ -8,6 +8,7 @@ interface ProductOfTheDayProps {
 
 const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [dayProduct, setDayProduct] = useState<any>([]);
   const [refresh, setRefresh] = useState(false);
@@ -49,8 +50,10 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
     }
   };
   const handleSubmit = async () => {
+
     try {
       if (dayProduct.length > 0) {
+        setLoading(true);
         const updatedData = {
           name: newImageData.name || dayProduct[0].name,
           description: newImageData.description || dayProduct[0].description,
@@ -58,8 +61,6 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
           price: newImageData.price || dayProduct[0].price,
           image: newImageData.image || dayProduct[0].image,
         };
-        handleRefresh();
-        setIsFormVisible(false)
         const res = await updateDayProduct(updatedData);
         console.log(res);
       } else {
@@ -74,9 +75,19 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
         price: "",
         image: undefined
       });
+      handleRefresh();
+      setLoading(false);
+        setIsFormVisible(false)
+
     } catch (error) {
       console.log(error);
+      handleRefresh();
+      setLoading(false);
+
     }
+    handleRefresh();
+    setLoading(false);
+
   };
 
   const handleCancel = () => {
@@ -201,7 +212,11 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
                 ></textarea>
               </div>
             </div>
-            <button onClick={handleSubmit} className="bg-blue-500 w-fit justify-end self-end flex items-end text-white px-4 py-2 rounded">Submit</button>
+            <button onClick={handleSubmit} className="bg-blue-500 w-fit justify-end self-end flex items-end text-white px-4 py-2 rounded">
+              {
+                loading ? "Loading..." : "Submit"
+              }
+            </button>
             <button onClick={() => {
               setIsFormVisible(false)
               handleCancel()

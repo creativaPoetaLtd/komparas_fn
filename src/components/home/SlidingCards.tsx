@@ -33,7 +33,7 @@ const SlidingCards: React.FC = () => {
             slidesPerView: 3,
           },
           1024: {
-            slidesPerView: 4.3,
+            slidesPerView: 4.5,
           },
         }}
       >
