@@ -78,7 +78,7 @@ const MobileHomeNav = () => {
             <HiBars3BottomLeft className="text-3xl" />
           </Dropdown>
         </div>
-        <h1 className="text-xl">Komparas</h1>
+        <img src='/cc.png' alt='logo' className='h-8' />
         <div>
           <Dropdown overlay={menu}>
             <Button>

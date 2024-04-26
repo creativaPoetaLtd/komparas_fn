@@ -33,25 +33,25 @@ const SlidingCards: React.FC = () => {
             slidesPerView: 3,
           },
           1024: {
-            slidesPerView: 3.5,
+            slidesPerView: 4.3,
           },
         }}
       >
         {products?.map((slide, index) => (
           <SwiperSlide key={index}>
-            <Link className="p-4 flex flex-col rounded-md border-[1px] border-gray-300" to={`/product/${slide?._id}`}>
-
+            <Link className="p-2 relative justify-end text-end items-end flex flex-col rounded-md border-[1px] border-gray-300" to={`/product/${slide?._id}`}>
+              <div className='offerCircle absolute top-0 right-0 bg-[#EDB62E] justify-center m-auto flex items-center text-sm text-white p-1 h-12 border-2 border-white w-12 rounded-full'>-10%</div>
               <div className="flex justify-center">
                 <img src={slide.product_image} height={152} width={172} alt="" className="w-[172px] h-[152px] object-contain mb-4" />
               </div>
-              <p className='flex text-sm'>{slide?.product_name}</p>
+              <p className='flex text-sm font-semibold'>{slide?.product_name}</p>
               <p className='flex text-sm text-red-500 mt-1 line-through'>
-                Igiciro: {' '}
+                {/* Igiciro: {' '} */}
                 {slide.vendor_prices?.reduce((prev: any, current: any) => (prev.price < current.price) ? prev : current).price
                   .toLocaleString('en-US', { maximumFractionDigits: 4 })} Rwf
               </p>
             
-                        <h1 className='realprice text-[#EDB62E] font-semibold'>
+                        <h1 className='realprice text-green-500 text-sm font-semibold'>
                         Igiciro: {' '}
                         {slide?.our_price.toLocaleString('en-US', { maximumFractionDigits: 4 })} Rwf
                         </h1>
@@ -61,7 +61,7 @@ const SlidingCards: React.FC = () => {
         ))}
       </Swiper>
       <div className='flex justify-center mt-12 w-full'>
-        <button className='bg-[#0C203B] text-white p-3 rounded-md' onClick={handleViewAllProducts}>Reba telefoni zose zihari</button>
+        <button className='bg-[#0C203B] text-white p-2 text-sm rounded-md underline underline-offset-4' onClick={handleViewAllProducts}>Reba zose</button>
       </div>
     </div>
   );

@@ -1,8 +1,8 @@
 
 import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
-import { FaApple } from "react-icons/fa";
-import { ArrowRight } from "@phosphor-icons/react";
+// import { FaApple } from "react-icons/fa";
+// import { ArrowRight } from "@phosphor-icons/react";
 import { getAllProducts } from "../../api/product";
 import { fetchParentCategories } from "../../api/getAllCategories";
 import { Phone } from "@phosphor-icons/react";
@@ -75,7 +75,7 @@ const HomeBurner = () => {
   const cagetoryItems = categories?.map((category: any) => {
     // Check if the category has children
     const hasChildren = category.children && category.children.length > 0;
-    return getItem(category.name, category._id, <Phone />,  !hasChildren ? category.id ? category.id : null : category.children.map((child: any) => {
+    return getItem(category.name, category._id, <Phone className="text-green-500" />,  !hasChildren ? category.id ? category.id : null : category.children.map((child: any) => {
       return getItem(child.name, child._id, <Phone />)
     }
     ));
@@ -91,23 +91,24 @@ const HomeBurner = () => {
       <Slider {...settings} className='lg:w-[80%] w-[100%] self-center h-full'>
         {products?.slice(0,4)?.map((slide, index) => (
           <div key={index+1} className='bunner lg:w-3/4 w-[90%] bg-[#0C203B] mt-6 h-full md:py-4 py-4 md:pl-4 pl-0 px-0'>
-            <div className='mainPage flex md:flex-row flex-col  md:h-[344px] h-fit relative'>
+            <div className='mainPage flex md:flex-row flex-col  md:h-[255px] h-fit relative'>
               <div className='mainPageContent md:w-[44%] w-full h-full md:p-12 p-5'>
-                <div className='flex'>
+                {/* <div className='flex'>
                   <FaApple className='text-white md:text-5xl text-2xl my-auto justify-center' />
                   <p className='text-white text-sm ml-2 my-auto font-thin justify-center'> ibyiciro bya iPhone 14</p>
-                </div>
-                <p className='lg:text-5xl text-3xl mt-6 text-white'>
-                  Kugera ku 10% byagabanyijwe
+                </div> */}
+                <img src='/cc.png' alt='logo' className='h-12 mt-4' />
+                <p className='lg:text-md text-sm mt-6 bg-black p-2 text-white'>
+                  Ishakiro rya telephone zizewe
                 </p>
-                <button className="flex space-x-2 pl-1 text-sm mt-1 text-[#EDB62E]">
+                {/* <button className="flex space-x-2 pl-1 text-sm mt-1 text-[#EDB62E]">
                   <p className="underline underline-offset-4">Reba aho wayigurira</p>
                   <ArrowRight className="m-auto justify-center" />
-                </button>
+                </button> */}
               </div>
               <div className="image md:w-[60%] w-full h-full md:p-4 p-1 pb-12">
                 <div className="w-full h-full object-cover">
-                  <img src={slide?.product_image} height={100} width={100} alt="" className="w-full h-[274px] object-contain" />
+                  <img src={slide?.product_image} height={100} width={100} alt="" className="w-full h-[204px] object-contain" />
                 </div>
               </div>
             </div>
