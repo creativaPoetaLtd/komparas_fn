@@ -6,7 +6,7 @@ import imag4 from "../../assets/imag4.png"
 interface NewArrivalProps {
     productData: any;
 }
-const NewArrival: React.FC<NewArrivalProps> = ({ productData }) => {
+const NewArrival: React.FC<NewArrivalProps> = ({}) => {
     return (
         <div className='flex flex-col w-full lg:px-[3rem] px-2 py-12'>
             <div className='flex flex-col px-2 pb-6'>
