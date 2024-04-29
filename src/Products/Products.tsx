@@ -23,17 +23,10 @@ const Products: React.FC = () => {
     React.useEffect(() => {
         const fetchProducts = async () => {
             const data:any = await getAllProductsWithCategoryNames();
-            console.log("data", data);
-            
             setMockProducts(data);
         };
         fetchProducts();
-    }, []);
-
-
-    console.log("mockProducts", mockProducts);
-    
-  
+    }, []);    
     const filteredProducts = mockProducts.filter(
       (product) =>
         product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||

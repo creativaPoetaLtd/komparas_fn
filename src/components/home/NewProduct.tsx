@@ -17,8 +17,6 @@ const NewProduct = () => {
 
     const prod1 = products[(products?.length) - 1];
     const prod2 = products[(products?.length) - 2]
-    console.log(prod2?.product_description);
-
     return (
         <div className='flex flex-col w-full lg:px-[4rem] px-2'>
             <div className='flex flex-col px-2 pb-6'>
@@ -41,7 +39,7 @@ const NewProduct = () => {
                                 {prod1?.product_name}
                             </p>
                             {prod1?.product_description && (
-                                <p className='text-sm mt-4 text-white'>
+                                <p className='text-sm mt-4'>
                                     {prod1.product_description.length > 50 ? `${prod1.product_description.substring(0, 50)}...` : prod1.product_description}
                                 </p>
                             )}

@@ -8,9 +8,7 @@ const Users = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       setLoading(true)
-      const users = await getUsers()
-      console.log(users, "ss");
-      
+      const users = await getUsers()      
       setUsers(users)
       setLoading(false)
     }

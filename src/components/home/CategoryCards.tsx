@@ -73,9 +73,7 @@ const CategoryCards: React.FC = () => {
   useEffect(() => {
       const fetchCategories = async () => {
           const data = await getAllCategories();            
-          setCategories(data?.data);
-          console.log('Categories', data?.data);
-          
+          setCategories(data?.data);          
       }
       fetchCategories();
   }

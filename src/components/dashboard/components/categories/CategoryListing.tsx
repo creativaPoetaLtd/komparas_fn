@@ -18,14 +18,14 @@ const CategoryListing = (
         setCategories(res.data)
         setLoading(false)
       })
-      .catch((err) => console.log(err))
+      .catch(() => {})
   }, [refresh])
   const handleDelete = (id: string) => {
     deleteCategory(id)
       .then(() => {
         setRefresh(!refresh)
       })
-      .catch((err) => console.log(err))
+      .catch(() => {})
   }
 
   const handleEditCategory = async (id: any) => {

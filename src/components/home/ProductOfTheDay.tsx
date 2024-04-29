@@ -17,9 +17,6 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
     setRefresh(!refresh);
   }
 const isAdminFromLocalStorage:any = JSON.parse(localStorage.getItem("KomparasLoginsInfo") as any) || {};
-console.log(isAdminFromLocalStorage.role);
-
-
   useEffect(() => {
     const fetchDayProduct = async () => {
       const data = await getDayProduct();
@@ -64,11 +61,9 @@ console.log(isAdminFromLocalStorage.role);
           price: newImageData.price || dayProduct[0].price,
           image: newImageData.image || dayProduct[0].image,
         };
-        const res = await updateDayProduct(updatedData);
-        console.log(res);
+        await updateDayProduct(updatedData);
       } else {
-        const res = await addDayProduct(newImageData);
-        console.log(res);
+        await addDayProduct(newImageData);
       }
       // Clear the form after submitting
       setNewImageData({
@@ -83,10 +78,8 @@ console.log(isAdminFromLocalStorage.role);
         setIsFormVisible(false)
 
     } catch (error) {
-      console.log(error);
       handleRefresh();
       setLoading(false);
-
     }
     handleRefresh();
     setLoading(false);

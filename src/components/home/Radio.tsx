@@ -113,11 +113,9 @@ const RadioSection = () => {
           price: newImageData.price || dayProduct[0].price,
           image: newImageData.image || dayProduct[0].image,
         };
-        const res = await updateDayProduct1(updatedData);
-        console.log(res);
+       await updateDayProduct1(updatedData);
       } else {
-        const res = await addDayProduct1(newImageData);
-        console.log(res);
+       await addDayProduct1(newImageData);
       }
       // Clear the form after submitting
       setNewImageData({
@@ -132,7 +130,6 @@ const RadioSection = () => {
       setIsFormVisible(false)
 
     } catch (error) {
-      console.log(error);
       handleRefresh();
       setLoading(false);
 

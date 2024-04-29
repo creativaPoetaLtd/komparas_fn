@@ -15,9 +15,6 @@ const SlidingCards: React.FC = () => {
   }
     , []);
 
-
-    
-
   const navigate = useNavigate();
   const handleViewAllProducts = () => {
     navigate("/products");
@@ -43,7 +40,7 @@ const SlidingCards: React.FC = () => {
           <SwiperSlide key={index}>
             <Link className="p-2 relative justify-end text-end items-end flex flex-col rounded-md border-[1px] border-gray-300" to={`/product/${slide?._id}`}>
               <div className='offerCircle absolute top-0 right-0 bg-[#EDB62E] justify-center m-auto flex items-center text-sm text-white p-1 h-12 border-2 border-white w-12 rounded-full'>-10%</div>
-              <div className="flex justify-center">
+              <div className="flex justify-center self-center">
                 <img src={slide.product_image} height={152} width={172} alt="" className="w-[172px] h-[152px] object-contain mb-4" />
               </div>
               <p className='flex text-sm font-semibold'>{slide?.product_name}</p>

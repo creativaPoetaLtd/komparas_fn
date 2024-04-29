@@ -1,10 +1,8 @@
 import { ArrowRight, UploadSimple } from '@phosphor-icons/react'
 import React, { useEffect, useState } from 'react'
-// import image5 from '../../assets/image5.png'
-import { addDayProduct1, getDayProduct1, updateDayProduct1 } from '../../api/offer';
+import { addDayProduct2, getDayProduct2, updateDayProduct2 } from '../../api/offer';
 
-
-const Time1 = () => {
+const Time2 = () => {
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [loading, setLoading] = useState(false);
   
@@ -19,7 +17,7 @@ const Time1 = () => {
   
     useEffect(() => {
       const fetchDayProduct = async () => {
-        const data = await getDayProduct1();
+        const data = await getDayProduct2();
         setDayProduct(data?.data?.dayProducts);
       };
       fetchDayProduct();
@@ -61,9 +59,9 @@ const Time1 = () => {
             price: newImageData.price || dayProduct[0].price,
             image: newImageData.image || dayProduct[0].image,
           };
-          await updateDayProduct1(updatedData);
+          await updateDayProduct2(updatedData);
         } else {
-          await addDayProduct1(newImageData);
+          await addDayProduct2(newImageData);
         }
         // Clear the form after submitting
         setNewImageData({
@@ -105,34 +103,29 @@ const Time1 = () => {
       image?.click();
     };
   return (
-    <div className='h-[50%] sm:h-[50%] lg:h-[50%] 2xl:h-[50%] md:h-[100%] flex w-full  justify-between bg-[#0C203B] relative'>
-    <div className='absolute top-8 rounded-md p-2 right-12 w-fit h-fit bg-[#EDB62E] text-white'>
-        <p className='text-lg'>{dayProduct[0]?.offer}% OFF</p>
-    </div>
-    <div className='mainPageContent w-[45%] h-full md:p-4 p-3 flex justify-center m-auto flex-col'>
-        <div className='flex'>
-            <p className='text-[#EDB62E] md:text-base text-sm my-auto justify-center'>
-            {dayProduct[0]?.description}
-            </p>
+    <div className=' relative h-[50%] sm:h-[50%] lg:h-[50%] 2xl:h-[50%] md:h-[100%] w-full flex p-4 bg-[#F2F4F5]'>
+    <div className="image w-[50%] h-full pl-2 relative">
+        <div className="w-[140px]  h-[160px] object-cover flex justify-start self-start float-left">
+            <img src={ dayProduct[0]?.image } height={160} width={160} alt="" className="w-full flex justify-start items-start self-start float-left h-full " />
         </div>
-        <p className='md:text-xl test-base mt-5 text-white'>
-        {dayProduct[0]?.name}
+    </div>
+    {
+        isAdminFromLocalStorage?.isAdmin && (
+            <button onClick={() => setIsFormVisible(true)} className="absolute bottom-1 right-1 bg-black text-white p-1 text-sm rounded-md">Add Product</button>
+        )
+    }
 
+    <div className='mainPageContent pl-2 items-start flex flex-col justify-start w-[50%] h-full pr-1 py-2'>
+        <p className='text-xl mt-1 '>
+       {dayProduct[0]?.name}
         </p>
-        <button className="flex space-x-2 rounded-md text-sm mt-6 md:p-2 p-2 md:px-2 px-2 font-semibold bg-[#EDB62E] text-white">
+        <div className='flex justify-center text-start'>
+            <p className=' font-thin justify-start text-start flex'>{dayProduct[0]?.price} Rwf</p>
+        </div>
+        <button className="flex space-x-2 rounded-md text-sm mt-6 md:p-3 p-2 md:px-4 px-2 font-semibold bg-[#EDB62E] text-white">
             <p className="">View More</p>
             <ArrowRight className="m-auto justify-center" />
         </button>
-    </div>
-    <div className="image w-[55%] flex justify-end  h-full pl-4 pt-12">
-        <div className="w-full h-full object-cover">
-            <img src={ dayProduct[0]?.image } height={312} width={312} alt="" className="w-[312px] h-full" />
-            {
-                isAdminFromLocalStorage?.isAdmin && (
-                    <button onClick={() => setIsFormVisible(true)} className="absolute bottom-1 right-1 bg-black text-white p-1 text-sm rounded-md">Add Product</button>
-                )
-            }
-        </div>
     </div>
     {isFormVisible && (
         <div className="fixed top-0 left-0 z-50 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
@@ -230,4 +223,4 @@ const Time1 = () => {
   )
 }
 
-export default Time1
+export default Time2

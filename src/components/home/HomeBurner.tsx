@@ -28,8 +28,7 @@ function getItem(
 
 
 
-const onClick: MenuProps['onClick'] = (e) => {
-  console.log('click', e);
+const onClick: MenuProps['onClick'] = () => {
 };
 const HomeBurner = () => {
   const [products, setProducts] = React.useState<any[]>([]);

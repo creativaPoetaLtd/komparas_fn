@@ -33,7 +33,6 @@ const UpperProduct = () => {
 
     const handleSelectProduct = (selectedProductId: string) => {
       setSelectedProductId(selectedProductId);
-      console.log("selected product ID: ", selectedProductId);
       localStorage.setItem('selectedProductId', selectedProductId);
       setIsSelectedId(false);
       setIsOpen(false);
@@ -41,7 +40,6 @@ const UpperProduct = () => {
 
     const handleSelectProduct1 = (selectedProductId1: string) => {
       setSelectedProductId1(selectedProductId1);
-      console.log("selected product ID: ", selectedProductId1);
       localStorage.setItem('selectedProductId1', selectedProductId1);
       setIsSelectedId1(false);
       setIsOpen(false);

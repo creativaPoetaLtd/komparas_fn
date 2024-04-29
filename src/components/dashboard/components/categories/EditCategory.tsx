@@ -73,7 +73,6 @@ const EditCategoryForm = (
     e.preventDefault()
     setLoading(false)
     const res = await updateCategory(formData, editID)
-    console.log("res", res);
     if (res?.status === 200) {
       toast.success("Category Updated Successfully")
       setIsEditCategory(false)

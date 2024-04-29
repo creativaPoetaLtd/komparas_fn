@@ -52,7 +52,6 @@ const EditShopForm = (
         e.preventDefault()
         setLoading(false)
         const res = await updateShop(formData, editID)
-        console.log("res", res);
         if (res?.status === 200) {
             toast.success("Shop Updated Successfully")
             setIsEditShop(false)
