@@ -26,13 +26,6 @@ const MobileHomeNav = () => {
       </Menu.Item>
     </Menu>
   );
-  // const isLogin = localStorage.getItem("KomparasLoginsInfo");
-  // const navigate = useNavigate();
-  // const handleLogout = () => {
-  //   localStorage.removeItem("KomparasLoginsInfo");
-  //   navigate("/login");
-  // }
-
   const burgerMenu = (
     <Menu style={
       {

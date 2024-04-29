@@ -1,7 +1,9 @@
+import { Button, Dropdown, Menu } from 'antd';
 import { useState, useEffect } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { UserOutlined } from '@ant-design/icons';
 
 
 const HomeNav = () => {
@@ -18,6 +20,30 @@ const HomeNav = () => {
     localStorage.removeItem("KomparasLoginsInfo");
     navigate("/login");
   }
+
+  const menu = (
+    <Menu>
+      <Menu.Item key="0">
+        <Link to="/">
+          <a>Profile</a>
+        </Link>
+      </Menu.Item>
+      <Menu.Item key="1">
+        <Link to="/">
+          <a>Setting</a>
+        </Link>
+      </Menu.Item>
+      <Menu.Item key="2">
+        {/* <Link to="/login">
+          <a>Injira</a>
+        </Link> */}
+        <button onClick={handleLogout}>
+            {isLogin ? "  Sohoka" : "Injira"}
+          </button>
+      </Menu.Item>
+    </Menu>
+  );
+
 
   return (
     <nav className='w-full text-white lg:flex hidden justify-between px-32 pb-3 pt-7 bg-[#0C203B]'>
@@ -57,7 +83,7 @@ const HomeNav = () => {
         </li>
         {selectedMenu === 'contact_us' && <div className='line h-[2px] w-full bg-green-500'></div>}
         </div>
-        <div className='flex flex-col space-y-0 w-fit'>
+        {/* <div className='flex flex-col space-y-0 w-fit'>
         <li
           className={`text-white ${
             selectedMenu === 'login' ? 'text-bold font-bold' : ''
@@ -68,7 +94,7 @@ const HomeNav = () => {
           </button>
         </li>
         {selectedMenu === 'login' && <div className='line h-[2px] w-full bg-green-500'></div>}
-        </div>
+        </div> */}
 
 
 
@@ -107,6 +133,11 @@ const HomeNav = () => {
           <FaSearch className='text-black' />
         </button>
       </div>
+      <Dropdown overlay={menu} className='mt-1'>
+            <Button>
+              <UserOutlined className='test text-white' />
+            </Button>
+          </Dropdown>
     </nav>
   );
 };

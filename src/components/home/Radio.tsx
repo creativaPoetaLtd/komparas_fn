@@ -1,136 +1,125 @@
 import { useState, useEffect } from 'react';
 import { ArrowRight, UploadSimple } from '@phosphor-icons/react';
-import Frame9 from '../../assets/Frame9.png';
+// import Frame9 from '../../assets/Frame9.png';
 import Modal from 'react-modal';
 import { addDayProduct1, getDayProduct1, updateDayProduct1 } from '../../api/offer';
+import { getAllProducts } from '../../api/product';
+import React from 'react';
 
 const RadioSection = () => {
-    const calculateTimeLeft = () => {
-        const difference = +new Date("2024-05-24") - +new Date();
-        let timeLeft:any = {};
-        if (difference > 0) {
-            timeLeft = {
-                days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-                hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-                minutes: Math.floor((difference / 1000 / 60) % 60),
-                seconds: Math.floor((difference / 1000) % 60)
-            };
-        }
-        return timeLeft;
-    };
-    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setTimeLeft(calculateTimeLeft());
-        }, 1000);
-
-        return () => clearTimeout(timer);
-    });
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    // const [formData, setFormData] = useState({
-    //     name: '',
-    //     description: '',
-    //     offer: '',
-    //     price: '',
-    //     image: ''
-    // });
-
-    // const handleInputChange = (e: { target: { name: any; value: any; }; }) => {
-    //     const { name, value } = e.target;
-    //     setFormData({ ...formData, [name]: value });
-    // };
-
-    // const handleSubmit = () => {
-    //     // Handle form submission
-    //     setIsModalOpen(false);
-    // };
-
-    const [, setIsFormVisible] = useState(false);
-    const [loading, setLoading] = useState(false);
-  
-    const [dayProduct, setDayProduct] = useState<any>([]);
-    const [refresh, setRefresh] = useState(false);
-  
-    const handleRefresh = () => {
-      setRefresh(!refresh);
+  // const calculateTimeLeft = () => {
+  //   const difference = +new Date("2024-05-24") - +new Date();
+  //   let timeLeft: any = {};
+  //   if (difference > 0) {
+  //     timeLeft = {
+  //       days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+  //       hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+  //       minutes: Math.floor((difference / 1000 / 60) % 60),
+  //       seconds: Math.floor((difference / 1000) % 60)
+  //     };
+  //   }
+  //   return timeLeft;
+  // };
+  const [products, setProducts] = React.useState<any[]>([]);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const response = await getAllProducts();
+      setProducts(response?.data?.products);
     }
-  
-    useEffect(() => {
-      const fetchDayProduct = async () => {
-        const data = await getDayProduct1();
-        setDayProduct(data?.data?.dayProducts);
+    fetchProducts();
+  }
+    , []);
+  // const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setTimeLeft(calculateTimeLeft());
+  //   }, 1000);
+
+  //   return () => clearTimeout(timer);
+  // });
+
+  const prod3 = products[(products?.length) - 3]
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [formData, setFormData] = useState({
+  //     name: '',
+  //     description: '',
+  //     offer: '',
+  //     price: '',
+  //     image: ''
+  // });
+
+  // const handleInputChange = (e: { target: { name: any; value: any; }; }) => {
+  //     const { name, value } = e.target;
+  //     setFormData({ ...formData, [name]: value });
+  // };
+
+  // const handleSubmit = () => {
+  //     // Handle form submission
+  //     setIsModalOpen(false);
+  // };
+
+  const [, setIsFormVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const [dayProduct, setDayProduct] = useState<any>([]);
+  const [refresh, setRefresh] = useState(false);
+
+  const handleRefresh = () => {
+    setRefresh(!refresh);
+  }
+
+  useEffect(() => {
+    const fetchDayProduct = async () => {
+      const data = await getDayProduct1();
+      setDayProduct(data?.data?.dayProducts);
+    };
+    fetchDayProduct();
+  }
+    , [refresh]);
+  const [newImageData, setNewImageData] = useState({
+    name: "",
+    description: "",
+    offer: "",
+    price: "",
+    image: undefined
+  });
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setNewImageData((prevFormData: any) => ({
+        ...prevFormData,
+        image: file,
+      }));
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImageUrl(reader.result as string);
       };
-      fetchDayProduct();
+      reader.readAsDataURL(file);
+    } else {
+      setImageUrl(null);
     }
-      , [refresh]);
-    const [newImageData, setNewImageData] = useState({
-      name: "",
-      description: "",
-      offer: "",
-      price: "",
-      image: undefined
-    });
-    const [imageUrl, setImageUrl] = useState<string | null>(null);
-    const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      const file = event.target.files?.[0];
-      if (file) {
-        setNewImageData((prevFormData: any) => ({
-          ...prevFormData,
-          image: file,
-        }));
-        const reader = new FileReader();
-        reader.onload = () => {
-          setImageUrl(reader.result as string);
+  };
+  const handleSubmit = async () => {
+
+    try {
+      if (dayProduct.length > 0) {
+        setLoading(true);
+        const updatedData = {
+          name: newImageData.name || dayProduct[0].name,
+          description: newImageData.description || dayProduct[0].description,
+          offer: newImageData.offer || dayProduct[0].offer,
+          price: newImageData.price || dayProduct[0].price,
+          image: newImageData.image || dayProduct[0].image,
         };
-        reader.readAsDataURL(file);
+        const res = await updateDayProduct1(updatedData);
+        console.log(res);
       } else {
-        setImageUrl(null);
+        const res = await addDayProduct1(newImageData);
+        console.log(res);
       }
-    };
-    const handleSubmit = async () => {
-  
-      try {
-        if (dayProduct.length > 0) {
-          setLoading(true);
-          const updatedData = {
-            name: newImageData.name || dayProduct[0].name,
-            description: newImageData.description || dayProduct[0].description,
-            offer: newImageData.offer || dayProduct[0].offer,
-            price: newImageData.price || dayProduct[0].price,
-            image: newImageData.image || dayProduct[0].image,
-          };
-          const res = await updateDayProduct1(updatedData);
-          console.log(res);
-        } else {
-          const res = await addDayProduct1(newImageData);
-          console.log(res);
-        }
-        // Clear the form after submitting
-        setNewImageData({
-          name: "",
-          description: "",
-          offer: "",
-          price: "",
-          image: undefined
-        });
-        handleRefresh();
-        setLoading(false);
-          setIsFormVisible(false)
-  
-      } catch (error) {
-        console.log(error);
-        handleRefresh();
-        setLoading(false);
-  
-      }
-      handleRefresh();
-      setLoading(false);
-  
-    };
-  
-    const handleCancel = () => {
-      // Clear the form on cancel
+      // Clear the form after submitting
       setNewImageData({
         name: "",
         description: "",
@@ -138,30 +127,61 @@ const RadioSection = () => {
         price: "",
         image: undefined
       });
-      setIsFormVisible(false);
-    };
-  
-    const handleImageUpload = () => {
-      const image: HTMLElement | null =
-        document.getElementById("image");
-      image?.click();
-    };
-    return (
-        <div className='flex flex-col w-full lg:px-[4rem] lg:mt-0 2xl:mt-0 xl:mt-0 md:mt-96 px-2'>
-            <div className='flex md:flex-row flex-col w-full justify-between md:h-[520px] h-fit'>
-                <div className='bunner w-full h-full  py-4 lg:pl-1 pl-1'>
-                    <div className='mainPage flex md:flex-row flex-col m-auto items-center bg-[#0C203B] justify-between h-full relative'>
-                        <div className='mainPageContent lg:w-[30%] md:w-[50%] w-full flex flex-col m-auto justify-center items-start h-full p-8'>
-                           
-                            <div className='flex mt-6'>
-                                <p className='my-auto font-thin text-[#EDB62E] justify-center'>Ibyiciro</p>
-                            </div>
-                            <p className='lg:text-4xl md:text-2xl text-xl font-semibold mt-6 text-white pr-3'>
-                            Ryoherwa n'muziki ku kigero gihebuje
-                            </p>
-                            
-                            <div className='timers py-5 justify-between flex w-full'>
-                                <div className='timerCircle text-xs flex-col p-2 items-center bg-white flex rounded-full h-[62px] w-[62px] my-auto justify-center'>
+      handleRefresh();
+      setLoading(false);
+      setIsFormVisible(false)
+
+    } catch (error) {
+      console.log(error);
+      handleRefresh();
+      setLoading(false);
+
+    }
+    handleRefresh();
+    setLoading(false);
+
+  };
+
+  const handleCancel = () => {
+    // Clear the form on cancel
+    setNewImageData({
+      name: "",
+      description: "",
+      offer: "",
+      price: "",
+      image: undefined
+    });
+    setIsFormVisible(false);
+  };
+
+  const handleImageUpload = () => {
+    const image: HTMLElement | null =
+      document.getElementById("image");
+    image?.click();
+  };
+
+
+  return (
+    <div className='flex flex-col w-full lg:px-[4rem] lg:mt-0 2xl:mt-0 xl:mt-0 md:mt-96 px-2'>
+      <div className='flex md:flex-row flex-col w-full justify-between md:h-[520px] h-fit'>
+        <div className='bunner w-full h-full  py-4 lg:pl-1 pl-1'>
+          <div className='mainPage flex md:flex-row flex-col m-auto items-center bg-[#0C203B] justify-between h-full relative'>
+            <div className='mainPageContent lg:w-[30%] md:w-[50%] w-full flex flex-col m-auto justify-center items-start h-full p-8'>
+
+              <div className='flex mt-6'>
+                <p className='my-auto font-thin text-[#EDB62E] justify-center'>
+                  {prod3?.product_name}
+                </p>
+              </div>
+              {prod3?.product_description && (
+                <p className='text-sm mt-4 text-white'>
+                  {prod3.product_description.length > 70 ? `${prod3.product_description.substring(0, 70)}...` : prod3.product_description}
+                </p>
+              )}
+
+
+              <div className='timers py-5 justify-between flex w-full'>
+                {/* <div className='timerCircle text-xs flex-col p-2 items-center bg-white flex rounded-full h-[62px] w-[62px] my-auto justify-center'>
                                     <div className='circle font-semibold'>{timeLeft.days}</div>
                                     <div className='label'>Iminsi</div>
                                 </div>
@@ -176,25 +196,27 @@ const RadioSection = () => {
                                 <div className='timerCircle text-xs flex-col p-2 items-center bg-white flex rounded-full h-[62px] w-[62px] my-auto justify-center'>
                                     <div className='circle font-semibold'>{timeLeft.seconds}</div>
                                     <div className='label'>Amasegonda</div>
-                                </div>
-                            </div>
-                            <button onClick={() => setIsModalOpen(true)} className="flex space-x-2 rounded-md text-sm mt-8 p-3 px-4 font-semibold bg-[#EDB62E] text-white">
-                                <p className="">Reba byose</p>
-                                <ArrowRight className="m-auto justify-center" />
-                            </button>
-                        </div>
-                        <div className="image md:w-[50%] w-full h-full  flex  justify-center items-center m-auto pt-5 relative">
-                            
-                            <div className="lg:w-[600px] lg:h-[420px] md:w-[359px] md:h-[218px] w-[358px] h-[217.39px] justify-center items-center m-auto object-cover">
-                                <img src={Frame9} height={420} width={600} alt="" className="w-full h-full " />
-                                <button onClick={() => setIsModalOpen(true)} className="bg-[#EDB62E] absolute right-3 bottom-2 text-white px-4 py-2 rounded mt-4">Update Info</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                                </div> */}
+              </div>
+              <button onClick={() => setIsModalOpen(true)} className="flex space-x-2 rounded-md text-sm mt-8 p-3 px-4 font-semibold bg-[#EDB62E] text-white">
+                <p className="">Reba byose</p>
+                <ArrowRight className="m-auto justify-center" />
+              </button>
             </div>
-            <Modal isOpen={isModalOpen} onRequestClose={() => setIsModalOpen(false)}>
-            <div className="fixed top-0 left-0 z-50 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
+            <div className="image md:w-[50%] w-full h-full  flex  justify-center items-center m-auto pt-5 relative">
+
+              <div className="lg:w-[600px] lg:h-[420px] md:w-[359px] md:h-[218px] w-[358px] h-[217.39px] justify-center items-center m-auto object-cover">
+                <img src={
+                  prod3?.product_image
+                } height={420} width={600} alt="" className="w-full h-full " />
+                {/* <button onClick={() => setIsModalOpen(true)} className="bg-[#EDB62E] absolute right-3 bottom-2 text-white px-4 py-2 rounded mt-4">Update Info</button> */}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <Modal isOpen={isModalOpen} onRequestClose={() => setIsModalOpen(false)}>
+        <div className="fixed top-0 left-0 z-50 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-8 flex flex-col z-50 rounded-lg">
             <h2 className="text-2xl font-bold mb-4">Upload New Product</h2>
             <div className="flex w-full space-x-9">
@@ -284,9 +306,9 @@ const RadioSection = () => {
             }} className="bg-gray-300 w-fit justify-end mt-3 self-end flex items-end text-gray-700 px-4 py-2 rounded ml-2">Cancel</button>
           </div>
         </div>
-            </Modal>
-        </div>
-    );
+      </Modal>
+    </div>
+  );
 };
 
 export default RadioSection;

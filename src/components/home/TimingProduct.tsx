@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { ArrowRight } from '@phosphor-icons/react';
 import { RxDividerHorizontal } from "react-icons/rx";
 import headset from '../../assets/headset.png'
-import image5 from '../../assets/image5.png'
 import image4 from '../../assets/image4.png'
+import Time1 from './Time1';
 
 const TimingProduct = () => {
     const calculateTimeLeft = () => {
@@ -90,28 +90,7 @@ const TimingProduct = () => {
                     </div>
                 </div>
                 <div className='sideCategories lg:w-[35%] w-full py-4 md:px-2 px-2 lg:space-y-6 md:space-y-0 sm:space-y-3 md:space-x-5 sm:space-x-0 lg:space-x-0 h-full flex md:flex-row sm:flex-col flex-col lg:flex-col 2xl:flex-col'>
-                    <div className='h-[50%] sm:h-[50%] lg:h-[50%] 2xl:h-[50%] md:h-[100%] flex w-full  justify-between bg-[#0C203B] relative'>
-                        <div className='absolute top-8 rounded-md p-2 right-12 w-fit h-fit bg-[#EDB62E] text-white'>
-                            <p className='text-lg'>29% OFF</p>
-                        </div>
-                        <div className='mainPageContent w-[45%] h-full md:p-4 p-3 flex justify-center m-auto flex-col'>
-                            <div className='flex'>
-                                <p className='text-[#EDB62E] md:text-base text-sm my-auto justify-center'>SUMMER SALES</p>
-                            </div>
-                            <p className='md:text-xl test-base mt-5 text-white'>
-                                New Google Pixel 6 Pro
-                            </p>
-                            <button className="flex space-x-2 rounded-md text-sm mt-6 md:p-2 p-2 md:px-2 px-2 font-semibold bg-[#EDB62E] text-white">
-                                <p className="">View More</p>
-                                <ArrowRight className="m-auto justify-center" />
-                            </button>
-                        </div>
-                        <div className="image w-[55%] flex justify-end  h-full pl-4 pt-12">
-                            <div className="w-full h-full object-cover">
-                                <img src={image5} height={312} width={312} alt="" className="w-[312px] h-full" />
-                            </div>
-                        </div>
-                    </div> 
+                  <Time1 />
                     <div className='h-[50%] sm:h-[50%] lg:h-[50%] 2xl:h-[50%] md:h-[100%] w-full flex p-4 bg-[#F2F4F5]'>
                         <div className="image w-[50%] h-full pl-2">
                             <div className="w-[160px] h-[160px] object-cover">

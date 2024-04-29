@@ -47,7 +47,7 @@ export const addDayProduct1 = async (data: any) => {
     formData.append('offer', data.offer);
     formData.append('price', data.price);
     formData.append('image', data.image);
-    const res =await fetch(`${baseUrl}/dayphone`, {
+    const res =await fetch(`${baseUrl}/promo1`, {
         method: 'POST',
         body: formData,
     });
@@ -61,7 +61,7 @@ export const updateDayProduct1 = async (data: any) => {
     formData.append('offer', data.offer);
     formData.append('price', data.price);
     formData.append('image', data.image);
-    const res =await fetch(`${baseUrl}/dayphone`, {
+    const res =await fetch(`${baseUrl}/promo1`, {
         method: 'PUT',
         body: formData,
     });
@@ -69,12 +69,12 @@ export const updateDayProduct1 = async (data: any) => {
 }
 
 export const getDayProduct1 = async () => {
-    const res = axios.get(`${baseUrl}/dayphone`);
+    const res = axios.get(`${baseUrl}/promo1`);
     return await res;
 }
 
 export const deleteDayProduct1 = async (id: string) => {
-    const res = axios.delete(`${baseUrl}/dayphone/${id}`);
+    const res = axios.delete(`${baseUrl}/promo1/${id}`);
     return await res;
 }
 

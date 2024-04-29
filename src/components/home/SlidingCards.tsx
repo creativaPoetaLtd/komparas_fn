@@ -6,7 +6,6 @@ import { getAllProducts } from '../../api/product';
 
 const SlidingCards: React.FC = () => {
   const [products, setProducts] = React.useState<any[]>([]);
-
   useEffect(() => {
     const fetchProducts = async () => {
       const response = await getAllProducts();
@@ -16,9 +15,12 @@ const SlidingCards: React.FC = () => {
   }
     , []);
 
+
+    
+
   const navigate = useNavigate();
   const handleViewAllProducts = () => {
-      navigate("/products");
+    navigate("/products");
   }
 
   return (
@@ -50,12 +52,10 @@ const SlidingCards: React.FC = () => {
                 {slide.vendor_prices?.reduce((prev: any, current: any) => (prev.price < current.price) ? prev : current).price
                   .toLocaleString('en-US', { maximumFractionDigits: 4 })} Rwf
               </p>
-            
-                        <h1 className='realprice text-green-500 text-sm font-semibold'>
-                        Igiciro: {' '}
-                        {slide?.our_price.toLocaleString('en-US', { maximumFractionDigits: 4 })} Rwf
-                        </h1>
-
+              <h1 className='realprice text-green-500 text-sm font-semibold'>
+                Igiciro: {' '}
+                {slide?.our_price.toLocaleString('en-US', { maximumFractionDigits: 4 })} Rwf
+              </h1>
             </Link>
           </SwiperSlide>
         ))}
