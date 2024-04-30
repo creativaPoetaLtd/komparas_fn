@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 // import { FaApple } from "react-icons/fa";
 // import { ArrowRight } from "@phosphor-icons/react";
-import { getAllProducts } from "../../api/product";
 import { fetchParentCategories } from "../../api/getAllCategories";
 import { Phone } from "@phosphor-icons/react";
 import type { MenuProps } from 'antd';
