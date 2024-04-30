@@ -106,7 +106,7 @@ const isAdminFromLocalStorage:any = JSON.parse(localStorage.getItem("KomparasLog
 
   return (
     <div className='bunner flex flex-col self-center m-auto justify-center lg:w-[90%] w-full lg:h-[632px] h-full p-4 pl-4'>
-      <div className='mainPage  flex md:flex-row flex-col justify-between bg-[#0C203B] h-full relative md:px-20 px-6 pt-6'>
+      <div className={`mainPage  flex md:flex-row flex-col justify-between ${!isAdminFromLocalStorage ? "bg-[#0C203B]" : "bg-[#848482]"}  h-full relative md:px-20 px-6 pt-6`}>
         <div className='mainPageContent md:w-[60%] w-full h-full md:p-12 p-1 my-auto justify-center flex flex-col'>
           <div className='flex'>
             <p className='text-[#FFFFFF] text-sm md:ml-1 my-auto font-thin justify-center'>Telefoni y'umunsi</p>

@@ -63,8 +63,11 @@ const MobileHomeNav = () => {
       </Menu.Item> */}
     </Menu>
   );
+  const isAdminFromLocalStorag:any = JSON.parse(localStorage.getItem("KomparasLoginsInfo") as any) || {};
+  const isAdminFromLocalStorage = isAdminFromLocalStorag.role === "admin" ? true : false;
+
   return (
-    <div className='w-full text-white lg:hidden flex bg-[#0C203B] h-fit justify-between flex-col'>
+    <div className={`w-full text-white lg:hidden flex ${!isAdminFromLocalStorage ? "bg-[#0C203B]" : "bg-[#848482]"}  h-fit justify-between flex-col`}>
       <nav className=" flex justify-between items-center p-4">
         <div>
           <Dropdown overlay={burgerMenu}>

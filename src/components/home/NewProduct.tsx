@@ -17,6 +17,9 @@ const NewProduct = () => {
 
     const prod1 = products[(products?.length) - 1];
     const prod2 = products[(products?.length) - 2]
+    const isAdminFromLocalStorag:any = JSON.parse(localStorage.getItem("KomparasLoginsInfo") as any) || {};
+    const isAdminFromLocalStorage = isAdminFromLocalStorag.role === "admin" ? true : false;
+  
     return (
         <div className='flex flex-col w-full lg:px-[4rem] px-2'>
             <div className='flex flex-col px-2 pb-6'>
@@ -58,7 +61,7 @@ const NewProduct = () => {
                     </div>
                 </div>
                 <div className='bunner lg:w-[50%] w-full h-full  py-4 lg:pl-4 pl-2 z-10'>
-                    <div className='mainPage flex md:flex-row flex-col bg-[#0C203B] h-full'>
+                    <div className={`mainPage flex md:flex-row flex-col ${!isAdminFromLocalStorage ? "bg-[#0C203B]" : "bg-[#848482]"}  h-full`}>
                         <div className='mainPageContent md:w-[60%] w-full h-full p-6'>
                             <div className='flex mt-1 bg-[#EDB62E] p-1 w-fit h-fit'>
                                 <p className='text-white text-xs ml-1 my-auto font-thin justify-center'>INTRODUCING</p>

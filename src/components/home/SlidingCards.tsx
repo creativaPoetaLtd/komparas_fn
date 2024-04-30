@@ -14,7 +14,9 @@ const SlidingCards: React.FC = () => {
     fetchProducts();
   }
     , []);
-
+    const isAdminFromLocalStorag:any = JSON.parse(localStorage.getItem("KomparasLoginsInfo") as any) || {};
+    const isAdminFromLocalStorage = isAdminFromLocalStorag.role === "admin" ? true : false;
+  
   const navigate = useNavigate();
   const handleViewAllProducts = () => {
     navigate("/products");
@@ -58,7 +60,7 @@ const SlidingCards: React.FC = () => {
         ))}
       </Swiper>
       <div className='flex justify-center mt-12 w-full'>
-        <button className='bg-[#0C203B] text-white p-2 text-sm rounded-md underline underline-offset-4' onClick={handleViewAllProducts}>Reba zose</button>
+        <button className={`${!isAdminFromLocalStorage ? "bg-[#0C203B]" : "bg-[#848482]"}  text-white p-2 text-sm rounded-md underline underline-offset-4`} onClick={handleViewAllProducts}>Reba zose</button>
       </div>
     </div>
   );

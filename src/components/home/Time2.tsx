@@ -12,7 +12,6 @@ const Time2 = () => {
     const handleRefresh = () => {
       setRefresh(!refresh);
     }
-  const isAdminFromLocalStorage:any = JSON.parse(localStorage.getItem("KomparasLoginsInfo") as any) || {};
   
   
     useEffect(() => {
@@ -31,6 +30,10 @@ const Time2 = () => {
       image: undefined
     });
     const [imageUrl, setImageUrl] = useState<string | null>(null);
+    const isAdminFromLocalStorag:any = JSON.parse(localStorage.getItem("KomparasLoginsInfo") as any) || {};
+    const isAdminFromLocalStorage = isAdminFromLocalStorag.role === "admin" ? true : false;
+  
+    
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const file = event.target.files?.[0];
       if (file) {
@@ -110,7 +113,7 @@ const Time2 = () => {
         </div>
     </div>
     {
-        isAdminFromLocalStorage?.isAdmin && (
+        isAdminFromLocalStorage && (
             <button onClick={() => setIsFormVisible(true)} className="absolute bottom-1 right-1 bg-black text-white p-1 text-sm rounded-md">Add Product</button>
         )
     }

@@ -43,10 +43,12 @@ const HomeNav = () => {
       </Menu.Item>
     </Menu>
   );
+  const isAdminFromLocalStorag:any = JSON.parse(localStorage.getItem("KomparasLoginsInfo") as any) || {};
+  const isAdminFromLocalStorage = isAdminFromLocalStorag.role === "admin" ? true : false;
 
 
   return (
-    <nav className='w-full text-white lg:flex hidden justify-between px-32 pb-3 pt-7 bg-[#0C203B]'>
+    <nav className={`w-full text-white lg:flex hidden justify-between px-32 pb-3 pt-7 ${!isAdminFromLocalStorage ? "bg-[#0C203B]" : "bg-[#848482]"} `}>
       <div className='logo flex my-auto justify-center pl-5 '>
         <Link className='text-xl text-white font-semibold' to={'/'}>
           <img src='/cc.png' alt='logo' className='h-8' />
