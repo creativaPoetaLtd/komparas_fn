@@ -1,15 +1,18 @@
 import { Button, Dropdown, Menu } from 'antd';
 import { useState, useEffect } from 'react';
-import { FaSearch } from 'react-icons/fa';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { UserOutlined } from '@ant-design/icons';
 
 
 const HomeNav = () => {
   const location = useLocation();
   const [selectedMenu, setSelectedMenu] = useState('home');
-
+  const [searchValue, setSearchValue] = useState("");
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>, id:any) => {
+    setSearchValue(event.target.value);
+    const navigate = useNavigate();
+    navigate(`/product/${id}`)
+};
   useEffect(() => {
     const path = location.pathname.substring(1);
     setSelectedMenu(path || 'home');
@@ -140,20 +143,15 @@ const HomeNav = () => {
         </li> */}
       </ul>
       <div className='searchBar bg-[#F5F5F5] rounded-md pr-3'>
-        <input
-          type='text'
-          placeholder='Shakisha'
-          className='p-2 outline-none rounded-md bg-[#F5F5F5]'
-        />
-        <button>
-          <FaSearch className='text-black' />
-        </button>
-      </div>
-      <Dropdown overlay={menu} className='mt-1'>
-            <Button>
-              <UserOutlined className='test text-white' />
-            </Button>
-          </Dropdown>
+      <input
+                                    type='text'
+                                    placeholder='Search for product'
+                                    className='p-2 outline-none w-[95%] rounded-md bg-[#F5F5F5]'
+                                    value={searchValue}
+                                    onChange={()=>handleInputChange}
+                                    list="autocomplete-options"
+                                />
+                                </div>
     </nav>
   );
 };
