@@ -3,11 +3,11 @@ import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 // import { FaApple } from "react-icons/fa";
 // import { ArrowRight } from "@phosphor-icons/react";
-import { getAllProducts } from "../../api/product";
 import { fetchParentCategories } from "../../api/getAllCategories";
 import { Phone } from "@phosphor-icons/react";
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
+import dummyData from "./dummData";
 
 type MenuItem = Required<MenuProps>['items'][number];
 function getItem(
@@ -31,16 +31,7 @@ function getItem(
 const onClick: MenuProps['onClick'] = () => {
 };
 const HomeBurner = () => {
-  const [products, setProducts] = React.useState<any[]>([]);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const response = await getAllProducts();
-      setProducts(response?.data?.products);
-    }
-    fetchProducts();
-  }
-    , []);
   const settings: { current: number, customPaging: (i: any) => JSX.Element, dots: boolean, dotsClass: string, infinite: boolean, speed: number, slidesToShow: number, slidesToScroll: number, autoplay:boolean, autoplaySpeed:number, pauseOnHover: boolean  } = {
     current: 0,
     customPaging: function (i: any) {
@@ -53,11 +44,11 @@ const HomeBurner = () => {
     dots: true,
     dotsClass: "slick-dots slick-thumb",
     infinite: true,
-    speed: 500,
+    speed: 900,
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 2000,
+    autoplaySpeed: 5500,
     pauseOnHover: true
   };
 
@@ -81,6 +72,10 @@ const HomeBurner = () => {
   }
   );
 
+
+  console.log("jjjj", dummyData);
+  
+
   
   return (
     <div className='bunnerPage flex md:w-[100%] w-[92%] m-auto md:px-16 px-0'>
@@ -88,9 +83,9 @@ const HomeBurner = () => {
         <Menu onClick={onClick} style={{ width: 200, boxShadow: 'white', border: 'none', borderRight:"white" }} mode="vertical" items={cagetoryItems} />
       </div>
       <Slider {...settings} className='lg:w-[80%] w-[100%] self-center h-full'>
-        {products?.slice(0,4)?.map((slide, index) => (
+        {dummyData?.map((data, index) => (
           <div key={index+1} className='bunner lg:w-3/4 w-[90%] bg-[#0C203B] mt-6 h-full md:py-4 py-4 md:pl-4 pl-0 px-0'>
-            <div className='mainPage flex md:flex-row flex-col  md:h-[255px] h-fit relative'>
+            <div className='mainPage flex md:flex-row flex-col  md:h-[275px] h-fit relative'>
               <div className='mainPageContent md:w-[44%] w-full h-full md:p-12 p-5'>
                 {/* <div className='flex'>
                   <FaApple className='text-white md:text-5xl text-2xl my-auto justify-center' />
@@ -107,7 +102,7 @@ const HomeBurner = () => {
               </div>
               <div className="image md:w-[60%] w-full h-full md:p-4 p-1 pb-12">
                 <div className="w-full h-full object-cover">
-                  <img src={slide?.product_image} height={100} width={100} alt="" className="w-full h-[204px] object-contain" />
+                  <img src={data?.image} height={100} width={100} alt="" className="w-full h-[254px] object-contain" />
                 </div>
               </div>
             </div>

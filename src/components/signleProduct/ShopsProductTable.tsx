@@ -21,7 +21,7 @@ const ShopsProductTable = () => {
           <tr className="gap-1 px-2 py-6 text-black-1000 font-[400] bg-blue-200">
             <th className="p-2 py-3 font-[400] text-left">  Ikirango</th>
             <th className="p-2 py-3 font-[400] text-left">Igiciro</th>
-            <th className="p-2 py-3 font-[400] text-left">Amasaha y'akazi</th>
+            <th className="p-2 py-3 font-[400] text-left">Amabara ahari</th>
             <th className="p-2 py-3 font-[400] text-left">Aho babarizwa</th>
           </tr>
         </thead>

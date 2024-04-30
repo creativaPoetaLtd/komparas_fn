@@ -7,7 +7,7 @@ interface IProduct {
 }
 
 const ThreeButtons: React.FC<IProduct> = ({ products }) => {
-    const [activeButton, setActiveButton] = useState('ourReview');
+    const [activeButton, setActiveButton] = useState('ourReview1');
     const [showValueMap, setShowValueMap] = useState<{ [key: number]: boolean }>({});
 
     const handleButtonClick = (buttonType: string) => {
@@ -33,28 +33,38 @@ const ThreeButtons: React.FC<IProduct> = ({ products }) => {
         <div className="lg:w-[54%] md:w-[337px] flex flex-col">
             <div className="flex flex-col space-y-5 xl:w-[637px] lg:w-[537px] md:w-full w-full m-auto justify-center">
                 <div className="threeButtons flex flex-row">
-                    <button
-                        className={`w-[39%] text-white p-2 rounded-l-md ${activeButton === 'ourReview' ? 'bg-[#EDB62E]' : 'bg-[#0C203B]'}`}
-                        onClick={() => handleButtonClick('ourReview')}
+                <button
+                        className={`w-[39%] text-white p-2 rounded-l-md ${activeButton === 'ourReview1' ? 'bg-[#EDB62E]' : 'bg-[#0C203B]'}`}
+                        onClick={() => handleButtonClick('ourReview1')}
                     >
-                        Ibyo twavuga kuri iyi telefoni
+                        Yimenye neza
                     </button>
+                    
                     <button
                         className={`w-[32%] text-white p-2 ${activeButton === 'specification' ? 'bg-[#EDB62E]' : 'bg-[#0C203B]'}`}
                         onClick={() => handleButtonClick('specification')}
                     >
-                        Ibiranga iyi telefoni
+                        Ibiranga telefoni
+                    </button>
+                    <button
+                        className={`w-[39%] text-white p-2 ${activeButton === 'ourReview' ? 'bg-[#EDB62E]' : 'bg-[#0C203B]'}`}
+                        onClick={() => handleButtonClick('ourReview')}
+                    >
+                        Icyo tuyivugaho
                     </button>
                     <button
                         className={`w-[39%] text-white p-2 rounded-r-md ${activeButton === 'otherReview' ? 'bg-[#EDB62E]' : 'bg-[#0C203B]'}`}
                         onClick={() => handleButtonClick('otherReview')}
                     >
-                        Ibyo abandi bayivugaho
+                        Icyo bayivugaho
                     </button>
                 </div>
-                {activeButton === 'ourReview' && (
+                {activeButton === 'ourReview1' && (
                     <>
                         {products?.product?.our_review?.map((review: any, index: number) => (
+                            <>
+                            {review.key !== 'Umwanzuro' && (
+
                             <div key={index + 1} className='ourReview rounded-md border border-black flex flex-col'>
                                 <div className="text-sm font-semibold text-start rounded-md bg-slate-200 p-2 flex" onClick={() => handleValueClick(index)}>
                                     <p className='KeyDiv text-sm'>{review?.key}</p>
@@ -64,6 +74,30 @@ const ThreeButtons: React.FC<IProduct> = ({ products }) => {
                                     <div className='ValusePargrapth text-sm text-justify p-3' dangerouslySetInnerHTML={{ __html: review?.value }}></div>
                                 )}
                             </div>
+                            )}
+                            </>
+                        ))}
+                    </>
+                )}
+                {activeButton === 'ourReview' && (
+                    <>
+                        {products?.product?.our_review?.map((review: any, index: number) => (
+                            <>
+
+{review.key === 'Umwanzuro' && (
+
+                            
+                            <div key={index + 1} className='ourReview rounded-md border border-black flex flex-col'>
+                                <div className="text-sm font-semibold text-start rounded-md bg-slate-200 p-2 flex" onClick={() => handleValueClick(index)}>
+                                    <p className='KeyDiv text-sm'>{review?.key}</p>
+                                    {showValueMap[index] ? <Minus className='ml-auto' /> : <Plus className='ml-auto' />}
+                                </div>
+                                {showValueMap[index] && (
+                                    <div className='ValusePargrapth text-sm text-justify p-3' dangerouslySetInnerHTML={{ __html: review?.value }}></div>
+                                )}
+                            </div>
+                        )}
+                        </>
                         ))}
                     </>
                 )}

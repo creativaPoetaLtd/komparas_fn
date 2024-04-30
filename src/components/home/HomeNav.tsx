@@ -108,6 +108,20 @@ const HomeNav = () => {
         </li>
         <li
           className={`text-white ${
+            selectedMenu === 'about_us' ? 'underline underline-offset-4' : ''
+          }`}
+        >
+          <NavLink to='/about_us'>Serivisi</NavLink>
+        </li>
+        <li
+          className={`text-white ${
+            selectedMenu === 'about_us' ? 'underline underline-offset-4' : ''
+          }`}
+        >
+          <NavLink to='/about_us'>Sobanukirwa</NavLink>
+        </li>
+        <li
+          className={`text-white ${
             selectedMenu === 'contact_us' ? 'underline underline-offset-4' : ''
           }`}
         >

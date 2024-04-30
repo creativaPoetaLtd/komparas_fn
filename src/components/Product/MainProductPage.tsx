@@ -52,7 +52,7 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
                                 <tr>
                                     <th className="text-[#353535] item-start m-auto p-2 text-start">Iduka</th>
                                     <th className="text-[#353535] item-start m-auto p-2 text-start">Igociro</th>
-                                    <th className="text-[#353535] item-start m-auto p-2 md:flex hidden text-start">Amasaha y'akazi</th>
+                                    <th className="text-[#353535] item-start m-auto p-2 md:flex hidden text-start">Amabara ahari</th>
                                     <th className="text-[#353535] item-start m-auto p-2 md:hidden flex text-start">Amasaha..</th>
                                     <th className="text-[#353535] item-start m-auto p-2 text-start">
                                         Gura

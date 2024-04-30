@@ -316,7 +316,7 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
 
                         <div className="AddProductForm__form__inputs__specifications flex flex-col justify-start items-start mb-5">
                             <label className="AddProductForm__form__inputs__specifications__label mb-2">
-                                Ibiranga iyi telefoni
+                                Yimenye neza
                             </label>
                             {specifications.map((spec, index) => (
                                 <div key={index} className="flex w-[88%] space-x-2 mb-2">
@@ -355,7 +355,7 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                         </div>
                         <div className="AddProductForm__form__inputs__specifications flex flex-col justify-start items-start mb-5">
                             <label className="AddProductForm__form__inputs__specifications__label mb-2">
-                                Ibyo twavuga kuri iyi telefoni
+                                Icyo tuyivugaho
                             </label>
                             {our_review.map((rev, index) => (
                                 <div key={index} className="flex flex-col w-[88%] space-y-2 mb-2">

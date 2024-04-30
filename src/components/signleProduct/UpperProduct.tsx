@@ -197,27 +197,27 @@ const UpperProduct = () => {
         <div className="threeButtons mt-12 grid grid-cols-3 gap-4 space-x-2 laptop:px-12 desktop:px-12 tablet:px-2 px-2">
           <button className={`py-3 font-semibold laptop:text-xl desktop:text-xl tablet:text-sm text-sm laptop:px-4 desktop:px-4 tablet:px-1 px-1 text-gray-500 border-gray-300 border flex justify-center  rounded-md ${isShowReview ? 'bg-blue-700 text-white' : ''} `}
             onClick={handleShowReview}
-          >Ibyo twavuga kuri iyi telefoni</button>
+          >Icyo tuyivugaho</button>
           <button className={`py-3 font-semibold laptop:text-xl desktop:text-xl tablet:text-sm text-sm laptop:px-4 desktop:px-4 tablet:px-1 px-1 text-gray-500 border-gray-300 border flex justify-center  rounded-md ${isShowSpecifications ? 'bg-blue-700 text-white' : ''}`}
             onClick={handleShowSpecification}
-          >Ibiranga iyi telefoni</button>
+          >Yimenye neza</button>
           <button className={`py-3 font-semibold laptop:text-xl desktop:text-xl tablet:text-sm text-sm text-gray-500 laptop:px-4 desktop:px-4 tablet:px-1 px-1 border-gray-300 border flex justify-center  rounded-md ${isShowOthersReview ? 'bg-blue-700 text-white' : ''}`}
             onClick={handleShowOthersReview}
           >Ibyo abandi bavuga kuri iyi telefoni</button>
         </div>
         {isShowReview ? (
           <div className='flex flex-col'>
-            <h1 className='text-2xl font-bold mt-12 ml-10 pb-4'>Ibyo twavuga kuri iyi Telefoni</h1>
+            <h1 className='text-2xl font-bold mt-12 ml-10 pb-4'>Icyo tuyivugaho</h1>
             <p className='text-gray-500 ml-10'>{products?.product?.our_review}</p>
           </div>
         ) : isShowOthersReview ? (
           <div className='flex flex-col'>
-            <h1 className='text-2xl font-bold mt-12 ml-10 pb-4'>Ibyo abandi bayivugaho</h1>
+            <h1 className='text-2xl font-bold mt-12 ml-10 pb-4'>Icyo bayivugaho</h1>
             <div className='text-gray-500 w-full justify-center text-center items-center m-auto'>NO OTHER'S REVIEW YET</div>
           </div>
         ) : (
           <div className='flex flex-col'>
-            <h1 className='text-2xl font-bold mt-12 ml-10 pb-4'>Ibiranga iyi telefoni</h1>
+            <h1 className='text-2xl font-bold mt-12 ml-10 pb-4'>Yimenye neza</h1>
             {products?.product?.product_specifications?.map((specification: any, index: any) => (
               <div key={index} className="flex flex-col w-full text-gray-500 px-10">
                 <div className="flex justify-between w-full py-2 border-b-4">
