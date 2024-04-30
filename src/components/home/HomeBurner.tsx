@@ -8,6 +8,7 @@ import { fetchParentCategories } from "../../api/getAllCategories";
 import { Phone } from "@phosphor-icons/react";
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
+import pub1 from '../../assets/pub1.gif'
 
 type MenuItem = Required<MenuProps>['items'][number];
 function getItem(
@@ -88,7 +89,7 @@ const HomeBurner = () => {
         <Menu onClick={onClick} style={{ width: 200, boxShadow: 'white', border: 'none', borderRight:"white" }} mode="vertical" items={cagetoryItems} />
       </div>
       <Slider {...settings} className='lg:w-[80%] w-[100%] self-center h-full'>
-        {products?.slice(0,4)?.map((slide, index) => (
+        {products?.slice(0,4)?.map((_, index) => (
           <div key={index+1} className='bunner lg:w-3/4 w-[90%] bg-[#0C203B] mt-6 h-full md:py-4 py-4 md:pl-4 pl-0 px-0'>
             <div className='mainPage flex md:flex-row flex-col  md:h-[255px] h-fit relative'>
               <div className='mainPageContent md:w-[44%] w-full h-full md:p-12 p-5'>
@@ -107,7 +108,7 @@ const HomeBurner = () => {
               </div>
               <div className="image md:w-[60%] w-full h-full md:p-4 p-1 pb-12">
                 <div className="w-full h-full object-cover">
-                  <img src={slide?.product_image} height={100} width={100} alt="" className="w-full h-[204px] object-contain" />
+                  <img src={pub1} height={100} width={100} alt="" className="w-full h-[274px] object-contain" />
                 </div>
               </div>
             </div>

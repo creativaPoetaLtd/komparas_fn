@@ -37,19 +37,19 @@ const ThreeButtons: React.FC<IProduct> = ({ products }) => {
                         className={`w-[39%] text-white p-2 rounded-l-md ${activeButton === 'ourReview' ? 'bg-[#EDB62E]' : 'bg-[#0C203B]'}`}
                         onClick={() => handleButtonClick('ourReview')}
                     >
-                        Ibyo twavuga kuri iyi telefoni
+                        Icyo tuyivugaho
                     </button>
                     <button
                         className={`w-[32%] text-white p-2 ${activeButton === 'specification' ? 'bg-[#EDB62E]' : 'bg-[#0C203B]'}`}
                         onClick={() => handleButtonClick('specification')}
                     >
-                        Ibiranga iyi telefoni
+                        Yimenye neza
                     </button>
                     <button
                         className={`w-[39%] text-white p-2 rounded-r-md ${activeButton === 'otherReview' ? 'bg-[#EDB62E]' : 'bg-[#0C203B]'}`}
                         onClick={() => handleButtonClick('otherReview')}
                     >
-                        Ibyo abandi bayivugaho
+                        Icyo bayivugaho
                     </button>
                 </div>
                 {activeButton === 'ourReview' && (

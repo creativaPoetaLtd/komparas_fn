@@ -370,7 +370,7 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
                             </div>
                         </div>
                         <div className='AddProductForm__form__inputs__description flex flex-col justify-start items-start mb-5'>
-                            <label className='AddProductForm__form__inputs__description__label  mb-2'>Ibyo twavuga kuri iyi telefoni</label>
+                            <label className='AddProductForm__form__inputs__description__label  mb-2'>Icyo tuyivugaho</label>
                             <textarea
                                 className='AddProductForm__form__inputs__description__input w-96 h-28 rounded-md border outline-blue-700 border-gray-300 px-2'
                                 placeholder='Product Description'
