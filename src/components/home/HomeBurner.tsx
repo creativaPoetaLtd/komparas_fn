@@ -8,7 +8,6 @@ import { fetchParentCategories } from "../../api/getAllCategories";
 import { Phone } from "@phosphor-icons/react";
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
-import pub1 from '../../assets/pub1.gif'
 import dummyData from "./dummData";
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -33,16 +32,7 @@ function getItem(
 const onClick: MenuProps['onClick'] = () => {
 };
 const HomeBurner = () => {
-  const [products, setProducts] = React.useState<any[]>([]);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const response = await getAllProducts();
-      setProducts(response?.data?.products);
-    }
-    fetchProducts();
-  }
-    , []);
   const settings: { current: number, customPaging: (i: any) => JSX.Element, dots: boolean, dotsClass: string, infinite: boolean, speed: number, slidesToShow: number, slidesToScroll: number, autoplay:boolean, autoplaySpeed:number, pauseOnHover: boolean  } = {
     current: 0,
     customPaging: function (i: any) {
