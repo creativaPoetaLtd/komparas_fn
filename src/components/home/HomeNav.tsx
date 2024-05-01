@@ -2,17 +2,30 @@ import { Button, Dropdown, Menu } from 'antd';
 import { useState, useEffect } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { getAllProducts } from '../../api/product';
+import { UserOutlined } from '@ant-design/icons';
 
 
 const HomeNav = () => {
   const location = useLocation();
   const [selectedMenu, setSelectedMenu] = useState('home');
   const [searchValue, setSearchValue] = useState("");
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>, id:any) => {
+  const [autocompleteOptions, setAutocompleteOptions] = useState<string[]>([]);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const response = await getAllProducts();
+      const allProducts = response?.data?.products;
+      let sortedProducts = allProducts;
+
+      const productNames = sortedProducts?.map((product: any) => product.product_name);
+      setAutocompleteOptions(productNames);
+
+    };
+    fetchProducts();
+  }, [searchValue]);
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
-    const navigate = useNavigate();
-    navigate(`/product/${id}`)
-};
+  };
   useEffect(() => {
     const path = location.pathname.substring(1);
     setSelectedMenu(path || 'home');
@@ -41,12 +54,12 @@ const HomeNav = () => {
           <a>Injira</a>
         </Link> */}
         <button onClick={handleLogout}>
-            {isLogin ? "  Sohoka" : "Injira"}
-          </button>
+          {isLogin ? "  Sohoka" : "Injira"}
+        </button>
       </Menu.Item>
     </Menu>
   );
-  const isAdminFromLocalStorag:any = JSON.parse(localStorage.getItem("KomparasLoginsInfo") as any) || {};
+  const isAdminFromLocalStorag: any = JSON.parse(localStorage.getItem("KomparasLoginsInfo") as any) || {};
   const isAdminFromLocalStorage = isAdminFromLocalStorag.role === "admin" ? true : false;
 
 
@@ -59,99 +72,54 @@ const HomeNav = () => {
       </div>
       <ul className='flex space-x-8 my-auto justify-center'>
         <div className='flex flex-col space-y-0 w-fit'>
-        <li
-          className={`text-white ${
-            selectedMenu === 'home' ? 'text-bold font-bold' : ''
-          }`}
-        >
-          <NavLink to='/'>Ahabanza</NavLink>
-        </li>
-        {selectedMenu === 'home' && <div className='line h-[2px] w-full bg-green-500'></div>}
+          <li
+            className={`text-white ${selectedMenu === 'home' ? 'text-bold font-bold' : ''
+              }`}
+          >
+            <NavLink to='/'>Ahabanza</NavLink>
+          </li>
+          {selectedMenu === 'home' && <div className='line h-[2px] w-full bg-green-500'></div>}
         </div>
         <div className='flex flex-col space-y-0 w-fit'>
-        <li
-          className={`text-white ${
-            selectedMenu === 'about_us' ? 'text-bold font-bold' : ''
-          }`}
-        >
-          <NavLink to='/about_us'>Abo turibo</NavLink>
-        </li>
-        {selectedMenu === 'about_us' && <div className='line h-[2px] w-full bg-green-500'></div>}
+          <li
+            className={`text-white ${selectedMenu === 'about_us' ? 'text-bold font-bold' : ''
+              }`}
+          >
+            <NavLink to='/about_us'>Abo turibo</NavLink>
+          </li>
+          {selectedMenu === 'about_us' && <div className='line h-[2px] w-full bg-green-500'></div>}
         </div>
         <div className='flex flex-col space-y-0 w-fit'>
-        <li
-          className={`text-white ${
-            selectedMenu === 'contact_us' ? 'text-bold font-bold' : ''
-          }`}
-        >
-          <NavLink to='/contact_us'>Twandikire</NavLink>
-        </li>
-        {selectedMenu === 'contact_us' && <div className='line h-[2px] w-full bg-green-500'></div>}
+          <li
+            className={`text-white ${selectedMenu === 'contact_us' ? 'text-bold font-bold' : ''
+              }`}
+          >
+            <NavLink to='/contact_us'>Twandikire</NavLink>
+          </li>
+          {selectedMenu === 'contact_us' && <div className='line h-[2px] w-full bg-green-500'></div>}
         </div>
-        {/* <div className='flex flex-col space-y-0 w-fit'>
-        <li
-          className={`text-white ${
-            selectedMenu === 'login' ? 'text-bold font-bold' : ''
-          }`}
-        >
-          <button onClick={handleLogout}>
-            {isLogin ? "  Sohoka" : "Injira"}
-          </button>
-        </li>
-        {selectedMenu === 'login' && <div className='line h-[2px] w-full bg-green-500'></div>}
-        </div> */}
-
-
-
-
-        {/* <li
-          className={`text-white ${
-            selectedMenu === 'about_us' ? 'underline underline-offset-4' : ''
-          }`}
-        >
-          <NavLink to='/about_us'>Abo turibo</NavLink>
-        </li>
-        <li
-          className={`text-white ${
-            selectedMenu === 'about_us' ? 'underline underline-offset-4' : ''
-          }`}
-        >
-          <NavLink to='/about_us'>Serivisi</NavLink>
-        </li>
-        <li
-          className={`text-white ${
-            selectedMenu === 'about_us' ? 'underline underline-offset-4' : ''
-          }`}
-        >
-          <NavLink to='/about_us'>Sobanukirwa</NavLink>
-        </li>
-        <li
-          className={`text-white ${
-            selectedMenu === 'contact_us' ? 'underline underline-offset-4' : ''
-          }`}
-        >
-          <NavLink to='/contact_us'>Twandikire</NavLink>
-        </li>
-        <li
-          className={`text-white ${
-            selectedMenu === 'login' ? 'underline underline-offset-4' : ''
-          }`}
-        >
-          <button onClick={handleLogout}>
-            {isLogin ? "  Sohoka" : "Injira"}
-          </button>
-        </li> */}
       </ul>
       <div className='searchBar bg-[#F5F5F5] rounded-md pr-3'>
-      <input
-                                    type='text'
-                                    placeholder='Search for product'
-                                    className='p-2 outline-none w-[95%] rounded-md bg-[#F5F5F5]'
-                                    value={searchValue}
-                                    onChange={()=>handleInputChange}
-                                    list="autocomplete-options"
-                                />
-                                </div>
+        <input
+          type='text'
+          placeholder='Search for product'
+          className='p-2 outline-none text-black rounded-md bg-[#F5F5F5]'
+          value={searchValue}
+          onChange={handleInputChange}
+          list="autocomplete-options"
+        />
+        <datalist draggable id="autocomplete-options" className=''>
+          {autocompleteOptions?.map((option, index) => (
+            <option key={index} value={option} onClick={() => console.log(`${option}`)} />
+          ))}
+        </datalist>
+
+      </div>
+      <Dropdown overlay={menu} className='mt-1'>
+            <Button>
+              <UserOutlined className='test text-white' />
+            </Button>
+          </Dropdown>
     </nav>
   );
 };
