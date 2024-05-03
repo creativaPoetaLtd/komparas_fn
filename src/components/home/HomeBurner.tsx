@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import { fetchParentCategories } from "../../api/getAllCategories";
-import { ArrowArcRight, Phone } from "@phosphor-icons/react";
-import { Menu } from 'antd';
+import { Phone } from "@phosphor-icons/react";
+import { Menu, MenuProps } from 'antd';
 import dummyData from "./dummData";
 import { CiCircleChevLeft, CiCircleChevRight } from "react-icons/ci";
 
