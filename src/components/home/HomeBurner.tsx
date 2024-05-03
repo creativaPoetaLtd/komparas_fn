@@ -67,14 +67,18 @@ const HomeBurner = () => {
   };
 
   const nextSlide = () => {
-    slider.slickNext();
-  };
+    if (slider) {
+       slider.slickNext();
+    }
+   };
+   
+   const prevSlide = () => {
+    if (slider) {
+       slider.slickPrev();
+    }
+   };
 
-  const prevSlide = () => {
-    slider.slickPrev();
-  };
-
-  let slider: Slider | null = null;
+  let slider: Slider | null  = null;
 
   return (
     <div className='bunnerPage flex md:w-[100%] w-[92%] m-auto md:px-16 px-0'>
@@ -87,7 +91,7 @@ const HomeBurner = () => {
             <div className={`mainPage flex md:flex-row flex-col  md:h-[275px] h-fit relative`}>
               <div className='mainPageContent md:w-[44%] w-full h-full md:p-12 p-5'>
                 {data?.bgImage && <img src={data?.bgImage} alt='logo' className='h-12 mt-4' />}
-                <p className='lg:text-md text-xl mt-6 bg-black p-2 text-white'>
+                <p className='lg:text-md text-xl mt-6 p-2 text-white'>
                   {data?.title.slice(0, typingIndex)}
                 </p>
               </div>

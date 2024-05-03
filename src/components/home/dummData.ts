@@ -17,7 +17,6 @@ const dummyData = [
         title: ' Ikirenze ibyo kandi nuko telefone zose uguze uciye kuri Komparas, uhabwa garantie imara igihe kirekire.',
         description: 'Description 3',
         image: 'GIF3.gif',
-        bgImage: '/cc.png'
         
     },
     {
@@ -31,7 +30,6 @@ const dummyData = [
         title: 'Iphone 14 ( -5 %) , ugahabwa umwaka wose wa garantie',
         description: 'Description 5',
         image: 'GIF5.gif',
-        bgImage: '/cc.png'
     }
 ]
 
