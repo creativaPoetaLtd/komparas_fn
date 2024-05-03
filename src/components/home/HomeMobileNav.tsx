@@ -54,6 +54,17 @@ const MobileHomeNav = () => {
           <a>Tuvugishe</a>
         </Link>
       </Menu.Item>
+      <Menu.Item key="3">
+        <Link to="/">
+          <a>Serivisi</a>
+        </Link>
+      </Menu.Item>
+      <Menu.Item key="4">
+        <Link to="/">
+          <a>Sobanukirwa</a>
+        </Link>
+      </Menu.Item>
+
       {/* <Menu.Item key="3">
         <button onClick={handleLogout}>
           <a>

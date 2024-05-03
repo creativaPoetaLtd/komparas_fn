@@ -98,6 +98,24 @@ const HomeNav = () => {
           </li>
           {selectedMenu === 'contact_us' && <div className='line h-[2px] w-full bg-green-500'></div>}
         </div>
+        <div className='flex flex-col space-y-0 w-fit'>
+          <li
+            className={`text-white ${selectedMenu === 'servisi' ? 'text-bold font-bold' : ''
+              }`}
+          >
+            <NavLink to='/#'>Serivisi</NavLink>
+          </li>
+          {selectedMenu === 'servisi' && <div className='line h-[2px] w-full bg-green-500'></div>}
+        </div>
+        <div className='flex flex-col space-y-0 w-fit'>
+          <li
+            className={`text-white ${selectedMenu === 'sobanukirwa' ? 'text-bold font-bold' : ''
+              }`}
+          >
+            <NavLink to='/#'>Sobanukirwa</NavLink>
+          </li>
+          {selectedMenu === 'sobanukirwa' && <div className='line h-[2px] w-full bg-green-500'></div>}
+        </div>
       </ul>
       <div className='searchBar bg-[#F5F5F5] rounded-md pr-3'>
         <input

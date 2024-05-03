@@ -131,7 +131,7 @@ const Time2 = () => {
         </button>
     </div>
     {isFormVisible && (
-        <div className="fixed top-0 left-0 z-50 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
+        <div className="fixed top-0 left-0 z-50 w-[55%] h-full bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-8 flex flex-col z-50 rounded-lg">
             <h2 className="text-2xl font-bold mb-4">Upload New Product</h2>
             <div className="flex w-full space-x-9">

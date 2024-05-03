@@ -2,10 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getPoductById } from "../../api/product";
 const ShopsProductTable = () => {
-
   const [products, setProducts] = useState<any>([]);
   const productId: any = useParams().id;
-
   useEffect(() => {
     const fetchProduct = async () => {
       const { data } = await getPoductById(productId);
@@ -13,7 +11,6 @@ const ShopsProductTable = () => {
     };
     fetchProduct();
   }, [productId]);
-
   return (
     <div className='w-full flex flex-col h-fit'>
       <table className="rounded shadow w-full">
