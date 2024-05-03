@@ -262,4 +262,19 @@ input::-webkit-calendar-picker-indicator {
   align-items: center; /* Aligns items vertically in the center */
   justify-content: flex-start; /* Aligns items horizontally to the start */
  }
- 
+ @keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.title-animation {
+  animation: slideInFromLeft 0.5s ease-out forwards;
+}
+
+

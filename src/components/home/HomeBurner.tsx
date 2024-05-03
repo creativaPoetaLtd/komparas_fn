@@ -75,9 +75,19 @@ const HomeBurner = () => {
 
   const isAdminFromLocalStorag:any = JSON.parse(localStorage.getItem("KomparasLoginsInfo") as any) || {};
   const isAdminFromLocalStorage = isAdminFromLocalStorag.role === "admin" ? true : false;
+  const [typingIndex, setTypingIndex] = useState(0);
 
 
-  
+  useEffect(() => {
+    const typingTimer = setTimeout(() => {
+      setTypingIndex(prevIndex => (prevIndex + 1) % (maxTitleLength + 1));
+    }, 100); // Adjust typing speed here
+    return () => clearTimeout(typingTimer);
+  }, [typingIndex]);
+
+  const maxTitleLength = 120; // Adjust according to your data
+
+
   return (
     <div className='bunnerPage flex md:w-[100%] w-[92%] m-auto md:px-16 px-0'>
       <div className='sideCategories w-fit hidden bg-white lg:flex h-full  '>
@@ -92,10 +102,13 @@ const HomeBurner = () => {
                   <FaApple className='text-white md:text-5xl text-2xl my-auto justify-center' />
                   <p className='text-white text-sm ml-2 my-auto font-thin justify-center'> ibyiciro bya iPhone 14</p>
                 </div> */}
-                <img src='/cc.png' alt='logo' className='h-12 mt-4' />
-                <p className='lg:text-md text-sm mt-6 bg-black p-2 text-white'>
-                  Ishakiro rya telephone zizewe
+                {data?.bgImage &&
+                <img src={data?.bgImage} alt='logo' className='h-12 mt-4' />
+                   }
+               <p className='lg:text-md text-xl mt-6 bg-black p-2 text-white'>
+                  {data?.title.slice(0, typingIndex)}
                 </p>
+
                 {/* <button className="flex space-x-2 pl-1 text-sm mt-1 text-[#EDB62E]">
                   <p className="underline underline-offset-4">Reba aho wayigurira</p>
                   <ArrowRight className="m-auto justify-center" />
