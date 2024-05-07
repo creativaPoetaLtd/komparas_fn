@@ -7,8 +7,6 @@ import { getAllShops } from "../../../../api/getAllShops";
 import { UploadSimple } from "@phosphor-icons/react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { toast } from "react-toastify";
-// import { CKEditor } from '@ckeditor/ckeditor5-react';
-// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Editor } from "primereact/editor";
 
 interface AddProductProps {
@@ -20,7 +18,7 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
     const [shops, setShops] = useState<any>([]);
     const [, setLoadingShops] = useState(false);
     const [specifications, setSpecifications] = useState([{ key: "", value: "" }]);
-    const [vendor_prices, setVendorPrices] = useState([{ key: "", value: "" }]);
+    const [vendor_prices, setVendorPrices] = useState([{ key: "", value: "", colors: ""}]);
     const [our_review, setOur_review] = useState([{key:"", value: ""}])
 
     const [formData, setFormData] = useState({
@@ -110,7 +108,7 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
 
 
     const addVendorField = () => {
-        setVendorPrices([...vendor_prices, { key: "", value: "" }]);
+        setVendorPrices([...vendor_prices, { key: "", value: "", colors: ""}]);
     };
 
     const removeSpecificationField = (index: number) => {
@@ -171,7 +169,7 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
             our_review: []
         });
         setSpecifications([{ key: "", value: "" }]);
-        setVendorPrices([{ key: "", value: "" }]);
+        setVendorPrices([{ key: "", value: "", colors: ""}]);
         setShops([{key:"", value: ""}])
         setImageUrl(null);
     };
@@ -191,10 +189,10 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
             setLoading(false);
 
             if (response?.message === 'Product added successfully') {
-                clearFormAfterSubmit();
+                // clearFormAfterSubmit();
                 toast.success('Product added successfully');
                 setLoading(false);
-                handleBackButton();
+                // handleBackButton();
             }
             else if (response?.message !== 'Product added successfully') {
                 toast.error(response?.message);
@@ -263,7 +261,8 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                                 Amaduka
                             </label>
                             {vendor_prices.map((spec, index) => (
-                                <div key={index} className="flex w-[88%] space-x-2 mb-2">
+                                <div key={index} className="flex w-[88%] space-y-2 flex-col mb-2">
+                                    <div className="flex space-x-2 mb-2">
                                     <select
                                         className='AddProductForm__form__inputs__category__input w-96 h-10 rounded-md border outline-blue-700 border-gray-300 px-2'
                                         onChange={(e) => handleVendorsSelectChange(e, index)}
@@ -283,6 +282,15 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                                         onChange={(e) => handleVendorsChange(index, "value", e.target.value)}
                                         className="w-1/2 h-10 rounded-md border outline-blue-700 border-gray-300 px-2"
                                     />
+                                    </div>
+                                    <div className="flex space-x-2 mb-2">
+                                    <input
+                                        type="text"
+                                        placeholder="Colors"
+                                        value={spec.colors}
+                                        onChange={(e) => handleVendorsChange(index, "colors", e.target.value)}
+                                        className="w-1/2 h-10 rounded-md border outline-blue-700 border-gray-300 px-2"
+                                    />
                                     <button
                                         type="button"
                                         onClick={() => removeVendors(index)}
@@ -290,6 +298,7 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                                     >
                                         x
                                     </button>
+                                    </div>
                                 </div>
                             ))}
                             <div className="w-[88%]">
@@ -395,22 +404,6 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                                 </button>
                             </div>
                         </div>
-                        {/* <div className='AddProductForm__form__inputs__description flex flex-col justify-start items-start mb-5'>
-                            <label className='AddProductForm__form__inputs__description__label  mb-2'>Our Review</label>
-                            <textarea
-                                className='AddProductForm__form__inputs__description__input w-96 h-28 rounded-md border outline-blue-700 border-gray-300 px-2'
-                                placeholder='Our review'
-                                name='our_review'
-                                value={formData?.our_review}
-                                onChange={handleInputChange}
-                            />
-
-                        </div> */}
-
-
-
-
-        
                         <div className="laptop:w-[88%] desktop:w-[88%] tablet:w-[88%] laptop:mt-0 tablet:mt-0 desktop:mt-0  mt-2 w-full justify-between flex felx-col space-y-4">
                             <div className="flex flex-col w-full">
                                 <label className="text-sm mb-1 font-normal text-grey-700 ">

@@ -67,25 +67,30 @@ export const addProduct = async (productData: any) => {
   formData.append('category_name', productData.category);
   formData.append('our_price', productData.our_price)
   formData.append('product_image', productData.product_image);
-  // formData.append('our_review', productData.our_review)
+
   productData.specifications.forEach((specification: { key: string | Blob; value: string | Blob; }, index: any) => {
     formData.append(`specifications[${index}][key]`, specification.key ? specification.key : '-');
     formData.append(`specifications[${index}][value]`, specification.value ? specification.value : '-');
   });
+
   productData.our_review.forEach((our_review: { key: string | Blob; value: string | Blob; }, index: any) => {
     formData.append(`our_review[${index}][key]`, our_review.key ? our_review.key : '-');
     formData.append(`our_review[${index}][value]`, our_review.value ? our_review.value : '-');
   });
-  productData.vendor_prices.forEach((vendor_prices: { key: string | Blob; value: string | Blob }, index: any) => {
+  productData.vendor_prices.forEach((vendor_prices: { key: string | Blob; value: string | Blob,  colors: string | Blob }, index: any) => {
     formData.append(`vendor_prices[${index}][vendor_id]`, vendor_prices.key ? vendor_prices.key : '-');
     formData.append(`vendor_prices[${index}][price]`, vendor_prices.value ? vendor_prices.value : '-');
+    formData.append(`vendor_prices[${index}][colors]`, vendor_prices.colors ? vendor_prices.colors : '-');
   });
-  const res = await fetch(`${baseUrl}/products/add`, {
+
+  const res = await fetch("http://localhost:3000/products/add", {
     method: 'POST',
     body: formData,
   });
+
   return await res.json();
 };
+
 
 export const addPRoductimage = async (productData: any , id:any) => {
   const formData = new FormData();
