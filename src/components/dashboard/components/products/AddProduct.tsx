@@ -20,6 +20,7 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
     const [specifications, setSpecifications] = useState([{ key: "", value: "" }]);
     const [vendor_prices, setVendorPrices] = useState([{ key: "", value: "", colors: ""}]);
     const [our_review, setOur_review] = useState([{key:"", value: ""}])
+    const [isColorFieldHasValidValue, setIsColorFieldHasValidValue] = useState(false);
 
     const [formData, setFormData] = useState({
         product_name: "",
@@ -101,6 +102,45 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
         updatedVendors[index][field] = value;
         setVendorPrices(updatedVendors);
     };
+    
+    
+
+    // Ensure this import is present
+    
+    // Inside your AddProduct component
+    
+    const onMouseOutOnColorField = (index: number) => {
+        const updatedVendors: any = [...vendor_prices];
+        const colors = updatedVendors[index].colors.split(',').map((color: string, index: number) => index === 0? color : color.trim());
+    
+        // Validate each color code
+        const isValid = colors.every((color: string) => /^#[0-9A-F]{6}$/i.test(color));
+    
+        // Check if the first color does not start with a hash tag
+        // const isFirstColorValid =!/^#/.test(colors[0]);
+    
+        // Ensure the first color does not have a leading comma
+        // const isFirstColorCommaFree =!/,$/.test(colors[0]);
+    
+        // Combine all conditions to determine if the value is valid
+        // const isValueValid = isValid
+    
+        if (!isValid) {
+            toast.error("Invalid color format. Please use valid hex color codes.", {
+                position: toast.POSITION.TOP_RIGHT,
+            });
+            setIsColorFieldHasValidValue(false);
+
+        }
+        setIsColorFieldHasValidValue(true);
+
+    
+        // Reset the color field if it's not valid
+        // updatedVendors[index].colors = "";
+        // setVendorPrices(updatedVendors); // Update the state with the new vendor prices
+    };
+    
+
     const handleVendorsSelectChange = (event: React.ChangeEvent<HTMLSelectElement>, index: number) => {
         const { value } = event.target;
         handleVendorsChange(index, "key", value);
@@ -189,10 +229,10 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
             setLoading(false);
 
             if (response?.message === 'Product added successfully') {
-                // clearFormAfterSubmit();
+                clearFormAfterSubmit();
                 toast.success('Product added successfully');
                 setLoading(false);
-                // handleBackButton();
+                handleBackButton();
             }
             else if (response?.message !== 'Product added successfully') {
                 toast.error(response?.message);
@@ -207,6 +247,8 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
         }
     };
 
+    console.log(isColorFieldHasValidValue);
+    
 
     return (
         <div className='AddProductForm w-full h-fit flex flex-col pb-12 bg-gray-300 p-2'>
@@ -286,11 +328,13 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                                     <div className="flex space-x-2 mb-2">
                                     <input
                                         type="text"
-                                        placeholder="Colors"
+                                        placeholder="#2fffaf, #ffaa00, #ff00ff"
                                         value={spec.colors}
+                                        onMouseLeave={()=>onMouseOutOnColorField(index)}
                                         onChange={(e) => handleVendorsChange(index, "colors", e.target.value)}
-                                        className="w-1/2 h-10 rounded-md border outline-blue-700 border-gray-300 px-2"
+                                        className="w-[60%] h-10 rounded-md border outline-blue-700 border-gray-300 px-2"
                                     />
+                                    <div className="flex space-x-3">
                                     <button
                                         type="button"
                                         onClick={() => removeVendors(index)}
@@ -298,18 +342,20 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                                     >
                                         x
                                     </button>
-                                    </div>
-                                </div>
-                            ))}
-                            <div className="w-[88%]">
+                                    <div className="w-[88%]">
                                 <button
                                     type="button"
                                     onClick={addVendorField}
                                     className="border p-2 text-white bg-blue-600 rounded-md float-right"
                                 >
-                                    Ongeramo irindi duka
+                                    Indi duka
                                 </button>
+                                </div>
                             </div>
+                                    </div>
+                                </div>
+                            ))}
+                           
                         </div>
 
                         <div className='AddProductForm__form__inputs__name flex flex-col justify-start items-start mb-5'>
@@ -461,8 +507,8 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                         </div>
                         <button
                             type="submit"
-                            disabled = {formData?.product_image === "" || formData?.product_name === ""  || formData?.product_description === "" || formData?.category === "" || formData?.vendor_prices === null || formData?.specifications === null}
-                            className={`flex justify-center items-center w-96 h-10 rounded-md bg-blue-700 text-white ${formData?.product_image === "" || formData?.product_name === ""  || formData?.product_description === "" || formData?.category === "" || formData?.vendor_prices === null || formData?.specifications === undefined ? "opacity-50 cursor-not-allowed" : "opacity-100 cursor-pointer"}`}
+                            disabled = {formData?.product_image === "" || formData?.product_name === ""  || formData?.product_description === "" || formData?.category === "" || formData?.vendor_prices === null || formData?.specifications === null }
+                            className={`flex justify-center items-center w-96 h-10 rounded-md bg-blue-700 text-white ${formData?.product_image === "" || formData?.product_name === ""  || formData?.product_description === "" || formData?.category === "" || formData?.vendor_prices === null || formData?.specifications === undefined   ? "opacity-50 cursor-not-allowed" : "opacity-100 cursor-pointer"}`}
                         >
                             {loading ? "Loading..." : "Add Product"}
                         </button>

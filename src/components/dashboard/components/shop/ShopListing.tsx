@@ -86,7 +86,7 @@ const ShopListing = (
                   {shop?.name}
                 </td>
                 <td className="w-[20%] text-sm font-medium py-4 px-2">
-                  {(shop?.description).length > 50 ? (shop?.description).substring(0, 50) + "..." : shop?.description}
+                  {(shop?.description)?.length > 50 ? (shop?.description).substring(0, 50) + "..." : shop?.description}
                 </td>
                 <td className="w-[20%] text-sm font-medium py-4 px-2">
                   {shop?.email}
