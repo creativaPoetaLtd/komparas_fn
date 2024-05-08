@@ -85,7 +85,7 @@ export const addProduct = async (productData: any) => {
     formData.append(`vendor_prices[${index}][colors]`, vendor_prices.colors ? vendor_prices.colors : '-');
   });
 
-  const res = await fetch("http://localhost:3000/products/add", {
+  const res = await fetch(`${baseUrl}/products/add`, {
     method: 'POST',
     body: formData,
   });
