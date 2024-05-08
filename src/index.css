@@ -278,6 +278,6 @@ input::-webkit-calendar-picker-indicator {
 }
 
 tr:nth-child(even){
-  background-color: #c1bdbd;
+  background-color: #faf4f4;
   /* color: white; */
 }
