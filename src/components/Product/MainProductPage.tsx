@@ -49,6 +49,13 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
                 <div className="flex lg:flex-col md:flex-row sm:flex-col flex-col space-y-4 mx-auto items-start justify-start py-20 lg:w-[40%] w-full ">
                     <div className="md:w-[415px] w-full p-2 flex flex-col space-y-3">
                         <div className='flex space-x-3'>
+                            {products?.product?.availableStorages?.map((storage: any, index: number) => (
+                                <div key={index} className="flex items-center justify-center text-sm w-fit px-2 py-1 h-fit border-2 border-black">
+                                    <p className="f font-bold">{storage?.value}</p>
+                                </div>
+                            ))}
+                            </div>
+                        <div className='flex space-x-3'>
                             <h1 className="text-base text-red-500 font-light line-through">
                                 {products?.product?.vendor_prices?.reduce((prev: any, current: any) => (prev.price < current.price) ? prev : current).price
                                     .toLocaleString('en-US', { maximumFractionDigits: 4 })} Rwf
@@ -110,7 +117,7 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
                                                 </>
                                             )))}
                                         <td className="text-[#353535] item-start m-auto p-2 text-start">
-                                            <button className="w-fit p-1 text-white bg-[#353535] rounded-md font-light text-sm">Gurira hano</button>
+                                            <button className="w-fit p-1 text-white bg-black rounded-md font-light text-sm">Yirebe</button>
                                         </td>
                                     </tr>
                                 ))}

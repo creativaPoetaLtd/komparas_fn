@@ -83,14 +83,15 @@ const ProductPage = () => {
     }
 
     const handleButtonClick = async (productId: string, productImage: string) => {
-
         localStorage.setItem('selectedProductId', productId);
         localStorage.setItem('selectedProductImage', productImage);
+        handelOpenModel1()
     };
     const handleButtonClick2 = (productId: string, productImage: string) => {
 
         localStorage.setItem('selectedProductImage2', productImage);
         localStorage.setItem('selectedProductId2', productId);
+        handleOpenModel2()
     };
     const handleDelete = () => {
         localStorage.removeItem('selectedProductId');
@@ -217,6 +218,24 @@ const ProductPage = () => {
                         </Button>,
                     ]}
                 >
+
+                    {/* add a search field so that when i type any letter it filter the allproduct if i delete a charcter it returns all remaing products related to the current text in the search field else if there is nothing in search field it will bring all products */}
+                    <input
+  type="text"
+  placeholder="Search Product"
+  className="border border-gray-300 rounded-md p-2 w-full mb-4"
+  onChange={(e) => {
+    const search = e.target.value.toLowerCase();
+    const filteredProducts = search
+      ? allProd.filter((product: any) =>
+          product.product_name.toLowerCase().includes(search)
+        )
+      : allProd;
+    setAllProd(filteredProducts);
+  }}
+/>
+
+                    
                     {allProd?.map((product: any, index: any) => (
                         <div key={index}>
                             <div className="flex justify-between items-center">
