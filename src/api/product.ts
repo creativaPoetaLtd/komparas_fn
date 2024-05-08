@@ -67,12 +67,14 @@ export const addProduct = async (productData: any) => {
   formData.append('category_name', productData.category);
   formData.append('our_price', productData.our_price)
   formData.append('product_image', productData.product_image);
-
+  //add array of available storages
+  productData.availableStorages.forEach((availableStorages: {value: string | Blob; }, index: any) => {
+    formData.append(`availableStorages[${index}][value]`, availableStorages.value ? availableStorages.value : '-');
+  });
   productData.specifications.forEach((specification: { key: string | Blob; value: string | Blob; }, index: any) => {
     formData.append(`specifications[${index}][key]`, specification.key ? specification.key : '-');
     formData.append(`specifications[${index}][value]`, specification.value ? specification.value : '-');
   });
-
   productData.our_review.forEach((our_review: { key: string | Blob; value: string | Blob; }, index: any) => {
     formData.append(`our_review[${index}][key]`, our_review.key ? our_review.key : '-');
     formData.append(`our_review[${index}][value]`, our_review.value ? our_review.value : '-');
@@ -83,7 +85,7 @@ export const addProduct = async (productData: any) => {
     formData.append(`vendor_prices[${index}][colors]`, vendor_prices.colors ? vendor_prices.colors : '-');
   });
 
-  const res = await fetch(`${baseUrl}/products/add`, {
+  const res = await fetch("http://localhost:3000/products/add", {
     method: 'POST',
     body: formData,
   });

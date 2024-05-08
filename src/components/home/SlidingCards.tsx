@@ -41,7 +41,9 @@ const SlidingCards: React.FC = () => {
         {products?.map((slide, index) => (
           <SwiperSlide key={index}>
             <Link className="p-2 relative justify-end text-end items-end flex flex-col rounded-md border-[1px] border-gray-300" to={`/product/${slide?._id}`}>
-              <div className='offerCircle absolute top-0 right-0 bg-[#EDB62E] justify-center m-auto flex items-center text-sm text-white p-1 h-12 border-2 border-white w-12 rounded-full'>-10%</div>
+              <div className='offerCircle absolute top-0 right-0 bg-[#EDB62E] justify-center m-auto flex items-center text-sm text-white p-1 h-12 border-2 border-white w-12 rounded-full'>
+                {Math.ceil((1 - (slide?.our_price / slide?.vendor_prices?.reduce((prev: any, current: any) => (prev.price < current.price) ? prev : current).price)) * 100)}%
+              </div>
               <div className="flex justify-center self-center">
                 <img src={slide.product_image} height={152} width={172} alt="" className="w-[172px] h-[152px] object-contain mb-4" />
               </div>

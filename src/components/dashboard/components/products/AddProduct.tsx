@@ -21,6 +21,7 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
     const [vendor_prices, setVendorPrices] = useState([{ key: "", value: "", colors: ""}]);
     const [our_review, setOur_review] = useState([{key:"", value: ""}])
     const [isColorFieldHasValidValue, setIsColorFieldHasValidValue] = useState(false);
+    const [availableStorages, setAvailableStorages] = useState([{value: "" }]);
 
     const [formData, setFormData] = useState({
         product_name: "",
@@ -31,7 +32,8 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
         our_price:"",
         specifications: [],
         product_image: undefined,
-        our_review: []
+        our_review: [],
+        availableStorages: []
     });
     // const [editorState, setEditorState] = useState(
     //     () => EditorState.createEmpty(),
@@ -92,7 +94,11 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
         updatedOurReview[index][field] = value;
         setOur_review(updatedOurReview);
     };
-
+    const handleAvailableStoragesChange = (index: any, field: string, value: string) => {
+        const updatedStorages: any = [...availableStorages];
+        updatedStorages[index][field] = value;
+        setAvailableStorages(updatedStorages);
+    };
     const addOurReview = () => {
         setOur_review([...our_review, {key:"", value: ""}])
     }
@@ -102,8 +108,7 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
         updatedVendors[index][field] = value;
         setVendorPrices(updatedVendors);
     };
-    
-    
+
 
     // Ensure this import is present
     
@@ -150,6 +155,17 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
     const addVendorField = () => {
         setVendorPrices([...vendor_prices, { key: "", value: "", colors: ""}]);
     };
+
+    const addAvailableStorageField = () => {
+        setAvailableStorages([...availableStorages, {value: "" }]);
+    };
+
+    const removeAvailableStorageField = (index: any) => {
+        const updatedStorages = [...availableStorages];
+        updatedStorages.splice(index, 1);
+        setAvailableStorages(updatedStorages);
+    }
+
 
     const removeSpecificationField = (index: number) => {
         const updatedSpecifications = [...specifications];
@@ -206,7 +222,8 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
             our_price: "",
             specifications: [],
             product_image: undefined,
-            our_review: []
+            our_review: [],
+            availableStorages: []
         });
         setSpecifications([{ key: "", value: "" }]);
         setVendorPrices([{ key: "", value: "", colors: ""}]);
@@ -222,7 +239,8 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                 ...formData,
                 specifications: specifications,
                 vendor_prices: vendor_prices,
-                our_review: our_review
+                our_review: our_review,
+                availableStorages: availableStorages
             };
 
             const response = await addProduct(updatedFormData);
@@ -298,12 +316,12 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                             </select>
                         </div>
 
-                        <div className="AddProductForm__form__inputs__specifications flex flex-col justify-start items-start mb-5">
+                        <div className="AddProductForm__form__inputs__specifications w-full flex flex-col justify-start items-start mb-5">
                             <label className="AddProductForm__form__inputs__specifications__label mb-2">
                                 Amaduka
                             </label>
                             {vendor_prices.map((spec, index) => (
-                                <div key={index} className="flex w-[88%] space-y-2 flex-col mb-2">
+                                <div key={index} className="flex w-[94%] space-y-2 flex-col mb-2">
                                     <div className="flex space-x-2 mb-2">
                                     <select
                                         className='AddProductForm__form__inputs__category__input w-96 h-10 rounded-md border outline-blue-700 border-gray-300 px-2'
@@ -332,7 +350,7 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                                         value={spec.colors}
                                         onMouseLeave={()=>onMouseOutOnColorField(index)}
                                         onChange={(e) => handleVendorsChange(index, "colors", e.target.value)}
-                                        className="w-[60%] h-10 rounded-md border outline-blue-700 border-gray-300 px-2"
+                                        className="w-[65%] h-10 rounded-md border outline-blue-700 border-gray-300 px-2"
                                     />
                                     <div className="flex space-x-3">
                                     <button
@@ -357,6 +375,47 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                             ))}
                            
                         </div>
+                        
+                        <div className="AddProductForm__form__inputs__specifications w-full flex flex-col justify-start items-start mb-5">
+                            <label className="AddProductForm__form__inputs__specifications__label mb-2">
+                                Ububiko bwose buhari
+                            </label>
+                            {availableStorages.map((spec, index) => (
+                                <div key={index} className="flex w-[90%] space-x-2 mb-2">
+                                    {/* <input
+                                        type="text"
+                                        placeholder="Key"
+                                        value={spec.key}
+                                        onChange={(e) => handleAvailableStoragesChange(index, "key", e.target.value)}
+                                        className="w-1/2 h-10 rounded-md border outline-blue-700 border-gray-300 px-2"
+                                    /> */}
+                                    <input
+                                        type="text"
+                                        placeholder="Value"
+                                        value={spec.value}
+                                        onChange={(e) => handleAvailableStoragesChange(index, "value", e.target.value)}
+                                        className="w-full h-10 rounded-md border outline-blue-700 border-gray-300 px-2"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => removeAvailableStorageField(index)}
+                                        className="border px-2 py-0 text-black hover:text-white bg-red-100 hover:bg-red-500 rounded-md"
+                                    >
+                                        x
+                                    </button>
+                                </div>
+                            ))}
+                            <div className="w-[88%]">
+                                <button
+                                    type="button"
+                                    onClick={addAvailableStorageField}
+                                    className="border p-2 text-white bg-blue-600 rounded-md float-right"
+                                >
+                                    Add Storage
+                                </button>
+                            </div>
+                        </div>
+
 
                         <div className='AddProductForm__form__inputs__name flex flex-col justify-start items-start mb-5'>
                             <label className='AddProductForm__form__inputs__name__label  mb-2'>Igiciro cyacu</label>
