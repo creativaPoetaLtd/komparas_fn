@@ -33,7 +33,7 @@ const Products = () => {
       );      
     const [searchParams] = useSearchParams();
     let catId = searchParams.get('categoryId');
-    let shopsId = searchParams.get('shopId');
+    // let shopsId = searchParams.get('shopId');
     const clearFilter = (filterType: any) => {
         handleRefresh();
         if (filterType === categoryName) {
@@ -99,24 +99,24 @@ const Products = () => {
         , []);
 
     const [selectedShop, setSelectedShop] = useState<string | null>(null);
-    const [selectedShopId, setSelectedShopId] = useState<string>();
+    const [, setSelectedShopId] = useState<string>();
     // const [selectedShopId, setSelectedShopId] = useState<string>();
     const [selectedShopNames, setSelectedShopNames] = useState<string[]>([]);
     const [shopst, setShopst] = useState<string[]>([]);
     
     const handleShopClick = async (shopId: string, name: string) => {
-      handleRefresh();
-      setSelectedShopId(shopId);
-      const index = shopst.indexOf(shopId);
-      if (index === -1) {
-        setShopst([...shopst, shopId]);
-        setSelectedShopNames([...selectedShopNames, name]);
-      } else {
-        setShopst(shopst.filter(id => id !== shopId));
-        setSelectedShopNames(selectedShopNames.filter(shopName => shopName !== name));
-      }
-      handleRefresh();
-    };
+        handleRefresh();
+        setSelectedShopId(shopId);
+        const index = shopst.indexOf(shopId);
+        if (index === -1) {
+          setShopst([...shopst, shopId]);
+          setSelectedShopNames([...selectedShopNames, name]);
+        } else {
+          setShopst(shopst.filter(id => id !== shopId));
+          setSelectedShopNames(selectedShopNames.filter(shopName => shopName !== name));
+        }
+        handleRefresh();
+      };
     const handleRefresh = () => {
         setRefresh(!refresh);
     }
@@ -289,10 +289,10 @@ const Products = () => {
         }
     };
     const categoryIdToUse = categoryId ? categoryId : catId ? catId : '';
-    const shopIdToUse:any = selectedShopId ? selectedShopId : shopsId ? shopst : '';
+    // const shopIdToUse:any = selectedShopId ? selectedShopId : shopsId ? shopst : '';
     useEffect(() => {
         const fetchProducts = async () => {
-            const response = await getAllProducts(minPrice, maxPrice, categoryIdToUse, shopIdToUse, multipleRam, multioletStorage, multipleCamera, multipleType);
+            const response = await getAllProducts(minPrice, maxPrice, categoryIdToUse, shopst, multipleRam, multioletStorage, multipleCamera, multipleType);
             const allProducts = response?.data?.products;
             let sortedProducts = allProducts;
             if (sortOrder === 'ascending') {
@@ -311,7 +311,7 @@ const Products = () => {
             setProductsData(filteredProducts);
         };
         fetchProducts();
-    }, [searchValue, refresh, deleteRefresh, minPrice, maxPrice, sortOrder]);
+    }, [searchValue, refresh, deleteRefresh, minPrice, maxPrice, sortOrder, shopst]);
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchValue(event.target.value);
     };

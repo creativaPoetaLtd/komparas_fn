@@ -10,8 +10,8 @@ export const getAllProducts = async (minPrice?: number, maxPrice?: number, categ
   if (categoryId) {
     url += `&category=${categoryId}`;
   }
-  if (vendorId) {
-    url += `&vendor_id=${vendorId}`;
+  if (vendorId && vendorId.length > 0) {
+    url += `&vendor_id=${vendorId.join(',')}`;
   }
   if (ram) {
     url += `&ram=${ram}`;
