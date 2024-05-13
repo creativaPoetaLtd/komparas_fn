@@ -46,12 +46,12 @@ const MobileHomeNav = () => {
       </Menu.Item>
       <Menu.Item key="1">
         <Link to="/about_us">
-          <a>Ibitwerekeyeho</a>
+          <a>Abo turibo</a>
         </Link>
       </Menu.Item>
       <Menu.Item key="2">
         <Link to="/contact">
-          <a>Tuvugishe</a>
+          <a>Twandikire</a>
         </Link>
       </Menu.Item>
       <Menu.Item key="3">
