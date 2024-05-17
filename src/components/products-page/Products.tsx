@@ -14,7 +14,7 @@ import { toast } from 'react-toastify';
 import { fetchParentCategories } from '../../api/getAllCategories';
 import { getAllShops } from '../../api/getAllShops';
 import { Eye, EyeSlash } from '@phosphor-icons/react';
-import { useSearchParams } from 'react-router-dom';
+// import { useSearchParams } from 'react-router-dom';
 // import { getProductOnShop } from '../../api/product';
 const Products = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -31,8 +31,8 @@ const Products = () => {
           ? JSON.parse(localStorage.getItem("compareProductIds")!)
           : []
       );      
-    const [searchParams] = useSearchParams();
-    let catId = searchParams.get('categoryId');
+    // const [searchParams] = useSearchParams();
+    // let catId = searchParams.get('categoryId');
     // let shopsId = searchParams.get('shopId');
     const clearFilter = (filterType: any) => {
         handleRefresh();
@@ -40,7 +40,7 @@ const Products = () => {
             handleRefresh();
             setCategoryName([]);
             setCategoryId([]);
-            catId = '';
+            // catId = '';
             handleRefresh();
         } else if (filterType === selectedShop) {
             handleRefresh();

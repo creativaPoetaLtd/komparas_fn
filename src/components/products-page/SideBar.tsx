@@ -1,6 +1,6 @@
 import { FaTimes } from 'react-icons/fa';
 import ads from '../../assets/ads.png'
-import RadioInputMain from './RadioButtonMain'
+// import RadioInputMain from './RadioButtonMain'
 import SliderBar from './Slider'
 // import PorductCheckInput from './ProdCheck';
 import CheckboxInput from './CheckboxButton';
