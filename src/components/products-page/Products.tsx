@@ -11,7 +11,7 @@ import ComparisonDrawer from './ComparisonDrawer';
 // import { baseUrl } from '../../api';
 import PorductCheckInput from './ProdCheck';
 import { toast } from 'react-toastify';
-import { getAllCategories } from '../../api/getAllCategories';
+import { fetchParentCategories } from '../../api/getAllCategories';
 import { getAllShops } from '../../api/getAllShops';
 import { Eye, EyeSlash } from '@phosphor-icons/react';
 import { useSearchParams } from 'react-router-dom';
@@ -38,8 +38,8 @@ const Products = () => {
         handleRefresh();
         if (filterType === categoryName) {
             handleRefresh();
-            setCategoryName('');
-            setCategoryId('');
+            setCategoryName([]);
+            setCategoryId([]);
             catId = '';
             handleRefresh();
         } else if (filterType === selectedShop) {
@@ -68,8 +68,8 @@ const Products = () => {
     };
     const clearFilters = () => {
         handleRefresh();
-        setCategoryName('');
-        setCategoryId('');
+        setCategoryName([]);
+        setCategoryId([]);
         setSelectedStorage('');
         setSelectedCamera('');
         setSelectedType('');
@@ -83,7 +83,7 @@ const Products = () => {
     }, []);
     useEffect(() => {
         const fetchCategories = async () => {
-            const data = await getAllCategories();
+            const data = await fetchParentCategories();
             setCategories(data?.data);
         }
         fetchCategories();
@@ -119,6 +119,23 @@ const Products = () => {
       };
     const handleRefresh = () => {
         setRefresh(!refresh);
+    }
+    const [categoryIdt, setCategoryId] = useState<string[]>([]);
+    const [categoryName, setCategoryName] = useState<string[]>([]);
+    const handleCategoryClick = async (categoryId: string, name: string) => {
+        handleRefresh();
+        // setCategoryId(categoryId);
+        // setCategoryName(categoryName);
+        const index = categoryIdt.indexOf(categoryId);
+        if(index === -1){
+            setCategoryId([...categoryIdt, categoryId])
+            setCategoryName([...categoryName, name])
+        }else{
+            setCategoryId(categoryIdt.filter(id => id !== categoryId))
+            setCategoryName(categoryName.filter(catName => catName !== name))
+        }
+
+        handleRefresh();
     }
 
     const [comparisonData, setComparisonData] = useState<any>([]);
@@ -219,14 +236,7 @@ const Products = () => {
         setMinPrice(min);
         setMaxPrice(max);
     };
-    const [categoryId, setCategoryId] = useState<string>("");
-    const [categoryName, setCategoryName] = useState<string>("");
-    const handleCategoryClick = async (categoryId: string, categoryName: string) => {
-        handleRefresh();
-        setCategoryId(categoryId);
-        setCategoryName(categoryName);
-        handleRefresh();
-    }
+  
     const [selectedRam, setSelectedRam] = useState<string>();
     const [multipleRam, setMultipleRam] = useState<string[]>([]);
     const handleSelectRam = async (ram: string) => {
@@ -288,11 +298,11 @@ const Products = () => {
             setSortOrder('descending');
         }
     };
-    const categoryIdToUse = categoryId ? categoryId : catId ? catId : '';
+    // const categoryIdToUse = categoryId ? categoryId : catId ? catId : '';
     // const shopIdToUse:any = selectedShopId ? selectedShopId : shopsId ? shopst : '';
     useEffect(() => {
         const fetchProducts = async () => {
-            const response = await getAllProducts(minPrice, maxPrice, categoryIdToUse, shopst, multipleRam, multioletStorage, multipleCamera, multipleType);
+            const response = await getAllProducts(minPrice, maxPrice, categoryIdt, shopst, multipleRam, multioletStorage, multipleCamera, multipleType);
             const allProducts = response?.data?.products;
             let sortedProducts = allProducts;
             if (sortOrder === 'ascending') {

@@ -1,14 +1,14 @@
 import { baseUrl } from '.';
 import axios from "axios";
 
-export const getAllProducts = async (minPrice?: number, maxPrice?: number, categoryId?: string, vendorId?: any[], ram?: any, storage?:any, camera?:any, types?:any) => {
+export const getAllProducts = async (minPrice?: number, maxPrice?: number, categoryId?: any[], vendorId?: any[], ram?: any, storage?:any, camera?:any, types?:any) => {
   let res:any
   let url = `${baseUrl}/products?`
   if(minPrice && maxPrice){
     url += `minPrice=${minPrice}&maxPrice=${maxPrice}`;
   }
-  if (categoryId) {
-    url += `&category=${categoryId}`;
+  if (categoryId && categoryId.length > 0) {
+    url += `&category=${categoryId.join(',')}`;
   }
   if (vendorId && vendorId.length > 0) {
     url += `&vendor_id=${vendorId.join(',')}`;
