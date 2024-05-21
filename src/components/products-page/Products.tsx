@@ -8,19 +8,16 @@ import { FaSearch, FaTimes } from 'react-icons/fa'
 import { MdFilterList } from 'react-icons/md';
 import { getAllProducts, getComparison } from '../../api/product';
 import ComparisonDrawer from './ComparisonDrawer';
-// import { baseUrl } from '../../api';
 import PorductCheckInput from './ProdCheck';
 import { toast } from 'react-toastify';
 import { fetchParentCategories } from '../../api/getAllCategories';
 import { getAllShops } from '../../api/getAllShops';
 import { Eye, EyeSlash } from '@phosphor-icons/react';
-// import { useSearchParams } from 'react-router-dom';
-// import { getProductOnShop } from '../../api/product';
 const Products = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [productsData, setProductsData] = useState<any[]>([]);
     const [refresh, setRefresh] = useState(false);
-    const [deleteRefresh, ] = useState(false);
+    const [deleteRefresh,] = useState(false);
     const loginInfo: any = localStorage.getItem('KomparasLoginsInfo');
     const userId = JSON.parse(loginInfo)?._id;
     const [categories, setCategories] = useState<any>([]);
@@ -28,12 +25,9 @@ const Products = () => {
     const [activeFilters, setActiveFilters] = useState<any[]>([]);
     const [locastorageCompareProductIds, setLocastorageCompareProductIds] = useState<any>(
         localStorage.getItem("compareProductIds")
-          ? JSON.parse(localStorage.getItem("compareProductIds")!)
-          : []
-      );      
-    // const [searchParams] = useSearchParams();
-    // let catId = searchParams.get('categoryId');
-    // let shopsId = searchParams.get('shopId');
+            ? JSON.parse(localStorage.getItem("compareProductIds")!)
+            : []
+    );
     const clearFilter = (filterType: any) => {
         handleRefresh();
         if (filterType === categoryName) {
@@ -53,11 +47,11 @@ const Products = () => {
             handleRefresh();
         } else if (filterType === `Storage: ${selectedStorage}`) {
             handleRefresh();
-            setSelectedStorage('');
+            setSelectedStorage([]);
             handleRefresh();
         } else if (filterType === `Camera: ${selectedCamera}`) {
             handleRefresh();
-            setSelectedCamera('');
+            setSelectedCamera([]);
             handleRefresh();
         } else if (filterType === `Type: ${selectedType}`) {
             handleRefresh();
@@ -70,8 +64,8 @@ const Products = () => {
         handleRefresh();
         setCategoryName([]);
         setCategoryId([]);
-        setSelectedStorage('');
-        setSelectedCamera('');
+        setSelectedStorage([]);
+        setSelectedCamera([]);
         setSelectedType('');
         setSelectedShopId('');
         setSelectedShop(null);
@@ -103,20 +97,20 @@ const Products = () => {
     // const [selectedShopId, setSelectedShopId] = useState<string>();
     const [selectedShopNames, setSelectedShopNames] = useState<string[]>([]);
     const [shopst, setShopst] = useState<string[]>([]);
-    
+
     const handleShopClick = async (shopId: string, name: string) => {
         handleRefresh();
         setSelectedShopId(shopId);
         const index = shopst.indexOf(shopId);
         if (index === -1) {
-          setShopst([...shopst, shopId]);
-          setSelectedShopNames([...selectedShopNames, name]);
+            setShopst([...shopst, shopId]);
+            setSelectedShopNames([...selectedShopNames, name]);
         } else {
-          setShopst(shopst.filter(id => id !== shopId));
-          setSelectedShopNames(selectedShopNames.filter(shopName => shopName !== name));
+            setShopst(shopst.filter(id => id !== shopId));
+            setSelectedShopNames(selectedShopNames.filter(shopName => shopName !== name));
         }
         handleRefresh();
-      };
+    };
     const handleRefresh = () => {
         setRefresh(!refresh);
     }
@@ -124,19 +118,30 @@ const Products = () => {
     const [categoryName, setCategoryName] = useState<string[]>([]);
     const handleCategoryClick = async (categoryId: string, name: string) => {
         handleRefresh();
-        // setCategoryId(categoryId);
-        // setCategoryName(categoryName);
         const index = categoryIdt.indexOf(categoryId);
-        if(index === -1){
+        if (index === -1) {
             setCategoryId([...categoryIdt, categoryId])
             setCategoryName([...categoryName, name])
-        }else{
+        } else {
             setCategoryId(categoryIdt.filter(id => id !== categoryId))
             setCategoryName(categoryName.filter(catName => catName !== name))
         }
 
         handleRefresh();
     }
+    const [selectedStorage, setSelectedStorage] = useState<string[]>([]);
+    const [multioletStorage, setMultioletStorage] = useState<string[]>([]);
+    const handleSelectStorage = async (storage: string) => {
+        handleRefresh();
+        const index = multioletStorage.indexOf(storage);
+        if (index === -1) {
+            setMultioletStorage([...multioletStorage, storage]);
+        } else {
+            setMultioletStorage(multioletStorage.filter(storaged => storaged !== storage));
+        }
+        // setSelectedStorage(storage);
+        handleRefresh();
+    };
 
     const [comparisonData, setComparisonData] = useState<any>([]);
     useEffect(() => {
@@ -148,7 +153,7 @@ const Products = () => {
         fetchComparison();
     }, [userId, deleteRefresh]);
 
-    
+
 
     const comparedProductId = comparisonData?.productsInfo?.map((product: any) => product._id);
     // const addProductToCompare = async (productData: { productId: any; }) => {
@@ -177,7 +182,7 @@ const Products = () => {
         handleRefresh();
         if (productIds) {
             const productIdsArray = JSON.parse(productIds);
-        handleRefresh();
+            handleRefresh();
 
             if (productIdsArray.length < 10) {
                 localStorage.setItem('compareProductIds', JSON.stringify([...productIdsArray, productId]));
@@ -189,13 +194,13 @@ const Products = () => {
             } else {
                 toast.error('You can only compare two products at a time');
             }
-        handleRefresh();
+            handleRefresh();
 
         } else {
-        handleRefresh();
+            handleRefresh();
 
             localStorage.setItem('compareProductIds', JSON.stringify([productId]));
-        handleRefresh();
+            handleRefresh();
 
         }
     }
@@ -209,7 +214,7 @@ const Products = () => {
             setLocastorageCompareProductIds(JSON.stringify(updatedProductIdsArray));
         }
     }
-    
+
     const cardsPerPage = 10;
     const totalProducts = productsData?.length;
     const [open, setOpen] = useState(false);
@@ -236,7 +241,6 @@ const Products = () => {
         setMinPrice(min);
         setMaxPrice(max);
     };
-  
     const [selectedRam, setSelectedRam] = useState<string>();
     const [multipleRam, setMultipleRam] = useState<string[]>([]);
     const handleSelectRam = async (ram: string) => {
@@ -246,24 +250,12 @@ const Products = () => {
         if (index === -1) {
             setMultipleRam([...multipleRam, ram]);
         } else {
-            setMultipleRam(multipleRam.filter(ram => ram !== ram));
+            setMultipleRam(multipleRam.filter(ramT => ramT !== ram));
         }
         handleRefresh();
     };
-    const [selectedStorage, setSelectedStorage] = useState<string>();
-    const [multioletStorage, setMultioletStorage] = useState<string[]>([]);
-    const handleSelectStorage = async (storage: string) => {
-        handleRefresh();
-        const index = multioletStorage.indexOf(storage);
-        if (index === -1) {
-            setMultioletStorage([...multioletStorage, storage]);
-        } else {
-            setMultioletStorage(multioletStorage.filter(storage => storage !== storage));
-        }
-        setSelectedStorage(storage);
-        handleRefresh();
-    };
-    const [selectedCamera, setSelectedCamera] = useState<string>();
+
+    const [selectedCamera, setSelectedCamera] = useState<string[]>([]);
     const [multipleCamera, setMultipleCamera] = useState<string[]>([]);
     const handleSelectCamera = async (camera: string) => {
         handleRefresh();
@@ -271,9 +263,9 @@ const Products = () => {
         if (index === -1) {
             setMultipleCamera([...multipleCamera, camera]);
         } else {
-            setMultipleCamera(multipleCamera.filter(camera => camera !== camera));
+            setMultipleCamera(multipleCamera.filter(cameraT => cameraT !== camera));
         }
-        setSelectedCamera(camera);
+        // setSelectedCamera(camera);
         handleRefresh();
     };
     const [selectedType, setSelectedType] = useState<string>();
@@ -284,9 +276,9 @@ const Products = () => {
         if (index === -1) {
             setMultipleType([...multipleType, type]);
         } else {
-            setMultipleType(multipleType.filter(type => type !== type));
+            setMultipleType(multipleType.filter(typeT => typeT !== type));
         }
-        setSelectedType(type);
+        // setSelectedType(type);
         handleRefresh();
     };
     const [sortOrder, setSortOrder] = useState<'ascending' | 'descending'>('ascending');
@@ -481,7 +473,7 @@ const Products = () => {
                                             checked={
                                                 locastorageCompareProductIds?.includes(product._id) || comparedProductId?.includes(product._id)
                                             }
-                                            addProductToCompare={()=>handleAddProductIdToLocalStorageCompare((product._id))}
+                                            addProductToCompare={() => handleAddProductIdToLocalStorageCompare((product._id))}
                                             onUncheck={() => handleRemoveProductIdFromLocalStorageCompare(product._id)}
                                         />
                                     </div>
@@ -502,7 +494,7 @@ const Products = () => {
             </div>
             <button onClick={showDrawer} className='fixed bottom-10 right-10 bg-yellow-500 p-3 rounded-full text-white'>
                 <p className='text-sm'>{
-                 ! JSON.parse(localStorage.getItem("compareProductIds") as any) ? [] :  JSON.parse(localStorage.getItem("compareProductIds") as any)?.length < 2 ? JSON.parse(localStorage.getItem("compareProductIds") as any)?.length + ' Item' : JSON.parse(localStorage.getItem("compareProductIds") as any)?.length + ' Items'
+                    !JSON.parse(localStorage.getItem("compareProductIds") as any) ? [] : JSON.parse(localStorage.getItem("compareProductIds") as any)?.length < 2 ? JSON.parse(localStorage.getItem("compareProductIds") as any)?.length + ' Item' : JSON.parse(localStorage.getItem("compareProductIds") as any)?.length + ' Items'
                 }</p>
             </button>
             <ComparisonDrawer
