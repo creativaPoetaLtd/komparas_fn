@@ -44,7 +44,7 @@ const Products = () => {
             handleRefresh();
         } else if (filterType === `RAM: ${selectedRam}`) {
             handleRefresh();
-            setSelectedRam('');
+            setSelectedRam([]);
             handleRefresh();
         } else if (filterType === `Storage: ${selectedStorage}`) {
             handleRefresh();
@@ -71,7 +71,7 @@ const Products = () => {
         setSelectedType('');
         setSelectedShopId('');
         setSelectedShop(null);
-        setSelectedRam('');
+        setSelectedRam([]);
         handleRefresh();
     };
     useEffect(() => {
@@ -141,7 +141,7 @@ const Products = () => {
         } else {
             setMultioletStorage(multioletStorage.filter(storaged => storaged !== storage));
         }
-        // setSelectedStorage(storage);
+        setSelectedStorage(multioletStorage.filter(storaged => storaged !== storage));
         handleRefresh();
     };
 
@@ -243,16 +243,17 @@ const Products = () => {
         setMinPrice(min);
         setMaxPrice(max);
     };
-    const [selectedRam, setSelectedRam] = useState<string>();
+    const [selectedRam, setSelectedRam] = useState<string[]>([]);
     const [multipleRam, setMultipleRam] = useState<string[]>([]);
     const handleSelectRam = async (ram: string) => {
         handleRefresh();
-        setSelectedRam(ram);
+        // setSelectedRam(ram);
         const index = multipleRam.indexOf(ram);
         if (index === -1) {
             setMultipleRam([...multipleRam, ram]);
         } else {
             setMultipleRam(multipleRam.filter(ramT => ramT !== ram));
+            setSelectedRam(multipleRam.filter(ramT => ramT !== ram));
         }
         handleRefresh();
     };
@@ -266,6 +267,7 @@ const Products = () => {
             setMultipleCamera([...multipleCamera, camera]);
         } else {
             setMultipleCamera(multipleCamera.filter(cameraT => cameraT !== camera));
+            setSelectedCamera(multipleCamera.filter(cameraT => cameraT !== camera));
         }
         // setSelectedCamera(camera);
         handleRefresh();
@@ -346,13 +348,13 @@ const Products = () => {
             filters.push(selectedShopNames + ' ');
         }
         if (selectedRam) {
-            filters.push(`RAM: ${selectedRam}`);
+            filters.push(`RAM: ${selectedRam + '  '}`);
         }
         if (selectedStorage) {
-            filters.push(`Storage: ${selectedStorage}`);
+            filters.push(`Storage: ${selectedStorage + ' '}`);
         }
         if (selectedCamera) {
-            filters.push(`Camera: ${selectedCamera}`);
+            filters.push(`Camera: ${selectedCamera + ' '}`);
         }
         if (selectedType) {
             filters.push(`Type: ${selectedType}`);
