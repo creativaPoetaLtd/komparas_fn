@@ -13,6 +13,7 @@ import { toast } from 'react-toastify';
 import { fetchParentCategories } from '../../api/getAllCategories';
 import { getAllShops } from '../../api/getAllShops';
 import { Eye, EyeSlash } from '@phosphor-icons/react';
+import { Link } from 'react-router-dom';
 const Products = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [productsData, setProductsData] = useState<any[]>([]);
@@ -63,6 +64,7 @@ const Products = () => {
     const clearFilters = () => {
         handleRefresh();
         setCategoryName([]);
+        setSelectedShopNames([]);
         setCategoryId([]);
         setSelectedStorage([]);
         setSelectedCamera([]);
@@ -124,7 +126,7 @@ const Products = () => {
             setCategoryName([...categoryName, name])
         } else {
             setCategoryId(categoryIdt.filter(id => id !== categoryId))
-            setCategoryName(categoryName.filter(catName => catName !== name))
+            setCategoryName(categoryName.filter(catName => catName !== name + ' '))
         }
 
         handleRefresh();
@@ -338,10 +340,10 @@ const Products = () => {
     let filters: any[] = [];
     const generateActiveFilters = () => {
         if (categoryName) {
-            filters.push(categoryName);
+            filters.push(categoryName+ ' ');
         }
-        if (selectedShop) {
-            filters.push(selectedShopNames);
+        if (selectedShopNames) {
+            filters.push(selectedShopNames + ' ');
         }
         if (selectedRam) {
             filters.push(`RAM: ${selectedRam}`);
@@ -456,7 +458,7 @@ const Products = () => {
                         </div>
                         <div className='products grid lg:grid-cols-3 md:grid-cols-3 grid-cols-2 lg:gap-12 md:gap-8 gap-3 mx-auto justify-center items-center mt-3'>
                             {productsData?.slice(startIndex, endIndex)?.map((product, index) => (
-                                <div key={index} className='productCard md:w-[222px] w-[170px] border border-black rounded-md p-3 md:h-[296px] h-[256px]  m-auto justify-center flex flex-col'>
+                                <Link to={`/product/${product?._id}`} key={index} className='productCard md:w-[222px] w-[170px] border border-black rounded-md p-3 md:h-[296px] h-[256px]  m-auto justify-center flex flex-col'>
                                     <div className="flex justify-center">
                                         <img src={product.product_image} height={152} width={172} alt="" className="w-[172px] h-[152px] object-contain mb-4" />
                                     </div>
@@ -477,7 +479,7 @@ const Products = () => {
                                             onUncheck={() => handleRemoveProductIdFromLocalStorageCompare(product._id)}
                                         />
                                     </div>
-                                </div>
+                                </Link>
                             ))}
                         </div>
                         <div className='pagination mt-4 flex justify-center'>
