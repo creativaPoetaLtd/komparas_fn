@@ -17,7 +17,7 @@ interface SideBarProps {
     handleSelectCamera: (camera: string) => void;
     handleSelectType: (type: string) => void;
 }
-const SideBar: React.FC<SideBarProps> = ({ isOpen, toggleSidebar, categories, shops, handleCategoryClick, handleShopCkik, onPriceRangeChange, handleSelectRam, handleSelectStorage, handleSelectCamera, handleSelectType }) => {
+const SideBar: React.FC<SideBarProps> = ({ isOpen, toggleSidebar, categories, shops, handleCategoryClick, handleShopCkik, onPriceRangeChange, handleSelectRam, handleSelectStorage, handleSelectCamera }) => {
     return (
         <div className={`lg:w-[25%] md:hiddenf hiddenf min-h-screen  lg:flex flex-col h-fit pr-4 ${isOpen ? 'md:flex flex w-full z-30' : 'h hidden'}`}>
             <div className='flex flex-col relative'>
@@ -40,7 +40,7 @@ const SideBar: React.FC<SideBarProps> = ({ isOpen, toggleSidebar, categories, sh
                     ))}
                 </div>
             </div>
-            <div className='flex flex-col mt-3'>
+            {/* <div className='flex flex-col mt-3'>
                 <p className='text-sm font-semibold text-gray-600'>Types</p>
                 <div className='flex-col grid grid-cols-2 mt-5'>
                     <CheckboxInput label='Smartphones' name='type' onClick={() => handleSelectType('Smartphones')} />
@@ -49,7 +49,7 @@ const SideBar: React.FC<SideBarProps> = ({ isOpen, toggleSidebar, categories, sh
                     <CheckboxInput label='Sumsung' name='type' onClick={() => handleSelectType('Sumsung')} />
                     <CheckboxInput label='Apple' name='type' onClick={() => handleSelectType('Apple')} />
                 </div>
-            </div>
+            </div> */}
             <div className='flex flex-col mt-3'>
                 <p className='text-sm font-semibold text-gray-600'>Storage</p>
                 <div className='flex-col grid grid-cols-2 mt-5'>
