@@ -4,6 +4,7 @@ import ads from '../../assets/ads.png'
 import SliderBar from './Slider'
 // import PorductCheckInput from './ProdCheck';
 import CheckboxInput from './CheckboxButton';
+import { RedComponent } from './ColorsComponent';
 interface SideBarProps {
     isOpen: boolean;
     toggleSidebar: () => void;
@@ -15,11 +16,22 @@ interface SideBarProps {
     handleSelectRam: (ram: string) => void;
     handleSelectStorage: (storage: string) => void;
     handleSelectCamera: (camera: string) => void;
+    handleSelectColors: (colors: string) => void;
     handleSelectType: (type: string) => void;
 }
-const SideBar: React.FC<SideBarProps> = ({ isOpen, toggleSidebar, categories, shops, handleCategoryClick, handleShopCkik, onPriceRangeChange, handleSelectRam, handleSelectStorage, handleSelectCamera }) => {
+const SideBar: React.FC<SideBarProps> = ({ isOpen, toggleSidebar, categories, shops, handleCategoryClick, handleShopCkik, onPriceRangeChange, handleSelectRam, handleSelectStorage, handleSelectCamera, handleSelectColors }) => {
     return (
         <div className={`lg:w-[25%] md:hiddenf hiddenf min-h-screen  lg:flex flex-col h-fit pr-4 ${isOpen ? 'md:flex flex w-full z-30' : 'h hidden'}`}>
+          
+            <SliderBar onPriceRangeChange={onPriceRangeChange} />
+            <div className='brands flex flex-col mt-3'>
+                <p className='text-sm font-semibold text-gray-600'>Shops</p>
+                <div className='flex-col grid grid-cols-2 mt-5'>
+                    {shops?.map((shop: any) => (
+                        <CheckboxInput key={shop._id} label={shop.name} name='category' onClick={() => handleShopCkik(shop?._id, shop?.name)} />
+                    ))}
+                </div>
+            </div>
             <div className='flex flex-col relative'>
                 <p className='text-sm font-semibold text-gray-600'>Categories</p>
                 <button className='' onClick={toggleSidebar}>
@@ -28,15 +40,6 @@ const SideBar: React.FC<SideBarProps> = ({ isOpen, toggleSidebar, categories, sh
                 <div className='flex flex-col mt-4'>
                     {categories?.map((category: any) => (
                         <CheckboxInput key={category._id} label={category.name} name='category' onClick={() => handleCategoryClick(category?._id, category?.name)} />
-                    ))}
-                </div>
-            </div>
-            <SliderBar onPriceRangeChange={onPriceRangeChange} />
-            <div className='brands flex flex-col mt-3'>
-                <p className='text-sm font-semibold text-gray-600'>Shops</p>
-                <div className='flex-col grid grid-cols-2 mt-5'>
-                    {shops?.map((shop: any) => (
-                        <CheckboxInput key={shop._id} label={shop.name} name='category' onClick={() => handleShopCkik(shop?._id, shop?.name)} />
                     ))}
                 </div>
             </div>
@@ -86,8 +89,23 @@ const SideBar: React.FC<SideBarProps> = ({ isOpen, toggleSidebar, categories, sh
                     <CheckboxInput label='64MP' name='camera' onClick={() => handleSelectCamera('64MP')} />
                 </div>
             </div>
-            <div className='flex flex-col mt-5 items-center justify-center border-4 border-yellow-600 w-[312px] py-5'>
-                <img src={ads} alt="" className='w-[180px] h-[180px]' />
+            <div className='flex flex-col mt-3'>
+                <p className='text-sm font-semibold text-gray-600'>Colors</p>
+                <div className='flex-col grid grid-cols-2 mt-5'>
+                    <CheckboxInput label={<RedComponent color={"green"}/>} name='color' onClick={() => handleSelectColors('red')} />
+                    <CheckboxInput label={<RedComponent color={"blue"}/>} name='color' onClick={() => handleSelectColors('blue')} />
+                    <CheckboxInput label={<RedComponent color={"yellow"}/>} name='color' onClick={() => handleSelectColors('yellow')} />
+                    <CheckboxInput label={<RedComponent color={"red"}/>} name='color' onClick={() => handleSelectColors('red')} />
+                    <CheckboxInput label={<RedComponent color={"purple"}/>} name='color' onClick={() => handleSelectColors('purple')} />
+                    <CheckboxInput label={<RedComponent color={"pink"}/>} name='color' onClick={() => handleSelectColors('pink')} />
+                    <CheckboxInput label={<RedComponent color={"gray"}/>} name='color' onClick={() => handleSelectColors('gray')} />
+                    <CheckboxInput label={<RedComponent color={"black"}/>} name='color' onClick={() => handleSelectColors('black')} />
+                    <CheckboxInput label={<RedComponent color={"white"}/>} name='color' onClick={() => handleSelectColors('white')} />
+                    <CheckboxInput label={<RedComponent color={"orange"}/>} name='color' onClick={() => handleSelectColors('orange')} />
+                 </div>
+            </div>
+            <div className='flex flex-col mt-5 items-center justify-center border-4 border-yellow-600 w-[260px] py-5'>
+                <img src={ads} alt="" className='w-[150px] h-[150px]' />
                 <h1 className='mt-2 font-semibold text-sm'>WATCH</h1>
                 <p className='text-xs text-red-600'>The best smartwatch</p>
                 <h1 className='mt-2 font-semibold text-sm'>Heavy on Features.</h1>

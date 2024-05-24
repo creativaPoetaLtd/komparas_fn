@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface CheckboxInputProps {
-    label: string;
+    label: any;
     name: string;
     onClick?: () => void;
 }

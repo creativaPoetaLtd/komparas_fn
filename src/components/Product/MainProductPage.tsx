@@ -98,7 +98,7 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
                                                 <td key={priceIndex} className="text-[#353535] flex item-start m-auto p-2">
                                                     {JSON.parse(JSON.stringify(price?.colors).replace(/[\"\#]+/g, '').replace(/(\w+)/g, '"$1"')).map((color: any, colorIndex: number) => (
                                                         <div key={colorIndex} style={{
-                                                            backgroundColor: `#${color ? color : '#0a0a0a'}`,
+                                                            backgroundColor: `${color ? color : '#0a0a0a'}`,
                                                         }} className={` bg-[#${color ? color : '#0a0a0a'}] rounded-full h-4 flex w-4 m-1`}></div>
                                                     ))}                
                                                 </td>

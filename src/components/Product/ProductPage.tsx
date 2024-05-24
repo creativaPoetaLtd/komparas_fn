@@ -18,8 +18,6 @@ import { Trash } from '@phosphor-icons/react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { getAllProducts } from '../../api/product';
-
-
 const ProductPage = () => {
     const [products, setProduct] = useState<any>([]);
     const navigate = useNavigate();
@@ -97,14 +95,11 @@ const ProductPage = () => {
         localStorage.removeItem('selectedProductId');
         localStorage.removeItem('selectedProductImage');
     };
-
     const handleDelete2 = () => {
         localStorage.removeItem('selectedProductId2')
         localStorage.removeItem('selectedProductImage2');
 
     }
-
-
     const handleViewAllProducts = () => {
         if (localStorage.getItem("KomparasLoginsInfo")) {
             navigate("/products");
@@ -221,21 +216,19 @@ const ProductPage = () => {
 
                     {/* add a search field so that when i type any letter it filter the allproduct if i delete a charcter it returns all remaing products related to the current text in the search field else if there is nothing in search field it will bring all products */}
                     <input
-  type="text"
-  placeholder="Search Product"
-  className="border border-gray-300 rounded-md p-2 w-full mb-4"
-  onChange={(e) => {
-    const search = e.target.value.toLowerCase();
-    const filteredProducts = search
-      ? allProd.filter((product: any) =>
-          product.product_name.toLowerCase().includes(search)
-        )
-      : allProd;
-    setAllProd(filteredProducts);
-  }}
-/>
-
-                    
+                        type="text"
+                        placeholder="Search Product"
+                        className="border border-gray-300 rounded-md p-2 w-full mb-4"
+                        onChange={(e) => {
+                            const search = e.target.value.toLowerCase();
+                            const filteredProducts = search
+                                ? allProd.filter((product: any) =>
+                                    product.product_name.toLowerCase().includes(search)
+                                )
+                                : allProd;
+                            setAllProd(filteredProducts);
+                        }}
+                    />
                     {allProd?.map((product: any, index: any) => (
                         <div key={index}>
                             <div className="flex justify-between items-center">

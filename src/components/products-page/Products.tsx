@@ -37,23 +37,27 @@ const Products = () => {
             setCategoryId([]);
             // catId = '';
             handleRefresh();
-        } else if (filterType === selectedShop) {
-            handleRefresh();
-            setSelectedShop(null);
-            setSelectedShopId('');
-            handleRefresh();
-        } else if (filterType === `RAM: ${selectedRam}`) {
-            handleRefresh();
-            setSelectedRam([]);
-            handleRefresh();
-        } else if (filterType === `Storage: ${selectedStorage}`) {
-            handleRefresh();
-            setSelectedStorage([]);
-            handleRefresh();
-        } else if (filterType === `Camera: ${selectedCamera}`) {
-            handleRefresh();
-            setSelectedCamera([]);
-            handleRefresh();
+        // } else if (filterType === selectedShop) {
+        //     handleRefresh();
+        //     setSelectedShop(null);
+        //     setSelectedShopId('');
+        //     handleRefresh();
+        // } else if (filterType === `RAM: ${selectedRam}`) {
+        //     handleRefresh();
+        //     setSelectedRam([]);
+        //     handleRefresh();
+        // } else if (filterType === `Storage: ${selectedStorage}`) {
+        //     handleRefresh();
+        //     setSelectedStorage([]);
+        //     handleRefresh();
+        // } else if (filterType === `Camera: ${selectedCamera}`) {
+        //     handleRefresh();
+        //     setSelectedCamera([]);
+        //     handleRefresh();
+        // } else if (filterType === `Colors: ${selectedColors}`) {
+        //     handleRefresh();
+        //     setSelectedColors([]);
+        //     handleRefresh();
         } else if (filterType === `Type: ${selectedType}`) {
             handleRefresh();
             setSelectedType('');
@@ -94,7 +98,7 @@ const Products = () => {
     }
         , []);
 
-    const [selectedShop, setSelectedShop] = useState<string | null>(null);
+    const [, setSelectedShop] = useState<string | null>(null);
     const [, setSelectedShopId] = useState<string>();
     // const [selectedShopId, setSelectedShopId] = useState<string>();
     const [selectedShopNames, setSelectedShopNames] = useState<string[]>([]);
@@ -272,6 +276,20 @@ const Products = () => {
         // setSelectedCamera(camera);
         handleRefresh();
     };
+    const [, setSelectedColors] = useState<string[]>([]);
+    const [multipleColors, setMultipleColors] = useState<string[]>([]);
+    const handleSelectColors = async (colors: string) => {
+        handleRefresh();
+        const index = multipleColors.indexOf(colors);
+        if (index === -1) {
+            setMultipleColors([...multipleColors, colors]);
+        } else {
+            setMultipleColors(multipleColors.filter(colorsT => colorsT !== colors));
+            setSelectedColors(multipleColors.filter(colorsT => colorsT !== colors));
+        }
+        // setSelectedCamera(camera);
+        handleRefresh();
+    };
     const [selectedType, setSelectedType] = useState<string>();
     const [multipleType, setMultipleType] = useState<string[]>([]);
     const handleSelectType = async (type: string) => {
@@ -298,7 +316,7 @@ const Products = () => {
     // const shopIdToUse:any = selectedShopId ? selectedShopId : shopsId ? shopst : '';
     useEffect(() => {
         const fetchProducts = async () => {
-            const response = await getAllProducts(minPrice, maxPrice, categoryIdt, shopst, multipleRam, multioletStorage, multipleCamera, multipleType);
+            const response = await getAllProducts(minPrice, maxPrice, categoryIdt, shopst, multipleRam, multioletStorage, multipleCamera, multipleColors);
             const allProducts = response?.data?.products;
             let sortedProducts = allProducts;
             if (sortOrder === 'ascending') {
@@ -344,21 +362,24 @@ const Products = () => {
         if (categoryName) {
             filters.push(categoryName+ ' ');
         }
-        if (selectedShopNames) {
-            filters.push(selectedShopNames + ' ');
-        }
-        if (selectedRam) {
-            filters.push(`RAM: ${selectedRam + '  '}`);
-        }
-        if (selectedStorage) {
-            filters.push(`Storage: ${selectedStorage + ' '}`);
-        }
-        if (selectedCamera) {
-            filters.push(`Camera: ${selectedCamera + ' '}`);
-        }
-        if (selectedType) {
-            filters.push(`Type: ${selectedType}`);
-        }
+        // if (selectedShopNames) {
+        //     filters.push(selectedShopNames + ' ');
+        // }
+        // if (selectedRam) {
+        //     filters.push(`RAM: ${selectedRam + '  '}`);
+        // }
+        // if (selectedStorage) {
+        //     filters.push(`Storage: ${selectedStorage + ' '}`);
+        // }
+        // if (selectedCamera) {
+        //     filters.push(`Camera: ${selectedCamera + ' '}`);
+        // }
+        // if (selectedColors) {
+        //     filters.push(`Colours: ${selectedColors + ' '}`);
+        // }
+        // if (selectedType) {
+        //     filters.push(`Type: ${selectedType}`);
+        // }
         return filters;
     };
     useEffect(() => {
@@ -378,7 +399,7 @@ const Products = () => {
             <MobileHomeNav />
             <div className='w-full bg-white h-fit justify-between lg:px-6 px-2 lg:pl-20 pl-2 flex flex-col'>
                 <div className='w-full mt-6 h-fit flex flex-row'>
-                    <SideBar handleSelectRam={handleSelectRam} isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} categories={categories} shops={shops} handleCategoryClick={handleCategoryClick} handleShopCkik={handleShopClick} onPriceRangeChange={handlePriceRangeChange} handleSelectCamera={handleSelectCamera} handleSelectStorage={handleSelectStorage} handleSelectType={handleSelectType} />
+                    <SideBar handleSelectRam={handleSelectRam} isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} categories={categories} shops={shops} handleCategoryClick={handleCategoryClick} handleShopCkik={handleShopClick} onPriceRangeChange={handlePriceRangeChange} handleSelectCamera={handleSelectCamera} handleSelectStorage={handleSelectStorage} handleSelectType={handleSelectType} handleSelectColors={handleSelectColors} />
                     <div className={`lg:w-[70%] md:w-full w-full flex flex-col h-fit ${isSidebarOpen ? "hidden" : ""}`}>
                         <div className='topMenus w-full flex md:flex-row flex-col justify-between'>
                             <div className='searchBar md:w-[50%] w-full bg-[#F5F5F5] rounded-md pr-3'>
