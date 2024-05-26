@@ -23,8 +23,8 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
     return (
         <div className='w-full  pl-0 flex flex-col h-fit'>
             <div className="w-full h-fit flex lg:flex-row  flex-col ">
-                <div className="flex md:flex-row  flex-col-reverse lg:w-[50%] w-full m-auto justify-center items-center h-full">
-                    <div className="flex md:[w-20%] md:h-[450px] md:space-y-4 space-y-0 py-4 md:overflow-y-auto  w-full md:flex-col justify-between flex-row">
+                <div className="flex md:flex-row  flex-col lg:w-[50%] w-full m-auto justify-center items-center h-full">
+                    <div className="md:flex hidden md:[w-20%] md:h-[450px] md:space-y-4 space-y-0 py-4 md:overflow-y-auto  w-full md:flex-col justify-between">
                         {products?.product?.product_images?.map((image: any, index: number) => (
                             <div key={index} className={`otherImages md:w-[170px] w-[55px] items-start  flex justify-start md:h-[138px] h-[50px] ${selectedImageIndex === index ? 'border,-2 bormder-blue-500' : ''}`} onClick={() => handleImageClick(index)}>
                                 <img src={image.product_image} width={100} height={100} alt="" className={` ${selectedImageIndex === index ? 'border-2 bg-slate-400 rounded-md p-2' : ''} md:w-[100px] w-[55px] md:h-[89px] h-[49px] object-contain`} />
@@ -44,6 +44,15 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
                                 <CiCircleChevRight className="bg-gray-300 rounded-full hover:bg-slate-800" />
                             </button>
                         </div>
+                    </div>
+                    <div className='w-full overflow-x-auto'>
+                    <div className="md:hiddden flex  py-4 overflow-x-auto  w-[40rem] justify-between flex-row">
+                        {products?.product?.product_images?.map((image: any, index: number) => (
+                            <div key={index} className={`otherImages md:w-[170px] w-[95px] items-start  flex justify-start md:h-[138px] h-[90px] ${selectedImageIndex === index ? 'border,-2 bormder-blue-500' : ''}`} onClick={() => handleImageClick(index)}>
+                                <img src={image.product_image} width={100} height={100} alt="" className={` ${selectedImageIndex === index ? 'border-2 bg-slate-400 rounded-md p-2' : ''} md:w-[100px] w-[55px] md:h-[89px] h-[49px] object-contain`} />
+                            </div>
+                        ))}
+                    </div>
                     </div>
                 </div>
                 <div className="flex lg:flex-col md:flex-row sm:flex-col flex-col space-y-4 mx-auto items-start justify-start py-20 lg:w-[40%] w-full ">
