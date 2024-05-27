@@ -5,6 +5,8 @@ import SliderBar from './Slider'
 // import PorductCheckInput from './ProdCheck';
 import CheckboxInput from './CheckboxButton';
 import { RedComponent } from './ColorsComponent';
+import { useEffect, useState } from 'react';
+import { getAllProducts } from '../../api/product';
 interface SideBarProps {
     isOpen: boolean;
     toggleSidebar: () => void;
@@ -18,8 +20,49 @@ interface SideBarProps {
     handleSelectCamera: (camera: string) => void;
     handleSelectColors: (colors: string) => void;
     handleSelectType: (type: string) => void;
+    handleSelectscreen:(type: string) => void;
 }
-const SideBar: React.FC<SideBarProps> = ({ isOpen, toggleSidebar, categories, shops, handleCategoryClick, handleShopCkik, onPriceRangeChange, handleSelectRam, handleSelectStorage, handleSelectCamera, handleSelectColors }) => {
+const SideBar: React.FC<SideBarProps> = ({ isOpen, toggleSidebar, categories, shops, handleCategoryClick, handleShopCkik, onPriceRangeChange, handleSelectRam, handleSelectStorage, handleSelectCamera, handleSelectColors, handleSelectscreen }) => {
+    const [color, setColor] = useState<string[]>([]);
+
+    const fetchProducts = async () => {
+        const response = await getAllProducts();
+        const allProducts = response?.data?.products;
+        console.log("allProducts", allProducts);
+
+        if (allProducts) {
+            const colorsSet = new Set<string>();
+            allProducts.forEach((product: any) => {
+                product.vendor_prices.forEach((vendor: any) => {
+                    vendor.colors.forEach((color: string) => {
+                        colorsSet.add(color);
+                    });
+                });
+            });
+            setColor(Array.from(colorsSet));
+        }
+    };
+
+    useEffect(() => {
+        fetchProducts();
+    }, []);
+
+    console.log("colors", color);
+
+    const removeColorStatedByHashTaga = color.filter(color=>color.charAt(0)!=='#')
+    const removeColorStatedByHashslash = removeColorStatedByHashTaga.filter(color=>color.charAt(0)!=='/')
+    const removeColorStatedByHashsminus = removeColorStatedByHashslash.filter(color=>color.charAt(0)!=='-')
+    const splitColors = removeColorStatedByHashsminus.toString()
+    const splitString = splitColors.split(',')
+    const removeDuplication = Array.from(new Set(splitString))
+    const removeColorStatedBySpace = removeDuplication.filter(color=>color.charAt(0)!==' ')
+
+    console.log(removeColorStatedBySpace);
+    
+
+
+    
+    
     return (
         <div className={`lg:w-[25%] md:hiddenf hiddenf min-h-screen  lg:flex flex-col h-fit pr-4 ${isOpen ? 'md:flex flex w-full z-30' : 'h hidden'}`}>
           
@@ -90,19 +133,27 @@ const SideBar: React.FC<SideBarProps> = ({ isOpen, toggleSidebar, categories, sh
                 </div>
             </div>
             <div className='flex flex-col mt-3'>
+                <p className='text-sm font-semibold text-gray-600'>Ecran</p>
+                <div className='flex-col grid grid-cols-2 mt-5'>
+                    <CheckboxInput label='1920×1080' name='ecran' onClick={() => handleSelectscreen(' 1920×1080')} />
+                    <CheckboxInput label='1366×768' name='ecran' onClick={() => handleSelectscreen(' 1366×768')} />
+                    <CheckboxInput label='1280×720' name='ecran' onClick={() => handleSelectscreen(' 1280×720')} />
+                    <CheckboxInput label='3840×2160' name='ecran' onClick={() => handleSelectscreen(' 3840×2160')} />
+                    <CheckboxInput label='2560×1440' name='ecran' onClick={() => handleSelectscreen(' 2560×1440')} />
+                    <CheckboxInput label='1600×900' name='ecran' onClick={() => handleSelectscreen(' 1600×900')} />
+                    <CheckboxInput label='2560×1600' name='ecran' onClick={() => handleSelectscreen(' 2560×1600')} />
+                </div>
+            </div>
+            
+            <div className='flex flex-col mt-3'>
                 <p className='text-sm font-semibold text-gray-600'>Colors</p>
                 <div className='flex-col grid grid-cols-2 mt-5'>
-                    <CheckboxInput label={<RedComponent color={"green"}/>} name='color' onClick={() => handleSelectColors('red')} />
-                    <CheckboxInput label={<RedComponent color={"blue"}/>} name='color' onClick={() => handleSelectColors('blue')} />
-                    <CheckboxInput label={<RedComponent color={"yellow"}/>} name='color' onClick={() => handleSelectColors('yellow')} />
-                    <CheckboxInput label={<RedComponent color={"red"}/>} name='color' onClick={() => handleSelectColors('red')} />
-                    <CheckboxInput label={<RedComponent color={"purple"}/>} name='color' onClick={() => handleSelectColors('purple')} />
-                    <CheckboxInput label={<RedComponent color={"pink"}/>} name='color' onClick={() => handleSelectColors('pink')} />
-                    <CheckboxInput label={<RedComponent color={"gray"}/>} name='color' onClick={() => handleSelectColors('gray')} />
-                    <CheckboxInput label={<RedComponent color={"black"}/>} name='color' onClick={() => handleSelectColors('black')} />
-                    <CheckboxInput label={<RedComponent color={"white"}/>} name='color' onClick={() => handleSelectColors('white')} />
-                    <CheckboxInput label={<RedComponent color={"orange"}/>} name='color' onClick={() => handleSelectColors('orange')} />
-                 </div>
+                    {removeColorStatedBySpace.map((color, i)=>
+                    <p key={i}>
+                    <CheckboxInput label={<RedComponent color={color}/>} name='color' onClick={() => handleSelectColors(color)} />
+                    </p>
+                    )}
+                    </div>
             </div>
             <div className='flex flex-col mt-5 items-center justify-center border-4 border-yellow-600 w-[260px] py-5'>
                 <img src={ads} alt="" className='w-[150px] h-[150px]' />

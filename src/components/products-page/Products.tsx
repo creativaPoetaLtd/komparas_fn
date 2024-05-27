@@ -290,6 +290,20 @@ const Products = () => {
         // setSelectedCamera(camera);
         handleRefresh();
     };
+    const [, setSelectedsecreen] = useState<string[]>([]);
+    const [multiplesecreen, setMultiplesecreen] = useState<string[]>([]);
+    const handleSelectsecreen = async (secreen: string) => {
+        handleRefresh();
+        const index = multiplesecreen.indexOf(secreen);
+        if (index === -1) {
+            setMultiplesecreen([...multiplesecreen, secreen]);
+        } else {
+            setMultiplesecreen(multiplesecreen.filter(secreenT => secreenT !== secreen));
+            setSelectedsecreen(multiplesecreen.filter(secreenT => secreenT !== secreen));
+        }
+        // setSelectedCamera(camera);
+        handleRefresh();
+    };
     const [selectedType, setSelectedType] = useState<string>();
     const [multipleType, setMultipleType] = useState<string[]>([]);
     const handleSelectType = async (type: string) => {
@@ -399,7 +413,7 @@ const Products = () => {
             <MobileHomeNav />
             <div className='w-full bg-white h-fit justify-between lg:px-6 px-2 lg:pl-20 pl-2 flex flex-col'>
                 <div className='w-full mt-6 h-fit flex flex-row'>
-                    <SideBar handleSelectRam={handleSelectRam} isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} categories={categories} shops={shops} handleCategoryClick={handleCategoryClick} handleShopCkik={handleShopClick} onPriceRangeChange={handlePriceRangeChange} handleSelectCamera={handleSelectCamera} handleSelectStorage={handleSelectStorage} handleSelectType={handleSelectType} handleSelectColors={handleSelectColors} />
+                    <SideBar handleSelectRam={handleSelectRam} isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} categories={categories} shops={shops} handleCategoryClick={handleCategoryClick} handleShopCkik={handleShopClick} onPriceRangeChange={handlePriceRangeChange} handleSelectCamera={handleSelectCamera} handleSelectStorage={handleSelectStorage} handleSelectType={handleSelectType} handleSelectColors={handleSelectColors} handleSelectscreen={handleSelectsecreen} />
                     <div className={`lg:w-[70%] md:w-full w-full flex flex-col h-fit ${isSidebarOpen ? "hidden" : ""}`}>
                         <div className='topMenus w-full flex md:flex-row flex-col justify-between'>
                             <div className='searchBar md:w-[50%] w-full bg-[#F5F5F5] rounded-md pr-3'>
