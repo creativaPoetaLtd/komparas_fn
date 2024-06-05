@@ -23,90 +23,96 @@ const Products = () => {
     const userId = JSON.parse(loginInfo)?._id;
     const [categories, setCategories] = useState<any>([]);
     const [shops, setShops] = useState<any>([]);
+    const [isDropDownFilter, setIsDropDownFilter] = useState(false);
     const [activeFilters, setActiveFilters] = useState<any[]>([]);
     const [locastorageCompareProductIds, setLocastorageCompareProductIds] = useState<any>(
         localStorage.getItem("compareProductIds")
             ? JSON.parse(localStorage.getItem("compareProductIds")!)
             : []
     );
-    const clearFilter = (filterType: any) => {
+
+    const clearFilter = (filter: any) => {
         handleRefresh();
-        if (filterType === categoryName) {
-            handleRefresh();
-            setCategoryName([]);
-            setCategoryId([]);
-            // catId = '';
-            handleRefresh();
-        // } else if (filterType === selectedShop) {
-        //     handleRefresh();
-        //     setSelectedShop(null);
-        //     setSelectedShopId('');
-        //     handleRefresh();
-        // } else if (filterType === `RAM: ${selectedRam}`) {
-        //     handleRefresh();
-        //     setSelectedRam([]);
-        //     handleRefresh();
-        // } else if (filterType === `Storage: ${selectedStorage}`) {
-        //     handleRefresh();
-        //     setSelectedStorage([]);
-        //     handleRefresh();
-        // } else if (filterType === `Camera: ${selectedCamera}`) {
-        //     handleRefresh();
-        //     setSelectedCamera([]);
-        //     handleRefresh();
-        // } else if (filterType === `Colors: ${selectedColors}`) {
-        //     handleRefresh();
-        //     setSelectedColors([]);
-        //     handleRefresh();
-        } else if (filterType === `Type: ${selectedType}`) {
-            handleRefresh();
+        if (categoryName.includes(filter)) {
+            const newCategoryName = categoryName.filter(name => name !== filter);
+            setCategoryName(newCategoryName);
+            setCategoryId(newCategoryName.map(name => categories.find((cat: any) => cat.name === name)._id));
+        } else if (selectedShopNames.includes(filter)) {
+            const newShopNames = selectedShopNames.filter(name => name !== filter);
+            setSelectedShopNames(newShopNames);
+            setShopst(newShopNames.map(name => shops.find((shop: any) => shop.shop_name === name)?._id));
+        }
+        else if (selectedRam.includes(filter)) {
+            const newRam = selectedRam.filter(ram => ram !== filter);
+            setSelectedRam(newRam);
+            setMultipleRam(newRam);
+        } else if (selectedCamera.includes(filter)) {
+            const newCamera = selectedCamera.filter(camera => camera !== filter);
+            setSelectedCamera(newCamera);
+            setMultipleCamera(newCamera);
+        } else if (selectedColors.includes(filter)) {
+            const newColors = selectedColors.filter(color => color !== filter);
+            setSelectedColors(newColors);
+            setMultipleColors(newColors);
+        }
+        else if (selectedscreen.includes(filter)) {
+            const newsecreen = selectedscreen.filter(secreen => secreen !== filter);
+            setSelectedsecreen(newsecreen);
+            setMultiplesecreen(newsecreen);
+        }
+        else if (selectedType === filter) {
             setSelectedType('');
-            handleRefresh();
+        }
+
+        else if (selectedStorage.includes(filter)) {
+            const newStorage = selectedStorage.filter(storaged => storaged !== filter);
+            setSelectedStorage(newStorage);
+            setMultioletStorage(newStorage);
         }
         handleRefresh();
     };
+
     const clearFilters = () => {
         handleRefresh();
         setCategoryName([]);
-        setSelectedShopNames([]);
         setCategoryId([]);
+        setShopst([]);
+        setSelectedShopNames([]);
         setSelectedStorage([]);
-        setSelectedCamera([]);
-        setSelectedType('');
-        setSelectedShopId('');
-        setSelectedShop(null);
+        setMultioletStorage([]);
         setSelectedRam([]);
-        handleRefresh();
+        setMultipleRam([]);
+        setSelectedCamera([]);
+        setMultipleCamera([]);
+        setSelectedColors([]);
+        setMultipleColors([]);
+        setSelectedType('');
+
     };
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
-    useEffect(() => {
-        const fetchCategories = async () => {
-            const data = await fetchParentCategories();
-            setCategories(data?.data);
-        }
-        fetchCategories();
-    }
-        , []);
-    useEffect(() => {
-        const fetchShops = async () => {
-            const data = await getAllShops();
-            setShops(data?.data);
-        }
-        fetchShops();
-    }
-        , []);
+    const fetchCategories = async () => {
+        const data = await fetchParentCategories();
+        setCategories(data?.data);
+    };
 
-    const [, setSelectedShop] = useState<string | null>(null);
-    const [, setSelectedShopId] = useState<string>();
-    // const [selectedShopId, setSelectedShopId] = useState<string>();
+    const fetchShops = async () => {
+        const data = await getAllShops();
+        setShops(data?.data);
+    };
+
+    useEffect(() => {
+        fetchCategories();
+        fetchShops();
+    }, []);
+
+   
     const [selectedShopNames, setSelectedShopNames] = useState<string[]>([]);
     const [shopst, setShopst] = useState<string[]>([]);
 
     const handleShopClick = async (shopId: string, name: string) => {
         handleRefresh();
-        setSelectedShopId(shopId);
         const index = shopst.indexOf(shopId);
         if (index === -1) {
             setShopst([...shopst, shopId]);
@@ -122,33 +128,103 @@ const Products = () => {
     }
     const [categoryIdt, setCategoryId] = useState<string[]>([]);
     const [categoryName, setCategoryName] = useState<string[]>([]);
-    const handleCategoryClick = async (categoryId: string, name: string) => {
+    const handleCategoryClick = (categoryId: string, name: string) => {
         handleRefresh();
         const index = categoryIdt.indexOf(categoryId);
         if (index === -1) {
-            setCategoryId([...categoryIdt, categoryId])
-            setCategoryName([...categoryName, name])
+            setCategoryId([...categoryIdt, categoryId]);
+            setCategoryName([...categoryName, name]);
         } else {
-            setCategoryId(categoryIdt.filter(id => id !== categoryId))
-            setCategoryName(categoryName.filter(catName => catName !== name + ' '))
+            setCategoryId(categoryIdt.filter(id => id !== categoryId));
+            setCategoryName(categoryName.filter(catName => catName !== name));
         }
-
         handleRefresh();
-    }
+    };
     const [selectedStorage, setSelectedStorage] = useState<string[]>([]);
     const [multioletStorage, setMultioletStorage] = useState<string[]>([]);
-    const handleSelectStorage = async (storage: string) => {
+    const handleSelectStorage = (storage: string) => {
         handleRefresh();
         const index = multioletStorage.indexOf(storage);
         if (index === -1) {
             setMultioletStorage([...multioletStorage, storage]);
+            setSelectedStorage([...selectedStorage, storage]);
         } else {
             setMultioletStorage(multioletStorage.filter(storaged => storaged !== storage));
+            setSelectedStorage(selectedStorage.filter(storaged => storaged !== storage));
         }
-        setSelectedStorage(multioletStorage.filter(storaged => storaged !== storage));
         handleRefresh();
     };
-
+    const [selectedRam, setSelectedRam] = useState<string[]>([]);
+    const [multipleRam, setMultipleRam] = useState<string[]>([]);
+    const handleSelectRam = async (ram: string) => {
+        handleRefresh();
+        // setSelectedRam(ram);
+        const index = multipleRam.indexOf(ram);
+        if (index === -1) {
+            setMultipleRam([...multipleRam, ram]);
+            setSelectedRam([...selectedRam, ram]);
+        } else {
+            setMultipleRam(multipleRam.filter(ramT => ramT !== ram));
+            setSelectedRam(multipleRam.filter(ramT => ramT !== ram));
+        }
+        handleRefresh();
+    };
+    const [selectedCamera, setSelectedCamera] = useState<string[]>([]);
+    const [multipleCamera, setMultipleCamera] = useState<string[]>([]);
+    const handleSelectCamera = async (camera: string) => {
+        handleRefresh();
+        const index = multipleCamera.indexOf(camera);
+        if (index === -1) {
+            setMultipleCamera([...multipleCamera, camera]);
+            setSelectedCamera([...selectedCamera, camera]);
+        } else {
+            setMultipleCamera(multipleCamera.filter(cameraT => cameraT !== camera));
+            setSelectedCamera(multipleCamera.filter(cameraT => cameraT !== camera));
+        }
+        handleRefresh();
+    };
+    const [selectedColors, setSelectedColors] = useState<string[]>([]);
+    const [multipleColors, setMultipleColors] = useState<string[]>([]);
+    const handleSelectColors = async (colors: string) => {
+        handleRefresh();
+        const index = multipleColors.indexOf(colors);
+        if (index === -1) {
+            setMultipleColors([...multipleColors, colors]);
+            setSelectedColors([...selectedColors, colors]);
+        } else {
+            setMultipleColors(multipleColors.filter(colorsT => colorsT !== colors));
+            setSelectedColors(multipleColors.filter(colorsT => colorsT !== colors));
+        }
+        handleRefresh();
+    };
+    const [selectedType, setSelectedType] = useState<string>();
+    const [multipleType, setMultipleType] = useState<string[]>([]);
+    const handleSelectType = async (type: string) => {
+        handleRefresh();
+        const index = multipleType.indexOf(type);
+        if (index === -1) {
+            setMultipleType([...multipleType, type]);
+        } else {
+            setMultipleType(multipleType.filter(typeT => typeT !== type));
+        }
+        // setSelectedType(type);
+        handleRefresh();
+    };
+    const [selectedscreen, setSelectedsecreen] = useState<string[]>([]);
+    const [multiplesecreen, setMultiplesecreen] = useState<string[]>([]);
+    const handleSelectsecreen = async (secreen: string) => {
+        handleRefresh();
+        const index = multiplesecreen.indexOf(secreen);
+        if (index === -1) {
+            setMultiplesecreen([...multiplesecreen, secreen]);
+            setSelectedsecreen([...selectedscreen, secreen]);
+        } else {
+            setMultiplesecreen(multiplesecreen.filter(secreenT => secreenT !== secreen));
+            setSelectedsecreen(multiplesecreen.filter(secreenT => secreenT !== secreen));
+        }
+        // setSelectedCamera(camera);
+        handleRefresh();
+    };
     const [comparisonData, setComparisonData] = useState<any>([]);
     useEffect(() => {
         const fetchComparison = async () => {
@@ -158,8 +234,6 @@ const Products = () => {
         };
         fetchComparison();
     }, [userId, deleteRefresh]);
-
-
 
     const comparedProductId = comparisonData?.productsInfo?.map((product: any) => product._id);
     // const addProductToCompare = async (productData: { productId: any; }) => {
@@ -247,76 +321,8 @@ const Products = () => {
         setMinPrice(min);
         setMaxPrice(max);
     };
-    const [selectedRam, setSelectedRam] = useState<string[]>([]);
-    const [multipleRam, setMultipleRam] = useState<string[]>([]);
-    const handleSelectRam = async (ram: string) => {
-        handleRefresh();
-        // setSelectedRam(ram);
-        const index = multipleRam.indexOf(ram);
-        if (index === -1) {
-            setMultipleRam([...multipleRam, ram]);
-        } else {
-            setMultipleRam(multipleRam.filter(ramT => ramT !== ram));
-            setSelectedRam(multipleRam.filter(ramT => ramT !== ram));
-        }
-        handleRefresh();
-    };
-
-    const [selectedCamera, setSelectedCamera] = useState<string[]>([]);
-    const [multipleCamera, setMultipleCamera] = useState<string[]>([]);
-    const handleSelectCamera = async (camera: string) => {
-        handleRefresh();
-        const index = multipleCamera.indexOf(camera);
-        if (index === -1) {
-            setMultipleCamera([...multipleCamera, camera]);
-        } else {
-            setMultipleCamera(multipleCamera.filter(cameraT => cameraT !== camera));
-            setSelectedCamera(multipleCamera.filter(cameraT => cameraT !== camera));
-        }
-        // setSelectedCamera(camera);
-        handleRefresh();
-    };
-    const [, setSelectedColors] = useState<string[]>([]);
-    const [multipleColors, setMultipleColors] = useState<string[]>([]);
-    const handleSelectColors = async (colors: string) => {
-        handleRefresh();
-        const index = multipleColors.indexOf(colors);
-        if (index === -1) {
-            setMultipleColors([...multipleColors, colors]);
-        } else {
-            setMultipleColors(multipleColors.filter(colorsT => colorsT !== colors));
-            setSelectedColors(multipleColors.filter(colorsT => colorsT !== colors));
-        }
-        // setSelectedCamera(camera);
-        handleRefresh();
-    };
-    const [, setSelectedsecreen] = useState<string[]>([]);
-    const [multiplesecreen, setMultiplesecreen] = useState<string[]>([]);
-    const handleSelectsecreen = async (secreen: string) => {
-        handleRefresh();
-        const index = multiplesecreen.indexOf(secreen);
-        if (index === -1) {
-            setMultiplesecreen([...multiplesecreen, secreen]);
-        } else {
-            setMultiplesecreen(multiplesecreen.filter(secreenT => secreenT !== secreen));
-            setSelectedsecreen(multiplesecreen.filter(secreenT => secreenT !== secreen));
-        }
-        // setSelectedCamera(camera);
-        handleRefresh();
-    };
-    const [selectedType, setSelectedType] = useState<string>();
-    const [multipleType, setMultipleType] = useState<string[]>([]);
-    const handleSelectType = async (type: string) => {
-        handleRefresh();
-        const index = multipleType.indexOf(type);
-        if (index === -1) {
-            setMultipleType([...multipleType, type]);
-        } else {
-            setMultipleType(multipleType.filter(typeT => typeT !== type));
-        }
-        // setSelectedType(type);
-        handleRefresh();
-    };
+ 
+    
     const [sortOrder, setSortOrder] = useState<'ascending' | 'descending'>('ascending');
     const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedValue = event.target.value;
@@ -373,35 +379,37 @@ const Products = () => {
     // };
     let filters: any[] = [];
     const generateActiveFilters = () => {
-        if (categoryName) {
-            filters.push(categoryName+ ' ');
+        if (categoryName.length) {
+            filters.push(...categoryName);
         }
-        // if (selectedShopNames) {
-        //     filters.push(selectedShopNames + ' ');
-        // }
-        // if (selectedRam) {
-        //     filters.push(`RAM: ${selectedRam + '  '}`);
-        // }
-        // if (selectedStorage) {
-        //     filters.push(`Storage: ${selectedStorage + ' '}`);
-        // }
-        // if (selectedCamera) {
-        //     filters.push(`Camera: ${selectedCamera + ' '}`);
-        // }
-        // if (selectedColors) {
-        //     filters.push(`Colours: ${selectedColors + ' '}`);
-        // }
-        // if (selectedType) {
-        //     filters.push(`Type: ${selectedType}`);
-        // }
+        if (selectedShopNames.length) {
+            filters.push(...selectedShopNames);
+        }
+        if (selectedStorage.length) {
+            filters.push(...selectedStorage);
+        }
+        if (selectedRam.length) {
+            filters.push(...selectedRam);
+        }
+        if (selectedCamera.length) {
+            filters.push(...selectedCamera);
+        }
+        if (selectedType) {
+            filters.push(selectedType);
+        }
+        if (selectedColors.length) {
+            filters.push(...selectedColors);
+        }
+        if (selectedscreen.length) {
+            filters.push(...selectedscreen);
+        }
         return filters;
     };
     useEffect(() => {
         const activeFilters = generateActiveFilters();
         setActiveFilters(activeFilters);
-    }, [categoryName, selectedShopNames, selectedRam, selectedCamera, selectedStorage, selectedType]);
+    }, [categoryName, selectedStorage, selectedRam, selectedCamera, selectedType, selectedColors, selectedscreen, selectedShopNames]);
 
-    const [isDropDownFilter, setIsDropDownFilter] = useState(false);
     const handleSetDropDownFilter = () => {
         setIsDropDownFilter(!isDropDownFilter);
     };
@@ -413,7 +421,14 @@ const Products = () => {
             <MobileHomeNav />
             <div className='w-full bg-white h-fit justify-between lg:px-6 px-2 lg:pl-20 pl-2 flex flex-col'>
                 <div className='w-full mt-6 h-fit flex flex-row'>
-                    <SideBar handleSelectRam={handleSelectRam} isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} categories={categories} shops={shops} handleCategoryClick={handleCategoryClick} handleShopCkik={handleShopClick} onPriceRangeChange={handlePriceRangeChange} handleSelectCamera={handleSelectCamera} handleSelectStorage={handleSelectStorage} handleSelectType={handleSelectType} handleSelectColors={handleSelectColors} handleSelectscreen={handleSelectsecreen} />
+                    <SideBar handleSelectRam={handleSelectRam} isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} categories={categories} shops={shops} handleCategoryClick={handleCategoryClick} handleShopCkik={handleShopClick} onPriceRangeChange={handlePriceRangeChange} handleSelectCamera={handleSelectCamera} handleSelectStorage={handleSelectStorage} handleSelectType={handleSelectType} handleSelectColors={handleSelectColors} handleSelectscreen={handleSelectsecreen} selectedCategories={categoryIdt} 
+                    selectedStorage={selectedStorage} 
+                    selectedColors={selectedColors}
+                    selectedscreen={selectedscreen}
+                    selectedRam={selectedRam}
+                    selectedCamera={selectedCamera}
+                    selectedShops={shopst}
+                    />
                     <div className={`lg:w-[70%] md:w-full w-full flex flex-col h-fit ${isSidebarOpen ? "hidden" : ""}`}>
                         <div className='topMenus w-full flex md:flex-row flex-col justify-between'>
                             <div className='searchBar md:w-[50%] w-full bg-[#F5F5F5] rounded-md pr-3'>
@@ -455,43 +470,27 @@ const Products = () => {
                                 </div></button>
                                 {isDropDownFilter && (
                                     <div className='flex z-0 absolute top-6 left-32 flex-col bg-gray-200 p-2 h-fit w-fit rounded-sm'>
-
                                         {activeFilters.map((filter, index) => (
                                             <div key={index} className=" items-center flex bg-gray-200 rounded-md p-1 m-1">
                                                 <p className="text-sm text-gray-800">{filter}</p>
                                                 <button onClick={() => clearFilter(filter)} className="ml-1 focus:outline-none">
-                                                    <FaTimes className="text-gray-500" />
+                                                    <FaTimes className="text-xs text-gray-800" />
                                                 </button>
-
                                             </div>
                                         ))}
-                                        <button onClick={() => {
-                                            clearFilters
-                                            handleSetDropDownFilter()
-                                        }} className="ml-2 w-fit text-sm flex text-gray-500 focus:outline-none">
-                                            <p className='text-sm'>Clear All</p>
-                                            <FaTimes className='flex justify-center my-auto ml-2' />
-                                        </button>
-                                    </div>
-                                )}
-                                {activeFilters.map((filter, index) => (
-                                    <div key={index} className="md:flex hidden items-center bg-gray-200 rounded-md p-1 m-1">
-                                        <p className="text-sm text-gray-800">{filter}</p>
-                                        <button onClick={() => clearFilter(filter)} className="ml-1 focus:outline-none">
-                                            <FaTimes className="text-gray-500" />
-                                        </button>
-                                    </div>
-                                ))}
-                                <button onClick={clearFilters} className="ml-2 md:flex hidden text-gray-500 text-sm justify-center my-auto items-center focus:outline-none">
-                                    Clear All
-                                </button>
+                                    </div>)}
+                                <div className='lg:flex hidden'>
+                                    {activeFilters.map((filter, index) => (
+                                        <div key={index} className="flex items-center bg-gray-200 rounded-md p-1 mx-1">
+                                            <p className="text-sm text-gray-800">{filter}</p>
+                                            <button onClick={() => clearFilter(filter)} className="ml-1 focus:outline-none">
+                                                <FaTimes className="text-xs text-gray-800" />
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                            <div className='flex flex-row'>
-                                <p className='text-sm my-auto font-semibold'>
-                                    {productsData?.length}
-                                </p>
-                                <p className='text-sm my-auto ml-2'>Results found.</p>
-                            </div>
+                            <button className='w-fit bg-[#747474] h-fit text-xs text-white px-3 rounded-md' onClick={clearFilters}>Clear Filters</button>
                         </div>
                         <div className='products grid lg:grid-cols-3 md:grid-cols-3 grid-cols-2 lg:gap-12 md:gap-8 gap-3 mx-auto justify-center items-center mt-3'>
                             {productsData?.slice(startIndex, endIndex)?.map((product, index) => (

@@ -1,8 +1,6 @@
 import { FaTimes } from 'react-icons/fa';
 import ads from '../../assets/ads.png'
-// import RadioInputMain from './RadioButtonMain'
 import SliderBar from './Slider'
-// import PorductCheckInput from './ProdCheck';
 import CheckboxInput from './CheckboxButton';
 import { RedComponent } from './ColorsComponent';
 import { useEffect, useState } from 'react';
@@ -21,8 +19,18 @@ interface SideBarProps {
     handleSelectColors: (colors: string) => void;
     handleSelectType: (type: string) => void;
     handleSelectscreen:(type: string) => void;
+    selectedCategories: any;
+    selectedStorage: any;
+    selectedColors: any;
+    selectedscreen:any;
+    selectedRam: any;
+    selectedCamera: any;
+    selectedShops: any;
 }
-const SideBar: React.FC<SideBarProps> = ({ isOpen, toggleSidebar, categories, shops, handleCategoryClick, handleShopCkik, onPriceRangeChange, handleSelectRam, handleSelectStorage, handleSelectCamera, handleSelectColors, handleSelectscreen }) => {
+const SideBar: React.FC<SideBarProps> = ({ isOpen, toggleSidebar, categories, shops, handleCategoryClick, handleShopCkik, onPriceRangeChange, handleSelectRam, handleSelectStorage, handleSelectCamera, handleSelectColors, handleSelectscreen, selectedCategories, selectedStorage,
+    selectedColors, selectedscreen, selectedRam, selectedCamera, selectedShops
+
+ }) => {
     const [color, setColor] = useState<string[]>([]);
 
     const fetchProducts = async () => {
@@ -46,32 +54,21 @@ const SideBar: React.FC<SideBarProps> = ({ isOpen, toggleSidebar, categories, sh
     useEffect(() => {
         fetchProducts();
     }, []);
-
-    console.log("colors", color);
-
     const removeColorStatedByHashTaga = color.filter(color=>color.charAt(0)!=='#')
     const removeColorStatedByHashslash = removeColorStatedByHashTaga.filter(color=>color.charAt(0)!=='/')
     const removeColorStatedByHashsminus = removeColorStatedByHashslash.filter(color=>color.charAt(0)!=='-')
     const splitColors = removeColorStatedByHashsminus.toString()
     const splitString = splitColors.split(',')
     const removeDuplication = Array.from(new Set(splitString))
-    const removeColorStatedBySpace = removeDuplication.filter(color=>color.charAt(0)!==' ')
-
-    console.log(removeColorStatedBySpace);
-    
-
-
-    
-    
+    const removeColorStatedBySpace = removeDuplication.filter(color=>color.charAt(0)!==' ')    
     return (
         <div className={`lg:w-[25%] md:hiddenf hiddenf min-h-screen  lg:flex flex-col h-fit pr-4 ${isOpen ? 'md:flex flex w-full z-30' : 'h hidden'}`}>
-          
             <SliderBar onPriceRangeChange={onPriceRangeChange} />
             <div className='brands flex flex-col mt-3'>
                 <p className='text-sm font-semibold text-gray-600'>Shops</p>
                 <div className='flex-col grid grid-cols-2 mt-5'>
                     {shops?.map((shop: any) => (
-                        <CheckboxInput key={shop._id} label={shop.name} name='category' onClick={() => handleShopCkik(shop?._id, shop?.name)} />
+                        <CheckboxInput key={shop._id} label={shop.name} name='shops' checked={selectedShops?.includes(shop._id)}  onChange={() => handleShopCkik(shop._id, shop.name)} />
                     ))}
                 </div>
             </div>
@@ -82,66 +79,42 @@ const SideBar: React.FC<SideBarProps> = ({ isOpen, toggleSidebar, categories, sh
                 </button>
                 <div className='flex flex-col mt-4'>
                     {categories?.map((category: any) => (
-                        <CheckboxInput key={category._id} label={category.name} name='category' onClick={() => handleCategoryClick(category?._id, category?.name)} />
+                        <CheckboxInput key={category._id} label={category.name} name='category' checked={selectedCategories?.includes(category._id)}  onChange={() => handleCategoryClick(category._id, category.name)}
+                        />
                     ))}
                 </div>
             </div>
-            {/* <div className='flex flex-col mt-3'>
-                <p className='text-sm font-semibold text-gray-600'>Types</p>
-                <div className='flex-col grid grid-cols-2 mt-5'>
-                    <CheckboxInput label='Smartphones' name='type' onClick={() => handleSelectType('Smartphones')} />
-                    <CheckboxInput label='mobile' name='type' onClick={() => handleSelectType('mobile')} />
-                    <CheckboxInput label='Tablet' name='type' onClick={() => handleSelectType('Tablet')} />
-                    <CheckboxInput label='Sumsung' name='type' onClick={() => handleSelectType('Sumsung')} />
-                    <CheckboxInput label='Apple' name='type' onClick={() => handleSelectType('Apple')} />
-                </div>
-            </div> */}
             <div className='flex flex-col mt-3'>
                 <p className='text-sm font-semibold text-gray-600'>Storage</p>
                 <div className='flex-col grid grid-cols-2 mt-5'>
-                    <CheckboxInput label='32GB' name='storage' onClick={() => handleSelectStorage('32GB')} />
-                    <CheckboxInput label='64GB' name='storage' onClick={() => handleSelectStorage('64GB')} />
-                    <CheckboxInput label='128GB' name='storage' onClick={() => handleSelectStorage('128GB')} />
-                    <CheckboxInput label='256GB' name='storage' onClick={() => handleSelectStorage('256GB')} />
-                    <CheckboxInput label='512GB' name='storage' onClick={() => handleSelectStorage('512GB')} />
-                    <CheckboxInput label='1TB' name='storage' onClick={() => handleSelectStorage('1TB')} />
-                    <CheckboxInput label='2TB' name='storage' onClick={() => handleSelectStorage('2TB')} />
+                    {['32GB', '64GB', '128GB', '256GB', '512GB', '1TB', '2TB'].map((storage, i) => (
+                        <CheckboxInput key={i} label={storage} name='storage'  checked={selectedStorage?.includes(storage)}
+                        onChange={() => handleSelectStorage(storage)} />
+                    ))}
                 </div>
             </div>
             <div className='flex flex-col mt-3'>
                 <p className='text-sm font-semibold text-gray-600'>RAM Size</p>
                 <div className='flex-col grid grid-cols-2 mt-5'>
-                    <CheckboxInput label='2GB' name='ram' onClick={() => handleSelectRam('2GB')} />
-                    <CheckboxInput label='4GB' name='ram' onClick={() => handleSelectRam('4GB')} />
-                    <CheckboxInput label='8GB' name='ram' onClick={() => handleSelectRam('8GB')} />
-                    <CheckboxInput label='16GB' name='ram' onClick={() => handleSelectRam('16GB')} />
-                    <CheckboxInput label='32GB' name='ram' onClick={() => handleSelectRam('32GB')} />
-                    <CheckboxInput label='64GB' name='ram' onClick={() => handleSelectRam('64GB')} />
-                    <CheckboxInput label='128GB' name='ram' onClick={() => handleSelectRam('128GB')} />
+                    {['2GB', '4GB', '8GB', '16GB', '32GB', '64GB', '128GB'].map((ram, i) => (
+                        <CheckboxInput key={i} label={ram} name='ram' checked={selectedRam?.includes(ram)} onChange={() => handleSelectRam(ram)} />
+                    ))}
                 </div>
             </div>
             <div className='flex flex-col mt-3'>
                 <p className='text-sm font-semibold text-gray-600'>Camera</p>
                 <div className='flex-col grid grid-cols-2 mt-5'>
-                    <CheckboxInput label='12MP' name='camera' onClick={() => handleSelectCamera('12MP')} />
-                    <CheckboxInput label='16MP' name='camera' onClick={() => handleSelectCamera('16MP')} />
-                    <CheckboxInput label='20MP' name='camera' onClick={() => handleSelectCamera('20MP')} />
-                    <CheckboxInput label='24MP' name='camera' onClick={() => handleSelectCamera('24MP')} />
-                    <CheckboxInput label='32MP' name='camera' onClick={() => handleSelectCamera('32MP')} />
-                    <CheckboxInput label='48MP' name='camera' onClick={() => handleSelectCamera('48MP')} />
-                    <CheckboxInput label='64MP' name='camera' onClick={() => handleSelectCamera('64MP')} />
+                    {['12MP', '16MP', '20MP', '24MP', '32MP', '48MP', '64MP'].map((camera, i) => (
+                        <CheckboxInput key={i} label={camera} name='camera' checked={selectedCamera?.includes(camera)} onChange={() => handleSelectCamera(camera)} />
+                    ))}
                 </div>
             </div>
             <div className='flex flex-col mt-3'>
                 <p className='text-sm font-semibold text-gray-600'>Ecran</p>
                 <div className='flex-col grid grid-cols-2 mt-5'>
-                    <CheckboxInput label='1920×1080' name='ecran' onClick={() => handleSelectscreen(' 1920×1080')} />
-                    <CheckboxInput label='1366×768' name='ecran' onClick={() => handleSelectscreen(' 1366×768')} />
-                    <CheckboxInput label='1280×720' name='ecran' onClick={() => handleSelectscreen(' 1280×720')} />
-                    <CheckboxInput label='3840×2160' name='ecran' onClick={() => handleSelectscreen(' 3840×2160')} />
-                    <CheckboxInput label='2560×1440' name='ecran' onClick={() => handleSelectscreen(' 2560×1440')} />
-                    <CheckboxInput label='1600×900' name='ecran' onClick={() => handleSelectscreen(' 1600×900')} />
-                    <CheckboxInput label='2560×1600' name='ecran' onClick={() => handleSelectscreen(' 2560×1600')} />
+                    {['1920×1080', '1366×768', '1280×720', '3840×2160', '2560×1440', '1600×900', '2560×1600'].map((screen, i) => (
+                        <CheckboxInput key={i} label={screen} name='ecran' checked={selectedscreen?.includes(screen)} onChange={() => handleSelectscreen(screen)} />
+                    ))}
                 </div>
             </div>
             
@@ -150,7 +123,7 @@ const SideBar: React.FC<SideBarProps> = ({ isOpen, toggleSidebar, categories, sh
                 <div className='flex-col grid grid-cols-2 mt-5'>
                     {removeColorStatedBySpace.map((color, i)=>
                     <p key={i}>
-                    <CheckboxInput label={<RedComponent color={color}/>} name='color' onClick={() => handleSelectColors(color)} />
+                        <CheckboxInput label={<RedComponent color={color}/>} name='color' checked={selectedColors?.includes(color)} onChange={() => handleSelectColors(color)} />
                     </p>
                     )}
                     </div>
