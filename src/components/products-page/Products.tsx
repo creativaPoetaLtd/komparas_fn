@@ -236,27 +236,6 @@ const Products = () => {
     }, [userId, deleteRefresh]);
 
     const comparedProductId = comparisonData?.productsInfo?.map((product: any) => product._id);
-    // const addProductToCompare = async (productData: { productId: any; }) => {
-    //     const data = { userId, productId: productData.productId };
-    //     const res = await fetch(`${baseUrl}/comparison`, {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify(data),
-    //     });
-    //     const resData = await res.json();
-    //     if (resData?.comparison?.userId) {
-    //         toast.success(resData?.message);
-    //         handleRefresh();
-    //         getComparison(userId);
-    //         handleDeleteRefresh();
-    //     } else {
-    //         toast.error(resData?.message);
-    //     }
-    //     return await resData;
-    // };
-
     const handleAddProductIdToLocalStorageCompare = (productId: any) => {
         const productIds = localStorage.getItem('compareProductIds');
         handleRefresh();
@@ -359,24 +338,6 @@ const Products = () => {
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchValue(event.target.value);
     };
-    // const deleteProductFromComparison = async (productIdToDelete: any) => {
-    //     const comparisonToDelete = comparisonData?.comparisons.find((comparison: { productId: any; }) =>
-    //         comparison.productId === productIdToDelete
-    //     );
-    //     if (comparisonToDelete) {
-    //         try {
-    //             const response = await fetch(`${baseUrl}/comparison/${comparisonToDelete._id}`, {
-    //                 method: 'DELETE',
-    //             });
-    //             const data = await response.json();
-    //             toast.success(data.message);
-    //             getComparison(userId);
-    //             handleDeleteRefresh()
-    //         } catch (error) {
-    //             console.error('Error deleting product from comparison:', error);
-    //         }
-    //     }
-    // };
     let filters: any[] = [];
     const generateActiveFilters = () => {
         if (categoryName.length) {
@@ -450,10 +411,10 @@ const Products = () => {
                                 </button>
                             </div>
                             <div className='w-fit flex md:mt-0 mt-3 self-end float-right justify-end'>
-                                <p className='text-sm my-auto'>Sort by:</p>
+                                <p className='text-sm my-auto'>Sohora kuri:</p>
                                 <select className='ml-2 p-2 rounded-md bg-[#F5F5F5]' onChange={handleSortChange}>
-                                    <option value="ascending">Ascending</option>
-                                    <option value="descending">Descending</option>
+                                    <option value="ascending">Izagezemo mbere</option>
+                                    <option value="descending">Izagezemo nyuma</option>
                                 </select>
                             </div>
                         </div>
@@ -462,11 +423,11 @@ const Products = () => {
                                 <button onClick={toggleSidebar}>
                                     <MdFilterList className='text-xl cursor-pointer flex lg:hidden my-auto mr-4' />
                                 </button>
-                                <p className='text-sm my-auto text-gray-600'>Active Filters:</p>
+                                <p className='text-sm my-auto text-gray-600'>Utuyunguruzo Duhari </p>
                                 <button className='' onClick={handleSetDropDownFilter}><div className='flex md:hidden justify-center items-center my-auto ml-3 text-sm'>
                                     {!isDropDownFilter ? <>
-                                        <Eye /><p className=' text-xs flex'>View</p>
-                                    </> : <><EyeSlash /><p className=' text-xs flex'>Hide</p></>}
+                                        <Eye /><p className=' text-xs flex'>Reba</p>
+                                    </> : <><EyeSlash /><p className=' text-xs flex'>Hisha</p></>}
                                 </div></button>
                                 {isDropDownFilter && (
                                     <div className='flex z-0 absolute top-6 left-32 flex-col bg-gray-200 p-2 h-fit w-fit rounded-sm'>
@@ -490,22 +451,22 @@ const Products = () => {
                                     ))}
                                 </div>
                             </div>
-                            <button className='w-fit bg-[#747474] h-fit text-xs text-white px-3 rounded-md' onClick={clearFilters}>Clear Filters</button>
+                            <button className='w-fit bg-[#747474] h-fit text-xs text-white px-3 rounded-md' onClick={clearFilters}>Siba Utuyunguruzo</button>
                         </div>
                         <div className='products grid lg:grid-cols-3 md:grid-cols-3 grid-cols-2 lg:gap-12 md:gap-8 gap-3 mx-auto justify-center items-center mt-3'>
                             {productsData?.slice(startIndex, endIndex)?.map((product, index) => (
-                                <Link to={`/product/${product?._id}`} key={index} className='productCard md:w-[222px] w-[170px] border border-black rounded-md p-3 md:h-[296px] h-[256px]  m-auto justify-center flex flex-col'>
-                                    <div className="flex justify-center">
+                                <div key={index} className='productCard md:w-[222px] w-[170px] border border-black rounded-md p-3 md:h-[296px] h-[256px]  m-auto justify-center flex flex-col'>
+                                    <Link to={`/product/${product?._id}`} className="flex justify-center">
                                         <img src={product.product_image} height={152} width={172} alt="" className="w-[172px] h-[152px] object-contain mb-4" />
-                                    </div>
+                                    </Link>
                                     <div className='w-full h-[124px] m-auto flex flex-col justify-center items-start bg-white rounded-md p-2'>
                                         <h1 className='text-sm font-semibold'>{product?.product_name?.length > 40 ? product?.product_name?.substring(0, 40) + '...' : product?.product_name?.substring(0, 40)}</h1>
                                         <p className='text-sm text-gray-600'>${product.vendor_prices?.reduce((prev: any, current: any) => (prev.price < current.price) ? prev : current).price}</p>
-                                        <p className='text-sm text-yellow-500'>Shops({product?.vendor_prices.length})</p>
+                                        <p className='text-sm text-yellow-500'>Amaduka({product?.vendor_prices.length})</p>
                                     </div>
                                     <div className='checkboxWithvalues w-full flex'>
                                         <PorductCheckInput
-                                            label='Add to compare'
+                                            label='Shyira Kukigereranyo'
                                             name='compare'
                                             productData={{ productId: product._id }}
                                             checked={
@@ -515,7 +476,7 @@ const Products = () => {
                                             onUncheck={() => handleRemoveProductIdFromLocalStorageCompare(product._id)}
                                         />
                                     </div>
-                                </Link>
+                                </div>
                             ))}
                         </div>
                         <div className='pagination mt-4 flex justify-center'>
