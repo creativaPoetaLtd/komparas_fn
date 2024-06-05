@@ -3,6 +3,7 @@ import { addDayProduct, getDayProduct, updateDayProduct } from "../../api/offer"
 import { UploadSimple } from "@phosphor-icons/react";
 import { getAllProducts } from "../../api/product";
 import React from "react";
+import { Link } from "react-router-dom";
 
 interface ProductOfTheDayProps {
   productData: any;
@@ -133,9 +134,9 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
           <p className='text-[#FFFFFF] text-sm mt-2 font-thin '>
             {dayProduct[0]?.description}
           </p>
-          <button className="flex space-x-2 p-2 px-4 rounded w-fit h-fit text-sm mt-2 bg-[#EDB62E]">
+          <Link to={`/product/${dayProduct[0]?.product._id}`} className="flex space-x-2 p-2 px-4 rounded w-fit h-fit text-sm mt-2 bg-[#EDB62E]">
             <p className="">Reba aho wayigurira</p>
-          </button>
+          </Link>
         </div>
         <div className="image md:w-[40%] w-full h-full pt-4 pbm-12">
           <div className="w-full h-full object-cover">
