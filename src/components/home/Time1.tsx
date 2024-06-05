@@ -2,6 +2,8 @@ import { ArrowRight, UploadSimple } from '@phosphor-icons/react'
 import React, { useEffect, useState } from 'react'
 // import image5 from '../../assets/image5.png'
 import { addDayProduct1, getDayProduct1, updateDayProduct1 } from '../../api/offer';
+import { getAllProducts } from '../../api/product';
+import { Link } from 'react-router-dom';
 
 
 const Time1 = () => {
@@ -16,7 +18,15 @@ const Time1 = () => {
     }
   const isAdminFromLocalStorag:any = JSON.parse(localStorage.getItem("KomparasLoginsInfo") as any) || {};
   const isAdminFromLocalStorage = isAdminFromLocalStorag.role === "admin" ? true : false;
-
+  const [products, setProducts] = React.useState<any[]>([]);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const response = await getAllProducts();
+      setProducts(response?.data?.products);
+    }
+    fetchProducts();
+  }
+    , []);
   
   
     useEffect(() => {
@@ -32,7 +42,8 @@ const Time1 = () => {
       description: "",
       offer: "",
       price: "",
-      image: undefined
+      image: undefined,
+      product: ""
     });
     const [imageUrl, setImageUrl] = useState<string | null>(null);
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,6 +73,7 @@ const Time1 = () => {
             offer: newImageData.offer || dayProduct[0].offer,
             price: newImageData.price || dayProduct[0].price,
             image: newImageData.image || dayProduct[0].image,
+            product: newImageData.product || dayProduct[0].product,
           };
           await updateDayProduct1(updatedData);
         } else {
@@ -73,7 +85,8 @@ const Time1 = () => {
           description: "",
           offer: "",
           price: "",
-          image: undefined
+          image: undefined,
+          product: ""
         });
         handleRefresh();
         setLoading(false);
@@ -96,7 +109,8 @@ const Time1 = () => {
         description: "",
         offer: "",
         price: "",
-        image: undefined
+        image: undefined,
+        product: ""
       });
       setIsFormVisible(false);
     };
@@ -121,10 +135,10 @@ const Time1 = () => {
         {dayProduct[0]?.name}
 
         </p>
-        <button className="flex space-x-2 rounded-md text-sm mt-6 md:p-2 p-2 md:px-2 px-2 font-semibold bg-[#EDB62E] text-white">
-            <p className="">View More</p>
+        <Link to={`/product/${dayProduct[0]?.product?._id}`} className="flex space-x-2 rounded-md text-sm mt-6 md:p-2 p-2 md:px-2 px-2 font-semibold bg-[#EDB62E] text-white">
+            <p className="">Reba Byose</p>
             <ArrowRight className="m-auto justify-center" />
-        </button>
+        </Link>
     </div>
     <div className="image w-[55%] flex justify-end  h-full pl-4 pt-12">
         <div className="w-full h-full object-cover">
@@ -201,13 +215,24 @@ const Time1 = () => {
                   className="border border-gray-300 p-2 mb-4"
                 />
                 <input
-                  type="price"
+                  type="number"
                   placeholder="price"
                   value={newImageData.price}
                   name="price"
                   onChange={(e) => setNewImageData({ ...newImageData, price: e.target.value })}
                   className="border border-gray-300 p-2 mb-4"
                 />
+                 <select
+                  className="border border-gray-300 p-2 mb-4"
+                  onChange={(e) => setNewImageData({ ...newImageData, product: e.target.value })}
+                >
+                  <option value="">Select Product</option>
+                  {products.map((product) => (
+                    <option key={product._id} value={product._id}>
+                      {product.product_name}
+                    </option>
+                  ))}
+                </select>
                 <textarea
                   placeholder="Description"
                   value={newImageData.description}

@@ -1,6 +1,7 @@
 import { ArrowRight, UploadSimple } from '@phosphor-icons/react'
 import React, { useEffect, useState } from 'react'
 import { addDayProduct2, getDayProduct2, updateDayProduct2 } from '../../api/offer';
+import { getAllProducts } from '../../api/product';
 
 const Time2 = () => {
     const [isFormVisible, setIsFormVisible] = useState(false);
@@ -13,7 +14,15 @@ const Time2 = () => {
       setRefresh(!refresh);
     }
   
-  
+    const [products, setProducts] = React.useState<any[]>([]);
+    useEffect(() => {
+      const fetchProducts = async () => {
+        const response = await getAllProducts();
+        setProducts(response?.data?.products);
+      }
+      fetchProducts();
+    }
+      , []);
     useEffect(() => {
       const fetchDayProduct = async () => {
         const data = await getDayProduct2();
@@ -27,7 +36,8 @@ const Time2 = () => {
       description: "",
       offer: "",
       price: "",
-      image: undefined
+      image: undefined,
+      product: ""
     });
     const [imageUrl, setImageUrl] = useState<string | null>(null);
     const isAdminFromLocalStorag:any = JSON.parse(localStorage.getItem("KomparasLoginsInfo") as any) || {};
@@ -61,6 +71,7 @@ const Time2 = () => {
             offer: newImageData.offer || dayProduct[0].offer,
             price: newImageData.price || dayProduct[0].price,
             image: newImageData.image || dayProduct[0].image,
+            product: newImageData.product || dayProduct[0].product,
           };
           await updateDayProduct2(updatedData);
         } else {
@@ -72,7 +83,8 @@ const Time2 = () => {
           description: "",
           offer: "",
           price: "",
-          image: undefined
+          image: undefined,
+          product: ""
         });
         handleRefresh();
         setLoading(false);
@@ -95,7 +107,8 @@ const Time2 = () => {
         description: "",
         offer: "",
         price: "",
-        image: undefined
+        image: undefined,
+        product: ""
       });
       setIsFormVisible(false);
     };
@@ -195,13 +208,24 @@ const Time2 = () => {
                   className="border border-gray-300 p-2 mb-4"
                 />
                 <input
-                  type="price"
+                  type="number"
                   placeholder="price"
                   value={newImageData.price}
                   name="price"
                   onChange={(e) => setNewImageData({ ...newImageData, price: e.target.value })}
                   className="border border-gray-300 p-2 mb-4"
                 />
+                 <select
+                  className="border border-gray-300 p-2 mb-4"
+                  onChange={(e) => setNewImageData({ ...newImageData, product: e.target.value })}
+                >
+                  <option value="">Select Product</option>
+                  {products.map((product) => (
+                    <option key={product._id} value={product._id}>
+                      {product.product_name}
+                    </option>
+                  ))}
+                </select>
                 <textarea
                   placeholder="Description"
                   value={newImageData.description}

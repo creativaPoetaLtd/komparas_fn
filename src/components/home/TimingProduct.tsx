@@ -6,6 +6,8 @@ import { RxDividerHorizontal } from "react-icons/rx";
 import Time1 from './Time1';
 import Time2 from './Time2';
 import { addDayProduct3, getDayProduct3, updateDayProduct3 } from '../../api/offer';
+import { getAllProducts } from '../../api/product';
+import React from 'react';
 
 const TimingProduct = () => {
     const [isFormVisible, setIsFormVisible] = useState(false);
@@ -34,7 +36,8 @@ const TimingProduct = () => {
       description: "",
       offer: "",
       price: "",
-      image: undefined
+      image: undefined,
+      product: ""
     });
     const [imageUrl, setImageUrl] = useState<string | null>(null);
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,11 +67,11 @@ const TimingProduct = () => {
             offer: newImageData.offer || dayProduct[0].offer,
             price: newImageData.price || dayProduct[0].price,
             image: newImageData.image || dayProduct[0].image,
+            product: newImageData.product || dayProduct[0].product,
           };
           await updateDayProduct3(updatedData);
         } else {
           await addDayProduct3(newImageData);
-
         }
         // Clear the form after submitting
         setNewImageData({
@@ -76,7 +79,8 @@ const TimingProduct = () => {
           description: "",
           offer: "",
           price: "",
-          image: undefined
+          image: undefined,
+          product: ""
         });
         handleRefresh();
         setLoading(false);
@@ -91,6 +95,16 @@ const TimingProduct = () => {
       setLoading(false);
   
     };
+
+    const [products, setProducts] = React.useState<any[]>([]);
+    useEffect(() => {
+      const fetchProducts = async () => {
+        const response = await getAllProducts();
+        setProducts(response?.data?.products);
+      }
+      fetchProducts();
+    }
+      , []);
   
     const handleCancel = () => {
       // Clear the form on cancel
@@ -99,7 +113,8 @@ const TimingProduct = () => {
         description: "",
         offer: "",
         price: "",
-        image: undefined
+        image: undefined,
+        product: ""
       });
       setIsFormVisible(false);
     };
@@ -272,13 +287,24 @@ const TimingProduct = () => {
                   className="border border-gray-300 p-2 mb-4"
                 />
                 <input
-                  type="price"
+                  type="number"
                   placeholder="price"
                   value={newImageData.price}
                   name="price"
                   onChange={(e) => setNewImageData({ ...newImageData, price: e.target.value })}
                   className="border border-gray-300 p-2 mb-4"
                 />
+                 <select
+                  className="border border-gray-300 p-2 mb-4"
+                  onChange={(e) => setNewImageData({ ...newImageData, product: e.target.value })}
+                >
+                  <option value="">Select Product</option>
+                  {products.map((product) => (
+                    <option key={product._id} value={product._id}>
+                      {product.product_name}
+                    </option>
+                  ))}
+                </select>
                 <textarea
                   placeholder="Description"
                   value={newImageData.description}

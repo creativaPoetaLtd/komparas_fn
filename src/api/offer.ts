@@ -8,6 +8,7 @@ export const addDayProduct = async (data: any) => {
     formData.append('offer', data.offer);
     formData.append('price', data.price);
     formData.append('image', data.image);
+    formData.append('product', data.product); 
     const res =await fetch(`${baseUrl}/dayphone`, {
         method: 'POST',
         body: formData,
@@ -22,6 +23,7 @@ export const updateDayProduct = async (data: any) => {
     formData.append('offer', data.offer);
     formData.append('price', data.price);
     formData.append('image', data.image);
+    formData.append('product', data.product); 
     const res =await fetch(`${baseUrl}/dayphone`, {
         method: 'PUT',
         body: formData,
@@ -47,7 +49,8 @@ export const addDayProduct1 = async (data: any) => {
     formData.append('offer', data.offer);
     formData.append('price', data.price);
     formData.append('image', data.image);
-    const res =await fetch(`${baseUrl}/promo1`, {
+    formData.append('product', data.product); 
+    const res = await fetch(`${baseUrl}/promo1`, {
         method: 'POST',
         body: formData,
     });
@@ -61,12 +64,14 @@ export const updateDayProduct1 = async (data: any) => {
     formData.append('offer', data.offer);
     formData.append('price', data.price);
     formData.append('image', data.image);
-    const res =await fetch(`${baseUrl}/promo1`, {
+    formData.append('product', data.product); 
+    const res = await fetch(`${baseUrl}/promo1`, {
         method: 'PUT',
         body: formData,
     });
     return await res.json();
 }
+
 
 export const getDayProduct1 = async () => {
     const res = axios.get(`${baseUrl}/promo1`);
@@ -86,6 +91,7 @@ export const addDayProduct2 = async (data: any) => {
     formData.append('offer', data.offer);
     formData.append('price', data.price);
     formData.append('image', data.image);
+    formData.append('product', data.product); 
     const res =await fetch(`${baseUrl}/promo2`, {
         method: 'POST',
         body: formData,
@@ -100,6 +106,7 @@ export const updateDayProduct2 = async (data: any) => {
     formData.append('offer', data.offer);
     formData.append('price', data.price);
     formData.append('image', data.image);
+    formData.append('product', data.product); 
     const res =await fetch(`${baseUrl}/promo2`, {
         method: 'PUT',
         body: formData,
@@ -125,6 +132,7 @@ export const addDayProduct3 = async (data: any) => {
     formData.append('offer', data.offer);
     formData.append('price', data.price);
     formData.append('image', data.image);
+    formData.append('product', data.product); 
     const res =await fetch(`${baseUrl}/promo3`, {
         method: 'POST',
         body: formData,
@@ -139,6 +147,7 @@ export const updateDayProduct3 = async (data: any) => {
     formData.append('offer', data.offer);
     formData.append('price', data.price);
     formData.append('image', data.image);
+    formData.append('product', data.product); 
     const res =await fetch(`${baseUrl}/promo3`, {
         method: 'PUT',
         body: formData,

@@ -29,39 +29,10 @@ const RadioSection = () => {
     fetchProducts();
   }
     , []);
-  // const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setTimeLeft(calculateTimeLeft());
-  //   }, 1000);
-
-  //   return () => clearTimeout(timer);
-  // });
-
   const prod3 = products[(products?.length) - 3]
-
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // const [formData, setFormData] = useState({
-  //     name: '',
-  //     description: '',
-  //     offer: '',
-  //     price: '',
-  //     image: ''
-  // });
-
-  // const handleInputChange = (e: { target: { name: any; value: any; }; }) => {
-  //     const { name, value } = e.target;
-  //     setFormData({ ...formData, [name]: value });
-  // };
-
-  // const handleSubmit = () => {
-  //     // Handle form submission
-  //     setIsModalOpen(false);
-  // };
-
   const [, setIsFormVisible] = useState(false);
   const [loading, setLoading] = useState(false);
-
   const [dayProduct, setDayProduct] = useState<any>([]);
   const [refresh, setRefresh] = useState(false);
 
@@ -82,7 +53,8 @@ const RadioSection = () => {
     description: "",
     offer: "",
     price: "",
-    image: undefined
+    image: undefined,
+    product:""
   });
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -112,6 +84,7 @@ const RadioSection = () => {
           offer: newImageData.offer || dayProduct[0].offer,
           price: newImageData.price || dayProduct[0].price,
           image: newImageData.image || dayProduct[0].image,
+          product: newImageData.product || dayProduct[0].product
         };
        await updateDayProduct1(updatedData);
       } else {
@@ -123,7 +96,8 @@ const RadioSection = () => {
         description: "",
         offer: "",
         price: "",
-        image: undefined
+        image: undefined,
+        product:''
       });
       handleRefresh();
       setLoading(false);
@@ -146,7 +120,8 @@ const RadioSection = () => {
       description: "",
       offer: "",
       price: "",
-      image: undefined
+      image: undefined,
+      product:''
     });
     setIsFormVisible(false);
   };
@@ -177,25 +152,7 @@ const RadioSection = () => {
                   {prod3.product_description.length > 70 ? `${prod3.product_description.substring(0, 70)}...` : prod3.product_description}
                 </p>
               )}
-
-
               <div className='timers py-5 justify-between flex w-full'>
-                {/* <div className='timerCircle text-xs flex-col p-2 items-center bg-white flex rounded-full h-[62px] w-[62px] my-auto justify-center'>
-                                    <div className='circle font-semibold'>{timeLeft.days}</div>
-                                    <div className='label'>Iminsi</div>
-                                </div>
-                                <div className='timerCircle text-xs flex-col p-2 items-center bg-white flex rounded-full h-[62px] w-[62px] my-auto justify-center'>
-                                    <div className='circle font-semibold'>{timeLeft.hours}</div>
-                                    <div className='label'>Amasaha</div>
-                                </div>
-                                <div className='timerCircle text-xs flex-col p-2 items-center bg-white flex rounded-full h-[62px] w-[62px] my-auto justify-center'>
-                                    <div className='circle font-semibold'>{timeLeft.minutes}</div>
-                                    <div className='label'>Iminota</div>
-                                </div>
-                                <div className='timerCircle text-xs flex-col p-2 items-center bg-white flex rounded-full h-[62px] w-[62px] my-auto justify-center'>
-                                    <div className='circle font-semibold'>{timeLeft.seconds}</div>
-                                    <div className='label'>Amasegonda</div>
-                                </div> */}
               </div>
               <button onClick={() => setIsModalOpen(true)} className="flex space-x-2 rounded-md text-sm mt-8 p-3 px-4 font-semibold bg-[#EDB62E] text-white">
                 <p className="">Reba byose</p>
@@ -286,6 +243,17 @@ const RadioSection = () => {
                   onChange={(e) => setNewImageData({ ...newImageData, price: e.target.value })}
                   className="border border-gray-300 p-2 mb-4"
                 />
+                <select
+                  className="border border-gray-300 p-2 mb-4"
+                  onChange={(e) => setNewImageData({ ...newImageData, product: e.target.value })}
+                >
+                  <option value="">Select Product</option>
+                  {products.map((product) => (
+                    <option key={product._id} value={product._id}>
+                      {product.product_name}
+                    </option>
+                  ))}
+                </select>
                 <textarea
                   placeholder="Description"
                   value={newImageData.description}
