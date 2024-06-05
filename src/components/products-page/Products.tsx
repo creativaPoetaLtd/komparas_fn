@@ -395,7 +395,7 @@ const Products = () => {
                             <div className='searchBar md:w-[50%] w-full bg-[#F5F5F5] rounded-md pr-3'>
                                 <input
                                     type='text'
-                                    placeholder='Search for product'
+                                    placeholder='Shakisha telefoni ukoresheje izina'
                                     className='p-2 outline-none w-[95%] rounded-md bg-[#F5F5F5]'
                                     value={searchValue}
                                     onChange={handleInputChange}
@@ -423,7 +423,7 @@ const Products = () => {
                                 <button onClick={toggleSidebar}>
                                     <MdFilterList className='text-xl cursor-pointer flex lg:hidden my-auto mr-4' />
                                 </button>
-                                <p className='text-sm my-auto text-gray-600'>Utuyunguruzo Duhari </p>
+                                <p className='text-sm my-auto text-gray-600'>Utuyunguruzo Duhari:  </p>
                                 <button className='' onClick={handleSetDropDownFilter}><div className='flex md:hidden justify-center items-center my-auto ml-3 text-sm'>
                                     {!isDropDownFilter ? <>
                                         <Eye /><p className=' text-xs flex'>Reba</p>
@@ -451,7 +451,7 @@ const Products = () => {
                                     ))}
                                 </div>
                             </div>
-                            <button className='w-fit bg-[#747474] h-fit text-xs text-white px-3 rounded-md' onClick={clearFilters}>Siba Utuyunguruzo</button>
+                            <button className='w-fit bg-[#747474] h-fit text-xs p-1 text-white px-3 rounded-md' onClick={clearFilters}>Siba Utuyunguruzo</button>
                         </div>
                         <div className='products grid lg:grid-cols-3 md:grid-cols-3 grid-cols-2 lg:gap-12 md:gap-8 gap-3 mx-auto justify-center items-center mt-3'>
                             {productsData?.slice(startIndex, endIndex)?.map((product, index) => (
