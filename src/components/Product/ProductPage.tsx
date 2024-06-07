@@ -213,8 +213,6 @@ const ProductPage = () => {
                         </Button>,
                     ]}
                 >
-
-                    {/* add a search field so that when i type any letter it filter the allproduct if i delete a charcter it returns all remaing products related to the current text in the search field else if there is nothing in search field it will bring all products */}
                     <input
                         type="text"
                         placeholder="Search Product"

@@ -26,8 +26,8 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
                 <div className="flex md:flex-row  flex-col lg:w-[50%] w-full m-auto justify-center items-center h-full">
                     <div className="md:flex hidden md:[w-20%] md:h-[450px] md:space-y-4 space-y-0 py-4 md:overflow-y-auto  w-full md:flex-col justify-between">
                         {products?.product?.product_images?.map((image: any, index: number) => (
-                            <div key={index} className={`otherImages md:w-[170px] w-[55px] items-start  flex justify-start md:h-[138px] h-[50px] ${selectedImageIndex === index ? 'border,-2 bormder-blue-500' : ''}`} onClick={() => handleImageClick(index)}>
-                                <img src={image.product_image} width={100} height={100} alt="" className={` ${selectedImageIndex === index ? 'border-2 bg-slate-400 rounded-md p-2' : ''} md:w-[100px] w-[55px] md:h-[89px] h-[49px] object-contain`} />
+                            <div key={index} className={`otherImages md:w-full w-[55px] items-start  flex justify-start md:h-[138px] h-[50px] ${selectedImageIndex === index ? 'border,-2 bormder-blue-500' : ''}`} onClick={() => handleImageClick(index)}>
+                                <img src={image.product_image} width={100} height={100} alt="" className={` ${selectedImageIndex === index ? 'border-2 border-yellow-600 rounded-md p-2' : ''} md:w-full w-[55px] md:h-[89px] h-[49px] object-contain`} />
                             </div>
                         ))}
                     </div>
@@ -36,20 +36,20 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
                             <h1 className="text-xl w-[20rem] mt-12 lg:pl-32 md:pl-16 pl-2 font-semibold">{products?.product?.product_name}</h1>
                         </div>
                         <div className="MainIMageDiv md:w-[500px] w-[350px] md:h-[600px] h-[285px] flex m-auto justify-center items-center relative">
-                            <button onClick={handlePrevImage} className="absolute left-12 top-1/2 transform -translate-y-1/2 bg-grssay-800 text-white px-2 py-1 rounded-md">
-                                <CiCircleChevLeft className="bg bg-gray-300 rounded-full hover:bg-slate-800" />
+                            <button onClick={handlePrevImage} className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-grssay-800 text-white px-2 py-1 rounded-md">
+                                <CiCircleChevLeft className="bg-gray-300 text-2xl rounded-full hover:bg-slate-800" />
                             </button>
                             <img src={products?.product?.product_images[selectedImageIndex]?.product_image} alt="" className="md:w-[446px] w-[296px] md:h-[315px] h-[228px] object-contain" />
-                            <button onClick={handleNextImage} className="absolute right-12 top-1/2 transform -translate-y-1/2 bg-grays-800 text-white px-2 py-1 rounded-md">
-                                <CiCircleChevRight className="bg-gray-300 rounded-full hover:bg-slate-800" />
+                            <button onClick={handleNextImage} className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-grays-800 text-white px-2 py-1 rounded-md">
+                                <CiCircleChevRight className="bg-gray-300 text-2xl rounded-full hover:bg-slate-800" />
                             </button>
                         </div>
                     </div>
-                    <div className='w-full overflow-x-auto'>
+                    <div className='md:hidden w-full overflow-x-auto'>
                     <div className="md:hiddden flex  py-4 overflow-x-auto  w-[40rem] justify-between flex-row">
                         {products?.product?.product_images?.map((image: any, index: number) => (
                             <div key={index} className={`otherImages md:w-[170px] w-[95px] items-start  flex justify-start md:h-[138px] h-[90px] ${selectedImageIndex === index ? 'border,-2 bormder-blue-500' : ''}`} onClick={() => handleImageClick(index)}>
-                                <img src={image.product_image} width={100} height={100} alt="" className={` ${selectedImageIndex === index ? 'border-2 bg-slate-400 rounded-md p-2' : ''} md:w-[100px] w-[55px] md:h-[89px] h-[49px] object-contain`} />
+                                <img src={image.product_image} width={150} height={100} alt="" className={` ${selectedImageIndex === index ? 'border-2 border-yellow-600 rounded-md p-2' : ''} md:w-[100px] w-[75px] md:h-[89px] h-[55px] object-contain`} />
                             </div>
                         ))}
                     </div>
