@@ -14,6 +14,7 @@ import { fetchParentCategories } from '../../api/getAllCategories';
 import { getAllShops } from '../../api/getAllShops';
 import { Eye, EyeSlash } from '@phosphor-icons/react';
 import { Link } from 'react-router-dom';
+import Footer from '../Footer';
 const Products = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [productsData, setProductsData] = useState<any[]>([]);
@@ -107,7 +108,7 @@ const Products = () => {
         fetchShops();
     }, []);
 
-   
+
     const [selectedShopNames, setSelectedShopNames] = useState<string[]>([]);
     const [shopst, setShopst] = useState<string[]>([]);
 
@@ -300,8 +301,8 @@ const Products = () => {
         setMinPrice(min);
         setMaxPrice(max);
     };
- 
-    
+
+
     const [sortOrder, setSortOrder] = useState<'ascending' | 'descending'>('ascending');
     const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedValue = event.target.value;
@@ -376,20 +377,19 @@ const Products = () => {
     };
 
     return (
-        <div className="flex flex-col h-fit">
+        <><div className="flex flex-col h-fit">
             <SubNav />
             <HomeNav />
             <MobileHomeNav />
             <div className='w-full bg-white h-fit justify-between lg:px-6 px-2 lg:pl-20 pl-2 flex flex-col'>
                 <div className='w-full mt-6 h-fit flex flex-row'>
-                    <SideBar handleSelectRam={handleSelectRam} isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} categories={categories} shops={shops} handleCategoryClick={handleCategoryClick} handleShopCkik={handleShopClick} onPriceRangeChange={handlePriceRangeChange} handleSelectCamera={handleSelectCamera} handleSelectStorage={handleSelectStorage} handleSelectType={handleSelectType} handleSelectColors={handleSelectColors} handleSelectscreen={handleSelectsecreen} selectedCategories={categoryIdt} 
-                    selectedStorage={selectedStorage} 
-                    selectedColors={selectedColors}
-                    selectedscreen={selectedscreen}
-                    selectedRam={selectedRam}
-                    selectedCamera={selectedCamera}
-                    selectedShops={shopst}
-                    />
+                    <SideBar handleSelectRam={handleSelectRam} isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} categories={categories} shops={shops} handleCategoryClick={handleCategoryClick} handleShopCkik={handleShopClick} onPriceRangeChange={handlePriceRangeChange} handleSelectCamera={handleSelectCamera} handleSelectStorage={handleSelectStorage} handleSelectType={handleSelectType} handleSelectColors={handleSelectColors} handleSelectscreen={handleSelectsecreen} selectedCategories={categoryIdt}
+                        selectedStorage={selectedStorage}
+                        selectedColors={selectedColors}
+                        selectedscreen={selectedscreen}
+                        selectedRam={selectedRam}
+                        selectedCamera={selectedCamera}
+                        selectedShops={shopst} />
                     <div className={`lg:w-[70%] md:w-full w-full flex flex-col h-fit ${isSidebarOpen ? "hidden" : ""}`}>
                         <div className='topMenus w-full flex md:flex-row flex-col justify-between'>
                             <div className='searchBar md:w-[50%] w-full bg-[#F5F5F5] rounded-md pr-3'>
@@ -399,8 +399,7 @@ const Products = () => {
                                     className='p-2 outline-none w-[95%] rounded-md bg-[#F5F5F5]'
                                     value={searchValue}
                                     onChange={handleInputChange}
-                                    list="autocomplete-options"
-                                />
+                                    list="autocomplete-options" />
                                 <datalist draggable id="autocomplete-options" className=''>
                                     {autocompleteOptions?.map((option, index) => (
                                         <option key={index} value={option} />
@@ -451,11 +450,13 @@ const Products = () => {
                                     ))}
                                 </div>
                             </div>
-                            <button className='w-fit bg-[#747474] h-fit text-xs p-1 text-white px-3 rounded-md' onClick={clearFilters}>Siba Utuyunguruzo</button>
+                            {activeFilters.length > 1 &&
+                                <button className='w-fit bg-[#fa3e3e] h-fit text-xs p-1 text-white px-3 rounded-md' onClick={clearFilters}>Siba</button>
+                            }
                         </div>
                         <div className='products grid lg:grid-cols-3 md:grid-cols-3 grid-cols-2 lg:gap-12 md:gap-8 gap-3 mx-auto justify-center items-center mt-3'>
                             {productsData?.slice(startIndex, endIndex)?.map((product, index) => (
-                                <div key={index} className='productCard md:w-[222px] w-[170px] border border-black rounded-md p-3 md:h-[296px] h-[256px]  m-auto justify-center flex flex-col'>
+                                <div key={index} className='productCard md:w-[222px] w-[170px] border border-black rounded-md p-3 md:min-h-[296px] md:h-fit min-h-[256px] h-fit  m-auto justify-center flex flex-col'>
                                     <Link to={`/product/${product?._id}`} className="flex justify-center">
                                         <img src={product.product_image} height={152} width={172} alt="" className="w-[172px] h-[152px] object-contain mb-4" />
                                     </Link>
@@ -469,12 +470,9 @@ const Products = () => {
                                             label='Shyira Kukigereranyo'
                                             name='compare'
                                             productData={{ productId: product._id }}
-                                            checked={
-                                                locastorageCompareProductIds?.includes(product._id) || comparedProductId?.includes(product._id)
-                                            }
+                                            checked={locastorageCompareProductIds?.includes(product._id) || comparedProductId?.includes(product._id)}
                                             addProductToCompare={() => handleAddProductIdToLocalStorageCompare((product._id))}
-                                            onUncheck={() => handleRemoveProductIdFromLocalStorageCompare(product._id)}
-                                        />
+                                            onUncheck={() => handleRemoveProductIdFromLocalStorageCompare(product._id)} />
                                     </div>
                                 </div>
                             ))}
@@ -485,22 +483,19 @@ const Products = () => {
                                 onChange={handlePageChange}
                                 pageSize={cardsPerPage}
                                 total={totalProducts}
-                                showSizeChanger={false}
-                            />
+                                showSizeChanger={false} />
                         </div>
                     </div>
                 </div>
             </div>
             <button onClick={showDrawer} className='fixed bottom-10 right-10 bg-yellow-500 p-3 rounded-full text-white'>
-                <p className='text-sm'>{
-                    !JSON.parse(localStorage.getItem("compareProductIds") as any) ? [] : JSON.parse(localStorage.getItem("compareProductIds") as any)?.length < 2 ? JSON.parse(localStorage.getItem("compareProductIds") as any)?.length + ' Item' : JSON.parse(localStorage.getItem("compareProductIds") as any)?.length + ' Items'
-                }</p>
+                <p className='text-sm'>{!JSON.parse(localStorage.getItem("compareProductIds") as any) ? [] : JSON.parse(localStorage.getItem("compareProductIds") as any)?.length < 2 ? JSON.parse(localStorage.getItem("compareProductIds") as any)?.length + ' Item' : JSON.parse(localStorage.getItem("compareProductIds") as any)?.length + ' Items'}</p>
             </button>
             <ComparisonDrawer
                 open={open}
-                onClose={onClose}
-            />
-        </div>
+                onClose={onClose} />
+        </div><Footer /></>
+
     );
 };
 

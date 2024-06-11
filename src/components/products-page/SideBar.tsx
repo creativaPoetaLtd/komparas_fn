@@ -127,7 +127,7 @@ const SideBar: React.FC<SideBarProps> = ({ isOpen, toggleSidebar, categories, sh
                     ))}
                 </div>
             </div>
-            <div className='flex flex-col mt-5 items-center justify-center border-4 border-yellow-600 w-[260px] py-5'>
+            <div className='flex mb-3 flex-col mt-5 items-center justify-center border-4 border-yellow-600 w-[260px] py-5'>
                 <img src={ads} alt="" className='w-[150px] h-[150px]' />
                 <h1 className='mt-2 font-semibold text-sm'>WATCH</h1>
                 <p className='text-xs text-red-600'>The best smartwatch</p>
