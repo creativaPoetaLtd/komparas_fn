@@ -244,7 +244,7 @@ const Products = () => {
             const productIdsArray = JSON.parse(productIds);
             handleRefresh();
 
-            if (productIdsArray.length < 10) {
+            if (productIdsArray.length < 4) {
                 localStorage.setItem('compareProductIds', JSON.stringify([...productIdsArray, productId]));
                 setLocastorageCompareProductIds(
                     JSON.stringify([...productIdsArray, productId])
@@ -252,7 +252,7 @@ const Products = () => {
                 handleRefresh();
 
             } else {
-                toast.error('You can only compare two products at a time');
+                toast.error('Ushobora kugereranya telephone enye gusa!');
             }
             handleRefresh();
 
