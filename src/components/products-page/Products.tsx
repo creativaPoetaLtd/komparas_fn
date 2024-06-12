@@ -14,12 +14,19 @@ import { fetchParentCategories } from '../../api/getAllCategories';
 import { getAllShops } from '../../api/getAllShops';
 import { Eye, EyeSlash } from '@phosphor-icons/react';
 import { Link } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import Footer from '../Footer';
 const Products = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [productsData, setProductsData] = useState<any[]>([]);
     const [refresh, setRefresh] = useState(false);
     const [deleteRefresh,] = useState(false);
+    const [searchParam]: any = useSearchParams();
+    const catID = searchParam.get('categoryId');
+    const shopsId = searchParam.get('shopId');
+    
+    console.log(`catID`, catID);
+    
     const loginInfo: any = localStorage.getItem('KomparasLoginsInfo');
     const userId = JSON.parse(loginInfo)?._id;
     const [categories, setCategories] = useState<any>([]);
@@ -312,11 +319,12 @@ const Products = () => {
             setSortOrder('descending');
         }
     };
-    // const categoryIdToUse = categoryId ? categoryId : catId ? catId : '';
-    // const shopIdToUse:any = selectedShopId ? selectedShopId : shopsId ? shopst : '';
+    const categoryIdToUse: string[] = Array.isArray(categoryIdt) && categoryIdt.length > 0 ? categoryIdt : (catID ? [catID] : []);
+    console.log(`categoryIdToUse`, categoryIdToUse);
+    const shopIdToUse: string[] = Array.isArray(shopst) && shopst.length > 0 ? shopst : (shopsId ? [shopsId] : []);
     useEffect(() => {
         const fetchProducts = async () => {
-            const response = await getAllProducts(minPrice, maxPrice, categoryIdt, shopst, multipleRam, multioletStorage, multipleCamera, multipleColors);
+            const response = await getAllProducts(minPrice, maxPrice,categoryIdToUse, shopIdToUse, multioletStorage, multipleCamera, multipleColors);
             const allProducts = response?.data?.products;
             let sortedProducts = allProducts;
             if (sortOrder === 'ascending') {
