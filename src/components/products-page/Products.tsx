@@ -418,10 +418,10 @@ const Products = () => {
                                 </button>
                             </div>
                             <div className='w-fit flex md:mt-0 mt-3 self-end float-right justify-end'>
-                                <p className='text-sm my-auto'>Sohora kuri:</p>
+                                <p className='text-sm my-auto'>bikurikiranye uhereye:</p>
                                 <select className='ml-2 p-2 rounded-md bg-[#F5F5F5]' onChange={handleSortChange}>
-                                    <option value="ascending">Izagezemo mbere</option>
-                                    <option value="descending">Izagezemo nyuma</option>
+                                    <option value="ascending">inshya iwacu</option>
+                                    <option value="descending">Izikuzwe</option>
                                 </select>
                             </div>
                         </div>
@@ -430,7 +430,7 @@ const Products = () => {
                                 <button onClick={toggleSidebar}>
                                     <MdFilterList className='text-xl cursor-pointer flex lg:hidden my-auto mr-4' />
                                 </button>
-                                <p className='text-sm my-auto text-gray-600'>Utuyunguruzo Duhari:  </p>
+                                {/* <p className='text-sm my-auto text-gray-600'>Utuyunguruzo Duhari:  </p> */}
                                 <button className='' onClick={handleSetDropDownFilter}><div className='flex md:hidden justify-center items-center my-auto ml-3 text-sm'>
                                     {!isDropDownFilter ? <>
                                         <Eye /><p className=' text-xs flex'>Reba</p>

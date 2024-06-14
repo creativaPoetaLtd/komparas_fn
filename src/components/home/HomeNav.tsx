@@ -98,7 +98,7 @@ const HomeNav = () => {
         </div>
         <div className='flex flex-col space-y-0 w-fit'>
           <li className={`text-white ${selectedMenu === 'contact_us' ? 'text-bold font-bold' : ''}`}>
-            <NavLink to='/contact_us'>Twandikire</NavLink>
+            <NavLink to='/contact_us'>Tuvugishe</NavLink>
           </li>
           {selectedMenu === 'contact_us' && <div className='line h-[2px] w-full bg-green-500'></div>}
         </div>

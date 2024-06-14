@@ -83,7 +83,7 @@ const MobileHomeNav = () => {
       </Menu.Item>
       <Menu.Item key="1">
         <Link to="/about_us">
-          <a>Ibitwerekeyeho</a>
+          <a>Abo turibo</a>
         </Link>
       </Menu.Item>
       <Menu.Item key="2">
@@ -146,9 +146,9 @@ const MobileHomeNav = () => {
           <FaSearch className="text-lg text-black" />
         </button>
         <Dropdown overlay={menu} className='mt-1'>
-        <Button>
+        {/* <Button>
           <UserOutlined className='test text-white' />
-        </Button>
+        </Button> */}
       </Dropdown>
       </div>
     </div>
