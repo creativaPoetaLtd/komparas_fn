@@ -145,11 +145,6 @@ const MobileHomeNav = () => {
         <button className="rounded-md">
           <FaSearch className="text-lg text-black" />
         </button>
-        <Dropdown overlay={menu} className='mt-1'>
-        {/* <Button>
-          <UserOutlined className='test text-white' />
-        </Button> */}
-      </Dropdown>
       </div>
     </div>
   );
