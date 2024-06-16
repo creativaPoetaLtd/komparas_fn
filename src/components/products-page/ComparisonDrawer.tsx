@@ -6,10 +6,11 @@ import { getProductByMultpleIdsInQueryParams } from '../../api/product';
 interface Props {
     open: boolean;
     onClose: () => void;
+    refresh: boolean;
 }
 
 
-const ComparisonDrawer: React.FC<Props> = ({ open, onClose }) => {
+const ComparisonDrawer: React.FC<Props> = ({ open, onClose, refresh }) => {
     const idsToCompare = JSON.parse(localStorage.getItem("compareProductIds") || "[]");
     const [showValueMap, setShowValueMap] = useState<{ [key: number]: boolean }>({});
     const handleValueClick = (index: number) => {
@@ -31,18 +32,8 @@ const ComparisonDrawer: React.FC<Props> = ({ open, onClose }) => {
             });
             setShowValueMap(initialShowValueMap);
         }
-        // const fetchData = async () => {
-        //     const response = await getProductByMultpleIdsInQueryParams(ids);
-        //     setProduct(response.data);
-        //     // Populate showValueMap with true values for each index
-        //     const initialShowValueMap: { [key: number]: boolean } = {};
-        //     response.data?.product?.forEach((_product: any, index: number) => {
-        //         initialShowValueMap[index] = true;
-        //     });
-        //     setShowValueMap(initialShowValueMap);
-        // }
         fetchData();
-    }, [idsToCompare]);
+    }, [refresh]);
 
     const navigate = useNavigate();
     const handleView = (id: string) => {
@@ -55,6 +46,7 @@ const ComparisonDrawer: React.FC<Props> = ({ open, onClose }) => {
     return (
         <Drawer
             title="Comparison Section"
+            style={{ overflow: 'auto' }}
             onClose={onClose}
             visible={open}
             placement="right"

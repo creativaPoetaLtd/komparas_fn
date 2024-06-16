@@ -7,6 +7,8 @@ import { UserOutlined } from '@ant-design/icons';
 
 const HomeNav = () => {
   const location = useLocation();
+const urlParts = location.pathname.split("/");
+const lastPart = urlParts[urlParts.length - 1];
   const [selectedMenu, setSelectedMenu] = useState('home');
   const [searchValue, setSearchValue] = useState("");
   const [, setSearchedId] = useState<string>("");
@@ -115,6 +117,8 @@ const HomeNav = () => {
           {selectedMenu === 'sobanukirwa' && <div className='line h-[2px] w-full bg-green-500'></div>}
         </div>
       </ul>
+      {lastPart !== 'products' && (
+
       <div className='searchBar bg-[#F5F5F5] rounded-md pr-3'>
         <input
           type='text'
@@ -131,6 +135,7 @@ const HomeNav = () => {
           ))}
         </datalist>
       </div>
+      )}
       <Dropdown overlay={menu} className='mt-1'>
         <Button>
           <UserOutlined className='test text-white' />

@@ -32,7 +32,7 @@ const ThreeButtons: React.FC<IProduct> = ({ products }) => {
    return (
         <div className="lg:w-[54%] md:w-[337px] flex flex-col">
             <div className="flex flex-col space-y-5 xl:w-[637px] lg:w-[537px] md:w-full w-full m-auto justify-center">
-                <div className="threeButtons flex flex-row">
+                <div className="threeButtons text-xs flex flex-row">
                 <button
                         className={`w-[39%] text-white p-2 rounded-l-md ${activeButton === 'ourReview1' ? 'bg-[#EDB62E]' : 'bg-[#0C203B]'}`}
                         onClick={() => handleButtonClick('ourReview1')}
@@ -52,12 +52,12 @@ const ThreeButtons: React.FC<IProduct> = ({ products }) => {
                     >
                         Icyo tuyivugaho
                     </button>
-                    <button
+                    {/* <button
                         className={`w-[39%] text-white p-2 rounded-r-md ${activeButton === 'otherReview' ? 'bg-[#EDB62E]' : 'bg-[#0C203B]'}`}
                         onClick={() => handleButtonClick('otherReview')}
                     >
                         Icyo bayivugaho
-                    </button>
+                    </button> */}
                 </div>
                 {activeButton === 'ourReview1' && (
                     <>

@@ -4,10 +4,11 @@ import SideBar from './SideBar'
 import SubNav from '../Navigations/SubNav'
 import HomeNav from '../home/HomeNav'
 import MobileHomeNav from '../home/HomeMobileNav'
-import { FaSearch, FaTimes } from 'react-icons/fa'
-import { MdFilterList } from 'react-icons/md';
+import { FaArrowCircleUp, FaSearch, FaTimes } from 'react-icons/fa'
+// import { MdFilterList } from 'react-icons/md';
 import { getAllProducts, getComparison } from '../../api/product';
 import ComparisonDrawer from './ComparisonDrawer';
+import { TbAdjustmentsHorizontal } from "react-icons/tb";
 import PorductCheckInput from './ProdCheck';
 import { toast } from 'react-toastify';
 import { fetchParentCategories } from '../../api/getAllCategories';
@@ -16,6 +17,8 @@ import { Eye, EyeSlash } from '@phosphor-icons/react';
 import { Link } from 'react-router-dom';
 import { useSearchParams } from 'react-router-dom';
 import Footer from '../Footer';
+import AllProdNavs from '../Product/AllProdNavs';
+import { HiMiniArrowsUpDown } from 'react-icons/hi2';
 const Products = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [productsData, setProductsData] = useState<any[]>([]);
@@ -24,9 +27,6 @@ const Products = () => {
     const [searchParam]: any = useSearchParams();
     const catID = searchParam.get('categoryId');
     const shopsId = searchParam.get('shopId');
-    
-    console.log(`catID`, catID);
-    
     const loginInfo: any = localStorage.getItem('KomparasLoginsInfo');
     const userId = JSON.parse(loginInfo)?._id;
     const [categories, setCategories] = useState<any>([]);
@@ -206,18 +206,18 @@ const Products = () => {
         handleRefresh();
     };
     const [selectedType, setSelectedType] = useState<string>();
-    const [multipleType, setMultipleType] = useState<string[]>([]);
-    const handleSelectType = async (type: string) => {
-        handleRefresh();
-        const index = multipleType.indexOf(type);
-        if (index === -1) {
-            setMultipleType([...multipleType, type]);
-        } else {
-            setMultipleType(multipleType.filter(typeT => typeT !== type));
-        }
-        // setSelectedType(type);
-        handleRefresh();
-    };
+    // const [multipleType, setMultipleType] = useState<string[]>([]);
+    // const handleSelectType = async (type: string) => {
+    //     handleRefresh();
+    //     const index = multipleType.indexOf(type);
+    //     if (index === -1) {
+    //         setMultipleType([...multipleType, type]);
+    //     } else {
+    //         setMultipleType(multipleType.filter(typeT => typeT !== type));
+    //     }
+    //     // setSelectedType(type);
+    //     handleRefresh();
+    // };
     const [selectedscreen, setSelectedsecreen] = useState<string[]>([]);
     const [multiplesecreen, setMultiplesecreen] = useState<string[]>([]);
     const handleSelectsecreen = async (secreen: string) => {
@@ -310,27 +310,36 @@ const Products = () => {
     };
 
 
-    const [sortOrder, setSortOrder] = useState<'ascending' | 'descending'>('ascending');
+    const [sortOrder, setSortOrder] = useState<'ascending' | 'descending' | 'cheaper' | 'expensive'>('ascending');
     const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedValue = event.target.value;
         if (selectedValue === 'ascending') {
             setSortOrder('ascending');
         } else if (selectedValue === 'descending') {
             setSortOrder('descending');
+        } else if (selectedValue === 'cheaper') {
+            setSortOrder('cheaper');
+        } else if (selectedValue === 'expensive') {
+            setSortOrder('expensive');
         }
+
     };
     const categoryIdToUse: string[] = Array.isArray(categoryIdt) && categoryIdt.length > 0 ? categoryIdt : (catID ? [catID] : []);
     console.log(`categoryIdToUse`, categoryIdToUse);
     const shopIdToUse: string[] = Array.isArray(shopst) && shopst.length > 0 ? shopst : (shopsId ? [shopsId] : []);
     useEffect(() => {
         const fetchProducts = async () => {
-            const response = await getAllProducts(minPrice, maxPrice,categoryIdToUse, shopIdToUse, multioletStorage, multipleCamera, multipleColors);
+            const response = await getAllProducts(minPrice, maxPrice, categoryIdToUse, shopIdToUse, multioletStorage, multipleCamera, multipleColors);
             const allProducts = response?.data?.products;
             let sortedProducts = allProducts;
             if (sortOrder === 'ascending') {
                 sortedProducts = allProducts?.sort((a: any, b: any) => a.product_name.localeCompare(b.product_name));
             } else if (sortOrder === 'descending') {
                 sortedProducts = allProducts?.sort((a: any, b: any) => b.product_name.localeCompare(a.product_name));
+            } else if (sortOrder === 'cheaper') {
+                sortedProducts = allProducts?.sort((a: any, b: any) => a.our_price - b.our_price);
+            } else if (sortOrder === 'expensive') {
+                sortedProducts = allProducts?.sort((a: any, b: any) => b.our_price - a.our_price);
             }
             const productNames = sortedProducts?.map((product: any) => product.product_name);
             setAutocompleteOptions(productNames);
@@ -389,9 +398,10 @@ const Products = () => {
             <SubNav />
             <HomeNav />
             <MobileHomeNav />
+            <AllProdNavs />
             <div className='w-full bg-white h-fit justify-between lg:px-6 px-2 lg:pl-20 pl-2 flex flex-col'>
                 <div className='w-full mt-6 h-fit flex flex-row'>
-                    <SideBar handleSelectRam={handleSelectRam} isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} categories={categories} shops={shops} handleCategoryClick={handleCategoryClick} handleShopCkik={handleShopClick} onPriceRangeChange={handlePriceRangeChange} handleSelectCamera={handleSelectCamera} handleSelectStorage={handleSelectStorage} handleSelectType={handleSelectType} handleSelectColors={handleSelectColors} handleSelectscreen={handleSelectsecreen} selectedCategories={categoryIdt}
+                    <SideBar clearFilters={clearFilters} productsData={productsData} handleSelectRam={handleSelectRam} isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} categories={categories} shops={shops} handleCategoryClick={handleCategoryClick} handleShopCkik={handleShopClick} onPriceRangeChange={handlePriceRangeChange} handleSelectCamera={handleSelectCamera} handleSelectStorage={handleSelectStorage} handleSelectColors={handleSelectColors} handleSelectscreen={handleSelectsecreen} selectedCategories={categoryIdt}
                         selectedStorage={selectedStorage}
                         selectedColors={selectedColors}
                         selectedscreen={selectedscreen}
@@ -417,23 +427,33 @@ const Products = () => {
                                     <FaSearch />
                                 </button>
                             </div>
-                            <div className='w-fit flex md:mt-0 mt-3 self-end float-right justify-end'>
-                                <p className='text-sm my-auto'>bikurikiranye uhereye:</p>
-                                <select className='ml-2 p-2 rounded-md bg-[#F5F5F5]' onChange={handleSortChange}>
-                                    <option value="ascending">inshya iwacu</option>
+                            <div className='w-full md:w-fit ml-auto flex justify-between md:justify-end'>
+                            <button onClick={toggleSidebar} className='w-fit md:hidden flex md:mt-0 p-2 mt-3 rounded-md bg-[#F5F5F5] self-end float-right justify-end'>
+                            <TbAdjustmentsHorizontal className='flex my-auto mr-1 text-lg' />
+                            Akayunguruzo
+                            </button>
+                            <div className='w-fit flex mx-auto md:mt-0 p-2 py-[10.5px] mt-3 rounded-md bg-[#F5F5F5] self-end float-right justify-end'>
+                                <p className='text-base my-auto'><HiMiniArrowsUpDown /></p>
+                                <select className='rounded-md w-fit outline-none bg-[#F5F5F5]' onChange={handleSortChange}>
+                                    <option value="ascending">Inshya iwacu</option>
                                     <option value="descending">Izikuzwe</option>
+                                    <option value="cheaper">Izihendutse</option>
+                                    <option value="expensive">Izihenze</option>
                                 </select>
                             </div>
+                            </div>
                         </div>
-                        <div className='products justify-between w-full flex bg-[#F2F4F5] p-3 mt-3'>
+                        <div className='products justify-between w-full flex bg-[#F2F4F5] py-3 px-2 mt-3'>
                             <div className='filtersDiv flex relative'>
-                                <button onClick={toggleSidebar}>
+                                {/* <button onClick={toggleSidebar}>
                                     <MdFilterList className='text-xl cursor-pointer flex lg:hidden my-auto mr-4' />
-                                </button>
-                                {/* <p className='text-sm my-auto text-gray-600'>Utuyunguruzo Duhari:  </p> */}
+                                </button> */}
+                                <p className='text-sm my-auto text-gray-600'>
+                                     {activeFilters?.length === 0 ? '':activeFilters.length > 1 ? `Utuyunguruzo ${activeFilters.length}` : `Akayunguruzo ${activeFilters.length}`} Habonekamo {productsData?.length}
+                                 </p>
                                 <button className='' onClick={handleSetDropDownFilter}><div className='flex md:hidden justify-center items-center my-auto ml-3 text-sm'>
                                     {!isDropDownFilter ? <>
-                                        <Eye /><p className=' text-xs flex'>Reba</p>
+                                        <Eye /><p className=' text-xs flex'>turebe</p>
                                     </> : <><EyeSlash /><p className=' text-xs flex'>Hisha</p></>}
                                 </div></button>
                                 {isDropDownFilter && (
@@ -464,18 +484,19 @@ const Products = () => {
                         </div>
                         <div className='products grid lg:grid-cols-3 md:grid-cols-3 grid-cols-2 lg:gap-12 md:gap-8 gap-3 mx-auto justify-center items-center mt-3'>
                             {productsData?.slice(startIndex, endIndex)?.map((product, index) => (
-                                <div key={index} className='productCard md:w-[222px] w-[170px] border border-black rounded-md p-3 md:min-h-[296px] md:h-fit min-h-[256px] h-fit  m-auto justify-center flex flex-col'>
-                                    <Link to={`/product/${product?._id}`} className="flex justify-center">
-                                        <img src={product.product_image} height={152} width={172} alt="" className="w-[172px] h-[152px] object-contain mb-4" />
-                                    </Link>
-                                    <div className='w-full h-[124px] m-auto flex flex-col justify-center items-start bg-white rounded-md p-2'>
-                                        <h1 className='text-sm font-semibold'>{product?.product_name?.length > 40 ? product?.product_name?.substring(0, 40) + '...' : product?.product_name?.substring(0, 40)}</h1>
-                                        <p className='text-sm text-gray-600'>${product.vendor_prices?.reduce((prev: any, current: any) => (prev.price < current.price) ? prev : current).price}</p>
-                                        <p className='text-sm text-yellow-500'>Amaduka({product?.vendor_prices.length})</p>
+                                <div key={index} className='productCard md:w-[222px] w-[170px] border border-black rounded-md p-3 md:min-h-[200px] md:h-fit min-h-[256px] h-fit  m-auto justify-center flex flex-col'>
+                                    <div className="flex justify-center">
+                                        <img src={product.product_image} height={152} width={172} alt="" className="w-[172px] h-[152px] object-contain mb-1" />
                                     </div>
-                                    <div className='checkboxWithvalues w-full flex'>
+                                    <div className='w-full h-fit m-auto flex flex-col justify-center items-start bg-white rounded-md p-2'>
+                                        <h1 className='text-sm font-semibold'>{product?.product_name?.length > 40 ? product?.product_name?.substring(0, 40) + '...' : product?.product_name?.substring(0, 40)}</h1>
+                                        <p className='text-sm text-gray-600 line-through'>{product.vendor_prices?.reduce((prev: any, current: any) => (prev.price < current.price) ? prev : current).price}Rwf</p>
+                                        <p className='text-sm text-green-600 flex justify-end mx-auto'>{product?.our_price}Rwf</p>
+                                        <Link to={`/product/${product?._id}`} className='bg-black py-[2px] px-8 text-center mx-auto rounded-md w-fit text-yellow-500 text-sm'>Yirebe</Link>
+                                    </div>
+                                    <div className='checkboxWithvalues px-2 text-sm w-full flex'>
                                         <PorductCheckInput
-                                            label='Shyira Kukigereranyo'
+                                            label='Gereranya'
                                             name='compare'
                                             productData={{ productId: product._id }}
                                             checked={locastorageCompareProductIds?.includes(product._id) || comparedProductId?.includes(product._id)}
@@ -496,12 +517,15 @@ const Products = () => {
                     </div>
                 </div>
             </div>
-            <button onClick={showDrawer} className='fixed bottom-10 right-10 bg-yellow-500 p-3 rounded-full text-white'>
-                <p className='text-sm'>{!JSON.parse(localStorage.getItem("compareProductIds") as any) ? [] : JSON.parse(localStorage.getItem("compareProductIds") as any)?.length < 2 ? JSON.parse(localStorage.getItem("compareProductIds") as any)?.length + ' Item' : JSON.parse(localStorage.getItem("compareProductIds") as any)?.length + ' Items'}</p>
-            </button>
+            <div  className='fixed flex space-x-3 bg-green-200 bottom-10 right-10  px-2 py-1 rounded-md text-white'>
+           <button className='view flex my-auto text-black justify-center'><FaArrowCircleUp /> </button> 
+                <button onClick={showDrawer} className='text-sm rounded-md p-[2px] bg-black'>{!JSON.parse(localStorage.getItem("compareProductIds") as any) ? [] : JSON.parse(localStorage.getItem("compareProductIds") as any)?.length < 2 ? '('+JSON.parse(localStorage.getItem("compareProductIds") as any)?.length +')'+ '   Yigereranye' : '('+JSON.parse(localStorage.getItem("compareProductIds") as any)?.length +')'+ ' Zigereranye'}</button>
+            </div>
             <ComparisonDrawer
                 open={open}
-                onClose={onClose} />
+                onClose={onClose} 
+                refresh={refresh}
+                />
         </div><Footer /></>
 
     );

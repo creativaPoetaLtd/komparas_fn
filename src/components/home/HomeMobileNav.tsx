@@ -1,16 +1,18 @@
 import { Menu, Dropdown, Button } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { HiBars3BottomLeft } from "react-icons/hi2";
 import { FaSearch } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import { getAllProducts } from '../../api/product';
 
 
-
 const MobileHomeNav = () => {
-  // const location = useLocation();
-  // const [selectedMenu, setSelectedMenu] = useState('home');
+//get the last part of the url
+
+const location = useLocation();
+const urlParts = location.pathname.split("/");
+const lastPart = urlParts[urlParts.length - 1];
   const [searchValue, setSearchValue] = useState("");
   const [, setSearchedId] = useState<string>("");
   const [autocompleteOptions, setAutocompleteOptions] = useState<{ id: string, name: string }[]>([]);
@@ -131,6 +133,7 @@ const MobileHomeNav = () => {
           </Dropdown>
         </div>
       </nav>
+      {lastPart !== 'products' && (
       <div className='searchBar flex justify-center md:w-3/5 bg-white w-[96%] rounded-md self-center mt-2 mb-2 items-center border-gray-300 border'>
         <input type="text" value={searchValue}
           onChange={handleInputChange}
@@ -146,6 +149,7 @@ const MobileHomeNav = () => {
           <FaSearch className="text-lg text-black" />
         </button>
       </div>
+      )}
     </div>
   );
 };

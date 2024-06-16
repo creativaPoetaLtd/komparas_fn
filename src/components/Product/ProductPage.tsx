@@ -116,7 +116,7 @@ const ProductPage = () => {
             <div className='w-full bg-white h-fit justify-between lg:px-24 px-2 flex flex-col'>
                 <ProdNavigations products={products} />
                 <MainProductPage products={products} />
-                <div className="w-full h-fit justify-between flex md:flex-row flex-col mt-12">
+                <div className="w-full h-fit justify-between flex md:flex-row flex-col md:mt-12 mt-4">
                     <ThreeButtons products={products} />
                     <div className="md:w-[40%] w-full md:mt-0 mt-4 flex flex-col">
                         <div className="compareDiv border border-[#0C203B] p-2 rounded-md lg:w-[414px] md:w-[360px] flex flex-col">

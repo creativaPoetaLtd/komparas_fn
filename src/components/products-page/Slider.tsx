@@ -52,24 +52,27 @@ const SliderBar: React.FC<SliderBarProps> = ({ onPriceRangeChange }) => {
     };
 
     return (
-        <div className='priceRange flex flex-col mt-3'>
-            <p className='text-sm font-semibold text-gray-600'>Price Range</p>
-            <Slider
-                style={{ color: '#EDB62E' }}
-                range
-                defaultValue={[10, 2000000]}
-                className='text-yellow-600 mt-5'
-                onChange={handleSliderChange}
-                max={2000000}
-            />
+        <div className='priceRange border-t flex flex-col mt-3'>
+                       <p className='text-sm mt-1 font-semibold pb-1 text-gray-600'>Igiciro</p>
             <div className='minAndMaxButtins flex justify-between'>
-                <button className='text-sm text-gray-600 py-2 px-4 rounded-md border border-gray-700'>
+                <button className='text-sm text-gray-600 py-2 px-2 rounded-md border border-gray-700'>
+                    <p className='text-xs'>Amakeya ashoboka</p>
                     {minPrice}
                 </button>
-                <button className='text-sm text-gray-600 py-2 px-4 rounded-md border border-gray-700'>
+                <button className='text-sm text-gray-600 py-2 px-2 rounded-md border border-gray-700'>
+                <p className='text-xs'>Amenshi ashoboka</p>
                     {maxPrice}
                 </button>
             </div>
+            
+            <Slider
+                style={{ color: 'yellow' }}
+                range
+                defaultValue={[10, 2000000]}
+                className='sloder text-yellow-600 mt-5'
+                onChange={handleSliderChange}
+                max={2000000}
+            />
             {/* <div className='flex flex-col mt-3'>
                 <RadioInput label='All price' name='price' checked={selectedPriceRange === 'All price'} onChange={() => { }} />
                 <RadioInput label='Under $25' name='price' checked={selectedPriceRange === 'Under $25'} onChange={() => { }} />

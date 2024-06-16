@@ -36,26 +36,27 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
                             <h1 className="text-xl w-[20rem] mt-12 lg:pl-32 md:pl-16 pl-2 font-semibold">{products?.product?.product_name}</h1>
                         </div>
                         <div className="MainIMageDiv md:w-[500px] w-[350px] md:h-[600px] h-[285px] flex m-auto justify-center items-center relative">
-                            <button onClick={handlePrevImage} className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-grssay-800 text-white px-2 py-1 rounded-md">
-                                <CiCircleChevLeft className="bg-gray-300 text-2xl rounded-full hover:bg-slate-800" />
+                            <button onClick={handlePrevImage} className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-green-50 text-white px-2 py-1 rounded-md">
+                                <CiCircleChevLeft className="bg-green-300 text-2xl rounded-full hover:bg-green-800" />
                             </button>
                             <img src={products?.product?.product_images[selectedImageIndex]?.product_image} alt="" className="md:w-[446px] w-[296px] md:h-[315px] h-[228px] object-contain" />
-                            <button onClick={handleNextImage} className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-grays-800 text-white px-2 py-1 rounded-md">
-                                <CiCircleChevRight className="bg-gray-300 text-2xl rounded-full hover:bg-slate-800" />
+                            <button onClick={handleNextImage} className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-green-50 text-white px-2 py-1 rounded-md">
+                                <CiCircleChevRight className="bg-green-300 text-2xl rounded-full hover:bg-green-800" />
                             </button>
                         </div>
                     </div>
-                    <div className='md:hidden w-full overflow-x-auto'>
-                    <div className="md:hiddden flex  py-4 overflow-x-auto  w-[40rem] justify-between flex-row">
+                    <div className='md:hidden w-full bg-green-50  overflow-x-auto'>
+                    <div className="md:hiddden flex h-20  py-4 overflow-x-auto w-fit justify-between flex-row">
                         {products?.product?.product_images?.map((image: any, index: number) => (
-                            <div key={index} className={`otherImages md:w-[170px] w-[95px] items-start  flex justify-start md:h-[138px] h-[90px] ${selectedImageIndex === index ? 'border,-2 bormder-blue-500' : ''}`} onClick={() => handleImageClick(index)}>
+                            <div key={index} className={`otherImages md:w-[170px] w-[95px] items-start  flex justify-start md:h-[100px] h-[90px] ${selectedImageIndex === index ? 'border,-2 bormder-blue-500' : ''}`} onClick={() => handleImageClick(index)}>
                                 <img src={image.product_image} width={150} height={100} alt="" className={` ${selectedImageIndex === index ? 'border-2 border-yellow-600 rounded-md p-2' : ''} md:w-[100px] w-[75px] md:h-[89px] h-[55px] object-contain`} />
                             </div>
                         ))}
                     </div>
                     </div>
                 </div>
-                <div className="flex lg:flex-col md:flex-row sm:flex-col flex-col space-y-4 mx-auto items-start justify-start py-20 lg:w-[40%] w-full ">
+                <div className="flex lg:flex-col md:flex-row sm:flex-col flex-col space-y-4 mx-auto items-start justify-start md:py-20 py-4
+                 lg:w-[40%] w-full ">
                     <div className="md:w-[415px] w-full p-2 flex flex-col space-y-3">
                         <div className='flex space-x-3'>
                             {products?.product?.availableStorages?.map((storage: any, index: number) => (
