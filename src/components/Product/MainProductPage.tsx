@@ -37,19 +37,19 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
                         </div>
                         <div className="MainIMageDiv md:w-[500px] w-[350px] md:h-[600px] h-[285px] flex m-auto justify-center items-center relative">
                             <button onClick={handlePrevImage} className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-green-50 text-white px-2 py-1 rounded-md">
-                                <CiCircleChevLeft className="bg-green-300 text-2xl rounded-full hover:bg-green-800" />
+                                <CiCircleChevLeft className="bg-green-300 text-2xl text-yellow-500 rounded-full hover:bg-green-800" />
                             </button>
                             <img src={products?.product?.product_images[selectedImageIndex]?.product_image} alt="" className="md:w-[446px] w-[296px] md:h-[315px] h-[228px] object-contain" />
                             <button onClick={handleNextImage} className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-green-50 text-white px-2 py-1 rounded-md">
-                                <CiCircleChevRight className="bg-green-300 text-2xl rounded-full hover:bg-green-800" />
+                                <CiCircleChevRight className="bg-green-300 text-2xl text-yellow-500 rounded-full hover:bg-green-800" />
                             </button>
                         </div>
                     </div>
-                    <div className='md:hidden w-full bg-green-50  overflow-x-auto'>
-                    <div className="md:hiddden flex h-20  py-4 overflow-x-auto w-fit justify-between flex-row">
+                    <div className='md:hidden w-full  overflow-x-auto'>
+                    <div className="md:hiddden flex h-fit  py-4 overflow-x-auto w-fit justify-between flex-row">
                         {products?.product?.product_images?.map((image: any, index: number) => (
                             <div key={index} className={`otherImages md:w-[170px] w-[95px] items-start  flex justify-start md:h-[100px] h-[90px] ${selectedImageIndex === index ? 'border,-2 bormder-blue-500' : ''}`} onClick={() => handleImageClick(index)}>
-                                <img src={image.product_image} width={150} height={100} alt="" className={` ${selectedImageIndex === index ? 'border-2 border-yellow-600 rounded-md p-2' : ''} md:w-[100px] w-[75px] md:h-[89px] h-[55px] object-contain`} />
+                                <img src={image.product_image} width={150} height={100} alt="" className={` ${selectedImageIndex === index ? 'border-2 border-green-600 rounded-md   w-[70px] md:h-[89px] h-[75px]' : 'border-gray-600 border rounded-md'} md:w-[100px] p-[1px] w-[70px] md:h-[89px] h-[75px] object-contain`} />
                             </div>
                         ))}
                     </div>
