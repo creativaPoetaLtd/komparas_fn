@@ -38,6 +38,7 @@ const Products = () => {
             ? JSON.parse(localStorage.getItem("compareProductIds")!)
             : []
     );
+    const [fixed, setFixed] = useState(false);
 
     const clearFilter = (filter: any) => {
         handleRefresh();
@@ -309,7 +310,22 @@ const Products = () => {
         setMaxPrice(max);
     };
 
+    useEffect(() => {
+        const handleScroll = () => {
+            const top = window.scrollY;
+            if (top > 100) {  // Adjust this value based on your layout
+                setFixed(true);
+            } else {
+                setFixed(false);
+            }
+        };
 
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
     const [sortOrder, setSortOrder] = useState<'ascending' | 'descending' | 'cheaper' | 'expensive'>('ascending');
     const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedValue = event.target.value;
@@ -427,12 +443,12 @@ const Products = () => {
                                     <FaSearch />
                                 </button>
                             </div>
-                            <div className='w-full md:w-fit ml-auto flex justify-between md:justify-end'>
+                            <div className={`${fixed ? 'fixed top-0 pb-2 left-0 z-50 w-full md:pb-0' : ''} fixAtTop w-full md:w-fit ml-auto flex justify-between bg md:justify-end bg-white shadow-md`}>
                             <button onClick={toggleSidebar} className='w-fit md:hidden flex md:mt-0 p-2 mt-3 rounded-md bg-[#F5F5F5] self-end float-right justify-end'>
                             <TbAdjustmentsHorizontal className='flex my-auto mr-1 text-lg' />
                             Akayunguruzo
                             </button>
-                            <div className='w-fit flex mx-auto md:mt-0 p-2 py-[10.5px] mt-3 rounded-md bg-[#F5F5F5] self-end float-right justify-end'>
+                            <div className='w-fit flex mxc-auto md:mt-0 p-2 py-[10.5px] mt-3 rounded-md bg-[#F5F5F5] self-end float-right justify-end'>
                                 <p className='text-base my-auto'><HiMiniArrowsUpDown /></p>
                                 <select className='rounded-md w-fit outline-none bg-[#F5F5F5]' onChange={handleSortChange}>
                                     <option value="ascending">Inshya iwacu</option>
