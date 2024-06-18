@@ -8,6 +8,7 @@ import Time2 from './Time2';
 import { addDayProduct3, getDayProduct3, updateDayProduct3 } from '../../api/offer';
 import { getAllProducts } from '../../api/product';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const TimingProduct = () => {
     const [isFormVisible, setIsFormVisible] = useState(false);
@@ -193,10 +194,10 @@ const TimingProduct = () => {
                             {/* <p className='text-sm mt-0 text-white'>
                                 Listen, its powerful.
                             </p> */}
-                            <button className="flex space-x-2 rounded-md text-sm md:mt-8 mt-3 md:p-3 p-2 px-4 font-semibold bg-[#EDB62E] text-white">
-                                <p className="">View More</p>
+                            <Link to={`/product/${dayProduct[0]?.product?._id}`}  className="flex space-x-2 rounded-md text-sm md:mt-8 mt-3 md:p-3 p-2 px-4 font-semibold bg-[#EDB62E] text-white">
+                                <p className="">Reba byose</p>
                                 <ArrowRight className="m-auto justify-center" />
-                            </button>
+                            </Link>
                         </div>
                         <div className="image w-[50%] h-full pr-12 md:pt-32 pt-24 relative">
                             <div className='timerCircle text-xs absolute bg-[#EDB62E] md:top-[26px] top-3 md:right-16 right-3 flex-col p-2 items-center border-4 border-white flex rounded-full md:h-[100px] h-[80px] md:w-[100px] w-[80px] my-auto justify-center'>
@@ -230,7 +231,7 @@ const TimingProduct = () => {
               <div className="laptop:w-full desktop:w-full tablet:w-full laptop:mt-0 tablet:mt-0 desktop:mt-0  mt-2 justify-between w-[50%] flex felx-col space-y-4">
                 <div className="flex flex-col w-full">
                   <label className="text-sm mb-1 font-normal text-grey-700 ">
-                    Profile Image
+                    Product Image
                   </label>
                   {newImageData?.image ? (
                     <div className="relative w-full h-[250px]">

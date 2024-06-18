@@ -2,6 +2,7 @@ import { ArrowRight, UploadSimple } from '@phosphor-icons/react'
 import React, { useEffect, useState } from 'react'
 import { addDayProduct2, getDayProduct2, updateDayProduct2 } from '../../api/offer';
 import { getAllProducts } from '../../api/product';
+import { Link } from 'react-router-dom';
 
 const Time2 = () => {
     const [isFormVisible, setIsFormVisible] = useState(false);
@@ -122,7 +123,7 @@ const Time2 = () => {
     <div className=' relative h-[50%] sm:h-[50%] lg:h-[50%] 2xl:h-[50%] md:h-[100%] w-full flex p-4 bg-[#F2F4F5]'>
     <div className="image w-[50%] h-full pl-2 relative">
         <div className="w-[140px]  h-[160px] object-cover flex justify-start self-start float-left">
-            <img src={ dayProduct[0]?.image } height={160} width={160} alt="" className="w-full flex justify-start items-start self-start float-left h-full " />
+            <img src={ dayProduct[0]?.image } height={160} width={160} alt="" className="w-full flex justify-start items-start self-start float-left h-full object-contain" />
         </div>
     </div>
     {
@@ -138,10 +139,10 @@ const Time2 = () => {
         <div className='flex justify-center text-start'>
             <p className=' font-thin justify-start text-start flex'>{dayProduct[0]?.price} Rwf</p>
         </div>
-        <button className="flex space-x-2 rounded-md text-sm mt-6 md:p-3 p-2 md:px-4 px-2 font-semibold bg-[#EDB62E] text-white">
-            <p className="">View More</p>
+        <Link to={`/product/${dayProduct[0]?.product?._id}`} className="flex space-x-2 rounded-md text-sm mt-6 md:p-3 p-2 md:px-4 px-2 font-semibold bg-[#EDB62E] text-white">
+            <p className="">Reba byose</p>
             <ArrowRight className="m-auto justify-center" />
-        </button>
+        </Link>
     </div>
     {isFormVisible && (
         <div className="fixed top-0 left-0 z-50 w-[55%] h-full bg-black bg-opacity-50 flex items-center justify-center">

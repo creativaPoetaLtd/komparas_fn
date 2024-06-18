@@ -4,18 +4,14 @@ import { UploadSimple } from "@phosphor-icons/react";
 import { getAllProducts } from "../../api/product";
 import React from "react";
 import { Link } from "react-router-dom";
-
 interface ProductOfTheDayProps {
   productData: any;
 }
-
 const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [loading, setLoading] = useState(false);
-
   const [dayProduct, setDayProduct] = useState<any>([]);
   const [refresh, setRefresh] = useState(false);
-
   const handleRefresh = () => {
     setRefresh(!refresh);
   }
@@ -188,14 +184,12 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
                           size={22}
                         />
                         <p className="text-sm text-grey-700">
-                          Upload Profile
+                          Upload product
                         </p>
                       </div>
                     </div>
                   )}
-
                 </div>
-
               </div>
               <div className="w-[50%] flex flex-col">
                 <input

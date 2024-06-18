@@ -124,7 +124,9 @@ const lastPart = urlParts[urlParts.length - 1];
             <HiBars3BottomLeft className="text-3xl" />
           </Dropdown>
         </div>
+        <Link to="/">
         <img src='/cc.png' alt='logo' className='h-8' />
+        </Link>
         <div>
           <Dropdown overlay={menu}>
             <Button>

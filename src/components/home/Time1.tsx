@@ -136,13 +136,13 @@ const Time1 = () => {
 
         </p>
         <Link to={`/product/${dayProduct[0]?.product?._id}`} className="flex space-x-2 rounded-md text-sm mt-6 md:p-2 p-2 md:px-2 px-2 font-semibold bg-[#EDB62E] text-white">
-            <p className="">Reba Byose</p>
+            <p className="">Reba byose</p>
             <ArrowRight className="m-auto justify-center" />
         </Link>
     </div>
     <div className="image w-[55%] flex justify-end  h-full pl-4 pt-12">
         <div className="w-full h-full object-cover">
-            <img src={ dayProduct[0]?.image } height={312} width={312} alt="" className="w-[312px] h-full" />
+            <img src={ dayProduct[0]?.image } height={312} width={312} alt="" className="w-[312px] h-full object-contain" />
             {
                 isAdminFromLocalStorage && (
                     <button onClick={() => setIsFormVisible(true)} className="absolute bottom-1 right-1 bg-black text-white p-1 text-sm rounded-md">Add Product</button>
@@ -167,7 +167,7 @@ const Time1 = () => {
                         width={300}
                         height={400}
                         alt="Selected Profile"
-                        className="w-full h-full object-fill rounded-lg"
+                        className="w-full h-full object-contain rounded-lg"
                       />
 
                     </div>

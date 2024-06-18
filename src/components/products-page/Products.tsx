@@ -505,9 +505,9 @@ const Products = () => {
                                         <img src={product.product_image} height={152} width={172} alt="" className="w-[172px] h-[152px] object-contain mb-1" />
                                     </div>
                                     <div className='w-full h-fit m-auto flex flex-col justify-center items-start bg-white rounded-md p-2'>
-                                        <h1 className='text-sm font-semibold'>{product?.product_name?.length > 40 ? product?.product_name?.substring(0, 40) + '...' : product?.product_name?.substring(0, 40)}</h1>
+                                        <Link to={`/product/${product?._id}`} className='text-sm font-semibold'>{product?.product_name?.length > 40 ? product?.product_name?.substring(0, 40) + '...' : product?.product_name?.substring(0, 40)}</Link>
                                         <p className='text-sm text-gray-600 line-through'>{product.vendor_prices?.reduce((prev: any, current: any) => (prev.price < current.price) ? prev : current).price}Rwf</p>
-                                        <p className='text-sm text-green-600 flex justify-end mx-auto'>{product?.our_price}Rwf</p>
+                                        <Link to={`/product/${product?._id}`} className='text-sm text-green-600 flex justify-end mx-auto'>{product?.our_price}Rwf</Link>
                                         <Link to={`/product/${product?._id}`} className='bg-black py-[2px] px-8 text-center mx-auto rounded-md w-fit text-yellow-500 text-sm'>Yirebe</Link>
                                     </div>
                                     <div className='checkboxWithvalues px-2 text-sm w-full flex'>
