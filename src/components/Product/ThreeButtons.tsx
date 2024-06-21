@@ -65,8 +65,8 @@ const ThreeButtons: React.FC<IProduct> = ({ products }) => {
                             <>
                             {review.key !== 'Umwanzuro' && (
 
-                            <div key={index + 1} className='ourReview rounded-md border border-black flex flex-col'>
-                                <div className="text-sm font-semibold text-start rounded-md bg-slate-200 p-2 flex" onClick={() => handleValueClick(index)}>
+                            <div key={index + 1} className='ourReview rounded-md border border-green-500 flex flex-col'>
+                                <div className="text-sm font-semibold text-start rounded-md bg-yellow-100 p-2 flex" onClick={() => handleValueClick(index)}>
                                     <p className='KeyDiv text-sm'>{review?.key}</p>
                                     {showValueMap[index] ? <Minus className='ml-auto' /> : <Plus className='ml-auto' />}
                                 </div>
@@ -87,7 +87,7 @@ const ThreeButtons: React.FC<IProduct> = ({ products }) => {
 {review.key === 'Umwanzuro' && (
 
                             
-                            <div key={index + 1} className='ourReview rounded-md border border-black flex flex-col'>
+                            <div key={index + 1} className='ourReview rounded-md border border-green-500 flex flex-col'>
                                 {/* <div className="text-sm font-semibold text-start rounded-md bg-slate-200 p-2 flex" onClick={() => handleValueClick(index)}>
                                     <p className='KeyDiv text-sm'>{review?.key}</p>
                                 </div> */}
