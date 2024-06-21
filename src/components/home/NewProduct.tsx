@@ -4,6 +4,7 @@ import { ArrowRight } from '@phosphor-icons/react';
 import { useEffect } from 'react';
 import { getAllProducts } from '../../api/product';
 import React from 'react';
+import { Link } from 'react-router-dom';
 const NewProduct = () => {
     const [products, setProducts] = React.useState<any[]>([]);
     useEffect(() => {
@@ -16,7 +17,7 @@ const NewProduct = () => {
     ,[]);
 
     const prod1 = products[(products?.length) - 1];
-    const prod2 = products[(products?.length) - 2]
+    const prod2 = products[(products?.length) - 2];
     const isAdminFromLocalStorag:any = JSON.parse(localStorage.getItem("KomparasLoginsInfo") as any) || {};
     const isAdminFromLocalStorage = isAdminFromLocalStorag.role === "admin" ? true : false;
   
@@ -48,10 +49,10 @@ const NewProduct = () => {
                             )}
 
 
-                            <button className="flex space-x-2 rounded-md text-sm mt-8 p-3 px-4 font-semibold bg-[#EDB62E] text-white">
+                            <Link to={`product/${prod1?._id}`} className="flex space-x-2 rounded-md text-sm mt-8 p-3 px-4 font-semibold bg-[#EDB62E] text-white">
                                 <p className="">Reba</p>
                                 <ArrowRight className="m-auto justify-center" />
-                            </button>
+                            </Link>
                         </div>
                         <div className="image md:w-[55%] w-fnull flex justify-end  h-full px-8 md:py-12 py-6 pb-9">
                             <div className="w-[240px] md:h-[240px] h-[210px] object-cover">
@@ -75,14 +76,16 @@ const NewProduct = () => {
                                 </p>
                             )}
 
-                            <button className="flex space-x-2 rounded-md text-sm mt-8 p-3 px-4 font-semibold bg-[#EDB62E] text-white">
+                            <Link to={`product/${prod2?._id}`} className="flex space-x-2 rounded-md text-sm mt-8 p-3 px-4 font-semibold bg-[#EDB62E] text-white">
                                 <p className="">Reba</p>
                                 <ArrowRight className="m-auto justify-center" />
-                            </button>
+                            </Link>
                         </div>
                         <div className="image md:w-[40%] w-full flex justify-end  h-full md:pr-8 pr-2 md:py-12 py-2 pb-9 relative">
                             <div className='timerCircle text-xs absolute z-0 bg-[#EDB62E] md:top-0 -top-10 md:right-0 right-2 flex-col p-2 items-center border-1 border-white flex rounded-full h-[80px] w-[80px] my-auto justify-center'>
-                                <div className='label text-white text-lg font-semibold'>$590</div>
+                                <div className='label text-white text-xs font-semibold'>
+                                    {prod2?.our_price} Rwf
+                                </div>
                             </div>
                             <div className="md:w-[240px] w-full md:h-[240px] h-[210px]] object-cover">
                                 <img src={

@@ -19,6 +19,7 @@ import { useSearchParams } from 'react-router-dom';
 import Footer from '../Footer';
 import AllProdNavs from '../Product/AllProdNavs';
 import { HiMiniArrowsUpDown } from 'react-icons/hi2';
+import BottomDrawer from './BottomDrawer';
 const Products = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [productsData, setProductsData] = useState<any[]>([]);
@@ -274,23 +275,34 @@ const Products = () => {
     }
 
     const handleRemoveProductIdFromLocalStorageCompare = (productId: any) => {
+        handleRefresh()
         const productIds = localStorage.getItem('compareProductIds');
         if (productIds) {
+            handleRefresh()
             const productIdsArray = JSON.parse(productIds);
             const updatedProductIdsArray = productIdsArray.filter((id: any) => id !== productId);
             localStorage.setItem('compareProductIds', JSON.stringify(updatedProductIdsArray));
             setLocastorageCompareProductIds(JSON.stringify(updatedProductIdsArray));
+            handleRefresh()
         }
+        handleRefresh()
     }
 
-    const cardsPerPage = 10;
+    const cardsPerPage = 24;
     const totalProducts = productsData?.length;
     const [open, setOpen] = useState(false);
+    const [openBottom, setOpenBottom] = useState(false);
     const showDrawer = () => {
         setOpen(true);
     };
     const onClose = () => {
         setOpen(false);
+    };
+    const showBottomDrawer = () => {
+        setOpenBottom(true);
+    };
+    const onCloseBottom = () => {
+        setOpenBottom(false);
     };
     const handlePageChange = (page: SetStateAction<number>) => {
         setCurrentPage(page);
@@ -443,12 +455,12 @@ const Products = () => {
                                     <FaSearch />
                                 </button>
                             </div>
-                            <div className={`${fixed ? 'fixed top-0 pb-2 left-0 z-50 w-full md:pb-0' : ''} fixAtTop w-full md:w-fit ml-auto flex justify-between bg md:justify-end bg-white shadow-md`}>
-                            <button onClick={toggleSidebar} className='w-fit md:hidden flex md:mt-0 p-2 mt-3 rounded-md bg-[#F5F5F5] self-end float-right justify-end'>
+                            <div className={`${fixed ? 'fixed top-0 pb-2 px-3 left-0 z-50 w-full md:pb-0' : ''} fixAtTop w-full md:w-fit ml-auto flex justify-between bg md:justify-end bg-white`}>
+                            <button onClick={toggleSidebar} className='w-fit border border-green-500  md:hidden flex md:mt-0 p-2 mt-3 rounded-md  self-end float-right justify-end'>
                             <TbAdjustmentsHorizontal className='flex my-auto mr-1 text-lg' />
                             Akayunguruzo
                             </button>
-                            <div className='w-fit flex mxc-auto md:mt-0 p-2 py-[10.5px] mt-3 rounded-md bg-[#F5F5F5] self-end float-right justify-end'>
+                            <div className='w-fit flex border border-green-500 mxc-auto md:mt-0 p-2 py-[10.5px] mt-3 rounded-md bg-[#F5F5F5] self-end float-right justify-end'>
                                 <p className='text-base my-auto'><HiMiniArrowsUpDown /></p>
                                 <select className='rounded-md w-fit outline-none bg-[#F5F5F5]' onChange={handleSortChange}>
                                     <option value="ascending">Inshya iwacu</option>
@@ -459,12 +471,12 @@ const Products = () => {
                             </div>
                             </div>
                         </div>
-                        <div className='products justify-between w-full flex bg-[#F2F4F5] py-3 px-2 mt-3'>
+                        <div className='products justify-between w-full flex bg-yellow-100 py-3 px-2 mt-3'>
                             <div className='filtersDiv flex relative'>
                                 {/* <button onClick={toggleSidebar}>
                                     <MdFilterList className='text-xl cursor-pointer flex lg:hidden my-auto mr-4' />
                                 </button> */}
-                                <p className='text-sm my-auto text-gray-600'>
+                                <p className='text-sm my-auto text-green-600'>
                                      {activeFilters?.length === 0 ? '':activeFilters.length > 1 ? `Utuyunguruzo ${activeFilters.length}` : `Akayunguruzo ${activeFilters.length}`} Habonekamo {productsData?.length}
                                  </p>
                                 <button className='' onClick={handleSetDropDownFilter}><div className='flex md:hidden justify-center items-center my-auto ml-3 text-sm'>
@@ -495,15 +507,15 @@ const Products = () => {
                                 </div>
                             </div>
                             {activeFilters.length > 1 &&
-                                <button className='w-fit bg-[#fa3e3e] h-fit text-xs p-1 text-white px-3 rounded-md' onClick={clearFilters}>Siba</button>
+                                <button className='w-fit bg-[#fa3e3e] h-fit text-xs p-1 text-white px-3 rounded-md' onClick={clearFilters}>Siba twose</button>
                             }
                         </div>
                         <div className='products grid lg:grid-cols-3 md:grid-cols-3 grid-cols-2 lg:gap-12 md:gap-8 gap-3 mx-auto justify-center items-center mt-3'>
                             {productsData?.slice(startIndex, endIndex)?.map((product, index) => (
                                 <div key={index} className='productCard md:w-[222px] w-[170px] border border-black rounded-md p-3 md:min-h-[200px] md:h-fit min-h-[256px] h-fit  m-auto justify-center flex flex-col'>
-                                    <div className="flex justify-center">
+                                    <Link to={`products/${product?._id}`} className="flex justify-center">
                                         <img src={product.product_image} height={152} width={172} alt="" className="w-[172px] h-[152px] object-contain mb-1" />
-                                    </div>
+                                    </Link>
                                     <div className='w-full h-fit m-auto flex flex-col justify-center items-start bg-white rounded-md p-2'>
                                         <Link to={`/product/${product?._id}`} className='text-sm font-semibold'>{product?.product_name?.length > 40 ? product?.product_name?.substring(0, 40) + '...' : product?.product_name?.substring(0, 40)}</Link>
                                         <p className='text-sm text-gray-600 line-through'>{product.vendor_prices?.reduce((prev: any, current: any) => (prev.price < current.price) ? prev : current).price}Rwf</p>
@@ -534,14 +546,20 @@ const Products = () => {
                 </div>
             </div>
             <div  className='fixed flex space-x-3 bg-green-200 bottom-10 right-10  px-2 py-1 rounded-md text-white'>
-           <button className='view flex my-auto text-black justify-center'><FaArrowCircleUp /> </button> 
+           <button className='view flex my-auto text-black justify-center'><button onClick={showBottomDrawer}><FaArrowCircleUp /></button></button> 
                 <button onClick={showDrawer} className='text-sm rounded-md p-[2px] bg-black'>{!JSON.parse(localStorage.getItem("compareProductIds") as any) ? [] : JSON.parse(localStorage.getItem("compareProductIds") as any)?.length < 2 ? '('+JSON.parse(localStorage.getItem("compareProductIds") as any)?.length +')'+ '   Yigereranye' : '('+JSON.parse(localStorage.getItem("compareProductIds") as any)?.length +')'+ ' Zigereranye'}</button>
             </div>
             <ComparisonDrawer
                 open={open}
                 onClose={onClose} 
                 refresh={refresh}
-                />
+            />
+            <BottomDrawer
+                open={openBottom}
+                onClose={onCloseBottom}
+                handleRemoveProductIdFromLocalStorageCompare={handleRemoveProductIdFromLocalStorageCompare}
+                refresh={refresh}
+            />
         </div><Footer /></>
 
     );

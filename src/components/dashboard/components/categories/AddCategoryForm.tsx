@@ -1,20 +1,23 @@
-import { useEffect, useState } from "react"
-import { addCategory } from "../../../../api/getAllCategories"
-import { getAllCategories } from "../../../../api/getAllCategories"
+import { useEffect, useState } from "react";
+import {  getAllCategories } from "../../../../api/getAllCategories";
+import axios from 'axios';
+import { baseUrl } from "../../../../api";
+
 interface CategoriesProps {
-  setIsAddCategory: (value: boolean) => void
+  setIsAddCategory: (value: boolean) => void;
 }
-const AddCategoryForm = (
-  { setIsAddCategory }: CategoriesProps
-) => {
-  const [loading, setLoading] = useState(false)
-  const [categories, setCategories] = useState<any>([]);
-  const [isAddSubCategory, setIsAddSubCategory] = useState(false)
-  const [isAddParentCategory, setIsAddParentCategory] = useState(false)
+
+const AddCategoryForm = ({ setIsAddCategory }: CategoriesProps) => {
+  const [loading, setLoading] = useState(false);
+  const [categories, setCategories] = useState<any[]>([]);
+  const [isAddSubCategory, setIsAddSubCategory] = useState(false);
+  const [isAddParentCategory, setIsAddParentCategory] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     parent_id: "",
-  })
+  });
+  const [imageFile, setImageFile] = useState<File | null>(null);
+
   const fetchCategories = async () => {
     setLoading(true);
     const categories = await getAllCategories();
@@ -31,33 +34,58 @@ const AddCategoryForm = (
       ...prevFormData,
       parent_id: event.target.value,
     }));
-  }
+  };
 
   const handleAddSubCategory = () => {
-    setIsAddSubCategory(true)
-    setIsAddParentCategory(false)
-  }
+    setIsAddSubCategory(true);
+    setIsAddParentCategory(false);
+  };
 
   const handleAddParentCategory = () => {
-    setIsAddParentCategory(true)
-    setIsAddSubCategory(false)
-  }
+    setIsAddParentCategory(true);
+    setIsAddSubCategory(false);
+  };
 
   const handleShopFormClose = () => {
-    setIsAddCategory(false)
-  }
+    setIsAddCategory(false);
+  };
 
   const handleInputChange = (e: any) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setImageFile(e.target.files[0]);
+    }
+  };
 
   const handleAddCategory = async (e: any) => {
-    e.preventDefault()
-    setLoading(false)
-    await addCategory(formData)
-    setLoading(false)
-    setIsAddCategory(false)
-  }
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const formDataToSend = new FormData();
+      formDataToSend.append("name", formData.name);
+      formDataToSend.append("parent_id", formData.parent_id);
+      if (imageFile) {
+        formDataToSend.append("image", imageFile);
+      }
+
+      await axios.post(`${baseUrl}/category/add`, formDataToSend, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      setLoading(false);
+      setIsAddCategory(false);
+      fetchCategories();
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="w-full h-full bg-black bg-opacity-50 fixed top-0 left-0 flex justify-center items-center">
@@ -76,7 +104,7 @@ const AddCategoryForm = (
               </div>
             )}
           </div>
-          <button className="w-10 h-10 rounded-md bg-slate-200 hover:bg-red-600  flex justify-center items-center" onClick={handleShopFormClose}>
+          <button className="w-10 h-10 rounded-md bg-slate-200 hover:bg-red-600 flex justify-center items-center" onClick={handleShopFormClose}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6 text-slate-900 hover:text-white"
@@ -100,7 +128,7 @@ const AddCategoryForm = (
             </div>
           )}
           {(isAddSubCategory || isAddParentCategory) && (
-            <form className="w-full flex flex-col justify-center items-center px-52 bg-gray-300 " onSubmit={handleAddCategory}>
+            <form className="w-full flex flex-col justify-center items-center px-52 bg-gray-300" onSubmit={handleAddCategory}>
               <div className="w-full flex flex-col justify-start items-start bg-white px-10 py-5 rounded-md">
                 {isAddParentCategory && (
                   <div className="w-full flex flex-col justify-start items-start">
@@ -118,10 +146,10 @@ const AddCategoryForm = (
                 )}
                 {isAddSubCategory && (
                   <>
-                    <div className='AddProductForm__form__inputs__category w-full flex flex-col justify-start items-start mb-5'>
-                      <label className='AddProductForm__form__inputs__category__label  mb-2'>Product Category</label>
+                    <div className="AddProductForm__form__inputs__category w-full flex flex-col justify-start items-start mb-5">
+                      <label className="AddProductForm__form__inputs__category__label mb-2">Product Category</label>
                       <select
-                        className='AddProductForm__form__inputs__category__input w-full h-10 rounded-md border outline-blue-700 border-gray-300 px-2'
+                        className="AddProductForm__form__inputs__category__input w-full h-10 rounded-md border outline-blue-700 border-gray-300 px-2"
                         onChange={handleCategoryChange}
                         value={formData.parent_id}
                       >
@@ -142,13 +170,22 @@ const AddCategoryForm = (
                         name="name"
                         value={formData.name}
                         onChange={handleInputChange}
-                        className="w-full h-10 rounded-md border outline-blue-700 border-slate-900 p-2" />
-                    </div></>
+                        className="w-full h-10 rounded-md border outline-blue-700 border-slate-900 p-2"
+                      />
+                    </div>
+                  </>
                 )}
+                <div className="w-full flex flex-col justify-start items-start">
+                  <label className="w-full flex justify-start items-start text-slate-900">
+                    Category logo image
+                  </label>
+                  <input type="file" name="image" onChange={handleFileChange} className="w-full h-10 rounded-md border outline-blue-700 border-slate-900 p-2" />
+                </div>
                 <div className="w-full flex justify-start items-start mt-4">
                   <button
-                    disabled={loading || formData.name === "" || isAddSubCategory && formData.parent_id === ""}
-                    type="submit" className={`w-full h-10 rounded-md bg-blue-700 text-white ${loading || formData.name === "" || isAddSubCategory && formData.parent_id === "" ? "opacity-50 cursor-not-allowed" : "opacity-100 cursor-pointer"}`}
+                    disabled={loading || formData.name === "" || (isAddSubCategory && formData.parent_id === "")}
+                    type="submit"
+                    className={`w-full h-10 rounded-md bg-blue-700 text-white ${loading || formData.name === "" || (isAddSubCategory && formData.parent_id === "") ? "opacity-50 cursor-not-allowed" : "opacity-100 cursor-pointer"}`}
                   >
                     Add Category
                   </button>
@@ -159,6 +196,7 @@ const AddCategoryForm = (
         </div>
       </div>
     </div>
-  )
-}
-export default AddCategoryForm
+  );
+};
+
+export default AddCategoryForm;

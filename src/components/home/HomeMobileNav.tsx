@@ -88,11 +88,6 @@ const lastPart = urlParts[urlParts.length - 1];
           <a>Abo turibo</a>
         </Link>
       </Menu.Item>
-      <Menu.Item key="2">
-        <Link to="/contact">
-          <a>Tuvugishe</a>
-        </Link>
-      </Menu.Item>
       <Menu.Item key="3">
         <Link to="/">
           <a>Serivisi</a>
@@ -103,7 +98,11 @@ const lastPart = urlParts[urlParts.length - 1];
           <a>Sobanukirwa</a>
         </Link>
       </Menu.Item>
-
+      <Menu.Item key="2">
+        <Link to="/contact">
+          <a>Tuvugishe</a>
+        </Link>
+      </Menu.Item>
       {/* <Menu.Item key="3">
         <button onClick={handleLogout}>
           <a>

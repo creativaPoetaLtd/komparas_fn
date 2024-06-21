@@ -39,7 +39,7 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
                             <button onClick={handlePrevImage} className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-green-50 text-white px-2 py-1 rounded-md">
                                 <CiCircleChevLeft className="bg-green-300 text-2xl text-yellow-500 rounded-full hover:bg-green-800" />
                             </button>
-                            <img src={products?.product?.product_images[selectedImageIndex]?.product_image} alt="" className="md:w-[446px] w-[296px] md:h-[315px] h-[228px] object-contain" />
+                            <img src={products?.product?.product_images[selectedImageIndex]?.product_image} alt="" className="md:w-[446px] w-full md:h-[315px] h-full object-contain" />
                             <button onClick={handleNextImage} className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-green-50 text-white px-2 py-1 rounded-md">
                                 <CiCircleChevRight className="bg-green-300 text-2xl text-yellow-500 rounded-full hover:bg-green-800" />
                             </button>
@@ -80,7 +80,8 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
                     <div className="flex flex-col text-sm shopTable">
                         <table className="w-full">
                             <thead>
-                                <tr>
+                                <p className="text-green-500 px-2 item-start m-auto text-start">Aho wayisanga</p>
+                                {/* <tr>
                                     <th className="text-[#353535] item-start m-auto p-2 text-start">Iduka</th>
                                     <th className="text-[#353535] item-start m-auto p-2 text-start">Igociro</th>
                                     <th className="text-[#353535] item-start m-auto p-2 md:flex hidden text-start">Amabara ahari</th>
@@ -88,7 +89,7 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
                                     <th className="text-[#353535] item-start m-auto p-2 text-start">
                                         Gura
                                     </th>
-                                </tr>
+                                </tr> */}
                             </thead>
                             <tbody>
                                 {products?.product?.vendors?.map((shop: any, index: number) => (
