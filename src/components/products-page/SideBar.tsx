@@ -202,7 +202,7 @@ const SideBar: React.FC<SideBarProps> = ({
                 <button onClick={clearFilters} className='flex  w-fit rounded-md text-red-700 flex-row'>
                     <p className='text-sm md:text-xs my-auto font-semibold'>Siba utuyunguruzo</p>
                 </button>
-            <button className='flex bg-black w-fit p-2 px-1 rounded-md text-white flex-row'>
+            <button onClick={toggleSidebar} className='flex bg-black w-fit p-2 px-1 rounded-md text-white flex-row'>
                 <p className='text-sm md:text-xs my-auto font-semibold'>
                  Reba {productsData?.length} Zabonetse
                 </p>

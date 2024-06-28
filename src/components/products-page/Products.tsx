@@ -513,7 +513,7 @@ const Products = () => {
                         <div className='products grid lg:grid-cols-3 md:grid-cols-3 grid-cols-2 lg:gap-12 md:gap-8 gap-3 mx-auto justify-center items-center mt-3'>
                             {productsData?.slice(startIndex, endIndex)?.map((product, index) => (
                                 <div key={index} className='productCard md:w-[222px] w-[170px] border border-black rounded-md p-3 md:min-h-[200px] md:h-fit min-h-[256px] h-fit  m-auto justify-center flex flex-col'>
-                                    <Link to={`products/${product?._id}`} className="flex justify-center">
+                                    <Link to={`product/${product?._id}`} className="flex justify-center">
                                         <img src={product.product_image} height={152} width={172} alt="" className="w-[172px] h-[152px] object-contain mb-1" />
                                     </Link>
                                     <div className='w-full h-fit m-auto flex flex-col justify-center items-start bg-white rounded-md p-2'>
