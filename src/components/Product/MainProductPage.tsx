@@ -32,7 +32,7 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
         <div className="flex md:flex-row flex-col lg:w-[50%] w-full m-auto justify-center items-center h-full">
           <div className="md:flex hidden md:[w-20%] md:h-[450px] md:space-y-4 space-y-0 py-4 md:overflow-y-auto w-full md:flex-col justify-between">
             {products?.product?.product_images?.map((image: any, index: number) => (
-              <div key={index} className={`otherImages md:w-full w-[55px] items-start flex justify-start md:h-[138px] h-[50px] ${selectedImageIndex === index ? 'border-2 border-blue-500' : ''}`} onClick={() => handleImageClick(index)}>
+              <div key={index} className={`otherImages md:w-full w-[55px] items-start flex justify-start md:h-[138px] h-[50px] ${selectedImageIndex === index ? 'border-2x border-blue-50f0' : ''}`} onClick={() => handleImageClick(index)}>
                 <img src={image.product_image} width={100} height={100} alt="" className={` ${selectedImageIndex === index ? 'border-2 border-yellow-600 rounded-md p-2' : ''} md:w-full w-[55px] md:h-[89px] h-[49px] object-contain`} />
               </div>
             ))}
@@ -54,7 +54,7 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
           <div className='md:hidden w-full overflow-x-auto'>
             <div className="md:hidden flex h-fit py-4 overflow-x-auto w-fit justify-between flex-row">
               {products?.product?.product_images?.map((image: any, index: number) => (
-                <div key={index} className={`otherImages md:w-[170px] w-[95px] items-start flex justify-start md:h-[100px] h-[90px] ${selectedImageIndex === index ? 'border-2 border-blue-500' : ''}`} onClick={() => handleImageClick(index)}>
+                <div key={index} className={`otherImages md:w-[170px] w-[95px] items-start flex justify-start md:h-[100px] h-[90px] ${selectedImageIndex === index ? 'bordedr-2 bordedr-blue-500' : ''}`} onClick={() => handleImageClick(index)}>
                   <img src={image.product_image} width={150} height={100} alt="" className={` ${selectedImageIndex === index ? 'border-2 border-green-600 rounded-md w-[70px] md:h-[89px] h-[75px]' : 'border-gray-600 border rounded-md'} md:w-[100px] p-[1px] w-[70px] md:h-[89px] h-[75px] object-contain`} />
                 </div>
               ))}
