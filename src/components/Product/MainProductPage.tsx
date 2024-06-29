@@ -41,7 +41,7 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
             <div className='w-full mt-12'>
               <h1 className="text-xl w-full mt-12 justify-center items-center mx-auto text-center font-semibold">{products?.product?.product_name}</h1>
             </div>
-            <div {...swipeHandlers} className="MainIMageDiv md:w-[500px] w-[350px] md:h-[600px] h-[285px] flex m-auto justify-center items-center relative">
+            <div {...swipeHandlers} className="MainIMageDiv md:w-[500px] w-full md:h-[600px] h-[370px] flex m-auto justify-center items-center relative">
               <button onClick={handlePrevImage} className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-green-50 text-white px-2 py-1 rounded-md">
                 <CiCircleChevLeft className="bg-green-300 text-2xl text-yellow-500 rounded-full hover:bg-green-800" />
               </button>
