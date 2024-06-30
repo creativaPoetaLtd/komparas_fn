@@ -30,7 +30,7 @@ const DifferentProduct: React.FC<DifferentProductProps> = ({ productData }) => {
         </div>
       </div>
       <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2">
-        {shuffledProductData.map((product: any, index: number) => (
+        {shuffledProductData.slice(1,5).map((product: any, index: number) => (
           <div key={index} className="Card bg-[] flex flex-col p-3 md:px-5 px-2">
             <div className="h-[13rem] mx-auto justify-center flex md:w-[13rem]">
               <img src={product?.product_image} height={300} width={300} className="h-full object-contain w-full" />
