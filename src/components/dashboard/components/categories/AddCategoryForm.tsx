@@ -16,7 +16,7 @@ const AddCategoryForm = ({ setIsAddCategory }: CategoriesProps) => {
     name: "",
     parent_id: "",
   });
-  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imageFile, setImageFile] = useState<File | null|any>(null);
 
   const fetchCategories = async () => {
     setLoading(true);
@@ -68,9 +68,9 @@ const AddCategoryForm = ({ setIsAddCategory }: CategoriesProps) => {
       const formDataToSend = new FormData();
       formDataToSend.append("name", formData.name);
       formDataToSend.append("parent_id", formData.parent_id);
-      if (imageFile) {
+      // if (imageFile) {
         formDataToSend.append("image", imageFile);
-      }
+      // }
 
       await axios.post(`${baseUrl}/category/add`, formDataToSend, {
         headers: {

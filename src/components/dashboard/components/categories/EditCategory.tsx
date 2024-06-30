@@ -20,6 +20,8 @@ const EditCategoryForm = (
     name: "",
     parent_id: "",
   })
+  const [imageFile, setImageFile] = useState<File | null|any>(null);
+
   const editID: any = localStorage.getItem("editCategoryID")
   const fetchCategories = async () => {
     setLoading(true);
@@ -68,11 +70,19 @@ const EditCategoryForm = (
   const handleInputChange = (e: any) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
-
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setImageFile(e.target.files[0]);
+    }
+  };
   const handleEditCategory = async (e: any) => {
     e.preventDefault()
     setLoading(false)
-    const res = await updateCategory(formData, editID)
+    const formDataToSend = new FormData()
+    formDataToSend.append("name", formData.name)
+    formDataToSend.append("parent_id", formData.parent_id)
+    formDataToSend.append("image", imageFile);
+    const res = await updateCategory(formDataToSend, editID)
     if (res?.status === 200) {
       toast.success("Category Updated Successfully")
       setIsEditCategory(false)
@@ -138,6 +148,18 @@ const EditCategoryForm = (
                       onChange={handleInputChange}
                       className="w-full h-10 rounded-md border outline-blue-700 border-slate-900 p-2"
                     />
+                         <div className="imageField w-full flex flex-col justify-start items-start">
+                      <label className="w-full flex justify-start items-start text-slate-900">
+                        Image
+                      </label>
+                      <input
+                        type="file"
+                        name="image"
+                        // value={imageFile}
+                        onChange={handleFileChange}
+                        className="w-full h-10 rounded-md border outline-blue-700 border-slate-900 p-2"
+                      />
+                    </div>
                   </div>
                 )}
                 {isEditSubCategory && (
@@ -167,7 +189,21 @@ const EditCategoryForm = (
                         value={formData.name}
                         onChange={handleInputChange}
                         className="w-full h-10 rounded-md border outline-blue-700 border-slate-900 p-2" />
-                    </div></>
+                    </div>
+                    <div className="imageField w-full flex flex-col justify-start items-start">
+                      <label className="w-full flex justify-start items-start text-slate-900">
+                        Image
+                      </label>
+                      <input
+                        type="file"
+                        name="image"
+                        // value={imageFile}
+                        onChange={handleFileChange}
+                        className="w-full h-10 rounded-md border outline-blue-700 border-slate-900 p-2"
+                      />
+                    </div>
+
+                    </>
                 )}
                 <div className="w-full flex justify-start items-start mt-4">
                   <button

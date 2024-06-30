@@ -96,7 +96,12 @@ const CategoryCards: React.FC = () => {
           {categories.map((category: any) => (
           <Link  className="bg-white p-2 md:px-4 px-3  w-32 h-32 rounded-md " to={`/products?categoryId=${category?._id}`}>
             <div className="flex flex-col space-y-2 rounded-md border-gray-300 border-[1px] items-center justify-center h-full">
-              <Phone className="text-5xl" />
+              {category?.image ? (
+                <img src={category?.image} alt="category" className="w-10 h-10" />
+              ) : (
+                <Phone className="text-5xl" />
+              )}
+              {/* <Phone className="text-5xl" /> */}
               <h1 className='text-sm'>{category?.name}</h1>
             </div>
           </Link>
