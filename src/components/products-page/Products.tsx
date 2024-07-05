@@ -16,6 +16,7 @@ import { getAllShops } from '../../api/getAllShops';
 import { Eye, EyeSlash } from '@phosphor-icons/react';
 import { Link } from 'react-router-dom';
 import { useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Footer from '../Footer';
 import AllProdNavs from '../Product/AllProdNavs';
 import { HiMiniArrowsUpDown } from 'react-icons/hi2';
@@ -41,6 +42,7 @@ const Products = () => {
     );
     const [fixed, setFixed] = useState(false);
 
+    const navigate = useNavigate();
     const clearFilter = (filter: any) => {
         handleRefresh();
         if (categoryName.includes(filter)) {
@@ -505,6 +507,15 @@ const Products = () => {
                                         </div>
                                     ))}
                                 </div>
+                                {catID && <div className='flex items-center bg-gray-200 rounded-md p-1 mx-1'>
+                                    <p className="text-sm text-gray-800">{categories.find((cat: any) => cat._id === catID)?.name}</p>
+                                    <button onClick={() => {
+                                        navigate(-1)
+                                        clearFilter(categories.find((cat: any) => cat._id === catID)?.name)}
+                                     } className="ml-1 focus:outline-none">
+                                        <FaTimes className="text-xs text-gray-800" />
+                                    </button>
+                                </div>}
                             </div>
                             {activeFilters.length > 1 &&
                                 <button className='w-fit bg-[#fa3e3e] h-fit text-xs p-1 text-white px-3 rounded-md' onClick={clearFilters}>Siba twose</button>

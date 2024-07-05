@@ -117,7 +117,6 @@ const HomeBurner = () => {
             </button>
         <button className="absolute top-1/2 right-2" onClick={nextSlide}>
         <CiCircleChevRight className="bg bg-gray-300 rounded-full hover:bg-slate-800" />
-
         </button>
           </div>
         ))}
