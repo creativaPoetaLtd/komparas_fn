@@ -8,9 +8,6 @@ import { getAllShops } from '../../api/getAllShops';
 import { Link } from 'react-router-dom';
 
 const ShopCards: React.FC = () => {
-
-
-
   const PrevArrow = (props: any) => {
     const { onClick } = props;
     return (

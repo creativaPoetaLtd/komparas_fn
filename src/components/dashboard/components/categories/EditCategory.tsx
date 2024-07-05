@@ -80,7 +80,7 @@ const EditCategoryForm = (
     setLoading(false)
     const formDataToSend = new FormData()
     formDataToSend.append("name", formData.name)
-    formDataToSend.append("parent_id", formData.parent_id)
+    if(isEditSubCategory) formDataToSend.append("parent_id", formData.parent_id)
     formDataToSend.append("image", imageFile);
     const res = await updateCategory(formDataToSend, editID)
     if (res?.status === 200) {
@@ -148,7 +148,7 @@ const EditCategoryForm = (
                       onChange={handleInputChange}
                       className="w-full h-10 rounded-md border outline-blue-700 border-slate-900 p-2"
                     />
-                         <div className="imageField w-full flex flex-col justify-start items-start">
+                        <div className="imageField w-full flex flex-col justify-start items-start">
                       <label className="w-full flex justify-start items-start text-slate-900">
                         Image
                       </label>
