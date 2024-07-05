@@ -120,6 +120,14 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
                               ))}
                             </td>
                           )}
+                    {products?.product?.vendor_prices?.map((price: any, priceIndex: number) => (
+                      price?.vendor_id === shop?._id && (
+                        <td key={priceIndex} className="text-[#353535] item-start m-auto p-r2">
+                          <button className="bg-black text-yellow-500 px-2 py-1 rounded-md">Yirebe</button>
+                        </td>
+                      )
+                    ))}
+                        
                         </>
                       )
                     ))}

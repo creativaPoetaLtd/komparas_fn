@@ -162,6 +162,9 @@ const EditCategoryForm = (
                     </div>
                   </div>
                 )}
+                <p >
+                  
+                </p>
                 {isEditSubCategory && (
                   <>
                     <div className='EditProductForm__form__inputs__category w-full flex flex-col justify-start items-start mb-5'>
