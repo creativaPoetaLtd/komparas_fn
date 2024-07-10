@@ -87,7 +87,7 @@ const HomeBurner = () => {
   let slider: Slider | null  = null;
 
   return (
-    <div className='bunnerPage flex md:w-[100%] w-[92%] m-auto md:px-16 px-0'>
+    <div className='bunnerPage flex z-10 md:w-[100%] w-[92%] m-auto md:px-16 px-0'>
       <div className=' sideCategories w-fit hidden bg-white lg:flex h-full'>
         <Menu 
           style={{ width: 200, boxShadow: 'white', border: 'none', borderRight: "white" }} 
