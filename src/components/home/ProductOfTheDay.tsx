@@ -130,7 +130,7 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
           <p className='text-[#FFFFFF] text-sm mt-2 font-thin '>
             {dayProduct[0]?.description}
           </p>
-          <Link to={`/product/${dayProduct[0]?.product._id}`} className="flex space-x-2 p-2 px-4 rounded w-fit h-fit text-sm mt-2 bg-[#EDB62E]">
+          <Link to={`/product/${dayProduct[0]?.product?._id}`} className="flex space-x-2 p-2 px-4 rounded w-fit h-fit text-sm mt-2 bg-[#EDB62E]">
             <p className="">Reba aho wayigurira</p>
           </Link>
         </div>
