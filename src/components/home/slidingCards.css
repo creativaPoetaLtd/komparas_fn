@@ -34,7 +34,7 @@
 .swiper-button-next::after,
 .swiper-button-prev::after {
   font-size: 20px;
-  color: green;
+  color: white;
   height: 20px;
   width: 20px;
   z-index: -1;
@@ -63,7 +63,7 @@
     .swiper-button-next::after,
     .swiper-button-prev::after {
       font-size: 20px;
-      color: white;
+      color: green;
       height: 20px;
       width: 20px;
       z-index: -1;
@@ -76,7 +76,7 @@
     .swiper-button-next::after,
     .swiper-button-prev::after {
       font-size: 20px;
-      color: white;
+      color: green;
       height: 20px;
       width: 20px;
       z-index: -1;
