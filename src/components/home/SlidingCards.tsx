@@ -9,7 +9,7 @@ const SlidingCards: React.FC = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       const response = await getAllProducts();
-      setProducts(response?.data?.products);
+      setProducts(response?.data?.products?.reverse());
     }
     fetchProducts();
   }
