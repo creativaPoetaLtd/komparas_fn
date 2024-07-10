@@ -51,7 +51,7 @@
 .swiper-button-next::after,
 .swiper-button-prev::after {
   font-size: 20px;
-  color: white;
+  color: green;
   height: 20px;
   width: 20px;
   z-index: -1;
