@@ -116,7 +116,6 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
     
     const onMouseOutOnColorField = (index: number) => {
         const updatedVendors: any = [...vendor_prices];
-            // check if color is not red, or green, or black, or white , or puple, or blue, or yellow, or grey, or pink, or magenta, or orange
         const validColors= ["red", "green", "black", "white", "purple", "blue", "yellow", "grey", "pink", "magenta", "orange"];
         const isValid = updatedVendors[index].colors.split(',').every((color: any) => validColors.includes(color.trim().toLowerCase()));
     
@@ -128,11 +127,6 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
 
         }
         setIsColorFieldHasValidValue(true);
-
-    
-        // Reset the color field if it's not valid
-        // updatedVendors[index].colors = "";
-        // setVendorPrices(updatedVendors); // Update the state with the new vendor prices
     };
     
 

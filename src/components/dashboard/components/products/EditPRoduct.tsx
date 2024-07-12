@@ -5,8 +5,8 @@ import { updateProduct } from "../../../../api/product";
 import { getPoductById } from "../../../../api/product";
 import { useEffect } from "react";
 import { getAllShops } from "../../../../api/getAllShops";
-import { UploadSimple } from "@phosphor-icons/react";
-import { RiDeleteBin6Line } from "react-icons/ri";
+// import { UploadSimple } from "@phosphor-icons/react";
+// import { RiDeleteBin6Line } from "react-icons/ri";
 import { toast } from "react-toastify";
 
 interface EditProductProps {
@@ -16,22 +16,18 @@ interface EditProductProps {
 const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
     const [categories, setCategories] = useState<any>([]);
     const [loading, setLoading] = useState(false);
-    const [shops, setShops] = useState<any>([]);
+    const [, setShops] = useState<any>([]);
     const [, setLoadingShops] = useState(false);
-    const [specifications, setSpecifications] = useState([{ key: "", value: "" }]);
-    const [vendor_prices, setVendorPrices] = useState([{ key: "", value: "" }]);
+    const [, setSpecifications] = useState([{ key: "", value: "" }]);
+    const [, setVendorPrices] = useState([{ key: "", value: "" }]);
     const [productData, setProductData] = useState<any>();
     const [formData, setFormData] = useState({
         product_name: "",
         product_price: "",
         product_description: "",
         category: "",
-        vendor_prices: [],
-        specifications: [],
-        product_image: undefined,
-        our_review: "",
     });
-    const [imageUrl, setImageUrl] = useState<string | null>(null);
+    const [, setImageUrl] = useState<string | null>(null);
     const editID: any = localStorage.getItem("editProductID");
     const fetchCategories = async () => {
         setLoading(true);
@@ -74,11 +70,7 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
                 product_name: productData.product_name,
                 product_price: productData.product_price,
                 product_description: productData.product_description,
-                category: productData.category?.name || "", 
-                vendor_prices: productData.vendor_prices || [],
-                specifications: productData.product_specifications || [], 
-                product_image: productData.product_image,
-                our_review: productData?.our_review,
+                category: productData.category?.name,
             });
         }
     }, [productData]);
@@ -99,71 +91,71 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
         }));
     };
  
-    const handleSpecificationChange = (index: number, field: string, value: string) => {
-        const updatedSpecifications: any = [...specifications];
-        updatedSpecifications[index][field] = value;
-        setSpecifications(updatedSpecifications);
-    };
+    // const handleSpecificationChange = (index: number, field: string, value: string) => {
+    //     const updatedSpecifications: any = [...specifications];
+    //     updatedSpecifications[index][field] = value;
+    //     setSpecifications(updatedSpecifications);
+    // };
 
 
-    const addSpecificationField = () => {
-        setSpecifications([...specifications, { key: "", value: "" }]);
-    };
-    const handleVendorsChange = (index: number, field: string, value: string) => {
-        const updatedVendors: any = [...vendor_prices];
-        updatedVendors[index][field] = value;
-        setVendorPrices(updatedVendors);
-    };
-    const handleVendorsSelectChange = (event: React.ChangeEvent<HTMLSelectElement>, index: number) => {
-        const { value } = event.target;
-        handleVendorsChange(index, "key", value);
-    };
+    // const addSpecificationField = () => {
+    //     setSpecifications([...specifications, { key: "", value: "" }]);
+    // };
+    // const handleVendorsChange = (index: number, field: string, value: string) => {
+    //     const updatedVendors: any = [...vendor_prices];
+    //     updatedVendors[index][field] = value;
+    //     setVendorPrices(updatedVendors);
+    // };
+    // const handleVendorsSelectChange = (event: React.ChangeEvent<HTMLSelectElement>, index: number) => {
+    //     const { value } = event.target;
+    //     handleVendorsChange(index, "key", value);
+    // };
 
 
-    const addVendorField = () => {
-        setVendorPrices([...vendor_prices, { key: "", value: "" }]);
-    };
+    // const addVendorField = () => {
+    //     setVendorPrices([...vendor_prices, { key: "", value: "" }]);
+    // };
 
 
-    const removeSpecificationField = (index: number) => {
-        const updatedSpecifications = [...specifications];
-        updatedSpecifications.splice(index, 1);
-        setSpecifications(updatedSpecifications);
-    };
-    const removeVendors = (index: number) => {
-        const updatedVendors = [...vendor_prices];
-        updatedVendors.splice(index, 1);
-        setVendorPrices(updatedVendors);
-    };
+    // const removeSpecificationField = (index: number) => {
+    //     const updatedSpecifications = [...specifications];
+    //     updatedSpecifications.splice(index, 1);
+    //     setSpecifications(updatedSpecifications);
+    // };
+    // const removeVendors = (index: number) => {
+    //     const updatedVendors = [...vendor_prices];
+    //     updatedVendors.splice(index, 1);
+    //     setVendorPrices(updatedVendors);
+    // };
 
-    const handleRemoveProfilePicture = () => {
-        setFormData((prevFormData: any) => ({
-            ...prevFormData,
-            product_image: undefined,
-        }));
-        setImageUrl(null);
-    };
-    const handleImageUpload = () => {
-        const image: HTMLElement | null =
-            document.getElementById("product_image");
-        image?.click();
-    };
-    const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if (file) {
-            setFormData((prevFormData: any) => ({
-                ...prevFormData,
-                product_image: file,
-            }));
-            const reader = new FileReader();
-            reader.onload = () => {
-                setImageUrl(reader.result as string);
-            };
-            reader.readAsDataURL(file);
-        } else {
-            setImageUrl(null);
-        }
-    };
+    // const handleRemoveProfilePicture = () => {
+    //     setFormData((prevFormData: any) => ({
+    //         ...prevFormData,
+    //         product_image: undefined,
+    //     }));
+    //     setImageUrl(null);
+    // };
+    // const handleImageUpload = () => {
+    //     const image: HTMLElement | null =
+    //         document.getElementById("product_image");
+    //     image?.click();
+    // };
+    // const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     const file = event.target.files?.[0];
+    //     if (file) {
+    //         setFormData((prevFormData: any) => ({
+    //             ...prevFormData,
+    //             product_image: file,
+    //         }));
+    //         const reader = new FileReader();
+    //         reader.onload = () => {
+    //             setImageUrl(reader.result as string);
+    //         };
+    //         reader.readAsDataURL(file);
+    //     } else {
+    //         setImageUrl(null);
+    //     }
+    // };
 
     const clearFormAfterSubmit = () => {
         setFormData({
@@ -171,10 +163,6 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
             product_price: "",
             product_description: "",
             category: "",
-            vendor_prices: [],
-            specifications: [],
-            product_image: undefined,
-            our_review: "",
         });
         setSpecifications([{ key: "", value: "" }]);
         setVendorPrices([{ key: "", value: "" }]);
@@ -189,12 +177,7 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
             product_name: formData?.product_name,
             product_price: formData?.product_price,
             product_description: formData?.product_description,
-            category: formData.category,
-            vendor_prices: vendor_prices,
-            specifications: specifications,
-            product_image: formData.product_image,
-            our_review: productData?.our_review,
-
+            category_name: formData?.category,
         };
         try {
             await updateProduct(product, editID);
@@ -208,6 +191,9 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
         }
     }
 
+
+    console.log(formData);
+    
    
 
     return (
@@ -242,7 +228,7 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
                                 onChange={handleInputChange}
                             />
                         </div>
-                        <div className='EditProductForm__form__inputs__category flex flex-col justify-start items-start mb-5'>
+                         <div className='EditProductForm__form__inputs__category flex flex-col justify-start items-start mb-5'>
                             <label className='EditProductForm__form__inputs__category__label  mb-2'>Product Category</label>
                             <select
                                 className='EditProductForm__form__inputs__category__input w-96 h-10 rounded-md border outline-blue-700 border-gray-300 px-2'
@@ -256,9 +242,9 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
                                     </option>
                                 ))}
                             </select>
-                        </div>
+                        </div> 
 
-                        <div className="EditProductForm__form__inputs__specifications flex flex-col justify-start items-start mb-5">
+                        {/* <div className="EditProductForm__form__inputs__specifications flex flex-col justify-start items-start mb-5">
                             <label className="EditProductForm__form__inputs__specifications__label mb-2">
                                 Shops
                             </label>
@@ -301,9 +287,9 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
                                     Edit Vendor Field
                                 </button>
                             </div>
-                        </div>
+                        </div> */}
 
-                        <div className="EditProductForm__form__inputs__specifications flex flex-col justify-start items-start mb-5">
+                        {/* <div className="EditProductForm__form__inputs__specifications flex flex-col justify-start items-start mb-5">
                             <label className="EditProductForm__form__inputs__specifications__label mb-2">
                                 Specifications
                             </label>
@@ -368,8 +354,8 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
                                     Add Specification
                                 </button>
                             </div>
-                        </div>
-                        <div className='AddProductForm__form__inputs__description flex flex-col justify-start items-start mb-5'>
+                        </div> */}
+                        {/* <div className='AddProductForm__form__inputs__description flex flex-col justify-start items-start mb-5'>
                             <label className='AddProductForm__form__inputs__description__label  mb-2'>Icyo tuyivugaho</label>
                             <textarea
                                 className='AddProductForm__form__inputs__description__input w-96 h-28 rounded-md border outline-blue-700 border-gray-300 px-2'
@@ -378,8 +364,8 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
                                 value={formData?.our_review}
                                 onChange={handleInputChange}
                             />
-                        </div>
-                        <div className="laptop:w-[88%] desktop:w-[88%] tablet:w-[88%] laptop:mt-0 tablet:mt-0 desktop:mt-0  mt-2 w-full justify-between flex felx-col space-y-4">
+                        </div> */}
+                        {/* <div className="laptop:w-[88%] desktop:w-[88%] tablet:w-[88%] laptop:mt-0 tablet:mt-0 desktop:mt-0  mt-2 w-full justify-between flex felx-col space-y-4">
                             <div className="flex flex-col w-full">
                                 <label className="text-sm mb-1 font-normal text-grey-700 ">
                                     Ifoto ya telefoni
@@ -433,13 +419,12 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
                                     <UploadSimple color="#90A8A2" size={22} />
                                 </button>
                             </div>
-                        </div>
+                        </div> */}
                         <button
                             type="submit"
-                            disabled = {formData?.product_image === "" || formData?.product_name === "" || formData?.product_price === "" || formData?.product_description === "" || formData?.category === "" || formData?.vendor_prices === null || formData?.specifications === null}
-                            className={`flex justify-center items-center w-96 h-10 rounded-md bg-blue-700 text-white ${formData?.product_image === "" || formData?.product_name === "" || formData?.product_price === "" || formData?.product_description === "" || formData?.category === "" || formData?.vendor_prices === null || formData?.specifications === undefined ? "opacity-50 cursor-not-allowed" : "opacity-100 cursor-pointer"}`}
+                            className='EditProductForm__form__inputs__submit w-96 h-10 rounded-md border outline-blue-700 border-gray-300 px-2 bg-blue-600 text-white'
                         >
-                            {loading ? "Loading..." : "Add Product"}
+                            {loading ? "Loading..." : "Update Product"}
                         </button>
                     </form>
                 </div>
