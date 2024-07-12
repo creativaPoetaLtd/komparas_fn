@@ -89,7 +89,6 @@ const SideBar: React.FC<SideBarProps> = ({
     useEffect(() => {
         fetchProducts();
     }, []);
-
     const removeColorStatedByHashTaga = color.filter(color => color.charAt(0) !== '#');
     const removeColorStatedByHashslash = removeColorStatedByHashTaga.filter(color => color.charAt(0) !== '/');
     const removeColorStatedByHashsminus = removeColorStatedByHashslash.filter(color => color.charAt(0) !== '-');
@@ -97,7 +96,7 @@ const SideBar: React.FC<SideBarProps> = ({
     const splitString = splitColors.split(',');
     const removeDuplication = Array.from(new Set(splitString));
     const removeColorStatedBySpace = removeDuplication.filter(color => color.charAt(0) !== ' ');
-
+    const removeDuplicationColor = Array.from(new Set(removeColorStatedBySpace.map((color) => color.toLowerCase())));
     return (
         <div className={`relative md:mx-2 mx-0 lg:w-[25%] md:hiddenf hiddenf mb-3 lg:flex flex-col h-fit pr-4 border border-green-600 rounded-md p-3 ${isOpen ? 'md:flex flex w-full z-30' : 'h hidden'}`}>
             <div className='flex justify-between items-center cursor-pointer' onClick={toggleSidebar}>
@@ -151,7 +150,7 @@ const SideBar: React.FC<SideBarProps> = ({
                 </div>
                 {sections.colors && (
                     <div className='flex-col grid grid-cols-2 mt-5'>
-                        {removeColorStatedBySpace.map((color, i) => (
+                        {removeDuplicationColor.map((color, i) => (
                             <p key={i}>
                                 <CheckboxInput label={<RedComponent color={color} />} name='color' checked={selectedColors?.includes(color)} onChange={() => handleSelectColors(color)} />
                             </p>

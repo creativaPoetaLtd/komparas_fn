@@ -210,18 +210,6 @@ const Products = () => {
         handleRefresh();
     };
     const [selectedType, setSelectedType] = useState<string>();
-    // const [multipleType, setMultipleType] = useState<string[]>([]);
-    // const handleSelectType = async (type: string) => {
-    //     handleRefresh();
-    //     const index = multipleType.indexOf(type);
-    //     if (index === -1) {
-    //         setMultipleType([...multipleType, type]);
-    //     } else {
-    //         setMultipleType(multipleType.filter(typeT => typeT !== type));
-    //     }
-    //     // setSelectedType(type);
-    //     handleRefresh();
-    // };
     const [selectedscreen, setSelectedsecreen] = useState<string[]>([]);
     const [multiplesecreen, setMultiplesecreen] = useState<string[]>([]);
     const handleSelectsecreen = async (secreen: string) => {
@@ -359,7 +347,7 @@ const Products = () => {
     const shopIdToUse: string[] = Array.isArray(shopst) && shopst.length > 0 ? shopst : (shopsId ? [shopsId] : []);
     useEffect(() => {
         const fetchProducts = async () => {
-            const response = await getAllProducts(minPrice, maxPrice, categoryIdToUse, shopIdToUse, multioletStorage, multipleCamera, multipleColors);
+            const response = await getAllProducts(minPrice, maxPrice, categoryIdToUse, shopIdToUse, multipleRam,multioletStorage, multipleCamera, multipleColors,multiplesecreen);
             const allProducts = response?.data?.products;
             let sortedProducts = allProducts;
             if (sortOrder === 'ascending') {
@@ -431,7 +419,22 @@ const Products = () => {
             <AllProdNavs />
             <div className='w-full bg-white h-fit justify-between lg:px-6 px-2 lg:pl-20 pl-2 flex flex-col'>
                 <div className='w-full mt-6 h-fit flex flex-row'>
-                    <SideBar clearFilters={clearFilters} productsData={productsData} handleSelectRam={handleSelectRam} isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} categories={categories} shops={shops} handleCategoryClick={handleCategoryClick} handleShopCkik={handleShopClick} onPriceRangeChange={handlePriceRangeChange} handleSelectCamera={handleSelectCamera} handleSelectStorage={handleSelectStorage} handleSelectColors={handleSelectColors} handleSelectscreen={handleSelectsecreen} selectedCategories={categoryIdt}
+                    <SideBar
+                        clearFilters={clearFilters}
+                        productsData={productsData}
+                        isOpen={isSidebarOpen}
+                        toggleSidebar={toggleSidebar}
+                        categories={categories}
+                        shops={shops}
+                        handleCategoryClick={handleCategoryClick}
+                        handleShopCkik={handleShopClick}
+                        onPriceRangeChange={handlePriceRangeChange}
+                        handleSelectRam={handleSelectRam}
+                        handleSelectCamera={handleSelectCamera}
+                        handleSelectStorage={handleSelectStorage}
+                        handleSelectColors={handleSelectColors}
+                        handleSelectscreen={handleSelectsecreen}
+                        selectedCategories={categoryIdt}
                         selectedStorage={selectedStorage}
                         selectedColors={selectedColors}
                         selectedscreen={selectedscreen}
@@ -458,19 +461,19 @@ const Products = () => {
                                 </button>
                             </div>
                             <div className={`${fixed ? 'fixed top-0 pb-2 px-3 left-0 z-50 w-full md:pb-0' : ''} fixAtTop w-full md:w-fit ml-auto flex justify-between bg md:justify-end bg-white`}>
-                            <button onClick={toggleSidebar} className='w-fit border border-green-500  md:hidden flex md:mt-0 p-2 mt-3 rounded-md  self-end float-right justify-end'>
-                            <TbAdjustmentsHorizontal className='flex my-auto mr-1 text-lg' />
-                            Akayunguruzo
-                            </button>
-                            <div className='w-fit flex border border-green-500 mxc-auto md:mt-0 p-2 py-[10.5px] mt-3 rounded-md bg-[#F5F5F5] self-end float-right justify-end'>
-                                <p className='text-base my-auto'><HiMiniArrowsUpDown /></p>
-                                <select className='rounded-md w-fit outline-none bg-[#F5F5F5]' onChange={handleSortChange}>
-                                    <option value="ascending">Inshya iwacu</option>
-                                    <option value="descending">Izikuzwe</option>
-                                    <option value="cheaper">Izihendutse</option>
-                                    <option value="expensive">Izihenze</option>
-                                </select>
-                            </div>
+                                <button onClick={toggleSidebar} className='w-fit border border-green-500  md:hidden flex md:mt-0 p-2 mt-3 rounded-md  self-end float-right justify-end'>
+                                    <TbAdjustmentsHorizontal className='flex my-auto mr-1 text-lg' />
+                                    Akayunguruzo
+                                </button>
+                                <div className='w-fit flex border border-green-500 mxc-auto md:mt-0 p-2 py-[10.5px] mt-3 rounded-md bg-[#F5F5F5] self-end float-right justify-end'>
+                                    <p className='text-base my-auto'><HiMiniArrowsUpDown /></p>
+                                    <select className='rounded-md w-fit outline-none bg-[#F5F5F5]' onChange={handleSortChange}>
+                                        <option value="ascending">Inshya iwacu</option>
+                                        <option value="descending">Izikuzwe</option>
+                                        <option value="cheaper">Izihendutse</option>
+                                        <option value="expensive">Izihenze</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <div className='products justify-between w-full flex bg-yellow-100 py-3 px-2 mt-3'>
@@ -479,8 +482,8 @@ const Products = () => {
                                     <MdFilterList className='text-xl cursor-pointer flex lg:hidden my-auto mr-4' />
                                 </button> */}
                                 <p className='text-sm my-auto text-green-600'>
-                                     {activeFilters?.length === 0 ? '':activeFilters.length > 1 ? `Utuyunguruzo ${activeFilters.length}` : `Akayunguruzo ${activeFilters.length}`} Habonekamo {productsData?.length}
-                                 </p>
+                                    {activeFilters?.length === 0 ? '' : activeFilters.length > 1 ? `Utuyunguruzo ${activeFilters.length}` : `Akayunguruzo ${activeFilters.length}`} Habonekamo {productsData?.length}
+                                </p>
                                 <button className='' onClick={handleSetDropDownFilter}><div className='flex md:hidden justify-center items-center my-auto ml-3 text-sm'>
                                     {!isDropDownFilter ? <>
                                         <Eye /><p className=' text-xs flex'>turebe</p>
@@ -511,8 +514,9 @@ const Products = () => {
                                     <p className="text-sm text-gray-800">{categories.find((cat: any) => cat._id === catID)?.name}</p>
                                     <button onClick={() => {
                                         navigate(-1)
-                                        clearFilter(categories.find((cat: any) => cat._id === catID)?.name)}
-                                     } className="ml-1 focus:outline-none">
+                                        clearFilter(categories.find((cat: any) => cat._id === catID)?.name)
+                                    }
+                                    } className="ml-1 focus:outline-none">
                                         <FaTimes className="text-xs text-gray-800" />
                                     </button>
                                 </div>}
@@ -556,13 +560,13 @@ const Products = () => {
                     </div>
                 </div>
             </div>
-            <div  className='fixed flex space-x-3 bg-green-200 bottom-10 right-10  px-2 py-1 rounded-md text-white'>
-           <button className='view flex my-auto text-black justify-center'><button onClick={showBottomDrawer}><FaArrowCircleUp /></button></button> 
-                <button onClick={showDrawer} className='text-sm rounded-md p-[2px] bg-black'>{!JSON.parse(localStorage.getItem("compareProductIds") as any) ? [] : JSON.parse(localStorage.getItem("compareProductIds") as any)?.length < 2 ? '('+JSON.parse(localStorage.getItem("compareProductIds") as any)?.length +')'+ '   Yigereranye' : '('+JSON.parse(localStorage.getItem("compareProductIds") as any)?.length +')'+ ' Zigereranye'}</button>
+            <div className='fixed flex space-x-3 bg-green-200 bottom-10 right-10  px-2 py-1 rounded-md text-white'>
+                <button className='view flex my-auto text-black justify-center'><button onClick={showBottomDrawer}><FaArrowCircleUp /></button></button>
+                <button onClick={showDrawer} className='text-sm rounded-md p-[2px] bg-black'>{!JSON.parse(localStorage.getItem("compareProductIds") as any) ? [] : JSON.parse(localStorage.getItem("compareProductIds") as any)?.length < 2 ? '(' + JSON.parse(localStorage.getItem("compareProductIds") as any)?.length + ')' + '   Yigereranye' : '(' + JSON.parse(localStorage.getItem("compareProductIds") as any)?.length + ')' + ' Zigereranye'}</button>
             </div>
             <ComparisonDrawer
                 open={open}
-                onClose={onClose} 
+                onClose={onClose}
                 refresh={refresh}
             />
             <BottomDrawer

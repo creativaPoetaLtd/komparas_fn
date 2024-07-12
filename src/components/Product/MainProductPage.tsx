@@ -74,9 +74,12 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
               <h1 className="text-base text-red-500 font-light line-through">
                 {products?.product?.vendor_prices?.reduce((prev: any, current: any) => (prev.price < current.price) ? prev : current).price.toLocaleString('en-US', { maximumFractionDigits: 4 })} Rwf
               </h1>
-              <h1 className='realprice font-semibold'>
+              <div className='flex flex-col self-end mt-3 justify-center items-center space-x-2'>
+              <h1 className='realprice font-semibold text-green-500'>
                 {products?.product?.our_price.toLocaleString('en-US', { maximumFractionDigits: 4 })} Rwf
               </h1>
+              <p className='text-sm text-center items-center text-gray-400'>Ukoresheje Code ya Komparas</p>
+              </div>
             </div>
             <p className="text-sm text-justify">{products?.product?.product_description}</p>
           </div>
