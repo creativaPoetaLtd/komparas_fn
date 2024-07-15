@@ -56,7 +56,7 @@ const NewProduct = () => {
                         </div>
                         <div className="image md:w-[55%] w-fnull flex justify-end  h-full px-8 md:py-12 py-6 pb-9">
                             <div className="w-[240px] md:h-[240px] h-[210px] object-cover">
-                                <img src={prod1?.product_image} height={240} width={240} alt="" className="w-[240px] h-[240px]" />
+                                <img src={prod1?.product_image} height={240} width={240} alt="" className="w-[240px] h-[240px] object-contain" />
                             </div>
                         </div>
                     </div>
@@ -90,7 +90,7 @@ const NewProduct = () => {
                             <div className="md:w-[240px] w-full md:h-[240px] h-[210px]] object-cover">
                                 <img src={
                                     prod2?.product_image
-                                } height={240} width={240} alt="" className="md:w-[240px] w-full h-[240px]" />
+                                } height={240} width={240} alt="" className="md:w-[240px] w-full h-[240px] object-contain" />
                             </div>
                         </div>
                     </div>

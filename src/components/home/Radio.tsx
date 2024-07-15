@@ -47,7 +47,7 @@ const RadioSection = () => {
               <div className="lg:w-[600px] lg:h-[420px] md:w-[359px] md:h-[218px] w-[358px] h-[217.39px] justify-center items-center m-auto object-cover">
                 <img src={
                   prod3?.product_image
-                } height={420} width={600} alt="" className="w-full h-full " />
+                } height={420} width={600} alt="" className="w-full h-full object-contain" />
               </div>
             </div>
           </div>
