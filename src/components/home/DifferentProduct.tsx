@@ -36,7 +36,9 @@ const DifferentProduct: React.FC<DifferentProductProps> = ({ productData }) => {
               <img src={product?.product_image} height={300} width={300} className="h-full object-contain w-full" />
             </div>
             <h1 className="flex font-semibold mt-8">{product?.product_name}</h1>
-            <p className="text-xs text-[#909090] mt-2 text-justify">{product?.product_description}</p>
+            <p className="text-xs text-[#909090] mt-2 text-justify">{
+            product?.product_description?.slice(0, 180) + (product?.product_description?.length > 100 ? '...' : '')
+              }</p>
             <button className="bg-[#EDB62E] mt-2 w-fit h-fit p-1 md:px-4 px-2 md:py-2 rounded-md">Read more</button>
           </div>
         ))}
