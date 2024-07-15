@@ -210,13 +210,13 @@ const SlidingCards: React.FC = () => {
             <Link className="bg-white p-2 md:px-6 px-3  rounded-md "  to={`/product/${product?._id}`}>
               <div className="flex flex-col space-y-2 py-2 rounded-md border-gray-300 border-[1px] items-center justify-center">
                 {product?.product_image ? (
-                  <div className="flex justify-center self-center">
+                  <div className="flex justify-center w-[172px] h-[152px] self-center">
                     <img
                       src={product.product_image}
                       height={152}
                       width={172}
                       alt=""
-                      className="w-[172px] h-[152px] object-contain mb-4"
+                      className=" h-full w-full object-contain mb-4"
                     />
                   </div>) : (
                   <Phone className="text-5xl" />
