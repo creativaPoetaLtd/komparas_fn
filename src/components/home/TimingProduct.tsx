@@ -125,31 +125,31 @@ const TimingProduct = () => {
         document.getElementById("image");
       image?.click();
     };
-    const calculateTimeLeft = () => {
-        const difference = +new Date("2024-05-24") - +new Date();
-        let timeLeft: any = {};
+    // const calculateTimeLeft = () => {
+    //     const difference = +new Date("2024-05-24") - +new Date();
+    //     let timeLeft: any = {};
 
-        if (difference > 0) {
-            timeLeft = {
-                days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-                hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-                minutes: Math.floor((difference / 1000 / 60) % 60),
-                seconds: Math.floor((difference / 1000) % 60)
-            };
-        }
+    //     if (difference > 0) {
+    //         timeLeft = {
+    //             days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+    //             hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+    //             minutes: Math.floor((difference / 1000 / 60) % 60),
+    //             seconds: Math.floor((difference / 1000) % 60)
+    //         };
+    //     }
 
-        return timeLeft;
-    };
+    //     return timeLeft;
+    // };
 
-    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+    // const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setTimeLeft(calculateTimeLeft());
-        }, 1000);
+    // useEffect(() => {
+    //     const timer = setTimeout(() => {
+    //         setTimeLeft(calculateTimeLeft());
+    //     }, 1000);
 
-        return () => clearTimeout(timer);
-    });
+    //     return () => clearTimeout(timer);
+    // });
 
     return (
         <div className='flex  flex-col w-full lg:px-[4rem] px-2'>
@@ -163,7 +163,7 @@ const TimingProduct = () => {
                         }
                         
                         <div className='mainPageContent w-[50%] h-full lg:p-8 md:p-2 p-2'>
-                            <div className='timers md:p-2 p-1 md:w-[18rem] w-full justify-between  flex'>
+                            {/* <div className='timers md:p-2 p-1 md:w-[18rem] w-full justify-between  flex'>
                                 <div className='timerCircle text-xs flex-col md:p-2 p-1 items-center bg-white flex rounded-full md:h-[62px] h-[55px] md:w-[62px] w-[55px] my-auto justify-center'>
                                     <div className='circle'>{timeLeft.days}</div>
                                     <div className='label'> Iminsi</div>
@@ -180,7 +180,7 @@ const TimingProduct = () => {
                                     <div className='circle'>{timeLeft.seconds}</div>
                                     <div className='label text-[8px]'>Amasegonda</div>
                                 </div>
-                            </div>
+                            </div> */}
                             <div className='flex mt-6'>
                                 <RxDividerHorizontal className='text-white text-xl my-auto justify-center' />
                                 <p className='text-white text-xs ml-1 my-auto font-thin justify-center'>THE BEST PLACE TO PLAY</p>
