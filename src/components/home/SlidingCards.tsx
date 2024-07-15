@@ -117,9 +117,9 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { GoArrowLeft, GoArrowRight } from "react-icons/go";
-import { FaShoppingBag } from 'react-icons/fa';
-import { getAllShops } from '../../api/getAllShops';
-import { Link } from 'react-router-dom';
+// import { FaShoppingBag } from 'react-icons/fa';
+// import { getAllShops } from '../../api/getAllShops';
+import { Link, useNavigate } from 'react-router-dom';
 import { getAllProducts } from '../../api/product';
 import { Phone } from '@phosphor-icons/react';
 
@@ -175,14 +175,14 @@ const SlidingCards: React.FC = () => {
       }
     ],
   };
-  const [shops, setShops] = React.useState<any>([]);
-  React.useEffect(() => {
-    const fetchShops = async () => {
-      const response = await getAllShops();
-      setShops(response?.data);
-    }
-    fetchShops();
-  }, []);
+  // const [shops, setShops] = React.useState<any>([]);
+  // React.useEffect(() => {
+  //   const fetchShops = async () => {
+  //     const response = await getAllShops();
+  //     setShops(response?.data);
+  //   }
+  //   fetchShops();
+  // }, []);
   const [products, setProducts] = React.useState<any[]>([]);
 
   React.useEffect(() => {
@@ -192,14 +192,22 @@ const SlidingCards: React.FC = () => {
     };
     fetchProducts();
   }, []);
+    const isAdminFromLocalStorag: any = JSON.parse(localStorage.getItem("KomparasLoginsInfo") as any) || {};
+  const isAdminFromLocalStorage = isAdminFromLocalStorag.role === "admin" ? true : false;
+
+  const navigate = useNavigate();
+  const handleViewAllProducts = () => {
+    navigate("/products");
+  };
+
   return (
-    <div className="lg:w-[100%] z-0 w-full justify-center self-center py-12 lg:mt-0 md:mt-0 xl:mt-0 2xl:mt-0 mt-[1%] md:px-[5.8rem] flex-col lg:relative block px-3">
+    <div className="lg:w-[100%] z-0 w-full justify-center self-center py-12 lg:mt-4 md:mt-4 xl:mt-4 2xl:mt-4 mt-[1%] md:px-[5.8rem] flex-col lg:relative block px-3">
       {products.length > 0 ? (
         <Slider {...settings}
           className="flex justify-center"
         >
           {products.splice(0,7).map((product: any) => (
-            <Link className="bg-white p-2 md:px-6 px-3  rounded-md " to={`/products?shopId=${product?._id}`}>
+            <Link className="bg-white p-2 md:px-6 px-3  rounded-md "  to={`/product/${product?._id}`}>
               <div className="flex flex-col space-y-2 py-2 rounded-md border-gray-300 border-[1px] items-center justify-center">
                 {product?.product_image ? (
                   <div className="flex justify-center self-center">
@@ -235,6 +243,17 @@ const SlidingCards: React.FC = () => {
           <div className="loader"></div>
         </div>
       )}
+
+<div className="flex justify-center mt-12 w-full">
+         <button
+           className={`${
+             !isAdminFromLocalStorage ? "bg-[#0C203B]" : "bg-[#848482]"
+           } text-white p-2 text-sm rounded-md underline underline-offset-4`}
+           onClick={handleViewAllProducts}
+         >
+           Reba zose
+         </button>
+       </div>
 
     </div>
   );
