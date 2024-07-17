@@ -3,7 +3,7 @@ interface Product {
 }
 const ShopNavigations: React.FC<Product> = ({ products }) => {
     return (
-        <div className="navs flex mt-8 lg:ml-10 ml-2 w-fit">
+        <div className="navs flex mt-8 lg:ml-0 ml-2 w-fit">
             <a href="/" className="text-[#0C203B] text-sm">Ahabanza</a>
             <p className="text-[#0C203B] text-sm mx-1">/</p>
             <a href="/products" className="text-[#0C203B] text-sm">Zose</a>
