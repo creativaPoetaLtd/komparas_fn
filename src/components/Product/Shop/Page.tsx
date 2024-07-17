@@ -10,6 +10,7 @@ import GoogleMapSection from "./Map";
 import { CiLocationArrow1, CiWarning } from "react-icons/ci";
 import { TbTimeDuration0 } from "react-icons/tb";
 import { CgPhone } from "react-icons/cg";
+import Footer from "../../Footer";
 
 
 const ShopPage = () => {
@@ -69,7 +70,7 @@ const ShopPage = () => {
                         <GoogleMapSection apiKey={"miaumiauapikey"} />
                     </div>
                     <div className="w-1/2 flex flex-col">
-                        <div className="flex w-full justify-between">
+                        <div className="flex w-full justify-between px-4">
                             <div className="flex flex-col text-sm">
                                 <h1 className="shopname text-sm text-yellow-500">Isaro shop</h1>
                                 <p className="shopOwner text-sm text-[#353535]">Ineza Gasaro Sheja</p>
@@ -141,6 +142,7 @@ const ShopPage = () => {
                     </div>
                 </div>
             </div>
+            <Footer />
         </section>
     )
 }
