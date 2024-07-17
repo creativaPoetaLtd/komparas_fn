@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { CiCircleChevLeft, CiCircleChevRight } from 'react-icons/ci';
+import { Link } from 'react-router-dom';
 import { useSwipeable } from 'react-swipeable';
 
 interface Product {
@@ -126,7 +127,7 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
                     {products?.product?.vendor_prices?.map((price: any, priceIndex: number) => (
                       price?.vendor_id === shop?._id && (
                         <td key={priceIndex} className="text-[#353535] item-start m-auto p-r2">
-                          <button className="bg-black text-yellow-500 px-2 py-1 rounded-md">Yirebe</button>
+                          <Link to={`shop/${shop?._id}`} className="bg-black text-yellow-500 px-2 py-1 rounded-md">Yirebe</Link>
                         </td>
                       )
                     ))}
