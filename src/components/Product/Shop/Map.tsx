@@ -14,7 +14,7 @@ const GoogleMapSection: React.FC<GoogleMapSectionProps> = ({ apiKey }) => {
   };
 
   return (
-    <div className="GoogleMapSection mt-12">
+    <div className="GoogleMapSection md:block hidden mt-12">
       <LoadScript googleMapsApiKey={apiKey} id="google-map-script">
         <GoogleMap
           id="shop-map"
