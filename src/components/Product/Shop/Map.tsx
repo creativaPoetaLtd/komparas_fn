@@ -11,7 +11,7 @@ const GoogleMapSection: React.FC<GoogleMapSectionProps> = ({ apiKey }) => {
       <iframe
         src={`https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=Space+Needle,Seattle+WA`}
         width="100%"
-        height="450"
+        height="1"
         style={{ border: 0 }}
         allowFullScreen={true}
         loading="lazy"
