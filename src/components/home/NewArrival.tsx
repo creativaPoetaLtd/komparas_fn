@@ -76,7 +76,7 @@ const NewArrival: React.FC<NewArrivalProps> = ({}) => {
                             <Link className="flex underline underline-offset-4 mt-4 text-[#FFAD33]" to={
                             `/product/${top3Products[1]?.id}`
                         }>VIEW MORE</Link>                        </div>
-                        <div className="flex  md:h-[286px] md:w-[290px] float-right absolute right-0">
+                        <div className="flex p-2  md:h-[286px] md:w-[290px] float-right absolute right-0">
                             <img src={
                                 top3Products[1]?.product_image
                             } width={100} height={100} className="w-full object-contain  h-full right-0" />
