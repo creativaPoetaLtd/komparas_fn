@@ -65,7 +65,7 @@ const NewArrival: React.FC<NewArrivalProps> = ({}) => {
                         <div className="absolute md:bottom-8 bottom-4 md:w-[50%] w-full md:left-6 left-2 text-white flex flex-col">
                             <h1 className="flex font-semibold">
                                 {
-                                    "dsjcsijc jcnbwkjcnw cwcnwjwk kncwoncxwajcsn wcwncowi"
+                                    top3Products[1]?.product_name
                                 }
                             </h1>
                             <p className="flex text-xs mt-3 md:w-[242px] w-[150px]">
