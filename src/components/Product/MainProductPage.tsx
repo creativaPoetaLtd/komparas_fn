@@ -76,10 +76,10 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
                 {products?.product?.vendor_prices?.reduce((prev: any, current: any) => (prev.price < current.price) ? prev : current).price.toLocaleString('en-US', { maximumFractionDigits: 4 })} Rwf
               </h1>
               <div className='flex flex-col self-end mt-3 justify-center items-center space-x-2'>
-              <h1 className='realprice font-semibold text-green-500'>
-                {products?.product?.our_price.toLocaleString('en-US', { maximumFractionDigits: 4 })} Rwf
-              </h1>
-              <p className='text-sm text-center items-center text-gray-400'>Ukoresheje Code ya Komparas</p>
+                <h1 className='realprice font-semibold text-green-500'>
+                  {products?.product?.our_price.toLocaleString('en-US', { maximumFractionDigits: 4 })} Rwf
+                </h1>
+                <p className='text-sm text-center items-center text-gray-400'>Ukoresheje Code ya Komparas</p>
               </div>
             </div>
             <p className="text-sm text-justify">{products?.product?.product_description}</p>
@@ -117,21 +117,20 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
                             <td key={priceIndex} className="text-[#353535] flex item-start m-auto p-2">
                               {[...Array(4).keys()].map((_, index) => (
                                 <div key={index} style={{
-                                  backgroundColor: `#${
-                                    Math.random().toString(16).slice(2, 8).padEnd(6, '0').slice(0, 6).toUpperCase()
-                                  }`
+                                  backgroundColor: `#${Math.random().toString(16).slice(2, 8).padEnd(6, '0').slice(0, 6).toUpperCase()
+                                    }`
                                 }} className={`bg-[#0a0a0a] rounded-full h-4 flex w-4 m-1`}></div>
                               ))}
                             </td>
                           )}
-                    {products?.product?.vendor_prices?.map((price: any, priceIndex: number) => (
-                      price?.vendor_id === shop?._id && (
-                        <td key={priceIndex} className="text-[#353535] item-start m-auto p-r2">
-                          <Link to={`shop/${shop?._id}`} className="bg-black text-yellow-500 px-2 py-1 rounded-md">Yirebe</Link>
-                        </td>
-                      )
-                    ))}
-                        
+                          {products?.product?.vendor_prices?.map((price: any, priceIndex: number) => (
+                            price?.vendor_id === shop?._id && (
+                              <td key={priceIndex} className="text-[#353535] item-start m-auto p-r2">
+                                <Link to={`shop/${shop?._id}`} className="bg-black text-yellow-500 px-2 py-1 rounded-md">Yirebe</Link>
+                              </td>
+                            )
+                          ))}
+
                         </>
                       )
                     ))}

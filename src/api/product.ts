@@ -35,6 +35,13 @@ export const getAllProducts = async (minPrice?: number, maxPrice?: number, categ
   return res;
 };
 
+export const getProductByVendorId = async (vendorId: string[]) => {
+  const res = axios.get(`${baseUrl}/products?vendor_id=${vendorId}`);
+  return await res;
+
+  
+}
+
 
 export const getPoductByCategory = async (category: string) => {
   const res = axios.get(`${baseUrl}/products/category/${category}`);
