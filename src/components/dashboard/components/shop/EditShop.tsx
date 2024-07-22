@@ -123,7 +123,7 @@ const EditShopForm = ({ setIsEditShop }: EditShopFormProps) => {
                     </button>
                 </div>
                 <div className="w-full flex justify-center items-center">
-                    <form className="w-full flex flex-col justify-center items-center md:px-52 px-2 bg-gray-300" onSubmit={handleEditShop}>
+                    <form className="w-full flex flex-col justify-center items-center md:px-20 px-2 bg-gray-300" onSubmit={handleEditShop}>
                         <div className="w-full flex flex-col justify-start items-start bg-white px-10 py-5 rounded-md">
                             <div className="w-full flex flex-col justify-start items-start">
                                 <label className="w-full flex justify-start items-start text-slate-900">
