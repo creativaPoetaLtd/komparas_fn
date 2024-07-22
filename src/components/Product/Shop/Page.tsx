@@ -66,7 +66,7 @@ const ShopPage = () => {
                             <ShopName shopData={shopData}/>
                             <Line />
                         </div>
-                        <RelatedProfducts shopProducts={shopProducts} vendorID={shopId} />
+                        <RelatedProfducts shopProducts={shopProducts} vendorID={shopId} shopData={shopData} />
                         <Line />
                         <OtherShops products={products} productID={productId} vendorID={shopId} />
                         <div className="flex flex-col md:hidden">

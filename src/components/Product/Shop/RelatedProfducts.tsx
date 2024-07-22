@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 
-const RelatedProfducts = ({shopProducts, vendorID}:any) => {
+const RelatedProfducts = ({shopProducts, vendorID, shopData}:any) => {
   return (
     <div className="flex w-full flex-col text-sm relatedProd">
-    <h1 className="text-sm text-yellow-500">Izindi Terefone dufite - Isaro shop</h1>
+    <h1 className="text-sm text-yellow-500">Izindi Terefone dufite - {' '}
+        {shopData?.name}
+    </h1>
     <div className="grid gap-8 grid-cols-2 w-full">
         {shopProducts?.data?.products?.map((product: any, index: number) => product?.vendor_prices?.map((vendor: any) => (
             vendor?.vendor_id === vendorID && (
