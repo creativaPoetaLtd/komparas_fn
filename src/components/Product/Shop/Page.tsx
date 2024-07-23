@@ -38,7 +38,7 @@ const ShopPage = () => {
     }, [productId, shopId]);
     useEffect(() => {
         const fetchProduct = async () => {
-            const prod = await getProductByVendorId(shopId);            
+            const prod = await getProductByVendorId(shopId);
             setShopProducts(prod);
         };
         fetchProduct();
@@ -57,13 +57,19 @@ const ShopPage = () => {
             <HomeNav />
             <MobileHomeNav />
             <div className="md:w-[85%] md:px-1 px-4 w-full flex self-center flex-col">
-                <ShopNavigations products={products} shopData={shopData}  />
+                <ShopNavigations products={products} shopData={shopData} />
                 <div className="flex md:flex-row flex-col md:space-x-20 space-x-0 w-full">
                     <div className="md:w-1/2 w-full  mt-12 flex flex-col">
                         <TopPhone productData={products} vendorID={shopId} />
                         <Line />
                         <div className="flex flex-col md:hidden">
-                            <ShopName shopData={shopData}/>
+                            <ShopName shopData={shopData} />
+                            <Line />
+                            <OpeningTimes shopData={shopData} />
+                            <Line />
+                            <ShopPhone shopData={shopData} />
+                            <Line />
+                            <Location shopData={shopData} />
                             <Line />
                         </div>
                         <RelatedProfducts shopProducts={shopProducts} vendorID={shopId} shopData={shopData} />
@@ -75,15 +81,15 @@ const ShopPage = () => {
                         <GoogleMapSection apiKey={"miaumiauapikey"} />
                     </div>
                     <div className="md:w-1/2 w-full flex flex-col">
-                    <div className="hidden md:flex flex-col">
-                        <ShopName shopData={shopData} />
-                        <Line />
-                    </div>
-                        <OpeningTimes shopData={shopData}  />
-                        <Line />
-                        <ShopPhone shopData={shopData}  />
-                        <Line />
-                        <Location shopData={shopData}  />
+                        <div className="hidden md:flex flex-col">
+                            <ShopName shopData={shopData} />
+                            <Line />
+                            <OpeningTimes shopData={shopData} />
+                            <Line />
+                            <ShopPhone shopData={shopData} />
+                            <Line />
+                            <Location shopData={shopData} />
+                        </div>
                     </div>
                 </div>
             </div>
