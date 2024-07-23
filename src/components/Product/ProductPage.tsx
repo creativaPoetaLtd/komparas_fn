@@ -16,7 +16,7 @@ import ComparisonDrawer from './Pdrawer';
 import { SlRefresh } from "react-icons/sl";
 import { Trash } from '@phosphor-icons/react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 import { getAllProducts } from '../../api/product';
 const ProductPage = () => {
     const [products, setProduct] = useState<any>([]);
@@ -101,12 +101,7 @@ const ProductPage = () => {
 
     }
     const handleViewAllProducts = () => {
-        if (localStorage.getItem("KomparasLoginsInfo")) {
             navigate("/products");
-        } else {
-            toast.error("You need to login to view all products");
-            navigate("/login");
-        }
     }
     return (
         <div className="flex flex-col h-fit">
