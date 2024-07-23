@@ -38,7 +38,7 @@ const RelatedProfducts = ({shopProducts, vendorID, shopData}:any) => {
         <Slider {...settings}
           className="flex justify-center"
         >
-             {shopProducts?.data?.products?.map((product: any, index: number) => product?.vendor_prices?.map((vendor: any) => (
+             {shopProducts?.data?.products?.slice(0,3).map((product: any, index: number) => product?.vendor_prices?.map((vendor: any) => (
             vendor?.vendor_id === vendorID && (
             <Link className="bg-white p-2 md:px-6 px-3  rounded-md "  to={`/product/${product?._id}`}>
                <div key={index} className="Card py-2 px-1 rounded-md bg-[#F7F7F7] flex md:w-[13rem] flex-col">
