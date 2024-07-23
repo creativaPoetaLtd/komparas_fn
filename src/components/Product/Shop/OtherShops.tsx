@@ -5,7 +5,7 @@ const OtherShops = ({products, productID}:any) => {
     <div className="flex flex-col text-sm shopTable">
             <table className="w-full">
               <thead>
-                <p className="text-green-500 px-2 item-start m-auto text-start">Aho wayisanga</p>
+                <p className="text-green-500 px-2 item-start m-auto text-start">Ahandi wayisanga</p>
               </thead>
               <tbody>
                 {products?.product?.vendors?.map((shop: any, index: number) => (
