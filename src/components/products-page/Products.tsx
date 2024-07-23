@@ -343,7 +343,6 @@ const Products = () => {
 
     };
     const categoryIdToUse: string[] = Array.isArray(categoryIdt) && categoryIdt.length > 0 ? categoryIdt : (catID ? [catID] : []);
-    console.log(`categoryIdToUse`, categoryIdToUse);
     const shopIdToUse: string[] = Array.isArray(shopst) && shopst.length > 0 ? shopst : (shopsId ? [shopsId] : []);
     useEffect(() => {
         const fetchProducts = async () => {
@@ -515,6 +514,18 @@ const Products = () => {
                                     <button onClick={() => {
                                         navigate(-1)
                                         clearFilter(categories.find((cat: any) => cat._id === catID)?.name)
+                                    }
+                                    } className="ml-1 focus:outline-none">
+                                        <FaTimes className="text-xs text-gray-800" />
+                                    </button>
+                                </div>}
+                                {shopsId && <div className='flex items-center bg-gray-200 rounded-md p-1 mx-1'>
+                                    {/* {shops.map((shop: any) => 
+                                    <p className="text-sm text-gray-800">{shop.name}</p>)} */}
+                                    <p className="text-sm text-gray-800">{shops.find((shop: any) => shop._id === shopsId)?.name}</p>
+                                    <button onClick={() => {
+                                        navigate(-1)
+                                        clearFilter(shops.find((shop: any) => shop._id === shopsId)?.name)
                                     }
                                     } className="ml-1 focus:outline-none">
                                         <FaTimes className="text-xs text-gray-800" />

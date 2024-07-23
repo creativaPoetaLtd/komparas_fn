@@ -175,14 +175,6 @@ const SlidingCards: React.FC = () => {
       }
     ],
   };
-  // const [shops, setShops] = React.useState<any>([]);
-  // React.useEffect(() => {
-  //   const fetchShops = async () => {
-  //     const response = await getAllShops();
-  //     setShops(response?.data);
-  //   }
-  //   fetchShops();
-  // }, []);
   const [products, setProducts] = React.useState<any[]>([]);
 
   React.useEffect(() => {
