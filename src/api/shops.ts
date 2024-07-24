@@ -17,12 +17,27 @@ export const addShopToProduct = async (
 ) => {
   try {
     const response = await axios.post(
-      `http://localhost:10000/products/${productId}/add-shop`,
+      `${baseUrl}/products/${productId}/add-shop`,
       shopData
     );
     return response.data;
   } catch (error) {
     console.error('Error adding shop:', error);
+    throw error;
+  }
+};
+
+export const removeShopFromProduct = async (
+  productId: string,
+  shopId: string
+) => {
+  try {
+    const response = await axios.delete(
+      `${baseUrl}/products/${productId}/vendors/${shopId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error removing shop:', error);
     throw error;
   }
 };

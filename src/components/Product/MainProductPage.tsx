@@ -3,6 +3,7 @@ import { CiCircleChevLeft, CiCircleChevRight } from 'react-icons/ci';
 import { Link, useParams } from 'react-router-dom';
 import { useSwipeable } from 'react-swipeable';
 import AddOtheShopsModal from './AddingOtherShopsModel';
+import { removeShopFromProduct } from '../../api/shops';
 
 interface Product {
   products: any;
@@ -31,11 +32,6 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
   });
 
   const handleAddShop = (shop: { vendor_id: string; price: number; colors: string[] }) => {
-    // Add your logic here to handle adding the shop
-    // This might involve updating the state or making an API call
-    console.log('Shop added:', shop);
-
-    // Example: Add shop to products (this is just a simulation)
     const updatedProducts = { ...products };
     updatedProducts.product.vendors.push({ name: shop.vendor_id, _id: Math.random().toString() });
     updatedProducts.product.vendor_prices.push({
@@ -43,10 +39,24 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
       price: shop.price,
       colors: shop.colors,
     });
-
-    // Update the products with the new shop (this is just an example, make sure you update the state properly)
-    // setProducts(updatedProducts);
   };
+
+  const deleteShopFromProduct = async (shopId: string) => {
+    try {
+      await removeShopFromProduct(productId, shopId);
+      const updatedProducts = { ...products };
+      updatedProducts.product.vendors = updatedProducts.product.vendors.filter(
+        (shop: any) => shop._id !== shopId
+      );
+      updatedProducts.product.vendor_prices = updatedProducts.product.vendor_prices.filter(
+        (price: any) => price.vendor_id !== shopId
+      );
+    } catch (error) {
+      console.error('Failed to delete shop:', error);
+    }
+  }
+
+
 
   return (
     <div className='w-full pl-0 flex flex-col h-fit'>
@@ -148,6 +158,8 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
                             price?.vendor_id === shop?._id && (
                               <td key={priceIndex} className="text-[#353535] item-start m-auto p-r2">
                                 <Link to={`shop/${shop?._id}`} className="bg-black text-yellow-500 px-2 py-1 rounded-md">Yirebe</Link>
+                                <button className='deleteButton bg-red-500 text-white px-2 py-1 rounded-md'
+                                  onClick={() => deleteShopFromProduct(shop?._id)}>Siba</button>
                               </td>
                             )
                           ))}
