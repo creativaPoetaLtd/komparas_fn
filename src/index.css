@@ -162,22 +162,9 @@ input::-webkit-calendar-picker-indicator {
   border: 0px solid #EDB62E;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.sloder {
+  box-shadow: 0 0 0 5px  fade(rgb(219, 5, 5),12%);
+}
 
 
 .container1 {

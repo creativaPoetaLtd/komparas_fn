@@ -20,6 +20,7 @@ import ContactPage from './components/Contact/ContactPage.tsx'
 import SignupPage from './components/SignUp/SignupPage.tsx'
 import SigninPage from './components/SignIn/SignInPage.tsx'
 import ProductPage from './components/Product/ProductPage.tsx'
+import ShopPage from './components/Product/Shop/Page.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -38,6 +39,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/about_us" element={<AboutPage />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/products" element={<Products />} />
+        <Route path="/product/:productId/shop/:shopId" element={<ShopPage />} />
+
+
 
       </Routes>
     </BrowserRouter>

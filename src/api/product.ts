@@ -1,34 +1,47 @@
 import { baseUrl } from '.';
 import axios from "axios";
 
-export const getAllProducts = async (minPrice?: number, maxPrice?: number, categoryId?: string, vendorId?: any[], ram?: any, storage?:any, camera?:any, types?:any) => {
-  let res:any
-  let url = `${baseUrl}/products?`
-  if(minPrice && maxPrice){
+export const getAllProducts = async (minPrice?: number, maxPrice?: number, categoryId?: string[], vendorId?: string[], ram?: string[], storage?: string[], camera?: string[], colors?: string[], screen?: string[]) => {
+  let url = `${baseUrl}/products?`;
+  if (minPrice && maxPrice) {
     url += `minPrice=${minPrice}&maxPrice=${maxPrice}`;
   }
-  if (categoryId) {
-    url += `&category=${categoryId}`;
+  if (categoryId && Array.isArray(categoryId) && categoryId.length > 0) {
+    url += `&category=${categoryId.join(',')}`;
   }
-  if (vendorId && vendorId.length > 0) {
+  if(vendorId && Array.isArray(vendorId) && vendorId.length > 0) {
     url += `&vendor_id=${vendorId.join(',')}`;
   }
-  if (ram) {
-    url += `&ram=${ram}`;
+  // if (vendorId && Array.isArray(vendorId) && vendorId.length > 0) {
+  //   url += `&vendor_id=${vendorId.join(',')}`;
+  // }
+  if (ram && Array.isArray(ram) && ram.length > 0) {
+    url += `&ram=${ram.join(',')}`;
   }
-  if (storage) {
-    url += `&storage=${storage}`;
+  if (storage && Array.isArray(storage) && storage.length > 0) {
+    url += `&storage=${storage.join(',')}`;
   }
-  if (camera) {
-    url += `&camera=${camera}`;
+  if (camera && Array.isArray(camera) && camera.length > 0) {
+    url += `&camera=${camera.join(',')}`;
   }
-  if (types) {
-    url += `&types=${types}`;
+  if (colors && Array.isArray(colors) && colors.length > 0) {
+    url += `&colors=${colors.join(',')}`;
   }
-  
-   res = axios.get(url);
+  if (screen && Array.isArray(screen) && screen.length > 0) {
+    url += `&screen=${screen.join(',')}`;
+  }
+
+  const res = await axios.get(url);
+  return res;
+};
+
+export const getProductByVendorId = async (vendorId: string[]) => {
+  const res = axios.get(`${baseUrl}/products?vendor_id=${vendorId}`);
   return await res;
+
+  
 }
+
 
 export const getPoductByCategory = async (category: string) => {
   const res = axios.get(`${baseUrl}/products/category/${category}`);
@@ -108,17 +121,7 @@ export const updateProduct = async (productData: any, id: string) => {
   const formData = new FormData();
   formData.append('product_name', productData.product_name);
   formData.append('product_description', productData.product_description);
-  formData.append('category_name', productData.category);
-  formData.append('product_image', productData.product_image);
-  formData.append('our_review', productData.our_review)
-  productData.specifications.forEach((specification: { key: string | Blob; value: string | Blob; }, index: any) => {
-    formData.append(`specifications[${index}][key]`, specification.key ? specification.key : '-');
-    formData.append(`specifications[${index}][value]`, specification.value ? specification.value : '-');
-  });
-  productData.vendor_prices.forEach((vendor_prices: { key: string | Blob; value: string | Blob }, index: any) => {
-    formData.append(`vendor_prices[${index}][vendor_id]`, vendor_prices.key ? vendor_prices.key : '-');
-    formData.append(`vendor_prices[${index}][price]`, vendor_prices.value ? vendor_prices.value : '-');
-  });
+  formData.append('category_name', productData.category_name);
   const res = await fetch(`${baseUrl}/products/${id}`, {
     method: 'PUT',
     body: formData,

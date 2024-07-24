@@ -16,10 +16,8 @@ import ComparisonDrawer from './Pdrawer';
 import { SlRefresh } from "react-icons/sl";
 import { Trash } from '@phosphor-icons/react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 import { getAllProducts } from '../../api/product';
-
-
 const ProductPage = () => {
     const [products, setProduct] = useState<any>([]);
     const navigate = useNavigate();
@@ -27,7 +25,7 @@ const ProductPage = () => {
     const { productId }: any = useParams();
     useEffect(() => {
         window.scrollTo(0, 0);
-    }, []);
+    }, [productId]);
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -97,21 +95,13 @@ const ProductPage = () => {
         localStorage.removeItem('selectedProductId');
         localStorage.removeItem('selectedProductImage');
     };
-
     const handleDelete2 = () => {
         localStorage.removeItem('selectedProductId2')
         localStorage.removeItem('selectedProductImage2');
 
     }
-
-
     const handleViewAllProducts = () => {
-        if (localStorage.getItem("KomparasLoginsInfo")) {
             navigate("/products");
-        } else {
-            toast.error("You need to login to view all products");
-            navigate("/login");
-        }
     }
     return (
         <div className="flex flex-col h-fit">
@@ -121,7 +111,7 @@ const ProductPage = () => {
             <div className='w-full bg-white h-fit justify-between lg:px-24 px-2 flex flex-col'>
                 <ProdNavigations products={products} />
                 <MainProductPage products={products} />
-                <div className="w-full h-fit justify-between flex md:flex-row flex-col mt-12">
+                <div className="w-full h-fit justify-between flex md:flex-row flex-col md:mt-12 mt-4">
                     <ThreeButtons products={products} />
                     <div className="md:w-[40%] w-full md:mt-0 mt-4 flex flex-col">
                         <div className="compareDiv border border-[#0C203B] p-2 rounded-md lg:w-[414px] md:w-[360px] flex flex-col">
@@ -218,24 +208,20 @@ const ProductPage = () => {
                         </Button>,
                     ]}
                 >
-
-                    {/* add a search field so that when i type any letter it filter the allproduct if i delete a charcter it returns all remaing products related to the current text in the search field else if there is nothing in search field it will bring all products */}
                     <input
-  type="text"
-  placeholder="Search Product"
-  className="border border-gray-300 rounded-md p-2 w-full mb-4"
-  onChange={(e) => {
-    const search = e.target.value.toLowerCase();
-    const filteredProducts = search
-      ? allProd.filter((product: any) =>
-          product.product_name.toLowerCase().includes(search)
-        )
-      : allProd;
-    setAllProd(filteredProducts);
-  }}
-/>
-
-                    
+                        type="text"
+                        placeholder="Search Product"
+                        className="border border-gray-300 rounded-md p-2 w-full mb-4"
+                        onChange={(e) => {
+                            const search = e.target.value.toLowerCase();
+                            const filteredProducts = search
+                                ? allProd.filter((product: any) =>
+                                    product.product_name.toLowerCase().includes(search)
+                                )
+                                : allProd;
+                            setAllProd(filteredProducts);
+                        }}
+                    />
                     {allProd?.map((product: any, index: any) => (
                         <div key={index}>
                             <div className="flex justify-between items-center">

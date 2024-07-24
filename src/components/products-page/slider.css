@@ -1,0 +1,17 @@
+.custom-slider .ant-slider-track {
+    background-color: #4CAF50 !important;
+    height: 5px !important;
+}
+
+.custom-slider .ant-slider-handle {
+    border-color: #000000 !important;
+    background-color: #ffffff !important; 
+}
+
+.custom-slider .ant-slider-handle:focus,
+.custom-slider .ant-slider-handle:active,
+.custom-slider .ant-slider-handle:hover {
+    box-shadow: none !important; 
+    border-color: #000000 !important;
+    background-color: #ffffff !important; 
+}

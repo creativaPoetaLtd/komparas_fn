@@ -5,6 +5,7 @@ import { Phone } from "@phosphor-icons/react";
 import { Menu, MenuProps } from 'antd';
 import dummyData from "./dummData";
 import { CiCircleChevLeft, CiCircleChevRight } from "react-icons/ci";
+import { useNavigate } from "react-router-dom"
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -25,9 +26,9 @@ function getItem(
 }
 
 const HomeBurner = () => {
-
   const [categories, setCategories] = useState<any>([]);
   const [typingIndex, setTypingIndex] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -46,7 +47,12 @@ const HomeBurner = () => {
 
   const maxTitleLength = 120; // Adjust according to your data
 
-  const cagetoryItems = categories?.map((category: any) => {
+  const handleMenuClick = (e: any) => {
+    const categoryId = e.key;
+    navigate(`/products?categoryId=${categoryId}`);
+  };
+
+  const categoryItems = categories?.map((category: any) => {
     const hasChildren = category.children && category.children.length > 0;
     return getItem(category.name, category._id, <Phone className="text-green-500" />, !hasChildren ? category.id ? category.id : null : category.children.map((child: any) => {
       return getItem(child.name, child._id, <Phone />)
@@ -81,9 +87,14 @@ const HomeBurner = () => {
   let slider: Slider | null  = null;
 
   return (
-    <div className='bunnerPage flex md:w-[100%] w-[92%] m-auto md:px-16 px-0'>
+    <div className='bunnerPage flex z-10 md:w-[100%] w-[92%] m-auto md:px-16 px-0'>
       <div className=' sideCategories w-fit hidden bg-white lg:flex h-full'>
-        <Menu style={{ width: 200, boxShadow: 'white', border: 'none', borderRight: "white" }} mode="vertical" items={cagetoryItems} />
+        <Menu 
+          style={{ width: 200, boxShadow: 'white', border: 'none', borderRight: "white" }} 
+          mode="vertical" 
+          items={categoryItems} 
+          onClick={handleMenuClick}
+        />
       </div>
       <Slider {...sliderSettings} className='lg:w-[80%] w-[100%] self-center h-full' ref={sliderRef => slider = sliderRef}>
         {dummyData?.map((data, index) => (
@@ -106,7 +117,6 @@ const HomeBurner = () => {
             </button>
         <button className="absolute top-1/2 right-2" onClick={nextSlide}>
         <CiCircleChevRight className="bg bg-gray-300 rounded-full hover:bg-slate-800" />
-
         </button>
           </div>
         ))}

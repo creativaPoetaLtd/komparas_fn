@@ -4,123 +4,227 @@ import SideBar from './SideBar'
 import SubNav from '../Navigations/SubNav'
 import HomeNav from '../home/HomeNav'
 import MobileHomeNav from '../home/HomeMobileNav'
-import { FaSearch, FaTimes } from 'react-icons/fa'
-import { MdFilterList } from 'react-icons/md';
+import { FaArrowCircleUp, FaSearch, FaTimes } from 'react-icons/fa'
+// import { MdFilterList } from 'react-icons/md';
 import { getAllProducts, getComparison } from '../../api/product';
 import ComparisonDrawer from './ComparisonDrawer';
-// import { baseUrl } from '../../api';
+import { TbAdjustmentsHorizontal } from "react-icons/tb";
 import PorductCheckInput from './ProdCheck';
 import { toast } from 'react-toastify';
-import { getAllCategories } from '../../api/getAllCategories';
+import { fetchParentCategories } from '../../api/getAllCategories';
 import { getAllShops } from '../../api/getAllShops';
 import { Eye, EyeSlash } from '@phosphor-icons/react';
+import { Link } from 'react-router-dom';
 import { useSearchParams } from 'react-router-dom';
-// import { getProductOnShop } from '../../api/product';
+import { useNavigate } from 'react-router-dom';
+import Footer from '../Footer';
+import AllProdNavs from '../Product/AllProdNavs';
+import { HiMiniArrowsUpDown } from 'react-icons/hi2';
+import BottomDrawer from './BottomDrawer';
 const Products = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [productsData, setProductsData] = useState<any[]>([]);
     const [refresh, setRefresh] = useState(false);
-    const [deleteRefresh, ] = useState(false);
+    const [deleteRefresh,] = useState(false);
+    const [searchParam]: any = useSearchParams();
+    const catID = searchParam.get('categoryId');
+    const shopsId = searchParam.get('shopId');
     const loginInfo: any = localStorage.getItem('KomparasLoginsInfo');
     const userId = JSON.parse(loginInfo)?._id;
     const [categories, setCategories] = useState<any>([]);
     const [shops, setShops] = useState<any>([]);
+    const [isDropDownFilter, setIsDropDownFilter] = useState(false);
     const [activeFilters, setActiveFilters] = useState<any[]>([]);
     const [locastorageCompareProductIds, setLocastorageCompareProductIds] = useState<any>(
         localStorage.getItem("compareProductIds")
-          ? JSON.parse(localStorage.getItem("compareProductIds")!)
-          : []
-      );      
-    const [searchParams] = useSearchParams();
-    let catId = searchParams.get('categoryId');
-    // let shopsId = searchParams.get('shopId');
-    const clearFilter = (filterType: any) => {
+            ? JSON.parse(localStorage.getItem("compareProductIds")!)
+            : []
+    );
+    const [fixed, setFixed] = useState(false);
+
+    const navigate = useNavigate();
+    const clearFilter = (filter: any) => {
         handleRefresh();
-        if (filterType === categoryName) {
-            handleRefresh();
-            setCategoryName('');
-            setCategoryId('');
-            catId = '';
-            handleRefresh();
-        } else if (filterType === selectedShop) {
-            handleRefresh();
-            setSelectedShop(null);
-            setSelectedShopId('');
-            handleRefresh();
-        } else if (filterType === `RAM: ${selectedRam}`) {
-            handleRefresh();
-            setSelectedRam('');
-            handleRefresh();
-        } else if (filterType === `Storage: ${selectedStorage}`) {
-            handleRefresh();
-            setSelectedStorage('');
-            handleRefresh();
-        } else if (filterType === `Camera: ${selectedCamera}`) {
-            handleRefresh();
-            setSelectedCamera('');
-            handleRefresh();
-        } else if (filterType === `Type: ${selectedType}`) {
-            handleRefresh();
+        if (categoryName.includes(filter)) {
+            const newCategoryName = categoryName.filter(name => name !== filter);
+            setCategoryName(newCategoryName);
+            setCategoryId(newCategoryName.map(name => categories.find((cat: any) => cat.name === name)._id));
+        } else if (selectedShopNames.includes(filter)) {
+            const newShopNames = selectedShopNames.filter(name => name !== filter);
+            setSelectedShopNames(newShopNames);
+            setShopst(newShopNames.map(name => shops.find((shop: any) => shop.shop_name === name)?._id));
+        }
+        else if (selectedRam.includes(filter)) {
+            const newRam = selectedRam.filter(ram => ram !== filter);
+            setSelectedRam(newRam);
+            setMultipleRam(newRam);
+        } else if (selectedCamera.includes(filter)) {
+            const newCamera = selectedCamera.filter(camera => camera !== filter);
+            setSelectedCamera(newCamera);
+            setMultipleCamera(newCamera);
+        } else if (selectedColors.includes(filter)) {
+            const newColors = selectedColors.filter(color => color !== filter);
+            setSelectedColors(newColors);
+            setMultipleColors(newColors);
+        }
+        else if (selectedscreen.includes(filter)) {
+            const newsecreen = selectedscreen.filter(secreen => secreen !== filter);
+            setSelectedsecreen(newsecreen);
+            setMultiplesecreen(newsecreen);
+        }
+        else if (selectedType === filter) {
             setSelectedType('');
-            handleRefresh();
+        }
+
+        else if (selectedStorage.includes(filter)) {
+            const newStorage = selectedStorage.filter(storaged => storaged !== filter);
+            setSelectedStorage(newStorage);
+            setMultioletStorage(newStorage);
         }
         handleRefresh();
     };
+
     const clearFilters = () => {
         handleRefresh();
-        setCategoryName('');
-        setCategoryId('');
-        setSelectedStorage('');
-        setSelectedCamera('');
+        setCategoryName([]);
+        setCategoryId([]);
+        setShopst([]);
+        setSelectedShopNames([]);
+        setSelectedStorage([]);
+        setMultioletStorage([]);
+        setSelectedRam([]);
+        setMultipleRam([]);
+        setSelectedCamera([]);
+        setMultipleCamera([]);
+        setSelectedColors([]);
+        setMultipleColors([]);
         setSelectedType('');
-        setSelectedShopId('');
-        setSelectedShop(null);
-        setSelectedRam('');
-        handleRefresh();
+
     };
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
-    useEffect(() => {
-        const fetchCategories = async () => {
-            const data = await getAllCategories();
-            setCategories(data?.data);
-        }
-        fetchCategories();
-    }
-        , []);
-    useEffect(() => {
-        const fetchShops = async () => {
-            const data = await getAllShops();
-            setShops(data?.data);
-        }
-        fetchShops();
-    }
-        , []);
+    const fetchCategories = async () => {
+        const data = await fetchParentCategories();
+        setCategories(data?.data);
+    };
 
-    const [selectedShop, setSelectedShop] = useState<string | null>(null);
-    const [, setSelectedShopId] = useState<string>();
-    // const [selectedShopId, setSelectedShopId] = useState<string>();
+    const fetchShops = async () => {
+        const data = await getAllShops();
+        setShops(data?.data);
+    };
+
+    useEffect(() => {
+        fetchCategories();
+        fetchShops();
+    }, []);
+
+
     const [selectedShopNames, setSelectedShopNames] = useState<string[]>([]);
     const [shopst, setShopst] = useState<string[]>([]);
-    
+
     const handleShopClick = async (shopId: string, name: string) => {
         handleRefresh();
-        setSelectedShopId(shopId);
         const index = shopst.indexOf(shopId);
         if (index === -1) {
-          setShopst([...shopst, shopId]);
-          setSelectedShopNames([...selectedShopNames, name]);
+            setShopst([...shopst, shopId]);
+            setSelectedShopNames([...selectedShopNames, name]);
         } else {
-          setShopst(shopst.filter(id => id !== shopId));
-          setSelectedShopNames(selectedShopNames.filter(shopName => shopName !== name));
+            setShopst(shopst.filter(id => id !== shopId));
+            setSelectedShopNames(selectedShopNames.filter(shopName => shopName !== name));
         }
         handleRefresh();
-      };
+    };
     const handleRefresh = () => {
         setRefresh(!refresh);
     }
-
+    const [categoryIdt, setCategoryId] = useState<string[]>([]);
+    const [categoryName, setCategoryName] = useState<string[]>([]);
+    const handleCategoryClick = (categoryId: string, name: string) => {
+        handleRefresh();
+        const index = categoryIdt.indexOf(categoryId);
+        if (index === -1) {
+            setCategoryId([...categoryIdt, categoryId]);
+            setCategoryName([...categoryName, name]);
+        } else {
+            setCategoryId(categoryIdt.filter(id => id !== categoryId));
+            setCategoryName(categoryName.filter(catName => catName !== name));
+        }
+        handleRefresh();
+    };
+    const [selectedStorage, setSelectedStorage] = useState<string[]>([]);
+    const [multioletStorage, setMultioletStorage] = useState<string[]>([]);
+    const handleSelectStorage = (storage: string) => {
+        handleRefresh();
+        const index = multioletStorage.indexOf(storage);
+        if (index === -1) {
+            setMultioletStorage([...multioletStorage, storage]);
+            setSelectedStorage([...selectedStorage, storage]);
+        } else {
+            setMultioletStorage(multioletStorage.filter(storaged => storaged !== storage));
+            setSelectedStorage(selectedStorage.filter(storaged => storaged !== storage));
+        }
+        handleRefresh();
+    };
+    const [selectedRam, setSelectedRam] = useState<string[]>([]);
+    const [multipleRam, setMultipleRam] = useState<string[]>([]);
+    const handleSelectRam = async (ram: string) => {
+        handleRefresh();
+        // setSelectedRam(ram);
+        const index = multipleRam.indexOf(ram);
+        if (index === -1) {
+            setMultipleRam([...multipleRam, ram]);
+            setSelectedRam([...selectedRam, ram]);
+        } else {
+            setMultipleRam(multipleRam.filter(ramT => ramT !== ram));
+            setSelectedRam(multipleRam.filter(ramT => ramT !== ram));
+        }
+        handleRefresh();
+    };
+    const [selectedCamera, setSelectedCamera] = useState<string[]>([]);
+    const [multipleCamera, setMultipleCamera] = useState<string[]>([]);
+    const handleSelectCamera = async (camera: string) => {
+        handleRefresh();
+        const index = multipleCamera.indexOf(camera);
+        if (index === -1) {
+            setMultipleCamera([...multipleCamera, camera]);
+            setSelectedCamera([...selectedCamera, camera]);
+        } else {
+            setMultipleCamera(multipleCamera.filter(cameraT => cameraT !== camera));
+            setSelectedCamera(multipleCamera.filter(cameraT => cameraT !== camera));
+        }
+        handleRefresh();
+    };
+    const [selectedColors, setSelectedColors] = useState<string[]>([]);
+    const [multipleColors, setMultipleColors] = useState<string[]>([]);
+    const handleSelectColors = async (colors: string) => {
+        handleRefresh();
+        const index = multipleColors.indexOf(colors);
+        if (index === -1) {
+            setMultipleColors([...multipleColors, colors]);
+            setSelectedColors([...selectedColors, colors]);
+        } else {
+            setMultipleColors(multipleColors.filter(colorsT => colorsT !== colors));
+            setSelectedColors(multipleColors.filter(colorsT => colorsT !== colors));
+        }
+        handleRefresh();
+    };
+    const [selectedType, setSelectedType] = useState<string>();
+    const [selectedscreen, setSelectedsecreen] = useState<string[]>([]);
+    const [multiplesecreen, setMultiplesecreen] = useState<string[]>([]);
+    const handleSelectsecreen = async (secreen: string) => {
+        handleRefresh();
+        const index = multiplesecreen.indexOf(secreen);
+        if (index === -1) {
+            setMultiplesecreen([...multiplesecreen, secreen]);
+            setSelectedsecreen([...selectedscreen, secreen]);
+        } else {
+            setMultiplesecreen(multiplesecreen.filter(secreenT => secreenT !== secreen));
+            setSelectedsecreen(multiplesecreen.filter(secreenT => secreenT !== secreen));
+        }
+        // setSelectedCamera(camera);
+        handleRefresh();
+    };
     const [comparisonData, setComparisonData] = useState<any>([]);
     useEffect(() => {
         const fetchComparison = async () => {
@@ -131,38 +235,15 @@ const Products = () => {
         fetchComparison();
     }, [userId, deleteRefresh]);
 
-    
-
     const comparedProductId = comparisonData?.productsInfo?.map((product: any) => product._id);
-    // const addProductToCompare = async (productData: { productId: any; }) => {
-    //     const data = { userId, productId: productData.productId };
-    //     const res = await fetch(`${baseUrl}/comparison`, {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify(data),
-    //     });
-    //     const resData = await res.json();
-    //     if (resData?.comparison?.userId) {
-    //         toast.success(resData?.message);
-    //         handleRefresh();
-    //         getComparison(userId);
-    //         handleDeleteRefresh();
-    //     } else {
-    //         toast.error(resData?.message);
-    //     }
-    //     return await resData;
-    // };
-
     const handleAddProductIdToLocalStorageCompare = (productId: any) => {
         const productIds = localStorage.getItem('compareProductIds');
         handleRefresh();
         if (productIds) {
             const productIdsArray = JSON.parse(productIds);
-        handleRefresh();
+            handleRefresh();
 
-            if (productIdsArray.length < 10) {
+            if (productIdsArray.length < 4) {
                 localStorage.setItem('compareProductIds', JSON.stringify([...productIdsArray, productId]));
                 setLocastorageCompareProductIds(
                     JSON.stringify([...productIdsArray, productId])
@@ -170,37 +251,48 @@ const Products = () => {
                 handleRefresh();
 
             } else {
-                toast.error('You can only compare two products at a time');
+                toast.error('Ushobora kugereranya telephone enye gusa!');
             }
-        handleRefresh();
+            handleRefresh();
 
         } else {
-        handleRefresh();
+            handleRefresh();
 
             localStorage.setItem('compareProductIds', JSON.stringify([productId]));
-        handleRefresh();
+            handleRefresh();
 
         }
     }
 
     const handleRemoveProductIdFromLocalStorageCompare = (productId: any) => {
+        handleRefresh()
         const productIds = localStorage.getItem('compareProductIds');
         if (productIds) {
+            handleRefresh()
             const productIdsArray = JSON.parse(productIds);
             const updatedProductIdsArray = productIdsArray.filter((id: any) => id !== productId);
             localStorage.setItem('compareProductIds', JSON.stringify(updatedProductIdsArray));
             setLocastorageCompareProductIds(JSON.stringify(updatedProductIdsArray));
+            handleRefresh()
         }
+        handleRefresh()
     }
-    
-    const cardsPerPage = 10;
+
+    const cardsPerPage = 24;
     const totalProducts = productsData?.length;
     const [open, setOpen] = useState(false);
+    const [openBottom, setOpenBottom] = useState(false);
     const showDrawer = () => {
         setOpen(true);
     };
     const onClose = () => {
         setOpen(false);
+    };
+    const showBottomDrawer = () => {
+        setOpenBottom(true);
+    };
+    const onCloseBottom = () => {
+        setOpenBottom(false);
     };
     const handlePageChange = (page: SetStateAction<number>) => {
         setCurrentPage(page);
@@ -219,86 +311,52 @@ const Products = () => {
         setMinPrice(min);
         setMaxPrice(max);
     };
-    const [categoryId, setCategoryId] = useState<string>("");
-    const [categoryName, setCategoryName] = useState<string>("");
-    const handleCategoryClick = async (categoryId: string, categoryName: string) => {
-        handleRefresh();
-        setCategoryId(categoryId);
-        setCategoryName(categoryName);
-        handleRefresh();
-    }
-    const [selectedRam, setSelectedRam] = useState<string>();
-    const [multipleRam, setMultipleRam] = useState<string[]>([]);
-    const handleSelectRam = async (ram: string) => {
-        handleRefresh();
-        setSelectedRam(ram);
-        const index = multipleRam.indexOf(ram);
-        if (index === -1) {
-            setMultipleRam([...multipleRam, ram]);
-        } else {
-            setMultipleRam(multipleRam.filter(ram => ram !== ram));
-        }
-        handleRefresh();
-    };
-    const [selectedStorage, setSelectedStorage] = useState<string>();
-    const [multioletStorage, setMultioletStorage] = useState<string[]>([]);
-    const handleSelectStorage = async (storage: string) => {
-        handleRefresh();
-        const index = multioletStorage.indexOf(storage);
-        if (index === -1) {
-            setMultioletStorage([...multioletStorage, storage]);
-        } else {
-            setMultioletStorage(multioletStorage.filter(storage => storage !== storage));
-        }
-        setSelectedStorage(storage);
-        handleRefresh();
-    };
-    const [selectedCamera, setSelectedCamera] = useState<string>();
-    const [multipleCamera, setMultipleCamera] = useState<string[]>([]);
-    const handleSelectCamera = async (camera: string) => {
-        handleRefresh();
-        const index = multipleCamera.indexOf(camera);
-        if (index === -1) {
-            setMultipleCamera([...multipleCamera, camera]);
-        } else {
-            setMultipleCamera(multipleCamera.filter(camera => camera !== camera));
-        }
-        setSelectedCamera(camera);
-        handleRefresh();
-    };
-    const [selectedType, setSelectedType] = useState<string>();
-    const [multipleType, setMultipleType] = useState<string[]>([]);
-    const handleSelectType = async (type: string) => {
-        handleRefresh();
-        const index = multipleType.indexOf(type);
-        if (index === -1) {
-            setMultipleType([...multipleType, type]);
-        } else {
-            setMultipleType(multipleType.filter(type => type !== type));
-        }
-        setSelectedType(type);
-        handleRefresh();
-    };
-    const [sortOrder, setSortOrder] = useState<'ascending' | 'descending'>('ascending');
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const top = window.scrollY;
+            if (top > 100) {  // Adjust this value based on your layout
+                setFixed(true);
+            } else {
+                setFixed(false);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+    const [sortOrder, setSortOrder] = useState<'ascending' | 'descending' | 'cheaper' | 'expensive'>('ascending');
     const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedValue = event.target.value;
         if (selectedValue === 'ascending') {
             setSortOrder('ascending');
         } else if (selectedValue === 'descending') {
             setSortOrder('descending');
+        } else if (selectedValue === 'cheaper') {
+            setSortOrder('cheaper');
+        } else if (selectedValue === 'expensive') {
+            setSortOrder('expensive');
         }
+
     };
-    const categoryIdToUse = categoryId ? categoryId : catId ? catId : '';
-    // const shopIdToUse:any = selectedShopId ? selectedShopId : shopsId ? shopst : '';
+    const categoryIdToUse: string[] = Array.isArray(categoryIdt) && categoryIdt.length > 0 ? categoryIdt : (catID ? [catID] : []);
+    const shopIdToUse: string[] = Array.isArray(shopst) && shopst.length > 0 ? shopst : (shopsId ? [shopsId] : []);
     useEffect(() => {
         const fetchProducts = async () => {
-            const response = await getAllProducts(minPrice, maxPrice, categoryIdToUse, shopst, multipleRam, multioletStorage, multipleCamera, multipleType);
+            const response = await getAllProducts(minPrice, maxPrice, categoryIdToUse, shopIdToUse, multipleRam,multioletStorage, multipleCamera, multipleColors,multiplesecreen);
             const allProducts = response?.data?.products;
             let sortedProducts = allProducts;
             if (sortOrder === 'ascending') {
                 sortedProducts = allProducts?.sort((a: any, b: any) => a.product_name.localeCompare(b.product_name));
             } else if (sortOrder === 'descending') {
                 sortedProducts = allProducts?.sort((a: any, b: any) => b.product_name.localeCompare(a.product_name));
+            } else if (sortOrder === 'cheaper') {
+                sortedProducts = allProducts?.sort((a: any, b: any) => a.our_price - b.our_price);
+            } else if (sortOrder === 'expensive') {
+                sortedProducts = allProducts?.sort((a: any, b: any) => b.our_price - a.our_price);
             }
             const productNames = sortedProducts?.map((product: any) => product.product_name);
             setAutocompleteOptions(productNames);
@@ -315,75 +373,83 @@ const Products = () => {
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchValue(event.target.value);
     };
-    // const deleteProductFromComparison = async (productIdToDelete: any) => {
-    //     const comparisonToDelete = comparisonData?.comparisons.find((comparison: { productId: any; }) =>
-    //         comparison.productId === productIdToDelete
-    //     );
-    //     if (comparisonToDelete) {
-    //         try {
-    //             const response = await fetch(`${baseUrl}/comparison/${comparisonToDelete._id}`, {
-    //                 method: 'DELETE',
-    //             });
-    //             const data = await response.json();
-    //             toast.success(data.message);
-    //             getComparison(userId);
-    //             handleDeleteRefresh()
-    //         } catch (error) {
-    //             console.error('Error deleting product from comparison:', error);
-    //         }
-    //     }
-    // };
     let filters: any[] = [];
     const generateActiveFilters = () => {
-        if (categoryName) {
-            filters.push(categoryName);
+        if (categoryName.length) {
+            filters.push(...categoryName);
         }
-        if (selectedShop) {
-            filters.push(selectedShopNames);
+        if (selectedShopNames.length) {
+            filters.push(...selectedShopNames);
         }
-        if (selectedRam) {
-            filters.push(`RAM: ${selectedRam}`);
+        if (selectedStorage.length) {
+            filters.push(...selectedStorage);
         }
-        if (selectedStorage) {
-            filters.push(`Storage: ${selectedStorage}`);
+        if (selectedRam.length) {
+            filters.push(...selectedRam);
         }
-        if (selectedCamera) {
-            filters.push(`Camera: ${selectedCamera}`);
+        if (selectedCamera.length) {
+            filters.push(...selectedCamera);
         }
         if (selectedType) {
-            filters.push(`Type: ${selectedType}`);
+            filters.push(selectedType);
+        }
+        if (selectedColors.length) {
+            filters.push(...selectedColors);
+        }
+        if (selectedscreen.length) {
+            filters.push(...selectedscreen);
         }
         return filters;
     };
     useEffect(() => {
         const activeFilters = generateActiveFilters();
         setActiveFilters(activeFilters);
-    }, [categoryName, selectedShopNames, selectedRam, selectedCamera, selectedStorage, selectedType]);
+    }, [categoryName, selectedStorage, selectedRam, selectedCamera, selectedType, selectedColors, selectedscreen, selectedShopNames]);
 
-    const [isDropDownFilter, setIsDropDownFilter] = useState(false);
     const handleSetDropDownFilter = () => {
         setIsDropDownFilter(!isDropDownFilter);
     };
 
     return (
-        <div className="flex flex-col h-fit">
+        <><div className="flex flex-col h-fit">
             <SubNav />
             <HomeNav />
             <MobileHomeNav />
+            <AllProdNavs />
             <div className='w-full bg-white h-fit justify-between lg:px-6 px-2 lg:pl-20 pl-2 flex flex-col'>
                 <div className='w-full mt-6 h-fit flex flex-row'>
-                    <SideBar handleSelectRam={handleSelectRam} isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} categories={categories} shops={shops} handleCategoryClick={handleCategoryClick} handleShopCkik={handleShopClick} onPriceRangeChange={handlePriceRangeChange} handleSelectCamera={handleSelectCamera} handleSelectStorage={handleSelectStorage} handleSelectType={handleSelectType} />
+                    <SideBar
+                        clearFilters={clearFilters}
+                        productsData={productsData}
+                        isOpen={isSidebarOpen}
+                        toggleSidebar={toggleSidebar}
+                        categories={categories}
+                        shops={shops}
+                        handleCategoryClick={handleCategoryClick}
+                        handleShopCkik={handleShopClick}
+                        onPriceRangeChange={handlePriceRangeChange}
+                        handleSelectRam={handleSelectRam}
+                        handleSelectCamera={handleSelectCamera}
+                        handleSelectStorage={handleSelectStorage}
+                        handleSelectColors={handleSelectColors}
+                        handleSelectscreen={handleSelectsecreen}
+                        selectedCategories={categoryIdt}
+                        selectedStorage={selectedStorage}
+                        selectedColors={selectedColors}
+                        selectedscreen={selectedscreen}
+                        selectedRam={selectedRam}
+                        selectedCamera={selectedCamera}
+                        selectedShops={shopst} />
                     <div className={`lg:w-[70%] md:w-full w-full flex flex-col h-fit ${isSidebarOpen ? "hidden" : ""}`}>
                         <div className='topMenus w-full flex md:flex-row flex-col justify-between'>
                             <div className='searchBar md:w-[50%] w-full bg-[#F5F5F5] rounded-md pr-3'>
                                 <input
                                     type='text'
-                                    placeholder='Search for product'
+                                    placeholder='Shakisha telefoni ukoresheje izina'
                                     className='p-2 outline-none w-[95%] rounded-md bg-[#F5F5F5]'
                                     value={searchValue}
                                     onChange={handleInputChange}
-                                    list="autocomplete-options"
-                                />
+                                    list="autocomplete-options" />
                                 <datalist draggable id="autocomplete-options" className=''>
                                     {autocompleteOptions?.map((option, index) => (
                                         <option key={index} value={option} />
@@ -393,87 +459,103 @@ const Products = () => {
                                     <FaSearch />
                                 </button>
                             </div>
-                            <div className='w-fit flex md:mt-0 mt-3 self-end float-right justify-end'>
-                                <p className='text-sm my-auto'>Sort by:</p>
-                                <select className='ml-2 p-2 rounded-md bg-[#F5F5F5]' onChange={handleSortChange}>
-                                    <option value="ascending">Ascending</option>
-                                    <option value="descending">Descending</option>
-                                </select>
+                            <div className={`${fixed ? 'fixed top-0 pb-2 px-3 left-0 z-50 w-full md:pb-0' : ''} fixAtTop w-full md:w-fit ml-auto flex justify-between bg md:justify-end bg-white`}>
+                                <button onClick={toggleSidebar} className='w-fit border border-green-500  md:hidden flex md:mt-0 p-2 mt-3 rounded-md  self-end float-right justify-end'>
+                                    <TbAdjustmentsHorizontal className='flex my-auto mr-1 text-lg' />
+                                    Akayunguruzo
+                                </button>
+                                <div className='w-fit flex border border-green-500 mxc-auto md:mt-0 p-2 py-[10.5px] mt-3 rounded-md bg-[#F5F5F5] self-end float-right justify-end'>
+                                    <p className='text-base my-auto'><HiMiniArrowsUpDown /></p>
+                                    <select className='rounded-md w-fit outline-none bg-[#F5F5F5]' onChange={handleSortChange}>
+                                        <option value="ascending">Inshya iwacu</option>
+                                        <option value="descending">Izikuzwe</option>
+                                        <option value="cheaper">Izihendutse</option>
+                                        <option value="expensive">Izihenze</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                        <div className='products justify-between w-full flex bg-[#F2F4F5] p-3 mt-3'>
+                        <div className='products justify-between w-full flex bg-yellow-100 py-3 px-2 mt-3'>
                             <div className='filtersDiv flex relative'>
-                                <button onClick={toggleSidebar}>
+                                {/* <button onClick={toggleSidebar}>
                                     <MdFilterList className='text-xl cursor-pointer flex lg:hidden my-auto mr-4' />
-                                </button>
-                                <p className='text-sm my-auto text-gray-600'>Active Filters:</p>
+                                </button> */}
+                                <p className='text-sm my-auto text-green-600'>
+                                    {activeFilters?.length === 0 ? '' : activeFilters.length > 1 ? `Utuyunguruzo ${activeFilters.length}` : `Akayunguruzo ${activeFilters.length}`} Habonekamo {productsData?.length}
+                                </p>
                                 <button className='' onClick={handleSetDropDownFilter}><div className='flex md:hidden justify-center items-center my-auto ml-3 text-sm'>
                                     {!isDropDownFilter ? <>
-                                        <Eye /><p className=' text-xs flex'>View</p>
-                                    </> : <><EyeSlash /><p className=' text-xs flex'>Hide</p></>}
+                                        <Eye /><p className=' text-xs flex'>turebe</p>
+                                    </> : <><EyeSlash /><p className=' text-xs flex'>Hisha</p></>}
                                 </div></button>
                                 {isDropDownFilter && (
                                     <div className='flex z-0 absolute top-6 left-32 flex-col bg-gray-200 p-2 h-fit w-fit rounded-sm'>
-
                                         {activeFilters.map((filter, index) => (
                                             <div key={index} className=" items-center flex bg-gray-200 rounded-md p-1 m-1">
                                                 <p className="text-sm text-gray-800">{filter}</p>
                                                 <button onClick={() => clearFilter(filter)} className="ml-1 focus:outline-none">
-                                                    <FaTimes className="text-gray-500" />
+                                                    <FaTimes className="text-xs text-gray-800" />
                                                 </button>
-
                                             </div>
                                         ))}
-                                        <button onClick={() => {
-                                            clearFilters
-                                            handleSetDropDownFilter()
-                                        }} className="ml-2 w-fit text-sm flex text-gray-500 focus:outline-none">
-                                            <p className='text-sm'>Clear All</p>
-                                            <FaTimes className='flex justify-center my-auto ml-2' />
-                                        </button>
-                                    </div>
-                                )}
-                                {activeFilters.map((filter, index) => (
-                                    <div key={index} className="md:flex hidden items-center bg-gray-200 rounded-md p-1 m-1">
-                                        <p className="text-sm text-gray-800">{filter}</p>
-                                        <button onClick={() => clearFilter(filter)} className="ml-1 focus:outline-none">
-                                            <FaTimes className="text-gray-500" />
-                                        </button>
-                                    </div>
-                                ))}
-                                <button onClick={clearFilters} className="ml-2 md:flex hidden text-gray-500 text-sm justify-center my-auto items-center focus:outline-none">
-                                    Clear All
-                                </button>
+                                    </div>)}
+                                <div className='lg:flex hidden'>
+                                    {activeFilters.map((filter, index) => (
+                                        <div key={index} className="flex items-center bg-gray-200 rounded-md p-1 mx-1">
+                                            <p className="text-sm text-gray-800">{filter}</p>
+                                            <button onClick={() => clearFilter(filter)} className="ml-1 focus:outline-none">
+                                                <FaTimes className="text-xs text-gray-800" />
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                                {catID && <div className='flex items-center bg-gray-200 rounded-md p-1 mx-1'>
+                                    <p className="text-sm text-gray-800">{categories.find((cat: any) => cat._id === catID)?.name}</p>
+                                    <button onClick={() => {
+                                        navigate(-1)
+                                        clearFilter(categories.find((cat: any) => cat._id === catID)?.name)
+                                    }
+                                    } className="ml-1 focus:outline-none">
+                                        <FaTimes className="text-xs text-gray-800" />
+                                    </button>
+                                </div>}
+                                {shopsId && <div className='flex items-center bg-gray-200 rounded-md p-1 mx-1'>
+                                    {/* {shops.map((shop: any) => 
+                                    <p className="text-sm text-gray-800">{shop.name}</p>)} */}
+                                    <p className="text-sm text-gray-800">{shops.find((shop: any) => shop._id === shopsId)?.name}</p>
+                                    <button onClick={() => {
+                                        navigate(-1)
+                                        clearFilter(shops.find((shop: any) => shop._id === shopsId)?.name)
+                                    }
+                                    } className="ml-1 focus:outline-none">
+                                        <FaTimes className="text-xs text-gray-800" />
+                                    </button>
+                                </div>}
                             </div>
-                            <div className='flex flex-row'>
-                                <p className='text-sm my-auto font-semibold'>
-                                    {productsData?.length}
-                                </p>
-                                <p className='text-sm my-auto ml-2'>Results found.</p>
-                            </div>
+                            {activeFilters.length > 1 &&
+                                <button className='w-fit bg-[#fa3e3e] h-fit text-xs p-1 text-white px-3 rounded-md' onClick={clearFilters}>Siba twose</button>
+                            }
                         </div>
                         <div className='products grid lg:grid-cols-3 md:grid-cols-3 grid-cols-2 lg:gap-12 md:gap-8 gap-3 mx-auto justify-center items-center mt-3'>
                             {productsData?.slice(startIndex, endIndex)?.map((product, index) => (
-                                <div key={index} className='productCard md:w-[222px] w-[170px] border border-black rounded-md p-3 md:h-[296px] h-[256px]  m-auto justify-center flex flex-col'>
-                                    <div className="flex justify-center">
-                                        <img src={product.product_image} height={152} width={172} alt="" className="w-[172px] h-[152px] object-contain mb-4" />
+                                <div key={index} className='productCard md:w-[222px] w-[170px] border border-black rounded-md p-3 md:min-h-[200px] md:h-fit min-h-[256px] h-fit  m-auto justify-center flex flex-col'>
+                                    <Link to={`/product/${product?._id}`} className="flex justify-center">
+                                        <img src={product.product_image} height={152} width={172} alt="" className="w-[172px] h-[152px] object-contain mb-1" />
+                                    </Link>
+                                    <div className='w-full h-fit m-auto flex flex-col justify-center items-start bg-white rounded-md p-2'>
+                                        <Link to={`/product/${product?._id}`} className='text-sm font-semibold'>{product?.product_name?.length > 40 ? product?.product_name?.substring(0, 40) + '...' : product?.product_name?.substring(0, 40)}</Link>
+                                        <p className='text-sm text-gray-600 line-through'>{product.vendor_prices?.reduce((prev: any, current: any) => (prev.price < current.price) ? prev : current).price}Rwf</p>
+                                        <Link to={`/product/${product?._id}`} className='text-sm text-green-600 flex justify-end mx-auto'>{product?.our_price}Rwf</Link>
+                                        <Link to={`/product/${product?._id}`} className='bg-black py-[2px] px-8 text-center mx-auto rounded-md w-fit text-yellow-500 text-sm'>Yirebe</Link>
                                     </div>
-                                    <div className='w-full h-[124px] m-auto flex flex-col justify-center items-start bg-white rounded-md p-2'>
-                                        <h1 className='text-sm font-semibold'>{product?.product_name?.length > 40 ? product?.product_name?.substring(0, 40) + '...' : product?.product_name?.substring(0, 40)}</h1>
-                                        <p className='text-sm text-gray-600'>${product.vendor_prices?.reduce((prev: any, current: any) => (prev.price < current.price) ? prev : current).price}</p>
-                                        <p className='text-sm text-yellow-500'>Shops({product?.vendor_prices.length})</p>
-                                    </div>
-                                    <div className='checkboxWithvalues w-full flex'>
+                                    <div className='checkboxWithvalues px-2 text-sm w-full flex'>
                                         <PorductCheckInput
-                                            label='Add to compare'
+                                            label='Gereranya'
                                             name='compare'
                                             productData={{ productId: product._id }}
-                                            checked={
-                                                locastorageCompareProductIds?.includes(product._id) || comparedProductId?.includes(product._id)
-                                            }
-                                            addProductToCompare={()=>handleAddProductIdToLocalStorageCompare((product._id))}
-                                            onUncheck={() => handleRemoveProductIdFromLocalStorageCompare(product._id)}
-                                        />
+                                            checked={locastorageCompareProductIds?.includes(product._id) || comparedProductId?.includes(product._id)}
+                                            addProductToCompare={() => handleAddProductIdToLocalStorageCompare((product._id))}
+                                            onUncheck={() => handleRemoveProductIdFromLocalStorageCompare(product._id)} />
                                     </div>
                                 </div>
                             ))}
@@ -484,22 +566,28 @@ const Products = () => {
                                 onChange={handlePageChange}
                                 pageSize={cardsPerPage}
                                 total={totalProducts}
-                                showSizeChanger={false}
-                            />
+                                showSizeChanger={false} />
                         </div>
                     </div>
                 </div>
             </div>
-            <button onClick={showDrawer} className='fixed bottom-10 right-10 bg-yellow-500 p-3 rounded-full text-white'>
-                <p className='text-sm'>{
-                 ! JSON.parse(localStorage.getItem("compareProductIds") as any) ? [] :  JSON.parse(localStorage.getItem("compareProductIds") as any)?.length < 2 ? JSON.parse(localStorage.getItem("compareProductIds") as any)?.length + ' Item' : JSON.parse(localStorage.getItem("compareProductIds") as any)?.length + ' Items'
-                }</p>
-            </button>
+            <div className='fixed flex space-x-3 bg-green-200 bottom-10 right-10  px-2 py-1 rounded-md text-white'>
+                <button className='view flex my-auto text-black justify-center'><button onClick={showBottomDrawer}><FaArrowCircleUp /></button></button>
+                <button onClick={showDrawer} className='text-sm rounded-md p-[2px] bg-black'>{!JSON.parse(localStorage.getItem("compareProductIds") as any) ? [] : JSON.parse(localStorage.getItem("compareProductIds") as any)?.length < 2 ? '(' + JSON.parse(localStorage.getItem("compareProductIds") as any)?.length + ')' + '   Yigereranye' : '(' + JSON.parse(localStorage.getItem("compareProductIds") as any)?.length + ')' + ' Zigereranye'}</button>
+            </div>
             <ComparisonDrawer
                 open={open}
                 onClose={onClose}
+                refresh={refresh}
             />
-        </div>
+            <BottomDrawer
+                open={openBottom}
+                onClose={onCloseBottom}
+                handleRemoveProductIdFromLocalStorageCompare={handleRemoveProductIdFromLocalStorageCompare}
+                refresh={refresh}
+            />
+        </div><Footer /></>
+
     );
 };
 

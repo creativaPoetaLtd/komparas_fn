@@ -6,10 +6,11 @@ import { getProductByMultpleIdsInQueryParams } from '../../api/product';
 interface Props {
     open: boolean;
     onClose: () => void;
+    refresh: boolean;
 }
 
 
-const ComparisonDrawer: React.FC<Props> = ({ open, onClose }) => {
+const ComparisonDrawer: React.FC<Props> = ({ open, onClose, refresh }) => {
     const idsToCompare = JSON.parse(localStorage.getItem("compareProductIds") || "[]");
     const [showValueMap, setShowValueMap] = useState<{ [key: number]: boolean }>({});
     const handleValueClick = (index: number) => {
@@ -31,18 +32,8 @@ const ComparisonDrawer: React.FC<Props> = ({ open, onClose }) => {
             });
             setShowValueMap(initialShowValueMap);
         }
-        // const fetchData = async () => {
-        //     const response = await getProductByMultpleIdsInQueryParams(ids);
-        //     setProduct(response.data);
-        //     // Populate showValueMap with true values for each index
-        //     const initialShowValueMap: { [key: number]: boolean } = {};
-        //     response.data?.product?.forEach((_product: any, index: number) => {
-        //         initialShowValueMap[index] = true;
-        //     });
-        //     setShowValueMap(initialShowValueMap);
-        // }
         fetchData();
-    }, [idsToCompare]);
+    }, [refresh]);
 
     const navigate = useNavigate();
     const handleView = (id: string) => {
@@ -54,20 +45,21 @@ const ComparisonDrawer: React.FC<Props> = ({ open, onClose }) => {
 
     return (
         <Drawer
-            title="Comparison Section"
+            title="Ikigereranyo"
+            style={{ overflow: 'auto' }}
             onClose={onClose}
             visible={open}
             placement="right"
             width={1000}
         >
             <div className="flex overflow-x-auto justify-center items-center flex-col h-fit w-full">
-                <div className='ProductCards overflow-x-auto flex flex-row scr lg:w-[900px] w-fit mx-auto gap-4'>
+                <div className='ProductCards overflow-x-auto flex flex-row scr lg:w-[1000px] w-fit mx-auto gap-2'>
                     {product?.product?.map((product: any) => (
-                        <div key={product._id} className="flex flex-col items-start justify-start rounded-md border md:p-5 p-2">
+                        <div key={product._id} className="flex flex-col items-start justify-start rounded-md border md:p-3 p-2">
                             <div className="flex justify-center">
                                 <img src={product.product_image} height={152} width={172} alt="" className="w-[172px] h-[152px] object-contain mb-4" />
                             </div>
-                            <div className='flex flex-col items-strt h-fit  md:w-[13rem] w-[7rem] justify-start mt-4 '>
+                            <div className='flex flex-col items-strt h-fit  md:w-[12rem] w-[7rem] justify-start mt-4 '>
                                 <h1 className="md:text-xl text-base font-semibold text-start items-start flex float-left self-start">{product.product_name}</h1>
                                 <p className='flex text-sm text-[#EDB62E] mt-1'>
                                     Igiciro: {' '}

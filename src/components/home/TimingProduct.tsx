@@ -6,6 +6,9 @@ import { RxDividerHorizontal } from "react-icons/rx";
 import Time1 from './Time1';
 import Time2 from './Time2';
 import { addDayProduct3, getDayProduct3, updateDayProduct3 } from '../../api/offer';
+import { getAllProducts } from '../../api/product';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 const TimingProduct = () => {
     const [isFormVisible, setIsFormVisible] = useState(false);
@@ -34,7 +37,8 @@ const TimingProduct = () => {
       description: "",
       offer: "",
       price: "",
-      image: undefined
+      image: undefined,
+      product: ""
     });
     const [imageUrl, setImageUrl] = useState<string | null>(null);
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,11 +68,11 @@ const TimingProduct = () => {
             offer: newImageData.offer || dayProduct[0].offer,
             price: newImageData.price || dayProduct[0].price,
             image: newImageData.image || dayProduct[0].image,
+            product: newImageData.product || dayProduct[0].product,
           };
           await updateDayProduct3(updatedData);
         } else {
           await addDayProduct3(newImageData);
-
         }
         // Clear the form after submitting
         setNewImageData({
@@ -76,7 +80,8 @@ const TimingProduct = () => {
           description: "",
           offer: "",
           price: "",
-          image: undefined
+          image: undefined,
+          product: ""
         });
         handleRefresh();
         setLoading(false);
@@ -91,6 +96,16 @@ const TimingProduct = () => {
       setLoading(false);
   
     };
+
+    const [products, setProducts] = React.useState<any[]>([]);
+    useEffect(() => {
+      const fetchProducts = async () => {
+        const response = await getAllProducts();
+        setProducts(response?.data?.products);
+      }
+      fetchProducts();
+    }
+      , []);
   
     const handleCancel = () => {
       // Clear the form on cancel
@@ -99,7 +114,8 @@ const TimingProduct = () => {
         description: "",
         offer: "",
         price: "",
-        image: undefined
+        image: undefined,
+        product: ""
       });
       setIsFormVisible(false);
     };
@@ -109,31 +125,31 @@ const TimingProduct = () => {
         document.getElementById("image");
       image?.click();
     };
-    const calculateTimeLeft = () => {
-        const difference = +new Date("2024-05-24") - +new Date();
-        let timeLeft: any = {};
+    // const calculateTimeLeft = () => {
+    //     const difference = +new Date("2024-05-24") - +new Date();
+    //     let timeLeft: any = {};
 
-        if (difference > 0) {
-            timeLeft = {
-                days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-                hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-                minutes: Math.floor((difference / 1000 / 60) % 60),
-                seconds: Math.floor((difference / 1000) % 60)
-            };
-        }
+    //     if (difference > 0) {
+    //         timeLeft = {
+    //             days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+    //             hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+    //             minutes: Math.floor((difference / 1000 / 60) % 60),
+    //             seconds: Math.floor((difference / 1000) % 60)
+    //         };
+    //     }
 
-        return timeLeft;
-    };
+    //     return timeLeft;
+    // };
 
-    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+    // const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setTimeLeft(calculateTimeLeft());
-        }, 1000);
+    // useEffect(() => {
+    //     const timer = setTimeout(() => {
+    //         setTimeLeft(calculateTimeLeft());
+    //     }, 1000);
 
-        return () => clearTimeout(timer);
-    });
+    //     return () => clearTimeout(timer);
+    // });
 
     return (
         <div className='flex  flex-col w-full lg:px-[4rem] px-2'>
@@ -147,7 +163,7 @@ const TimingProduct = () => {
                         }
                         
                         <div className='mainPageContent w-[50%] h-full lg:p-8 md:p-2 p-2'>
-                            <div className='timers md:p-2 p-1 md:w-[18rem] w-full justify-between  flex'>
+                            {/* <div className='timers md:p-2 p-1 md:w-[18rem] w-full justify-between  flex'>
                                 <div className='timerCircle text-xs flex-col md:p-2 p-1 items-center bg-white flex rounded-full md:h-[62px] h-[55px] md:w-[62px] w-[55px] my-auto justify-center'>
                                     <div className='circle'>{timeLeft.days}</div>
                                     <div className='label'> Iminsi</div>
@@ -164,7 +180,7 @@ const TimingProduct = () => {
                                     <div className='circle'>{timeLeft.seconds}</div>
                                     <div className='label text-[8px]'>Amasegonda</div>
                                 </div>
-                            </div>
+                            </div> */}
                             <div className='flex mt-6'>
                                 <RxDividerHorizontal className='text-white text-xl my-auto justify-center' />
                                 <p className='text-white text-xs ml-1 my-auto font-thin justify-center'>THE BEST PLACE TO PLAY</p>
@@ -178,10 +194,10 @@ const TimingProduct = () => {
                             {/* <p className='text-sm mt-0 text-white'>
                                 Listen, its powerful.
                             </p> */}
-                            <button className="flex space-x-2 rounded-md text-sm md:mt-8 mt-3 md:p-3 p-2 px-4 font-semibold bg-[#EDB62E] text-white">
-                                <p className="">View More</p>
+                            <Link to={`/product/${dayProduct[0]?.product?._id}`}  className="flex space-x-2 rounded-md text-sm md:mt-8 mt-3 md:p-3 p-2 px-4 font-semibold bg-[#EDB62E] text-white">
+                                <p className="">Reba byose</p>
                                 <ArrowRight className="m-auto justify-center" />
-                            </button>
+                            </Link>
                         </div>
                         <div className="image w-[50%] h-full pr-12 md:pt-32 pt-24 relative">
                             <div className='timerCircle text-xs absolute bg-[#EDB62E] md:top-[26px] top-3 md:right-16 right-3 flex-col p-2 items-center border-4 border-white flex rounded-full md:h-[100px] h-[80px] md:w-[100px] w-[80px] my-auto justify-center'>
@@ -215,7 +231,7 @@ const TimingProduct = () => {
               <div className="laptop:w-full desktop:w-full tablet:w-full laptop:mt-0 tablet:mt-0 desktop:mt-0  mt-2 justify-between w-[50%] flex felx-col space-y-4">
                 <div className="flex flex-col w-full">
                   <label className="text-sm mb-1 font-normal text-grey-700 ">
-                    Profile Image
+                    Product Image
                   </label>
                   {newImageData?.image ? (
                     <div className="relative w-full h-[250px]">
@@ -272,13 +288,24 @@ const TimingProduct = () => {
                   className="border border-gray-300 p-2 mb-4"
                 />
                 <input
-                  type="price"
+                  type="number"
                   placeholder="price"
                   value={newImageData.price}
                   name="price"
                   onChange={(e) => setNewImageData({ ...newImageData, price: e.target.value })}
                   className="border border-gray-300 p-2 mb-4"
                 />
+                 <select
+                  className="border border-gray-300 p-2 mb-4"
+                  onChange={(e) => setNewImageData({ ...newImageData, product: e.target.value })}
+                >
+                  <option value="">Select Product</option>
+                  {products.map((product) => (
+                    <option key={product._id} value={product._id}>
+                      {product.product_name}
+                    </option>
+                  ))}
+                </select>
                 <textarea
                   placeholder="Description"
                   value={newImageData.description}

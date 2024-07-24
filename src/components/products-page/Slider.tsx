@@ -1,61 +1,67 @@
 import React, { useState } from 'react';
 import { Slider } from 'antd';
-import RadioInput from './RadioButton';
+import './slider.css';
 
 interface SliderBarProps {
     onPriceRangeChange: (minPrice: number, maxPrice: number) => void;
 }
 
 const SliderBar: React.FC<SliderBarProps> = ({ onPriceRangeChange }) => {
-    const [selectedPriceRange, setSelectedPriceRange] = useState<any>('All price');
-
+    const [minPrice, setMinPrice] = useState<number>(10);
+    const [maxPrice, setMaxPrice] = useState<number>(2000000);
+    
     const handleSliderChange = (values: any) => {
-        const minPrice: number = values[0];
-        const maxPrice: number = values[1];
-        updateSelectedPriceRange(minPrice, maxPrice);
+        const minPrice = values[0];
+        const maxPrice = values[1];
+        setMinPrice(minPrice);
+        setMaxPrice(maxPrice);
         onPriceRangeChange(minPrice, maxPrice);
     };
-    const updateSelectedPriceRange = (min: number, max: number) => {
-        let selectedRange: any = '';
-        if (min === 20 && max === 50) {
-            selectedRange = 'All price';
-        } else if (max < 25) {
-            selectedRange = 'Under $25';
-        } else if (max >= 25 && max <= 50) {
-            selectedRange = '$25 to $50';
-        } else if (max > 50 && max <= 100) {
-            selectedRange = '$50 to $100';
-        } else if (max > 100 && max <= 200) {
-            selectedRange = '$100 to $200';
-        } else if (max > 200) {
-            selectedRange = '$200 & Above';
-        }
-        setSelectedPriceRange(selectedRange);
+
+    const handleMinInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = Number(e.target.value);
+        setMinPrice(value);
+        onPriceRangeChange(value, maxPrice);
+    };
+
+    const handleMaxInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = Number(e.target.value);
+        setMaxPrice(value);
+        onPriceRangeChange(minPrice, value);
     };
 
     return (
-        <div className='priceRange flex flex-col mt-3'>
-            <p className='text-sm font-semibold text-gray-600'>Price Range</p>
+        <div className='priceRange border-t flex flex-col mt-3'>
+            <p className='text-sm mt-1 font-semibold pb-1 text-gray-600'>Igiciro</p>
+            <div className='minAndMaxButtins space-x-2 w-full flex justify-between'>
+                <div className='flex w-1/2 flex-col'>
+                    <label htmlFor='minPrice' className='text-xs text-gray-600'>Amakeya ashoboka</label>
+                    <input
+                        type='number'
+                        id='minPrice'
+                        value={minPrice}
+                        onChange={handleMinInputChange}
+                        className='text-sm text-gray-600 py-2 px-2 rounded-md border border-gray-700'
+                    />
+                </div>
+                <div className='flex w-1/2 flex-col'>
+                    <label htmlFor='maxPrice' className='text-xs text-gray-600'>Amenshi ashoboka</label>
+                    <input
+                        type='number'
+                        id='maxPrice'
+                        value={maxPrice}
+                        onChange={handleMaxInputChange}
+                        className='text-sm text-gray-600 py-2 px-2 rounded-md border border-gray-700'
+                    />
+                </div>
+            </div>
             <Slider
-                style={{ color: '#EDB62E' }}
                 range
-                defaultValue={[20, 50]}
-                className='text-yellow-600 mt-5'
+                value={[minPrice, maxPrice]}
+                className='custom-slider text-yellow-600 mt-5'
                 onChange={handleSliderChange}
-                max={300}
+                max={2000000}
             />
-            <div className='minAndMaxButtins flex justify-between'>
-                <button className='text-sm text-gray-600 py-2 px-4 rounded-md border border-gray-700'>Min Price</button>
-                <button className='text-sm text-gray-600 py-2 px-4 rounded-md border border-gray-700'>Max Price</button>
-            </div>
-            <div className='flex flex-col mt-3'>
-                <RadioInput label='All price' name='price' checked={selectedPriceRange === 'All price'} onChange={() => { }} />
-                <RadioInput label='Under $25' name='price' checked={selectedPriceRange === 'Under $25'} onChange={() => { }} />
-                <RadioInput label='$25 to $50' name='price' checked={selectedPriceRange === '$25 to $50'} onChange={() => { }} />
-                <RadioInput label='$50 to $100' name='price' checked={selectedPriceRange === '$50 to $100'} onChange={() => { }} />
-                <RadioInput label='$100 to $200' name='price' checked={selectedPriceRange === '$100 to $200'} onChange={() => { }} />
-                <RadioInput label='$200 & Above' name='price' checked={selectedPriceRange === '$200 & Above'} onChange={() => { }} />
-            </div>
         </div>
     );
 };

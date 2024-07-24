@@ -20,7 +20,7 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
     const [specifications, setSpecifications] = useState([{ key: "", value: "" }]);
     const [vendor_prices, setVendorPrices] = useState([{ key: "", value: "", colors: ""}]);
     const [our_review, setOur_review] = useState([{key:"", value: ""}])
-    const [isColorFieldHasValidValue, setIsColorFieldHasValidValue] = useState(false);
+    const [, setIsColorFieldHasValidValue] = useState(false);
     const [availableStorages, setAvailableStorages] = useState([{value: "" }]);
 
     const [formData, setFormData] = useState({
@@ -116,19 +116,8 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
     
     const onMouseOutOnColorField = (index: number) => {
         const updatedVendors: any = [...vendor_prices];
-        const colors = updatedVendors[index].colors.split(',').map((color: string, index: number) => index === 0? color : color.trim());
-    
-        // Validate each color code
-        const isValid = colors.every((color: string) => /^#[0-9A-F]{6}$/i.test(color));
-    
-        // Check if the first color does not start with a hash tag
-        // const isFirstColorValid =!/^#/.test(colors[0]);
-    
-        // Ensure the first color does not have a leading comma
-        // const isFirstColorCommaFree =!/,$/.test(colors[0]);
-    
-        // Combine all conditions to determine if the value is valid
-        // const isValueValid = isValid
+        const validColors= ["red", "green", "black", "white", "purple", "blue", "yellow", "grey", "pink", "magenta", "orange"];
+        const isValid = updatedVendors[index].colors.split(',').every((color: any) => validColors.includes(color.trim().toLowerCase()));
     
         if (!isValid) {
             toast.error("Invalid color format. Please use valid hex color codes.", {
@@ -138,11 +127,6 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
 
         }
         setIsColorFieldHasValidValue(true);
-
-    
-        // Reset the color field if it's not valid
-        // updatedVendors[index].colors = "";
-        // setVendorPrices(updatedVendors); // Update the state with the new vendor prices
     };
     
 
@@ -182,7 +166,6 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
         updatedVendors.splice(index, 1);
         setVendorPrices(updatedVendors);
     };
-
     const handleRemoveProfilePicture = () => {
         setFormData((prevFormData: any) => ({
             ...prevFormData,
@@ -211,7 +194,6 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
             setImageUrl(null);
         }
     };
-
     const clearFormAfterSubmit = () => {
         setFormData({
             product_name: "",
@@ -230,7 +212,6 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
         setShops([{key:"", value: ""}])
         setImageUrl(null);
     };
-
     const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setLoading(true);
@@ -242,7 +223,6 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                 our_review: our_review,
                 availableStorages: availableStorages
             };
-
             const response = await addProduct(updatedFormData);
             setLoading(false);
 
@@ -264,10 +244,6 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
             setLoading(false);
         }
     };
-
-    console.log(isColorFieldHasValidValue);
-    
-
     return (
         <div className='AddProductForm w-full h-fit flex flex-col pb-12 bg-gray-300 p-2'>
             <button className='AddProductForm__backButton w-full h-full flex justify-start items-start' onClick={handleBackButton}>
@@ -346,7 +322,7 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                                     <div className="flex space-x-2 mb-2">
                                     <input
                                         type="text"
-                                        placeholder="#2fffaf, #ffaa00, #ff00ff"
+                                        placeholder="Colors"
                                         value={spec.colors}
                                         onMouseLeave={()=>onMouseOutOnColorField(index)}
                                         onChange={(e) => handleVendorsChange(index, "colors", e.target.value)}

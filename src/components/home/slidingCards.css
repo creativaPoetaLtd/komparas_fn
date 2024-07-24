@@ -1,0 +1,85 @@
+/* slidingCards.css */
+.custom-swiper-button {
+  position: absolute;
+  transform: translateY(-10%);
+  width: 20px;
+  height: 20px;
+  /* background-color: green; */
+  border-radius: 100%;
+  z-index: -1;
+  display: none;
+}
+/* slidingCards.css */
+
+/* Hide navigation buttons by default */
+.swiper-button-prev, 
+.swiper-button-next {
+  display: none;
+  z-index: -1;
+
+}
+
+/* Show navigation buttons on screens larger than 1024px */
+
+
+.swiper-button-next {
+  right: 5px; /* Adjust as needed */
+}
+
+.swiper-button-prev {
+  left: 5px;
+  height: 20px;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 20px;
+  color: white;
+  height: 20px;
+  width: 20px;
+  z-index: -1;
+  display: hidden;
+}
+
+@media (min-width: 640px) {
+    .swiper-button-prev, 
+    .swiper-button-next {
+      display: block;
+      z-index: -1;
+  
+    }
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 20px;
+  color: green;
+  height: 20px;
+  width: 20px;
+  z-index: -1;
+  display: hidden;
+}
+  }
+
+  @media (max-width: 767px) {
+    .swiper-button-next::after,
+    .swiper-button-prev::after {
+      font-size: 20px;
+      color: green;
+      height: 20px;
+      width: 20px;
+      z-index: -1;
+      display: hidden;
+    }
+  }
+  
+  /* Show arrows on larger devices */
+  @media (min-width: 768px) {
+    .swiper-button-next::after,
+    .swiper-button-prev::after {
+      font-size: 20px;
+      color: green;
+      height: 20px;
+      width: 20px;
+      z-index: -1;
+      display: hidden;
+    }
+  }

@@ -1,21 +1,29 @@
 import { useEffect, useState } from "react";
 import { addDayProduct, getDayProduct, updateDayProduct } from "../../api/offer";
 import { UploadSimple } from "@phosphor-icons/react";
-
+import { getAllProducts } from "../../api/product";
+import React from "react";
+import { Link } from "react-router-dom";
 interface ProductOfTheDayProps {
   productData: any;
 }
-
 const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [loading, setLoading] = useState(false);
-
   const [dayProduct, setDayProduct] = useState<any>([]);
   const [refresh, setRefresh] = useState(false);
-
   const handleRefresh = () => {
     setRefresh(!refresh);
   }
+  const [products, setProducts] = React.useState<any[]>([]);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const response = await getAllProducts();
+      setProducts(response?.data?.products);
+    }
+    fetchProducts();
+  }
+    , []);
   const isAdminFromLocalStorag:any = JSON.parse(localStorage.getItem("KomparasLoginsInfo") as any) || {};
   const isAdminFromLocalStorage = isAdminFromLocalStorag.role === "admin" ? true : false;
   useEffect(() => {
@@ -31,7 +39,8 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
     description: "",
     offer: "",
     price: "",
-    image: undefined
+    image: undefined,
+    product: ""
   });
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,6 +70,7 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
           offer: newImageData.offer || dayProduct[0].offer,
           price: newImageData.price || dayProduct[0].price,
           image: newImageData.image || dayProduct[0].image,
+          product: newImageData.product || dayProduct[0].product
         };
         await updateDayProduct(updatedData);
       } else {
@@ -72,7 +82,8 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
         description: "",
         offer: "",
         price: "",
-        image: undefined
+        image: undefined,
+        product: ""
       });
       handleRefresh();
       setLoading(false);
@@ -94,7 +105,8 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
       description: "",
       offer: "",
       price: "",
-      image: undefined
+      image: undefined,
+      product: ""
     });
     setIsFormVisible(false);
   };
@@ -118,9 +130,9 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
           <p className='text-[#FFFFFF] text-sm mt-2 font-thin '>
             {dayProduct[0]?.description}
           </p>
-          <button className="flex space-x-2 p-2 px-4 rounded w-fit h-fit text-sm mt-2 bg-[#EDB62E]">
+          <Link to={`/product/${dayProduct[0]?.product?._id}`} className="flex space-x-2 p-2 px-4 rounded w-fit h-fit text-sm mt-2 bg-[#EDB62E]">
             <p className="">Reba aho wayigurira</p>
-          </button>
+          </Link>
         </div>
         <div className="image md:w-[40%] w-full h-full pt-4 pbm-12">
           <div className="w-full h-full object-cover">
@@ -172,14 +184,12 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
                           size={22}
                         />
                         <p className="text-sm text-grey-700">
-                          Upload Profile
+                          Upload product
                         </p>
                       </div>
                     </div>
                   )}
-
                 </div>
-
               </div>
               <div className="w-[50%] flex flex-col">
                 <input
@@ -197,13 +207,24 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
                   className="border border-gray-300 p-2 mb-4"
                 />
                 <input
-                  type="price"
+                  type="number"
                   placeholder="price"
                   value={newImageData.price}
                   name="price"
                   onChange={(e) => setNewImageData({ ...newImageData, price: e.target.value })}
                   className="border border-gray-300 p-2 mb-4"
                 />
+                 <select
+                  className="border border-gray-300 p-2 mb-4"
+                  onChange={(e) => setNewImageData({ ...newImageData, product: e.target.value })}
+                >
+                  <option value="">Select related Product</option>
+                  {products.map((product) => (
+                    <option key={product._id} value={product._id}>
+                      {product.product_name}
+                    </option>
+                  ))}
+                </select>
                 <textarea
                   placeholder="Description"
                   value={newImageData.description}

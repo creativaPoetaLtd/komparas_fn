@@ -59,6 +59,7 @@ const CategoryListing = (
           <thead className="w-full bg-slate-200 rounded-md">
             <tr className="w-full shadow-sm rounded-md">
               <th className="w-[10%] text-sm font-bold text-start py-3 px-2">No</th>
+              <th className="w-[10%] text-sm font-bold text-start py-3 px-2">Image</th>
               <th className="w-[20%] text-sm font-bold text-start py-3 px-2">Name</th>
               <th className="w-[20%] text-sm font-bold text-start py-3 px-2">Description</th>
               <th className="w-[10%] text-sm font-bold text-start py-3 px-2">Action</th>
@@ -80,6 +81,9 @@ const CategoryListing = (
               <tr className="w-full mt-3 shadow-sm" key={index}>
                 <td className="w-[10%] text-sm font-medium py-4 px-2">
                   {index + 1}
+                </td>
+                <td className="w-[20%] text-sm font-medium py-4 px-2">
+                  <img src={category?.image} className="w-10 h-10" alt="category" />
                 </td>
                 <td className="w-[20%] text-sm font-medium py-4 px-2">
                   {category?.name}

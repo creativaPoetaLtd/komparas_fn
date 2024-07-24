@@ -53,7 +53,7 @@ const SubNav = () => {
 
             <Marquee className='flex justify-end w-full items-end'>
             <p className='text-sm'>Koresha Komparas Code, ugabanyirizweho 15% kuri buri telefoni yose uguriye mu Isaro shop <span className='ml-3'>
-                    <a href='#' className='text-sm underline'>--Shakira hano---</a>
+                    <a href='/products' className='text-sm underline'>--Shakira hano---</a>
                 </span></p>
             </Marquee>
         </div>

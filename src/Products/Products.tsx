@@ -32,32 +32,25 @@ const Products: React.FC = () => {
         product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         product.category.toLowerCase().includes(searchTerm.toLowerCase())
     );
-  
     const categories = Array.from(new Set(filteredProducts.map((product) => product.category)));
-  
     const paginate = (array: Product[], category: string) => {
       const startIndex = (categoryPages[category] || 1) * productsPerPage - productsPerPage;
       return array.slice(startIndex, startIndex + productsPerPage);
     };
-  
     const handleCategoryChange = (category: string) => {
       setSelectedCategory(category === selectedCategory ? null : category);
       setModalIsOpen(false);
     };
-  
     const handleOpenModal = () => {
       setModalIsOpen(true);
     };
-  
     const handleCloseModal = () => {
       setModalIsOpen(false);
     };
-  
     const handleClearFilters = () => {
       setSelectedCategory(null);
       setModalIsOpen(false);
     };
-  
     const shouldDisplayPagination = (category: string) => {
       const categoryProducts = filteredProducts.filter(
         (product) => product.category === category && (selectedCategory ? product.category === selectedCategory : true)
