@@ -44,6 +44,7 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
   const deleteShopFromProduct = async (shopId: string) => {
     try {
       await removeShopFromProduct(productId, shopId);
+      window.location.reload();
       const updatedProducts = { ...products };
       updatedProducts.product.vendors = updatedProducts.product.vendors.filter(
         (shop: any) => shop._id !== shopId
@@ -158,8 +159,8 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
                             price?.vendor_id === shop?._id && (
                               <td key={priceIndex} className="text-[#353535] item-start m-auto p-r2">
                                 <Link to={`shop/${shop?._id}`} className="bg-black text-yellow-500 px-2 py-1 rounded-md">Yirebe</Link>
-                                <button className='deleteButton bg-red-500 text-white px-2 py-1 rounded-md'
-                                  onClick={() => deleteShopFromProduct(shop?._id)}>Siba</button>
+                                <button className='deleteButton bg-red-500 ml-2 text-white px-2 py-1 rounded-md'
+                                  onClick={() => deleteShopFromProduct(shop?._id)}> X </button>
                               </td>
                             )
                           ))}
