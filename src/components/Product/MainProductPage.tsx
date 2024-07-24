@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { CiCircleChevLeft, CiCircleChevRight } from 'react-icons/ci';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useSwipeable } from 'react-swipeable';
+import AddOtheShopsModal from './AddingOtherShopsModel';
 
 interface Product {
   products: any;
@@ -9,6 +10,8 @@ interface Product {
 
 const MainProductPage: React.FC<Product> = ({ products }) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { productId }: any = useParams();
 
   const handleImageClick = (index: number) => {
     setSelectedImageIndex(index);
@@ -26,6 +29,24 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
     onSwipedLeft: handleNextImage,
     onSwipedRight: handlePrevImage,
   });
+
+  const handleAddShop = (shop: { vendor_id: string; price: number; colors: string[] }) => {
+    // Add your logic here to handle adding the shop
+    // This might involve updating the state or making an API call
+    console.log('Shop added:', shop);
+
+    // Example: Add shop to products (this is just a simulation)
+    const updatedProducts = { ...products };
+    updatedProducts.product.vendors.push({ name: shop.vendor_id, _id: Math.random().toString() });
+    updatedProducts.product.vendor_prices.push({
+      vendor_id: Math.random().toString(),
+      price: shop.price,
+      colors: shop.colors,
+    });
+
+    // Update the products with the new shop (this is just an example, make sure you update the state properly)
+    // setProducts(updatedProducts);
+  };
 
   return (
     <div className='w-full pl-0 flex flex-col h-fit'>
@@ -138,7 +159,18 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
                 ))}
               </tbody>
             </table>
-          </div>
+            <button
+        className="bg-black text-yellow-500 px-2 py-1 rounded-md"
+        onClick={() => setIsModalOpen(true)}
+      >
+        Add Other Shops
+      </button>
+      {/* Modal Component */}
+      <AddOtheShopsModal
+
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+              onAddShop={handleAddShop} productId={productId}      />          </div>
         </div>
       </div>
     </div>
