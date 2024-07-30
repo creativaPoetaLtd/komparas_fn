@@ -80,10 +80,6 @@ export const addProduct = async (productData: any) => {
   formData.append('category_name', productData.category);
   formData.append('our_price', productData.our_price)
   formData.append('product_image', productData.product_image);
-  //add array of available storages
-  productData.availableStorages.forEach((availableStorages: {value: string | Blob; }, index: any) => {
-    formData.append(`availableStorages[${index}][value]`, availableStorages.value ? availableStorages.value : '-');
-  });
 
   productData?.product_specifications.forEach((product_specifications: { key: string | Blob; value: string | Blob; }, index: any) => {
     formData.append(`product_specifications[${index}][key]`, product_specifications.key ? product_specifications.key : '-');
