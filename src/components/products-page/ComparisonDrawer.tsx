@@ -63,7 +63,7 @@ const ComparisonDrawer: React.FC<Props> = ({ open, onClose, refresh }) => {
                                 <h1 className="md:text-xl text-base font-semibold text-start items-start flex float-left self-start">{product.product_name}</h1>
                                 <p className='flex text-sm text-[#EDB62E] mt-1'>
                                     Igiciro: {' '}
-                                    {product.vendor_prices?.reduce((prev: any, current: any) => (prev.price < current.price) ? prev : current).price
+                                    {product?.vendor_prices?.reduce((prev: any, current: any) => (prev.price < current.price) ? prev : current).price
                                         .toLocaleString('en-US', { maximumFractionDigits: 4 })} Rwf
                                 </p>
                                 <p className='text-sm w-full'>{(product.product_description).length > 100 ? (product.product_description).substring(0, 100) + '...' : product.product_description}</p>

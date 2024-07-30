@@ -9,8 +9,6 @@ interface Props {
     onClose: () => void;
     comparisonData: any;
 }
-
-
 const ComparisonDrawer: React.FC<Props> = ({ open, onClose }) => {
     const id1 = localStorage.getItem('selectedProductId') as string;
     const id2: string = localStorage.getItem('selectedProductId2') as string;
@@ -28,7 +26,6 @@ const ComparisonDrawer: React.FC<Props> = ({ open, onClose }) => {
         const fetchData = async () => {
             const response = await getProductByMultpleIdsInQueryParams(ids);
             setProduct(response.data);
-            // Populate showValueMap with true values for each index
             const initialShowValueMap: { [key: number]: boolean } = {};
             response.data?.product?.forEach((_product: any, index: number) => {
                 initialShowValueMap[index] = true;
@@ -45,7 +42,6 @@ const ComparisonDrawer: React.FC<Props> = ({ open, onClose }) => {
     function addSpaceBetweenWords(str: any) {
         return str.replace(/\//g, ' /');
     }
-
     return (
         <Drawer
             title="Comparison Section"
@@ -65,7 +61,7 @@ const ComparisonDrawer: React.FC<Props> = ({ open, onClose }) => {
                                 <h1 className="md:text-xl text-base font-semibold text-start items-start flex float-left self-start">{product.product_name}</h1>
                                 <p className='flex text-sm text-[#EDB62E] mt-1'>
                                     Igiciro: {' '}
-                                    {product.vendor_prices?.reduce((prev: any, current: any) => (prev.price < current.price) ? prev : current).price
+                                    {product?.vendor_prices?.length>=1&&product?.vendor_prices?.reduce((prev: any, current: any) => (prev.price < current.price) ? prev : current).price
                                         .toLocaleString('en-US', { maximumFractionDigits: 4 })} Rwf
                                 </p>
                                 <p className='text-sm w-full'>{(product.product_description).length > 100 ? (product.product_description).substring(0, 100) + '...' : product.product_description}</p>

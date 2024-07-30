@@ -3,7 +3,6 @@ import { IoIosArrowRoundBack } from "react-icons/io";
 import { getAllCategories } from "../../../../api/getAllCategories";
 import { addProduct } from "../../../../api/product";
 import { useEffect } from "react";
-import { getAllShops } from "../../../../api/getAllShops";
 import { UploadSimple } from "@phosphor-icons/react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { toast } from "react-toastify";
@@ -12,32 +11,29 @@ import { Editor } from "primereact/editor";
 interface AddProductProps {
     setIsAddProduct: (isAddProduct: boolean) => void;
 }
+const product_specificationsKeys = [
+    "Brand",
+    "Model",
+    "Display",
+    "Processor",
+];
 const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
     const [categories, setCategories] = useState<any>([]);
     const [loading, setLoading] = useState(false);
-    const [shops, setShops] = useState<any>([]);
-    const [, setLoadingShops] = useState(false);
-    const [specifications, setSpecifications] = useState([{ key: "", value: "" }]);
-    const [vendor_prices, setVendorPrices] = useState([{ key: "", value: "", colors: ""}]);
-    const [our_review, setOur_review] = useState([{key:"", value: ""}])
-    const [, setIsColorFieldHasValidValue] = useState(false);
-    const [availableStorages, setAvailableStorages] = useState([{value: "" }]);
+    const [our_review, setOur_review] = useState([{ key: "", value: "" }])
+    const [availableStorages, setAvailableStorages] = useState([{ value: "" }]);
 
     const [formData, setFormData] = useState({
         product_name: "",
         product_price: "",
         product_description: "",
         category: "",
-        vendor_prices: [],
-        our_price:"",
-        specifications: [],
+        our_price: "",
+        product_specifications: product_specificationsKeys.map((key) => ({ key, value: "" })),
         product_image: undefined,
         our_review: [],
         availableStorages: []
     });
-    // const [editorState, setEditorState] = useState(
-    //     () => EditorState.createEmpty(),
-    //   );
     const [imageUrl, setImageUrl] = useState<string | null>(null);
     const fetchCategories = async () => {
         setLoading(true);
@@ -45,15 +41,7 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
         setCategories(categories?.data);
         setLoading(false);
     };
-    const fetchShops = async () => {
-        setLoadingShops(true);
-        const shops = await getAllShops();
-        setShops(shops?.data);
-        setLoadingShops(false);
-    };
-
     useEffect(() => {
-        fetchShops();
         fetchCategories();
     }, []);
 
@@ -64,30 +52,28 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
     const handleAddProduct = () => {
         setIsAddProduct(false);
     };
-
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = event.target;
-        setFormData((prevFormData: any) => ({
-            ...prevFormData,
-            [name]: value,
-        }));
-    };
+        if (name.startsWith("product_specifications")) {
+            const [_, index] = name.split(".");
+            const updatedproduct_specifications = [...formData.product_specifications];
+            updatedproduct_specifications[Number(index)].value = value;
+            setFormData({
+                ...formData,
+                product_specifications: updatedproduct_specifications,
+            });
+        } else {
+            setFormData((prevFormData: any) => ({
+                ...prevFormData,
+                [name]: value,
+            }));
+        }
+    }
     const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setFormData((prevFormData) => ({
             ...prevFormData,
             category: event.target.value,
         }));
-    };
- 
-    const handleSpecificationChange = (index: number, field: string, value: string) => {
-        const updatedSpecifications: any = [...specifications];
-        updatedSpecifications[index][field] = value;
-        setSpecifications(updatedSpecifications);
-    };
-
-
-    const addSpecificationField = () => {
-        setSpecifications([...specifications, { key: "", value: "" }]);
     };
     const handleOurReviewChange = (index: number, field: string, value: string) => {
         const updatedOurReview: any = [...our_review];
@@ -100,71 +86,20 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
         setAvailableStorages(updatedStorages);
     };
     const addOurReview = () => {
-        setOur_review([...our_review, {key:"", value: ""}])
+        setOur_review([...our_review, { key: "", value: "" }])
     }
-
-    const handleVendorsChange = (index: number, field: string, value: string) => {
-        const updatedVendors: any = [...vendor_prices];
-        updatedVendors[index][field] = value;
-        setVendorPrices(updatedVendors);
-    };
-
-
-    // Ensure this import is present
-    
-    // Inside your AddProduct component
-    
-    const onMouseOutOnColorField = (index: number) => {
-        const updatedVendors: any = [...vendor_prices];
-        const validColors= ["red", "green", "black", "white", "purple", "blue", "yellow", "grey", "pink", "magenta", "orange"];
-        const isValid = updatedVendors[index].colors.split(',').every((color: any) => validColors.includes(color.trim().toLowerCase()));
-    
-        if (!isValid) {
-            toast.error("Invalid color format. Please use valid hex color codes.", {
-                position: toast.POSITION.TOP_RIGHT,
-            });
-            setIsColorFieldHasValidValue(false);
-
-        }
-        setIsColorFieldHasValidValue(true);
-    };
-    
-
-    const handleVendorsSelectChange = (event: React.ChangeEvent<HTMLSelectElement>, index: number) => {
-        const { value } = event.target;
-        handleVendorsChange(index, "key", value);
-    };
-
-
-    const addVendorField = () => {
-        setVendorPrices([...vendor_prices, { key: "", value: "", colors: ""}]);
-    };
-
     const addAvailableStorageField = () => {
-        setAvailableStorages([...availableStorages, {value: "" }]);
+        setAvailableStorages([...availableStorages, { value: "" }]);
     };
-
     const removeAvailableStorageField = (index: any) => {
         const updatedStorages = [...availableStorages];
         updatedStorages.splice(index, 1);
         setAvailableStorages(updatedStorages);
     }
-
-
-    const removeSpecificationField = (index: number) => {
-        const updatedSpecifications = [...specifications];
-        updatedSpecifications.splice(index, 1);
-        setSpecifications(updatedSpecifications);
-    };
     const removeOurReviewField = (index: number) => {
         const updatedOurReview = [...our_review];
         updatedOurReview.splice(index, 1);
         setOur_review(updatedOurReview);
-    };
-    const removeVendors = (index: number) => {
-        const updatedVendors = [...vendor_prices];
-        updatedVendors.splice(index, 1);
-        setVendorPrices(updatedVendors);
     };
     const handleRemoveProfilePicture = () => {
         setFormData((prevFormData: any) => ({
@@ -200,16 +135,12 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
             product_price: "",
             product_description: "",
             category: "",
-            vendor_prices: [],
             our_price: "",
-            specifications: [],
+            product_specifications: product_specificationsKeys.map((key) => ({ key, value: "" })),
             product_image: undefined,
             our_review: [],
             availableStorages: []
         });
-        setSpecifications([{ key: "", value: "" }]);
-        setVendorPrices([{ key: "", value: "", colors: ""}]);
-        setShops([{key:"", value: ""}])
         setImageUrl(null);
     };
     const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -218,11 +149,12 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
         try {
             const updatedFormData = {
                 ...formData,
-                specifications: specifications,
-                vendor_prices: vendor_prices,
                 our_review: our_review,
-                availableStorages: availableStorages
+                availableStorages: availableStorages,
             };
+            product_specificationsKeys.forEach((key, index) => {
+                updatedFormData.product_specifications[index].key = key;
+            });
             const response = await addProduct(updatedFormData);
             setLoading(false);
 
@@ -291,80 +223,12 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                                 ))}
                             </select>
                         </div>
-
-                        <div className="AddProductForm__form__inputs__specifications w-full flex flex-col justify-start items-start mb-5">
-                            <label className="AddProductForm__form__inputs__specifications__label mb-2">
-                                Amaduka
-                            </label>
-                            {vendor_prices.map((spec, index) => (
-                                <div key={index} className="flex w-[94%] space-y-2 flex-col mb-2">
-                                    <div className="flex space-x-2 mb-2">
-                                    <select
-                                        className='AddProductForm__form__inputs__category__input w-96 h-10 rounded-md border outline-blue-700 border-gray-300 px-2'
-                                        onChange={(e) => handleVendorsSelectChange(e, index)}
-                                        value={spec.key}
-                                    >
-                                        <option value="" disabled selected>Hitamo iduka</option>
-                                        {shops?.map((shop: any) => (
-                                            <option key={shop.name} value={shop._id}>
-                                                {shop.name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                    <input
-                                        type="text"
-                                        placeholder="Value"
-                                        value={spec.value}
-                                        onChange={(e) => handleVendorsChange(index, "value", e.target.value)}
-                                        className="w-1/2 h-10 rounded-md border outline-blue-700 border-gray-300 px-2"
-                                    />
-                                    </div>
-                                    <div className="flex space-x-2 mb-2">
-                                    <input
-                                        type="text"
-                                        placeholder="Colors"
-                                        value={spec.colors}
-                                        onMouseLeave={()=>onMouseOutOnColorField(index)}
-                                        onChange={(e) => handleVendorsChange(index, "colors", e.target.value)}
-                                        className="w-[65%] h-10 rounded-md border outline-blue-700 border-gray-300 px-2"
-                                    />
-                                    <div className="flex space-x-3">
-                                    <button
-                                        type="button"
-                                        onClick={() => removeVendors(index)}
-                                        className="border px-2 py-0 text-black hover:text-white bg-red-100 hover:bg-red-500 rounded-md"
-                                    >
-                                        x
-                                    </button>
-                                    <div className="w-[88%]">
-                                <button
-                                    type="button"
-                                    onClick={addVendorField}
-                                    className="border p-2 text-white bg-blue-600 rounded-md float-right"
-                                >
-                                    Indi duka
-                                </button>
-                                </div>
-                            </div>
-                                    </div>
-                                </div>
-                            ))}
-                           
-                        </div>
-                        
-                        <div className="AddProductForm__form__inputs__specifications w-full flex flex-col justify-start items-start mb-5">
-                            <label className="AddProductForm__form__inputs__specifications__label mb-2">
+                        <div className="AddProductForm__form__inputs__product_specifications w-full flex flex-col justify-start items-start mb-5">
+                            <label className="AddProductForm__form__inputs__product_specifications__label mb-2">
                                 Ububiko bwose buhari
                             </label>
                             {availableStorages.map((spec, index) => (
                                 <div key={index} className="flex w-[90%] space-x-2 mb-2">
-                                    {/* <input
-                                        type="text"
-                                        placeholder="Key"
-                                        value={spec.key}
-                                        onChange={(e) => handleAvailableStoragesChange(index, "key", e.target.value)}
-                                        className="w-1/2 h-10 rounded-md border outline-blue-700 border-gray-300 px-2"
-                                    /> */}
                                     <input
                                         type="text"
                                         placeholder="Value"
@@ -391,8 +255,6 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                                 </button>
                             </div>
                         </div>
-
-
                         <div className='AddProductForm__form__inputs__name flex flex-col justify-start items-start mb-5'>
                             <label className='AddProductForm__form__inputs__name__label  mb-2'>Igiciro cyacu</label>
                             <input className='AddProductForm__form__inputs__name__input w-96 h-10 rounded-md border outline-blue-700 border-gray-300 px-2'
@@ -404,75 +266,49 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                             />
                         </div>
 
-                        <div className="AddProductForm__form__inputs__specifications flex flex-col justify-start items-start mb-5">
-                            <label className="AddProductForm__form__inputs__specifications__label mb-2">
-                                Yimenye neza
-                            </label>
-                            {specifications.map((spec, index) => (
-                                <div key={index} className="flex w-[88%] space-x-2 mb-2">
+                        <div className="w-full flex justify-start flex-col items-start mt-4">
+                            <label className="text-sm mb-1 font-normal text-grey-700 ">Product product_specifications</label>
+                            {formData?.product_specifications.map((key, index) => (
+                                <div key={index} className="w-full flex justify-between items-center mt-2">
+                                    <span>{key.key}</span>
                                     <input
                                         type="text"
-                                        placeholder="Key"
-                                        value={spec.key}
-                                        onChange={(e) => handleSpecificationChange(index, "key", e.target.value)}
+                                        name={`product_specifications.${index}`}
+                                        value={key.value}
+                                        onChange={handleInputChange}
                                         className="w-1/2 h-10 rounded-md border outline-blue-700 border-gray-300 px-2"
                                     />
-                                    <input
-                                        type="text"
-                                        placeholder="Value"
-                                        value={spec.value}
-                                        onChange={(e) => handleSpecificationChange(index, "value", e.target.value)}
-                                        className="w-1/2 h-10 rounded-md border outline-blue-700 border-gray-300 px-2"
-                                    />
-                                    <button
-                                        type="button"
-                                        onClick={() => removeSpecificationField(index)}
-                                        className="border px-2 py-0 text-black hover:text-white bg-red-100 hover:bg-red-500 rounded-md"
-                                    >
-                                        x
-                                    </button>
                                 </div>
                             ))}
-                            <div className="w-[88%]">
-                                <button
-                                    type="button"
-                                    onClick={addSpecificationField}
-                                    className="border p-2 text-white bg-blue-600 rounded-md float-right"
-                                >
-                                    Ongeramo ibiyiranga
-                                </button>
-                            </div>
                         </div>
-                        <div className="AddProductForm__form__inputs__specifications flex flex-col justify-start items-start mb-5">
-                            <label className="AddProductForm__form__inputs__specifications__label mb-2">
+                        <div className="AddProductForm__form__inputs__product_specifications flex flex-col justify-start items-start mb-5">
+                            <label className="AddProductForm__form__inputs__product_specifications__label mb-2">
                                 Icyo tuyivugaho
                             </label>
                             {our_review.map((rev, index) => (
                                 <div key={index} className="flex flex-col w-[88%] space-y-2 mb-2">
                                     <div className="flex w-[88%] space-x-2 mb-2">
-                                    <input
-                                        type="text"
-                                        placeholder="Key"
-                                        value={rev.key}
-                                        onChange={(e) => handleOurReviewChange(index, "key", e.target.value)}
-                                        className="w-1/2 h-10 rounded-md border outline-blue-700 border-gray-300 px-2"
-                                    />
-                                     <button
-                                        type="button"
-                                        onClick={() => removeOurReviewField(index)}
-                                        className="border px-2 py-0 text-black hover:text-white bg-red-100 hover:bg-red-500 rounded-md"
-                                    >
-                                        x
-                                    </button>
+                                        <input
+                                            type="text"
+                                            placeholder="Key"
+                                            value={rev.key}
+                                            onChange={(e) => handleOurReviewChange(index, "key", e.target.value)}
+                                            className="w-1/2 h-10 rounded-md border outline-blue-700 border-gray-300 px-2"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => removeOurReviewField(index)}
+                                            className="border px-2 py-0 text-black hover:text-white bg-red-100 hover:bg-red-500 rounded-md"
+                                        >
+                                            x
+                                        </button>
                                     </div>
 
                                     <Editor
                                         style={{ height: "100px" }}
                                         value={rev.value}
-                                        onTextChange={(e:any) => handleOurReviewChange(index, "value", e.htmlValue)}
+                                        onTextChange={(e: any) => handleOurReviewChange(index, "value", e.htmlValue)}
                                     />
-                                   
-                                   
                                 </div>
                             ))}
                             <div className="w-[88%]">
@@ -528,7 +364,7 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                                                 size={22}
                                             />
                                             <p className="text-sm text-grey-700">
-                                               Shyiramo ifoto ya telefoni
+                                                Shyiramo ifoto ya telefoni
                                             </p>
                                         </div>
                                     </div>
@@ -542,8 +378,8 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                         </div>
                         <button
                             type="submit"
-                            disabled = {formData?.product_image === "" || formData?.product_name === ""  || formData?.product_description === "" || formData?.category === "" || formData?.vendor_prices === null || formData?.specifications === null }
-                            className={`flex justify-center items-center w-96 h-10 rounded-md bg-blue-700 text-white ${formData?.product_image === "" || formData?.product_name === ""  || formData?.product_description === "" || formData?.category === "" || formData?.vendor_prices === null || formData?.specifications === undefined   ? "opacity-50 cursor-not-allowed" : "opacity-100 cursor-pointer"}`}
+                            disabled={formData?.product_image === "" ||  formData?.product_specifications === null}
+                            className={`flex justify-center items-center w-96 h-10 rounded-md bg-blue-700 text-white ${formData?.product_image === "" || formData?.product_name === "" || formData?.product_description === "" || formData?.category === "" ||formData?.product_specifications === undefined ? "opacity-50 cursor-not-allowed" : "opacity-100 cursor-pointer"}`}
                         >
                             {loading ? "Loading..." : "Add Product"}
                         </button>

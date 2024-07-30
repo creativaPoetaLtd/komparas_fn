@@ -105,7 +105,7 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
             </div>
             <div className='flex space-x-3'>
               <h1 className="text-base text-red-500 font-light line-through">
-                {products?.product?.vendor_prices?.reduce((prev: any, current: any) => (prev.price < current.price) ? prev : current).price.toLocaleString('en-US', { maximumFractionDigits: 4 })} Rwf
+                {products?.product?.vendor_prices?.length >= 1 && products?.product?.vendor_prices?.reduce((prev: any, current: any) => (prev.price < current.price) ? prev : current).price.toLocaleString('en-US', { maximumFractionDigits: 4 })} Rwf
               </h1>
               <div className='flex flex-col self-end mt-3 justify-center items-center space-x-2'>
                 <h1 className='realprice font-semibold text-green-500'>

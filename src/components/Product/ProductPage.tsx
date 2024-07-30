@@ -101,7 +101,7 @@ const ProductPage = () => {
 
     }
     const handleViewAllProducts = () => {
-            navigate("/products");
+        navigate("/products");
     }
     return (
         <div className="flex flex-col h-fit">
@@ -184,7 +184,7 @@ const ProductPage = () => {
                                     <p className='flex text-sm'>{product.product_name}</p>
                                     <p className='flex text-sm text-[#EDB62E] mt-1'>
                                         Igiciro: {' '}
-                                        {product.vendor_prices?.reduce((prev: any, current: any) => (prev.price < current.price) ? prev : current).price
+                                        {product?.vendor_prices?.length >= 1 && product?.vendor_prices?.reduce((prev: any, current: any) => (prev.price < current.price) ? prev : current).price
                                             .toLocaleString('en-US', { maximumFractionDigits: 4 })} Rwf
                                     </p>                                </Link>
                             </SwiperSlide>
