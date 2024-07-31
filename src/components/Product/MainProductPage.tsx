@@ -18,8 +18,8 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
     setSelectedImageIndex(index);
   };
 
-  const isAdminFromLocalStorag: any = JSON.parse(localStorage.getItem("KomparasLoginsInfo") as any) || {};
-  const isAdminFromLocalStorage = isAdminFromLocalStorag.role === "admin" ? true : false;
+  // const isAdminFromLocalStorag: any = JSON.parse(localStorage.getItem("KomparasLoginsInfo") as any) || {};
+  // const isAdminFromLocalStorage = isAdminFromLocalStorag.role === "admin" ? true : false;
 
   const handleNextImage = () => {
     setSelectedImageIndex((prevIndex) => (prevIndex + 1) % products?.product?.product_images.length);
@@ -162,10 +162,10 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
                             price?.vendor_id === shop?._id && (
                               <td key={priceIndex} className="text-[#353535] item-start m-auto p-r2">
                                 <Link to={`shop/${shop?._id}`} className="bg-black text-yellow-500 px-2 py-1 rounded-md">Yirebe</Link>
-                                {isAdminFromLocalStorage &&(
+                                {/* {isAdminFromLocalStorage &&( */}
                                 <button className='deleteButton bg-red-500 ml-2 text-white px-2 py-1 rounded-md'
                                   onClick={() => deleteShopFromProduct(shop?._id)}> X </button>
-                                )}
+                                {/* )} */}
                               </td>
                             )
                           ))}
@@ -177,14 +177,14 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
                 ))}
               </tbody>
             </table>
-            {isAdminFromLocalStorage && (
+            {/* {isAdminFromLocalStorage && ( */}
               <button
                 className="bg-black text-yellow-500 px-2 py-1 rounded-md"
                 onClick={() => setIsModalOpen(true)}
               >
                 Add Other Shops
               </button>
-            )}
+            {/* )} */}
             <AddOtheShopsModal
 
               isOpen={isModalOpen}
