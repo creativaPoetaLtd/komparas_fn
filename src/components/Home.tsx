@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import HomeBurner from "./home/HomeBurner";
 import HomeNav from "./home/HomeNav";
 import ProductOfTheDay from "./home/ProductOfTheDay";

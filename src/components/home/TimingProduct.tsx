@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from 'react';
 import { ArrowRight, UploadSimple } from '@phosphor-icons/react';
 import { RxDividerHorizontal } from "react-icons/rx";
@@ -183,7 +184,7 @@ const TimingProduct = () => {
                             </div> */}
                             <div className='flex mt-6'>
                                 <RxDividerHorizontal className='text-white text-xl my-auto justify-center' />
-                                <p className='text-white text-xs ml-1 my-auto font-thin justify-center'>THE BEST PLACE TO PLAY</p>
+                                <p className='text-white text-xs ml-1 my-auto font-thin justify-center'>HUZA N'ISI IGEZWEHO KUKO NAWE UGEZWEHO</p>
                             </div>
                             <p className='md:text-4xl text-2xl md:mt-6 mt-3 text-white'>
                                 {dayProduct[0]?.name}

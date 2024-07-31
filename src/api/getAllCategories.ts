@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // services/api.js
 import axios from 'axios';
 import { baseUrl } from '.';
