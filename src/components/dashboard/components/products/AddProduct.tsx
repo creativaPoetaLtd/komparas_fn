@@ -154,17 +154,12 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
       const updatedFormData = {
         ...formData,
       };
-
-      // Correctly assign keys for submission
       product_specificationsKeys.forEach((key, index) => {
         updatedFormData.product_specifications[index].key = key;
       });
       ourReview.forEach((key, index) => {
         updatedFormData.our_review[index].key = key;
       });
-
-      console.log("Updated Form Data: ", updatedFormData); // Debugging log
-
       const response = await addProduct(updatedFormData);
       setLoading(false);
 

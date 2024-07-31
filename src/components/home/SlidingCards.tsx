@@ -215,7 +215,7 @@ const SlidingCards: React.FC = () => {
                 )} 
                 <p className="flex text-sm font-semibold">{product?.product_name}</p>
                  <p className="flex text-sm text-red-500 mt-1 line-through">
-                   {product.vendor_prices
+                   {product?.vendor_prices?.length >=1 && product?.vendor_prices
                     ?.reduce((prev: any, current: any) =>
                       prev.price < current.price ? prev : current
                     )

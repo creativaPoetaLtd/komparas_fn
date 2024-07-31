@@ -112,20 +112,8 @@ export const addPRoductimage = async (productData: any , id:any) => {
 }
 
 export const updateProduct = async (productData: any, id: string) => {
-  const formData = new FormData();
-  formData.append('product_name', productData.product_name);
-  formData.append('product_description', productData.product_description);
-  formData.append('category_name', productData.category_name);
-  const res = await fetch(`${baseUrl}/products/${id}`, {
-    method: 'PUT',
-    body: formData,
-  });
-  return await res.json();
-};
-
-
-
-
+  return await axios.put(`${baseUrl}/products/${id}`, productData);
+}
 export const deleteProduct = async (id: string) => {
   const res = await fetch(`${baseUrl}/products/${id}`, {
     method: 'DELETE',
