@@ -1,436 +1,393 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { getAllCategories } from "../../../../api/getAllCategories";
 import { updateProduct } from "../../../../api/product";
 import { getPoductById } from "../../../../api/product";
-import { useEffect } from "react";
-import { getAllShops } from "../../../../api/getAllShops";
-// import { UploadSimple } from "@phosphor-icons/react";
-// import { RiDeleteBin6Line } from "react-icons/ri";
 import { toast } from "react-toastify";
+import { Editor } from "primereact/editor";
 
 interface EditProductProps {
-    setIsEditProduct: (isEditProduct: boolean) => void;
+  setIsEditProduct: (isEditProduct: boolean) => void;
 }
+
+const productSpecificationsKeys = ["Brand", "Model", "Display", "Processor"];
+const ourReviewKeys = ["Power", "Battery", "Other"];
 
 const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
-    const [categories, setCategories] = useState<any>([]);
-    const [loading, setLoading] = useState(false);
-    const [, setShops] = useState<any>([]);
-    const [, setLoadingShops] = useState(false);
-    const [, setSpecifications] = useState([{ key: "", value: "" }]);
-    const [, setVendorPrices] = useState([{ key: "", value: "" }]);
-    const [productData, setProductData] = useState<any>();
-    const [formData, setFormData] = useState({
-        product_name: "",
-        product_price: "",
-        product_description: "",
-        category: "",
-    });
-    const [, setImageUrl] = useState<string | null>(null);
-    const editID: any = localStorage.getItem("editProductID");
-    const fetchCategories = async () => {
+  const [categories, setCategories] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [formData, setFormData] = useState<any>({
+    product_name: "",
+    our_price: "",
+    product_description: "",
+    category: "",
+    product_specifications: productSpecificationsKeys.map((key) => ({
+      key,
+      value: "",
+    })),
+    our_review: ourReviewKeys.map((key) => ({
+      key,
+      value: "",
+    })),
+    product_image: undefined,
+  });
+
+  const [productData, setProductData] = useState<any>(null);
+
+  // Retrieve edit ID from local storage
+  const editID: string | any = localStorage.getItem("editProductID");
+
+  // Handle input changes for basic fields
+  const handleInputChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = event.target;
+
+    if (name.includes("product_specifications")) {
+      const [_, index] = name.split(".");
+      const newProductSpecifications = [...formData.product_specifications];
+      newProductSpecifications[Number(index)].value = value;
+      setFormData({
+        ...formData,
+        product_specifications: newProductSpecifications,
+      });
+    } else if (name.includes("our_review")) {
+      const [_, index] = name.split(".");
+      const newOurReview = [...formData.our_review];
+      newOurReview[Number(index)].value = value;
+      setFormData({ ...formData, our_review: newOurReview });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
+  };
+
+  // Fetch categories from API
+  const fetchCategories = async () => {
+    try {
+      setLoading(true);
+      const response = await getAllCategories();
+      setCategories(response?.data || []);
+    } catch (error) {
+      toast.error("Failed to fetch categories");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Handle back button click
+  const handleBackButton = () => {
+    setIsEditProduct(false);
+  };
+
+  // Handle product fetching
+  useEffect(() => {
+    const fetchProduct = async () => {
+      if (!editID) {
+        toast.error("Invalid product ID");
+        return;
+      }
+
+      try {
         setLoading(true);
-        const categories = await getAllCategories();
-        setCategories(categories?.data);
+        const { data } = await getPoductById(editID);
+        console.log("data", data);
+        
+        setProductData(data?.product);
+      } catch (error) {
+        toast.error("Failed to fetch product details");
+      } finally {
         setLoading(false);
-    };
-    const fetchShops = async () => {
-        setLoadingShops(true);
-        const shops = await getAllShops();
-        setShops(shops?.data);
-        setLoadingShops(false);
+      }
     };
 
-    useEffect(() => {
-        fetchShops();
-        fetchCategories();
-    }, []);
+    fetchProduct();
+  }, [editID]);
 
-    const handleBackButton = () => {
-        setIsEditProduct(false);
-    };
+  // Populate form data with product details
+  useEffect(() => {
+    if (productData) {
+      setFormData({
+        product_name: productData.product_name,
+        our_price: productData.our_price,
+        product_description: productData.product_description,
+        category: productData.category?._id,
+        product_specifications: productSpecificationsKeys.map((key) => {
+          const keyData = productData.product_specifications.find(
+            (specification: any) => specification.key === key
+          );
+          return {
+            key,
+            value: keyData ? keyData.value : "",
+          };
+        }),
+        our_review: ourReviewKeys.map((key) => {
+          const keyData = productData.our_review.find(
+            (review: any) => review.key === key
+          );
+          return {
+            key,
+            value: keyData ? keyData.value : "",
+          };
+        }),
+        product_image: productData.product_image,
+      });
+    }
+  }, [productData]);
 
-    const handleEditProduct = () => {
-        setIsEditProduct(false);
-    };
+  // Handle category change
+  const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setFormData((prevFormData: any) => ({
+      ...prevFormData,
+      category: event.target.value,
+    }));
+  };
 
-    useEffect(() => {
-        const fetchProduct = async () => {
-            const { data } = await getPoductById(editID);
-            setProductData(data?.product);
+  // Handle Editor content change
+  const handleEditorChange = (index: number, value: string) => {
+    const updatedOurReview = [...formData.our_review];
+    updatedOurReview[index].value = value;
+    setFormData({
+      ...formData,
+      our_review: updatedOurReview,
+    });
+  };
 
-        };
-        fetchProduct();
-    }, [editID]);    
+  // Handle form submission
+  const handleEditProductSubmit = async (
+    event: React.FormEvent<HTMLFormElement>
+  ) => {
+    event.preventDefault();
 
-    useEffect(() => {
-        if (productData) {
-            setFormData({
-                product_name: productData.product_name,
-                product_price: productData.product_price,
-                product_description: productData.product_description,
-                category: productData.category?.name,
-            });
-        }
-    }, [productData]);
-    
-
-
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = event.target;
-        setFormData((prevFormData: any) => ({
-            ...prevFormData,
-            [name]: value,
-        }));
-    };
-    const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            category: event.target.value,
-        }));
-    };
- 
-    // const handleSpecificationChange = (index: number, field: string, value: string) => {
-    //     const updatedSpecifications: any = [...specifications];
-    //     updatedSpecifications[index][field] = value;
-    //     setSpecifications(updatedSpecifications);
-    // };
-
-
-    // const addSpecificationField = () => {
-    //     setSpecifications([...specifications, { key: "", value: "" }]);
-    // };
-    // const handleVendorsChange = (index: number, field: string, value: string) => {
-    //     const updatedVendors: any = [...vendor_prices];
-    //     updatedVendors[index][field] = value;
-    //     setVendorPrices(updatedVendors);
-    // };
-    // const handleVendorsSelectChange = (event: React.ChangeEvent<HTMLSelectElement>, index: number) => {
-    //     const { value } = event.target;
-    //     handleVendorsChange(index, "key", value);
-    // };
-
-
-    // const addVendorField = () => {
-    //     setVendorPrices([...vendor_prices, { key: "", value: "" }]);
-    // };
-
-
-    // const removeSpecificationField = (index: number) => {
-    //     const updatedSpecifications = [...specifications];
-    //     updatedSpecifications.splice(index, 1);
-    //     setSpecifications(updatedSpecifications);
-    // };
-    // const removeVendors = (index: number) => {
-    //     const updatedVendors = [...vendor_prices];
-    //     updatedVendors.splice(index, 1);
-    //     setVendorPrices(updatedVendors);
-    // };
-
-    // const handleRemoveProfilePicture = () => {
-    //     setFormData((prevFormData: any) => ({
-    //         ...prevFormData,
-    //         product_image: undefined,
-    //     }));
-    //     setImageUrl(null);
-    // };
-    // const handleImageUpload = () => {
-    //     const image: HTMLElement | null =
-    //         document.getElementById("product_image");
-    //     image?.click();
-    // };
-    // const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     const file = event.target.files?.[0];
-    //     if (file) {
-    //         setFormData((prevFormData: any) => ({
-    //             ...prevFormData,
-    //             product_image: file,
-    //         }));
-    //         const reader = new FileReader();
-    //         reader.onload = () => {
-    //             setImageUrl(reader.result as string);
-    //         };
-    //         reader.readAsDataURL(file);
-    //     } else {
-    //         setImageUrl(null);
-    //     }
-    // };
-
-    const clearFormAfterSubmit = () => {
-        setFormData({
-            product_name: "",
-            product_price: "",
-            product_description: "",
-            category: "",
-        });
-        setSpecifications([{ key: "", value: "" }]);
-        setVendorPrices([{ key: "", value: "" }]);
-        setImageUrl(null);
-    };
-
-
-    const handleEditProductSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        setLoading(true);
-        const product = {
-            product_name: formData?.product_name,
-            product_price: formData?.product_price,
-            product_description: formData?.product_description,
-            category_name: formData?.category,
-        };
-        try {
-            await updateProduct(product, editID);
-            toast.success("Product Updated Successfully");
-            clearFormAfterSubmit();
-            setLoading(false);
-            setIsEditProduct(false);
-        } catch (error) {
-            toast.error("Error while updating product");
-            setLoading(false);
-        }
+    // Validate form
+    if (!formData.product_name) {
+      toast.error("Product name is required");
+      return;
+    }
+    if (!formData.category) {
+      toast.error("Please select a category");
+      return;
     }
 
+    setLoading(true);
 
-    console.log(formData);
-    
-   
+    const updatedFormData = new FormData();
+    updatedFormData.append("product_name", formData.product_name);
+    updatedFormData.append("our_price", formData.our_price);
+    updatedFormData.append("product_description", formData.product_description);
+    updatedFormData.append("category", formData.category);
+    formData.product_specifications.forEach(
+      (specification: any, index: number) => {
+        updatedFormData.append(
+          `product_specifications[${index}][key]`,
+          specification.key
+        );
+        updatedFormData.append(
+          `product_specifications[${index}][value]`,
+          specification.value
+        );
+      }
+    );
 
-    return (
-        <div className='EditProductForm w-full h-fit flex flex-col pb-12 bg-gray-300 p-2'>
-            <button className='EditProductForm__backButton w-full h-full flex justify-start items-start' onClick={handleBackButton}>
-                <IoIosArrowRoundBack className='EditProductForm__backButton__icon text-4xl font-bold' />
-                <div className='EditProductForm__backButton__text text-2xl font-bold'>Back</div>
-            </button>
-            <div className="EditProductForm__form py-10 w-[70%] mb-12 rounded-md h-fit justify-center mx-auto mt-8 bg-white items-cente">
-                <div className='EditProductForm__form w-1/2 h-full flex flex-col justify-center mx-auto items-center'>
-                    <div className='EditProductForm__form__title text-2xl font-bold mb-5'>
-                        <button onClick={handleEditProduct}>Hindura telefoni</button>
-                    </div>
-                    <form onSubmit={handleEditProductSubmit}  className='EditProductForm__form__inputs flex flex-col justify-center items-start'>
-                        <div className='EditProductForm__form__inputs__name flex flex-col justify-start items-start mb-5'>
-                            <label className='EditProductForm__form__inputs__name__label  mb-2'>Product Name</label>
-                            <input className='EditProductForm__form__inputs__name__input w-96 h-10 rounded-md border outline-blue-700 border-gray-300 px-2'
-                                type="text"
-                                name='product_name'
-                                placeholder='Product Name'
-                                value={formData?.product_name}
-                                onChange={handleInputChange}
-                            />
-                        </div>
-                        <div className='EditProductForm__form__inputs__description flex flex-col justify-start items-start mb-5'>
-                            <label className='EditProductForm__form__inputs__description__label  mb-2'>Product Description</label>
-                            <textarea
-                                className='EditProductForm__form__inputs__description__input w-96 h-28 rounded-md border outline-blue-700 border-gray-300 px-2'
-                                placeholder='Product Description'
-                                name='product_description'
-                                value={formData?.product_description}
-                                onChange={handleInputChange}
-                            />
-                        </div>
-                         <div className='EditProductForm__form__inputs__category flex flex-col justify-start items-start mb-5'>
-                            <label className='EditProductForm__form__inputs__category__label  mb-2'>Product Category</label>
-                            <select
-                                className='EditProductForm__form__inputs__category__input w-96 h-10 rounded-md border outline-blue-700 border-gray-300 px-2'
-                                onChange={handleCategoryChange}
-                                value={formData.category}
-                            >
-                                <option value="" disabled selected>Select Category</option>
-                                {categories?.map((category: any) => (
-                                    <option key={category.name} value={category.name}>
-                                        {category.name}
-                                    </option>
-                                ))}
-                            </select>
-                        </div> 
+    formData.our_review.forEach((review: any, index: number) => {
+      updatedFormData.append(`our_review[${index}][key]`, review.key);
+      updatedFormData.append(`our_review[${index}][value]`, review.value);
+    });
 
-                        {/* <div className="EditProductForm__form__inputs__specifications flex flex-col justify-start items-start mb-5">
-                            <label className="EditProductForm__form__inputs__specifications__label mb-2">
-                                Shops
-                            </label>
-                            {vendor_prices.map((spec, index) => (
-                                <div key={index} className="flex w-[88%] space-x-2 mb-2">
-                                    <select
-                                        className='EditProductForm__form__inputs__category__input w-96 h-10 rounded-md border outline-blue-700 border-gray-300 px-2'
-                                        onChange={(e) => handleVendorsSelectChange(e, index)}
-                                        value={spec.key}
-                                    >
-                                        <option value="" disabled selected>Select Shop</option>
-                                        {shops?.map((shop: any) => (
-                                            <option key={shop.name} value={shop._id}>
-                                                {shop.name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                    <input
-                                        type="text"
-                                        placeholder="Value"
-                                        value={spec.value}
-                                        onChange={(e) => handleVendorsChange(index, "value", e.target.value)}
-                                        className="w-1/2 h-10 rounded-md border outline-blue-700 border-gray-300 px-2"
-                                    />
-                                    <button
-                                        type="button"
-                                        onClick={() => removeVendors(index)}
-                                        className="border px-2 py-0 text-black hover:text-white bg-red-100 hover:bg-red-500 rounded-md"
-                                    >
-                                        x
-                                    </button>
-                                </div>
-                            ))}
-                            <div className="w-[88%]">
-                                <button
-                                    type="button"
-                                    onClick={addVendorField}
-                                    className="border p-2 text-white bg-blue-600 rounded-md float-right"
-                                >
-                                    Edit Vendor Field
-                                </button>
-                            </div>
-                        </div> */}
+    if (formData.product_image) {
+      updatedFormData.append("product_image", formData.product_image);
+    }
 
-                        {/* <div className="EditProductForm__form__inputs__specifications flex flex-col justify-start items-start mb-5">
-                            <label className="EditProductForm__form__inputs__specifications__label mb-2">
-                                Specifications
-                            </label>
-                               {productData?productData.product_specifications?.map((specification: any, index: any) => (
-                                <div key={index} className="flex w-[88%] space-x-2 mb-2">
-                                    <input
-                                        type="text"
-                                        placeholder="Key"
-                                        value={specification?.key}
-                                        onChange={(e) => handleSpecificationChange(index, "key", e.target.value)}
-                                        className="w-1/2 h-10 rounded-md border outline-blue-700 border-gray-300 px-2"
-                                    />
-                                    <input
-                                        type="text"
-                                        placeholder="Value"
-                                        value={specification?.value}
-                                        onChange={(e) => handleSpecificationChange(index, "value", e.target.value)}
-                                        className="w-1/2 h-10 rounded-md border outline-blue-700 border-gray-300 px-2"
-                                    />
-                                    <button
-                                        type="button"
-                                        onClick={() => removeSpecificationField(index)}
-                                        className="border px-2 py-0 text-black hover:text-white bg-red-100 hover:bg-red-500 rounded-md"
-                                    >
-                                        x
-                                    </button>
-                                </div>
-                                )):specifications.map((spec, index) => (
-                                    <div key={index} className="flex w-[88%] space-x-2 mb-2">
-                                        <input
-                                            type="text"
-                                            placeholder="Key"
-                                            value={spec.key}
-                                            onChange={(e) => handleSpecificationChange(index, "key", e.target.value)}
-                                            className="w-1/2 h-10 rounded-md border outline-blue-700 border-gray-300 px-2"
-                                        />
-                                        <input
-                                            type="text"
-                                            placeholder="Value"
-                                            value={spec.value}
-                                            onChange={(e) => handleSpecificationChange(index, "value", e.target.value)}
-                                            className="w-1/2 h-10 rounded-md border outline-blue-700 border-gray-300 px-2"
-                                        />
-                                        <button
-                                            type="button"
-                                            onClick={() => removeSpecificationField(index)}
-                                            className="border px-2 py-0 text-black hover:text-white bg-red-100 hover:bg-red-500 rounded-md"
-                                        >
-                                            x
-                                        </button>
-                                    </div>
-                                ))
-                            }
+    try {
+      await updateProduct(updatedFormData, editID);
+      toast.success("Product updated successfully");
+      setIsEditProduct(false);
+    } catch (error) {
+      toast.error("Failed to update product");
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchCategories();
+  }, []);
 
-
-                            <div className="w-[88%]">
-                                <button
-                                    type="button"
-                                    onClick={addSpecificationField}
-                                    className="border p-2 text-white bg-blue-600 rounded-md float-right"
-                                >
-                                    Add Specification
-                                </button>
-                            </div>
-                        </div> */}
-                        {/* <div className='AddProductForm__form__inputs__description flex flex-col justify-start items-start mb-5'>
-                            <label className='AddProductForm__form__inputs__description__label  mb-2'>Icyo tuyivugaho</label>
-                            <textarea
-                                className='AddProductForm__form__inputs__description__input w-96 h-28 rounded-md border outline-blue-700 border-gray-300 px-2'
-                                placeholder='Product Description'
-                                name='product_description'
-                                value={formData?.our_review}
-                                onChange={handleInputChange}
-                            />
-                        </div> */}
-                        {/* <div className="laptop:w-[88%] desktop:w-[88%] tablet:w-[88%] laptop:mt-0 tablet:mt-0 desktop:mt-0  mt-2 w-full justify-between flex felx-col space-y-4">
-                            <div className="flex flex-col w-full">
-                                <label className="text-sm mb-1 font-normal text-grey-700 ">
-                                    Ifoto ya telefoni
-                                </label>
-                                {formData?.product_image ? (
-                                    <div className="relative w-full h-[250px]">
-                                        <img
-                                            src={imageUrl || ""}
-                                            width={300}
-                                            height={400}
-                                            alt="Selected Profile"
-                                            className="w-full h-full object-fill rounded-lg"
-                                        />
-                                        <button
-                                            type="button"
-                                            onClick={handleRemoveProfilePicture}
-                                            className="absolute left-2 bottom-2  hover:text-red-700 bg-red-600 cursor-pointer"
-                                        >
-                                            <div className="p-2 bg-error rounded-full">
-                                                <RiDeleteBin6Line className="text-white text-xl  rounded-full  cursor-pointer" />
-                                            </div>{" "}
-                                        </button>
-                                    </div>
-                                ) : (
-                                    <div
-                                        className="flex flex-col text-center items-center justify-center m-auto w-full h-[250px] bg-grey-200 border-2  border-grey-500 rounded-lg relative hover:cursor-pointer"
-                                        onClick={handleImageUpload}
-                                    >
-                                        <input
-                                            type="file"
-                                            accept="image/png, image/jpeg"
-                                            id="product_image"
-                                            name="product_image"
-                                            onChange={handleImageChange}
-                                            style={{ display: "none" }}
-                                        />
-                                        <div className="absolute flex flex-col gap-5 items-center">
-                                            <UploadSimple
-                                                color="#90A8A2"
-                                                size={22}
-                                            />
-                                            <p className="text-sm text-grey-700">
-                                                Shyiramo ifoto ya telefoni
-                                            </p>
-                                        </div>
-                                    </div>
-                                )}
-                                <button type="button" className={`bg-blue-700 mb-12 text-white space-x-3 rounded-md flex justify-center m-auto items-center p-2 h-[47px] mt-5 w-full ${formData?.product_image ? 'opacity-50 cursor-not-allowed' : ''}`} onClick={handleImageUpload}
-                                >
-                                    <p>Shyiramo telefoni</p>
-                                    <UploadSimple color="#90A8A2" size={22} />
-                                </button>
-                            </div>
-                        </div> */}
-                        <button
-                            type="submit"
-                            className='EditProductForm__form__inputs__submit w-96 h-10 rounded-md border outline-blue-700 border-gray-300 px-2 bg-blue-600 text-white'
-                        >
-                            {loading ? "Loading..." : "Update Product"}
-                        </button>
-                    </form>
-                </div>
-            </div>
+  console.log("formData", formData);
+  
+  return (
+    <div className="AddProductForm w-full h-fit flex flex-col pb-12 bg-gray-300 p-2">
+      <button
+        className="AddProductForm__backButton w-full h-full flex justify-start items-start"
+        onClick={handleBackButton}
+      >
+        <IoIosArrowRoundBack className="AddProductForm__backButton__icon text-4xl font-bold" />
+        <div className="AddProductForm__backButton__text text-2xl font-bold">
+          Back
         </div>
-    )
-}
+      </button>
+      <div className="AddProductForm__form py-10 w-[70%] mb-12 rounded-md h-fit justify-center mx-auto mt-8 bg-white items-center">
+        <div className="AddProductForm__form w-1/2 h-full flex flex-col justify-center mx-auto items-center">
+          <div className="AddProductForm__form__title text-2xl font-bold mb-5">
+            <button onClick={handleBackButton}>Ongeramo telefoni</button>
+          </div>
+          <form
+            onSubmit={handleEditProductSubmit}
+            className="AddProductForm__form__inputs flex flex-col justify-center items-start"
+          >
+            <div className="AddProductForm__form__inputs__name flex flex-col justify-start items-start mb-5">
+              <label className="AddProductForm__form__inputs__name__label  mb-2">
+                Izina rya telefoni
+              </label>
+              <input
+                className="AddProductForm__form__inputs__name__input w-96 h-10 rounded-md border outline-blue-700 border-gray-300 px-2"
+                type="text"
+                name="product_name"
+                placeholder="Product Name"
+                value={formData?.product_name}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+            <div className="AddProductForm__form__inputs__price flex flex-col justify-start items-start mb-5">
+              <label className="AddProductForm__form__inputs__price__label mb-2">
+                Igiciro cya telefoni
+              </label>
+              <input
+                className="AddProductForm__form__inputs__price__input w-96 h-10 rounded-md border outline-blue-700 border-gray-300 px-2"
+                type="text"
+                name="our_price"
+                placeholder="Price"
+                value={formData?.our_price}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+            <div className="AddProductForm__form__inputs__description flex flex-col justify-start items-start mb-5">
+              <label className="AddProductForm__form__inputs__description__label mb-2">
+                Ibisobanuro
+              </label>
+              <textarea
+                className="AddProductForm__form__inputs__description__input w-96 h-24 rounded-md border outline-blue-700 border-gray-300 px-2"
+                name="product_description"
+                placeholder="Product Description"
+                value={formData?.product_description}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+            <div className="AddProductForm__form__inputs__category flex flex-col justify-start items-start mb-5">
+              <label className="AddProductForm__form__inputs__category__label mb-2">
+                Hitamo icyiciro
+              </label>
+              <select
+                className="AddProductForm__form__inputs__category__select w-96 h-10 rounded-md border outline-blue-700 border-gray-300 px-2"
+                name="category"
+                value={formData.category}
+                onChange={handleCategoryChange}
+                required
+              >
+                <option value={
+                    formData.category?._id 
+                    }>
+                    {formData.category?.name}
+                </option>
+                {categories.length === 0 && (
+                  <option value="" disabled>
+                    No categories available
+                  </option>
+                )
+                }
+                {categories.map((category: any) => (
+                  <option key={category._id} value={category._id}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="AddProductForm__form__inputs__specifications flex flex-col justify-start items-start mb-5">
+              <label className="AddProductForm__form__inputs__specifications__label text-lg font-bold mb-2">
+                Specifications
+              </label>
+              
+              {formData?.product_specifications?.map(
+                (specification: any, index: number) => (
+                    <div className="flex flex-col justify-start items-start mb-5 w-full">
+                        <p className="">{specification.key}</p>
+                  <input
+                    key={index}
+                    className="AddProductForm__form__inputs__specifications__input w-96 h-10 rounded-md border outline-blue-700 border-gray-300 px-2 mb-2"
+                    type="text"
+                    name={`product_specifications.${index}.value`}
+                    placeholder={specification.key}
+                    value={specification.value}
+                    onChange={handleInputChange}
+                  />
+                    </div>
+                )
+              )}
+            </div>
+            <div className="AddProductForm__form__inputs__review flex flex-col justify-start items-start mb-5">
+              <label className="AddProductForm__form__inputs__review__label mb-2 text-lg font-bold">
+                Our Review
+              </label>
+              {formData?.our_review?.map((review: any, index: number) => (
+                <div className="flex flex-col justify-start items-start mb-5 w-full">
+                <p className="">{review.key}</p>
+                <Editor
+                  key={index}
+                  style={{ width: "600px", height: "150px", marginBottom: "20px" }}
+                  value={review.value}
+                  onTextChange={(e) => handleEditorChange(index, e.htmlValue || "")}
+                  placeholder={`Enter ${review.key} review`}
+                />
+                </div>
+              ))}
+            </div>
+            {/* <div className="AddProductForm__form__inputs__image flex flex-col justify-start items-start mb-5">
+              <label className="AddProductForm__form__inputs__image__label mb-2">
+                Ishusho
+              </label>
+              <input
+                className="AddProductForm__form__inputs__image__input w-96 h-10 rounded-md border outline-blue-700 border-gray-300 px-2"
+                type="file"
+                name="product_image"
+                onChange={(e) =>
+                  setFormData({ ...formData, product_image: e.target.files?.[0] })
+                }
+              />
+            </div> */}
 
-export default EditProduct
+            <div className="ImageUpload flex flex-col justify-start items-start mb-5">
+                <label className="ImageUpload__label mb-2">Ishusho</label>
+                {
+                    formData?.product_image && (
+                        <img src={
+                            formData?.product_image instanceof File
+                            ? URL.createObjectURL(formData?.product_image)
+                            : formData?.product_image
+
+                        } alt="Product" className="ImageUpload__image w-24 h-24 object-cover rounded-md mb-2" />
+                    )
+
+
+                }
+                <input type="file" className="ImageUpload__input" onChange={(e) => setFormData({...formData, product_image: e.target.files?.[0]})} />
+            </div>
+            <div className="AddProductForm__form__inputs__submit flex justify-center items-center">
+              <button
+                className={`AddProductForm__form__inputs__submit__button w-48 h-12 rounded-md bg-blue-700 text-white font-bold ${
+                  loading ? "opacity-50" : ""
+                }`}
+                type="submit"
+                disabled={loading}
+              >
+                {loading ? "Loading..." : "Update Product"}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default EditProduct;

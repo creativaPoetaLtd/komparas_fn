@@ -80,23 +80,17 @@ export const addProduct = async (productData: any) => {
   formData.append('category_name', productData.category);
   formData.append('our_price', productData.our_price)
   formData.append('product_image', productData.product_image);
-  //add array of available storages
-  productData.availableStorages.forEach((availableStorages: {value: string | Blob; }, index: any) => {
-    formData.append(`availableStorages[${index}][value]`, availableStorages.value ? availableStorages.value : '-');
+
+  productData?.product_specifications.forEach((product_specifications: { key: string | Blob; value: string | Blob; }, index: any) => {
+    formData.append(`product_specifications[${index}][key]`, product_specifications.key ? product_specifications.key : '-');
+    formData.append(`product_specifications[${index}][value]`, product_specifications.value ? product_specifications.value : '-');
   });
-  productData.specifications.forEach((specification: { key: string | Blob; value: string | Blob; }, index: any) => {
-    formData.append(`specifications[${index}][key]`, specification.key ? specification.key : '-');
-    formData.append(`specifications[${index}][value]`, specification.value ? specification.value : '-');
-  });
+
   productData.our_review.forEach((our_review: { key: string | Blob; value: string | Blob; }, index: any) => {
     formData.append(`our_review[${index}][key]`, our_review.key ? our_review.key : '-');
     formData.append(`our_review[${index}][value]`, our_review.value ? our_review.value : '-');
   });
-  productData.vendor_prices.forEach((vendor_prices: { key: string | Blob; value: string | Blob,  colors: string | Blob }, index: any) => {
-    formData.append(`vendor_prices[${index}][vendor_id]`, vendor_prices.key ? vendor_prices.key : '-');
-    formData.append(`vendor_prices[${index}][price]`, vendor_prices.value ? vendor_prices.value : '-');
-    formData.append(`vendor_prices[${index}][colors]`, vendor_prices.colors ? vendor_prices.colors : '-');
-  });
+
 
   const res = await fetch(`${baseUrl}/products/add`, {
     method: 'POST',
@@ -118,20 +112,8 @@ export const addPRoductimage = async (productData: any , id:any) => {
 }
 
 export const updateProduct = async (productData: any, id: string) => {
-  const formData = new FormData();
-  formData.append('product_name', productData.product_name);
-  formData.append('product_description', productData.product_description);
-  formData.append('category_name', productData.category_name);
-  const res = await fetch(`${baseUrl}/products/${id}`, {
-    method: 'PUT',
-    body: formData,
-  });
-  return await res.json();
-};
-
-
-
-
+  return await axios.put(`${baseUrl}/products/${id}`, productData);
+}
 export const deleteProduct = async (id: string) => {
   const res = await fetch(`${baseUrl}/products/${id}`, {
     method: 'DELETE',
