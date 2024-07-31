@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
@@ -75,7 +76,6 @@ const ShopCards: React.FC = () => {
           </div>
           <h1 className="text-lg flex my-auto justify-center font-bold ml-2 text-[#EDB62E]">Amaduka yose</h1>
         </div>
-        {/* <h1 className='flex text-2xl text-[#0C203B] mt-3 font-semibold'>Hitamo telefoni ugendeye ku iduka</h1> */}
       </div>
       {shops.length > 0 ? (
       <Slider {...settings}

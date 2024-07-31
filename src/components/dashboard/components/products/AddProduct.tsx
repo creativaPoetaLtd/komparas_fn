@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { getAllCategories } from "../../../../api/getAllCategories";
@@ -11,8 +12,41 @@ interface AddProductProps {
   setIsAddProduct: (isAddProduct: boolean) => void;
 }
 
-const product_specificationsKeys = ["Brand", "Model", "Display", "Processor"];
-const ourReview = ["Power", "Battery", "Other"];
+const product_specificationsKeys = [
+  "Ubwoko", 
+  "Igiciro (yasohotse igura)", 
+  "Umwaka yakorewemo", 
+  "OS", 
+  "Uko ingana", 
+  "Ingano ya ecran/screen", 
+  "Uburemere", 
+  "Proseseri", 
+  "Ingano y’ububiko/ ubushobozi bwo kubika", 
+  "RAM", 
+  "Foto", 
+  "Selfie", 
+  "NFC", 
+  "Wi-Fi", 
+  "Bluetooth",
+  "5G",
+  "Gutindana umuriro", 
+  "Uburyo isharijwa", 
+  "Ishobora gusharijwa nta mugozi", 
+  "Ijyamo sim 2", 
+  "Iboneka mu yahe mabara",
+  "Icomekwaho ecouteur",
+  "Uburyo screen igaragaza amashusho",
+  "Ijyamo memory card", 
+  "Ifunguka ikoresheje ibikumwe" ];
+const ourReview = [
+  "Imiterere y’inyuma (Design / Housing)", 
+  "Imbere (Ecran/Screen)", 
+  "Ibijyanye na apareye foto (appareil photo), selfie na kamera (camera)",
+  "Ubushobozi / Imbaraga",
+  "Ugukomera/Ukuramba",
+  "Ibijyanye n’umuriro na bateri (Batterie/Battery)",
+  "Umwanzuro"
+];
 
 const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
   const [categories, setCategories] = useState<any>([]);
