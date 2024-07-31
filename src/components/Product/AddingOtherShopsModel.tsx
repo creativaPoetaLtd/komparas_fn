@@ -115,7 +115,7 @@ const AddOtherShopsModal: React.FC<ModalProps> = ({
               placeholder="Enter price"
             />
           </div>
-          <div className="mb-4">
+          <div className="mb-4 flex flex-col">
             <label className="block text-gray-700">Colors</label>
             {shopColors.map((color, index) => (
               <input
