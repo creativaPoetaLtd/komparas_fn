@@ -36,7 +36,7 @@ const ProdCategories = ({ onCategoryChange }: { onCategoryChange: (category: str
       <div className='searchForCategories bg-white mb-8 flex justify-center rounded-md border-2 items-center mx-auto mt-4 focus:border-blue-500'>
         <input
           type='text'
-          placeholder='Search for categories'
+          placeholder='Shakisha ikiciro cya telefoni'
           className='w-full p-2 rounded-sm   border-gray-200 focus:outline-none '
           value={searchQuery}
           onChange={handleSearchInputChange}

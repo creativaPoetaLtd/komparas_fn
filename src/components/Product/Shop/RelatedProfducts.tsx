@@ -71,7 +71,7 @@ const RelatedProfducts = ({shopProducts, vendorID, shopData}:any) => {
                     }</p>
                     <Link className="bg-[#EDB62E] mt-2 w-fit h-fit p-1 md:px-4 px-2 md:py-2 rounded-md" to={
                         `/product/${product?._id}`
-                    }>Read more</Link>
+                    }>Yirebe yose</Link>
                 </div>
             )
         )))}

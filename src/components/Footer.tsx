@@ -22,11 +22,11 @@ const Footer: React.FC = () => {
   return (
     <footer className={`flex md:text-base text-sm flex-col justify-between items-center text-white w-full lg:px-[8
       rem] px-2 ${!isAdminFromLocalStorage ? "bg-[#0C203B]" : "bg-[#848482]"}  py-8`}>
-      <div className='grid lg:grid-cols-4 grid-cols-2 gap-10 md:gap-32 lg:gap-4 pb-8'>
+      <div className='grid lg:grid-cols-4 grid-cols-2 gap-10 md:gap-32 lg:gap-44 pb-8'>
         <div className='flex card1 flex-col space-y-3'>
           <h1 className='flex font-bold text-[#EDB62E]'>Komparas</h1>
           <p className='flex'>Abo turibo</p>
-          <p className='flex'>Serivise</p>
+          <p className='flex'>Serivisi</p>
           <p className='flex'>Sobanukirwa</p>
           <p className='flex'>Twandikire</p>
         </div>

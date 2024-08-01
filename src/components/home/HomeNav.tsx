@@ -122,7 +122,7 @@ const lastPart = urlParts[urlParts.length - 1];
       <div className='searchBar bg-[#F5F5F5] rounded-md pr-3'>
         <input
           type='text'
-          placeholder='Search for product'
+          placeholder='Shakisha Telefoni'
           className='p-2 outline-none text-black rounded-md bg-[#F5F5F5]'
           value={searchValue}
           onChange={handleInputChange}

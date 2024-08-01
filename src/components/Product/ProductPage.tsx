@@ -210,7 +210,7 @@ const ProductPage = () => {
                 >
                     <input
                         type="text"
-                        placeholder="Search Product"
+                        placeholder="Shakisha Telefoni"
                         className="border border-gray-300 rounded-md p-2 w-full mb-4"
                         onChange={(e) => {
                             const search = e.target.value.toLowerCase();

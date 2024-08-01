@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import { getAllProducts } from "../../api/product";
 import { Link } from "react-router-dom";
@@ -52,7 +53,7 @@ const NewArrival: React.FC<NewArrivalProps> = ({}) => {
                         </p>
                         <Link className="flex underline underline-offset-4 mt-4 text-[#FFAD33]" to={
                             `/product/${top3Products[0]?.id}`
-                        }>VIEW MORE</Link>
+                        }>REBA BYOSE</Link>
                     </div>
                     <div className="flex h-[511px] w-[511px]  justify-center items-center m-auto">
                         <img src={
@@ -75,7 +76,7 @@ const NewArrival: React.FC<NewArrivalProps> = ({}) => {
                             </p>
                             <Link className="flex underline underline-offset-4 mt-4 text-[#FFAD33]" to={
                             `/product/${top3Products[1]?.id}`
-                        }>VIEW MORE</Link>                        </div>
+                        }>REBA BYOSE</Link>                        </div>
                         <div className="flex p-2  md:h-[286px] md:w-[290px] float-right absolute right-0">
                             <img src={
                                 top3Products[1]?.product_image
@@ -97,7 +98,7 @@ const NewArrival: React.FC<NewArrivalProps> = ({}) => {
                                 </p>
                                 <Link className="flex underline underline-offset-4 mt-4 text-[#FFAD33]" to={
                             `/product/${top3Products[2]?.id}`
-                        }>VIEW MORE</Link>                            </div>
+                        }>REBA BYOSE</Link>                            </div>
                             <div className="flex h-[221px] w-[190px] justify-center items-center m-auto">
                                 <img src={
                                     top3Products[2]?.product_image
@@ -118,7 +119,7 @@ const NewArrival: React.FC<NewArrivalProps> = ({}) => {
                                 </p>
                                 <Link className="flex underline underline-offset-4 mt-4 text-[#FFAD33]" to={
                             `/product/${top3Products[3]?.id}`
-                        }>VIEW MORE</Link>                            </div>
+                        }>REBA BYOSE</Link>                            </div>
                             <div className="flex h-[221px] w-[190px] justify-center items-center m-auto">
                                 <img src={
                                     top3Products[3]?.product_image
