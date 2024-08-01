@@ -37,7 +37,7 @@ const NewProduct = () => {
                         <div className='mainPageContent md:w-[45%] w-full md:h-full h-fit p-2'>
 
                             <div className='flex mt-1 bg-black p-1 w-fit h-fit'>
-                                <p className='text-white text-xs ml-1 my-auto font-thin justify-center'>INTRODUCING</p>
+                                <p className='text-white text-xs ml-1 my-auto font-thin justify-center'>TUBAZANIYE</p>
                             </div>
                             <p className='text-3xl mt-2 fon text-black'>
                                 {prod1?.product_name}
@@ -65,7 +65,7 @@ const NewProduct = () => {
                     <div className={`mainPage flex md:flex-row flex-col ${!isAdminFromLocalStorage ? "bg-[#0C203B]" : "bg-[#848482]"}  h-full`}>
                         <div className='mainPageContent md:w-[60%] w-full h-full p-6'>
                             <div className='flex mt-1 bg-[#EDB62E] p-1 w-fit h-fit'>
-                                <p className='text-white text-xs ml-1 my-auto font-thin justify-center'>INTRODUCING</p>
+                                <p className='text-white text-xs ml-1 my-auto font-thin justify-center'>TUBAZANIYE</p>
                             </div>
                             <p className='text-2xl mt-2 fon text-white'>
                                 {prod2?.product_name}
