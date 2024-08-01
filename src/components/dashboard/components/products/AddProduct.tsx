@@ -284,7 +284,7 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
             </div>
             <div className="AddProductForm__form__inputs__price flex flex-col justify-start items-start mb-5">
               <label className="AddProductForm__form__inputs__price__label mb-2">
-                Igiciro cy'isosiyete
+                Igiciro cyacu
               </label>
               <input
                 className="AddProductForm__form__inputs__price__input w-96 h-10 rounded-md border outline-blue-700 border-gray-300 px-2"
@@ -296,7 +296,7 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
               />
             </div>
             <div className="AddProductForm__form__inputs__specifications flex flex-col justify-start items-start mb-5">
-              <label className="AddProductForm__form__inputs__specifications__label  mb-2">
+              <label className="AddProductForm__form__inputs__specifications__label font-bold text-red-500  mb-2">
                 Specifications
               </label>
               {formData.product_specifications.map((specification, index) => (
@@ -313,21 +313,8 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                 </div>
               ))}
             </div>
-            <div className="AddProductForm__form__inputs__price flex flex-col justify-start items-start mb-5">
-              <label className="AddProductForm__form__inputs__price__label mb-2">
-                Igiciro cy'isoko
-              </label>
-              <input
-                className="AddProductForm__form__inputs__price__input w-96 h-10 rounded-md border outline-blue-700 border-gray-300 px-2"
-                type="number"
-                placeholder="Product Price"
-                name="product_price"
-                value={formData.product_price}
-                onChange={handleInputChange}
-              />
-            </div>
             <div className="AddProductForm__form__inputs__reviews flex flex-col justify-start items-start mb-5">
-              <label className="AddProductForm__form__inputs__reviews__label  mb-2">
+              <label className="AddProductForm__form__inputs__reviews__label font-bold text-red-500  mb-2">
                 Reviews
               </label>
               {formData.our_review.map((review, index) => (
@@ -337,7 +324,7 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                       id={review.key}
                       name={`our_review.${index}`} // Change name
                       value={review.value}
-                      style={{ height: "100px", width: "250px" }}
+                      style={{ height: "100px" }}
                       onTextChange={(e) =>
                         handleEditorChange(index, e.htmlValue || "")
                       }
