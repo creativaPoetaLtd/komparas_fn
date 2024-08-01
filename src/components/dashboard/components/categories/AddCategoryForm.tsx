@@ -8,7 +8,7 @@ interface CategoriesProps {
 }
 
 const AddCategoryForm = ({ setIsAddCategory }: CategoriesProps) => {
-  const [loading, setLoading] = useState(false);
+  const [, setLoading] = useState(false);
   const [categories, setCategories] = useState<any[]>([]);
   const [isAddSubCategory, setIsAddSubCategory] = useState(false);
   const [isAddParentCategory, setIsAddParentCategory] = useState(false);
@@ -184,7 +184,7 @@ const AddCategoryForm = ({ setIsAddCategory }: CategoriesProps) => {
                 <div className="w-full flex justify-start items-start mt-4">
                   <button
                     type="submit"
-                    className={`w-full h-10 rounded-md bg-blue-700 text-white ${loading || formData.name === "" || (isAddSubCategory && formData.parent_id === "") ? "opacity-50 cursor-not-allowed" : "opacity-100 cursor-pointer"}`}
+                    className={`w-full h-10 rounded-md bg-blue-700 text-white`}
                   >
                     Add Category
                   </button>
