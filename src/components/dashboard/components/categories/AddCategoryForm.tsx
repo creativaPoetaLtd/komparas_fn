@@ -183,7 +183,6 @@ const AddCategoryForm = ({ setIsAddCategory }: CategoriesProps) => {
                 </div>
                 <div className="w-full flex justify-start items-start mt-4">
                   <button
-                    disabled={loading || formData.name === "" || (isAddSubCategory && formData.parent_id === "")}
                     type="submit"
                     className={`w-full h-10 rounded-md bg-blue-700 text-white ${loading || formData.name === "" || (isAddSubCategory && formData.parent_id === "") ? "opacity-50 cursor-not-allowed" : "opacity-100 cursor-pointer"}`}
                   >
