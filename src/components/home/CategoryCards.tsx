@@ -12,7 +12,7 @@ import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 import { Phone } from '@phosphor-icons/react';
 // import { MdNoDrinks, MdOutlineElectricCar } from 'react-icons/md';
 // import { CgGirl } from 'react-icons/cg';
-import { fetchParentCategories } from '../../api/getAllCategories';
+import { fetchParentCategoriesm } from '../../api/getAllCategories';
 import { Link } from 'react-router-dom';
 
 const CategoryCards: React.FC = () => {
@@ -73,7 +73,7 @@ const CategoryCards: React.FC = () => {
 
   useEffect(() => {
       const fetchCategories = async () => {
-          const data = await fetchParentCategories();            
+          const data = await fetchParentCategoriesm();            
           setCategories(data?.data);          
       }
       fetchCategories();
