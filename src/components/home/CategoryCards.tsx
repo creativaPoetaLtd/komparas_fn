@@ -79,7 +79,6 @@ const CategoryCards: React.FC = () => {
       fetchCategories();
   }
   , []);
-
   return (
     <div className="lg:px-14 px-2 py-10">
       <div className='flex flex-col md:px-4 px-3 pb-6'>
