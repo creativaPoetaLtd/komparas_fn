@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
-import { fetchParentCategories } from "../../api/getAllCategories";
+import {  fetchParentCategoriesm } from "../../api/getAllCategories";
 import { Phone } from "@phosphor-icons/react";
 import { Menu, MenuProps } from 'antd';
 import dummyData from "./dummData";
@@ -32,7 +32,7 @@ const HomeBurner = () => {
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const data = await fetchParentCategories();            
+      const data = await fetchParentCategoriesm();            
       setCategories(data?.data);          
     }
     fetchCategories();
@@ -41,12 +41,10 @@ const HomeBurner = () => {
   useEffect(() => {
     const typingTimer = setTimeout(() => {
       setTypingIndex(prevIndex => (prevIndex + 1) % (maxTitleLength + 1));
-    }, 100); // Adjust typing speed here
+    }, 100); 
     return () => clearTimeout(typingTimer);
   }, [typingIndex]);
-
-  const maxTitleLength = 120; // Adjust according to your data
-
+  const maxTitleLength = 120;
   const handleMenuClick = (e: any) => {
     const categoryId = e.key;
     navigate(`/products?categoryId=${categoryId}`);
@@ -122,7 +120,6 @@ const HomeBurner = () => {
         ))}
       </Slider>
       <div className="prev-next-buttons">
-        
       </div>
     </div>
   );

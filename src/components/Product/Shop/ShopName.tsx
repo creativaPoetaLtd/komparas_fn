@@ -3,6 +3,7 @@ import { FacebookLogo, TelegramLogo, WhatsappLogo } from '@phosphor-icons/react'
 import { CiShare2, CiWarning } from "react-icons/ci";
 import { IoCallOutline } from "react-icons/io5";
 import { MdEmail, MdOutlineEmail } from "react-icons/md";
+import Stepper from './Stpeer';
 
 const ShopName = ({ shopData }: any) => {
     const [showSharePanel, setShowSharePanel] = useState(false);
@@ -12,7 +13,6 @@ const ShopName = ({ shopData }: any) => {
     const toggleKomparasCodePanel = () => {
         setShowKomparasCodePanel(!showKomparasCodePanel);
     };
-    const codeOfShop = Math.floor(Math.random() * 1000000);
     const toggleSharePanel = () => {
         setShowSharePanel(!showSharePanel);
     };
@@ -123,19 +123,20 @@ const ShopName = ({ shopData }: any) => {
                 </div>
             )}
             {showKomparasCodePanel && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                    <div className="bg-white rounded-lg shadow-lg p-4 w-80">
-                        <div className="flex justify-between items-center mb-4">
-                            <h2 className="md:text-lg font-semibold">Komparas Code:</h2>
-                            <button className="text-gray-600 hover:text-gray-900" onClick={toggleKomparasCodePanel}>&times;</button>
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <p className="text-[#353535] text-sm">
-                                <b>Code ya Komparas</b> : {codeOfShop}
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                <Stepper />
+                // <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                //     <div className="bg-white rounded-lg shadow-lg p-4 w-80">
+                //         <div className="flex justify-between items-center mb-4">
+                //             <h2 className="md:text-lg font-semibold">Komparas Code:</h2>
+                //             <button className="text-gray-600 hover:text-gray-900" onClick={toggleKomparasCodePanel}>&times;</button>
+                //         </div>
+                //         <div className="flex flex-col space-y-2">
+                //             <p className="text-[#353535] text-sm">
+                //                 <b>Code ya Komparas</b> : {codeOfShop}
+                //             </p>
+                //         </div>
+                //     </div>
+                // </div>
             )}
             <div className="flex flex-col mt-4 md:px-8 px-1">
                 <div className="flex w-full space-x-4 my-auto justify-center h-fit">
