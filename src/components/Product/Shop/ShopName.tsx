@@ -9,7 +9,7 @@ const ShopName = ({ shopData }: any) => {
     const [showSharePanel, setShowSharePanel] = useState(false);
     const [showAdressPanel, setShowAdressPanel] = useState(false);
     const [showKomparasCodePanel, setShowKomparasCodePanel] = useState(false);
-
+    const dataForShop:any = shopData;
     const toggleKomparasCodePanel = () => {
         setShowKomparasCodePanel(!showKomparasCodePanel);
     };
@@ -123,7 +123,7 @@ const ShopName = ({ shopData }: any) => {
                 </div>
             )}
             {showKomparasCodePanel && (
-                <Stepper />
+                <Stepper shopData={dataForShop} />
                 // <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
                 //     <div className="bg-white rounded-lg shadow-lg p-4 w-80">
                 //         <div className="flex justify-between items-center mb-4">

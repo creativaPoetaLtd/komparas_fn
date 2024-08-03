@@ -22,7 +22,16 @@
   font-size: x-small;
 }
 
-
+.ant-input-status-error.ant-input-disabled,
+.ant-input-status-error.ant-input-disabled:hover {
+  border-color: #ff4d4f;
+}
+.bbbb.ant-input:focus {
+  border-color: #ca043c;
+  outline: 0;
+  -webkit-box-shadow: 0 0 0 2px rgba(87,168,233, .2);
+  box-shadow: 0 0 0 2px rgba(87,168,233, .2);
+}
 
 body {
   overflow-y: scroll;

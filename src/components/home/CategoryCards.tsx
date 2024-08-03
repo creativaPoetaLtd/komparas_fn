@@ -1,22 +1,12 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { GoArrowLeft, GoArrowRight } from "react-icons/go";
-// import { FaCarSide, FaChair } from 'react-icons/fa';
-// import { FaComputer } from "react-icons/fa6";
-// import { TbShoppingBagSearch } from "react-icons/tb";
-// import { GiConverseShoe, GiLoincloth } from "react-icons/gi";
-// import {  IoPhonePortraitOutline } from "react-icons/io5";
 import { Phone } from '@phosphor-icons/react';
-// import { MdNoDrinks, MdOutlineElectricCar } from 'react-icons/md';
-// import { CgGirl } from 'react-icons/cg';
 import { fetchParentCategoriesm } from '../../api/getAllCategories';
 import { Link } from 'react-router-dom';
-
 const CategoryCards: React.FC = () => {
-
   const PrevArrow = (props: any) => {
     const { onClick } = props;
     return (
