@@ -123,7 +123,7 @@ const ShopName = ({ shopData }: any) => {
                 </div>
             )}
             {showKomparasCodePanel && (
-                <Stepper shopData={dataForShop} />
+                <Stepper shopData={dataForShop} onClose={toggleKomparasCodePanel} />
                 // <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
                 //     <div className="bg-white rounded-lg shadow-lg p-4 w-80">
                 //         <div className="flex justify-between items-center mb-4">

@@ -271,7 +271,7 @@ const Stepper = ({ shopData, onClose }: { shopData: any, onClose:any }) => {
                         {renderStepContent(steps[current])}
                     </div>
                     <div className='flex justify-between'>
-                    <button className='bg-red-200 hover:bg-red-500 rounded-md p-2 text-white' onClick={onClose}>Close</button>
+                    <button className='bg-red-200 hover:bg-red-500 rounded-md px-2 text-white' onClick={onClose}>Close</button>
                     <div className="steps-action flex justify-end space-x-4">
                         {current < steps.length - 1 && (
                             <Button className='bg-green-500 text-white' onClick={next}>
