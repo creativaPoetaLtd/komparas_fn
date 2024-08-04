@@ -24,7 +24,7 @@ interface StepType {
 
 const steps: StepType[] = [
     {
-        title: 'Step 1',
+        title: '',
         content: (
             <div>
                 <h2 className="text-lg font-semibold mb-4">Step 1: Personal Information</h2>
@@ -102,27 +102,16 @@ const steps: StepType[] = [
         ),
     },
     {
-        title: 'Step 2',
-        content: (formData: FormData, shopData) => (
-            <div className="flex flex-col">
+        title: '',
+        content: (formData: FormData) => (
+            <div className="flex flex-col mx-auto justify-center items-center">
                 <h2 className="text-lg font-semibold mb-4">Uraho neza {`${formData?.fullName}`}</h2>
-                <p>
-                    <strong>Shop Name:</strong> {shopData.name}
-                </p>
-                <p>
-                    <strong>Owner:</strong> {shopData.owner}
-                </p>
-                <p>
-                    <strong>Location:</strong> {shopData.location}
-                </p>
-                <p>
-                    <strong>Category:</strong> {shopData.description}
-                </p>
+                <h1 className='generateCode text-green-600 font-semibold'>KANDA AHANDITSE KOMEZA, UHABWE KOMPARAS KODE URIFASHISHA</h1>
             </div>
         ),
     },
     {
-        title: 'Step 3',
+        title: '',
         content: (formData: FormData, shopData) => (
             <div className="flex flex-col">
                 <div className="flex flex-col">
@@ -170,7 +159,6 @@ const steps: StepType[] = [
                             </p>
                         </div>
                     </div>
-
                     <Form.Item
                         name="contactMethod"
                         rules={[{ required: true, message: 'Please select a contact method.' }]}
@@ -189,7 +177,7 @@ const steps: StepType[] = [
         ),
     },
     {
-        title: 'Step 3',
+        title: '',
         content: (formData: FormData) => (
             <div className="OpenWhatsappOrEmail flex flex-col">
                 <h2 className="text-lg font-semibold mb-4">Step 3: Review Information</h2>
@@ -227,7 +215,7 @@ const Stepper = ({ shopData }: { shopData: any }) => {
         contactMethod: 'whatsapp',
         komparasCode: '',
     });
-      const generateKomparasCode = () => {
+    const generateKomparasCode = () => {
         const shopName = shopData.name;
         const clientName = formData.fullName;
         const randomNumber = Math.floor(Math.random() * 100000);
@@ -262,17 +250,23 @@ const Stepper = ({ shopData }: { shopData: any }) => {
         return step.content;
     };
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-        <div className="bg-white rounded-lg shadow-lg p-4 w-[35rem]">
-            <Steps current={current}>
-                {steps.map((item) => (
-                    <Step key={item.title} title={item.title} />
-                ))}
-            </Steps>
-            <Form form={form} layout="vertical" className="mt-4">
-                <div className="steps-content mt-6 mb-4">
-                    {renderStepContent(steps[current])}
-                </div>
+        <div className="fixed inset-0 flex items-center justify-center md:px-0 px-1 bg-black bg-opacity-50 z-50">
+            <div className="bg-white rounded-lg shadow-lg md:p-4 p-2 md:w-[35rem] w-full ">
+                <Steps
+                progressDot
+                direction='horizontal'
+                size='small'
+                className='w-full'
+                responsive={false}
+                 current={current}>
+                    {steps.map((item) => (
+                        <Step key={item.title} title={item.title} />
+                    ))}
+                </Steps>
+                <Form form={form} layout="vertical" className="mt-4">
+                    <div className="steps-content mt-6 mb-4">
+                        {renderStepContent(steps[current])}
+                    </div>
                     <div className="steps-action flex justify-end space-x-4">
                         {current < steps.length - 1 && (
                             <Button className='bg-green-500 text-white' onClick={next}>
