@@ -1,17 +1,20 @@
 import { useState, ReactNode, useEffect } from 'react';
 import { Steps, Button, Form, Input, Checkbox, Radio, notification } from 'antd';
 import { Link } from 'react-router-dom';
+import { addKomparasCode } from '../../../api/shops';
 
 const { Step } = Steps;
 
 interface FormData {
     fullName: string;
-    phoneNumber: string;
+    phoneNumberOrEmail: string;
     checkbox1: boolean;
     checkbox2: boolean;
     checkbox3: boolean;
     contactMethod: 'whatsapp' | 'email' | 'none';
     komparasCode: string;
+    shopId: string;
+    shopName: string;
 }
 
 type StepContent = ReactNode | ((formData: FormData, shopData: any) => ReactNode);
@@ -49,7 +52,7 @@ const steps: StepType[] = [
                     />
                 </Form.Item>
                 <Form.Item
-                    name="phoneNumber"
+                    name="phoneNumberOrEmail"
                     rules={[{ required: true, message: 'Syiramo nimero ya telephone' }]}
                 >
                     <Input
@@ -154,7 +157,7 @@ const steps: StepType[] = [
                         name="contactMethod"
                         rules={[{ required: true, message: 'Please select a contact method.' }]}
                     >
-                        <Radio.Group className="flex space-x-12 twoCheckBox mt-2">
+                        <Radio.Group className="flex md:space-x-12 space-x-3 twoCheckBox mt-2">
                             <Radio value="whatsapp" className="flex">
                                 <p className="flex ml-1 my-auto justify-center font-bold items-center">WhatsApp</p>
                             </Radio>
@@ -179,7 +182,7 @@ const steps: StepType[] = [
                     <strong>Full Name:</strong> {formData.fullName}
                 </p>
                 <p>
-                    <strong>Phone Number:</strong> {formData.phoneNumber}
+                    <strong>Phone Number:</strong> {formData.phoneNumberOrEmail}
                 </p>
                 <p>
                     <strong>Komparas Code:</strong> {formData.komparasCode}
@@ -207,12 +210,14 @@ const Stepper = ({ shopData, onClose }: { shopData: any, onClose:any }) => {
     const [form] = Form.useForm();
     const [formData, setFormData] = useState<FormData>({
         fullName: '',
-        phoneNumber: '',
+        phoneNumberOrEmail: '',
         checkbox1: false,
         checkbox2: false,
         checkbox3: false,
         contactMethod: 'whatsapp',
         komparasCode: '',
+        shopId: shopData._id,
+        shopName: shopData.name,
     });
     const generateKomparasCode = () => {
         const shopName = shopData.name;
@@ -234,29 +239,40 @@ const Stepper = ({ shopData, onClose }: { shopData: any, onClose:any }) => {
     useEffect(() => {
         setFormData((prev) => ({ ...prev, komparasCode }));
     }
-        , [formData.fullName, formData.phoneNumber, shopData.name]);
+        , [formData.fullName, formData.phoneNumberOrEmail, shopData.name]);
     const prev = () => {
         setCurrent((prev) => prev - 1);
     };
 
-    const handleSubmit = () => {
-        notification.success({
-            message: 'Byagenze neza',
-            description: `Komparas code yawe ni ${komparasCode}.`,
-            placement: 'topRight',
-        });
-    };
+
     const renderStepContent = (step: StepType): ReactNode => {
         if (typeof step.content === 'function') {
             return step.content(formData, shopData);
         }
         return step.content;
     };
+    const handleFinish = async () => {
+        try {
+            await addKomparasCode(formData);
+            notification.success({
+                message: 'Byagenze neza',
+                description: `Komparas code yawe ni ${komparasCode}.`,
+                placement: 'topRight',
+            });
+            onClose();
+        } catch (error) {
+            console.error('Failed to add Komparas code:', error);
+            notification.error({
+                message: 'Ibyo ntibyagenze',
+                description: 'Ntibyagenze, ongera ugerageze',
+                placement: 'topRight',
+            });
+        }
+    };
     return (
         <div className="fixed inset-0 flex items-center justify-center md:px-0 px-1 bg-black bg-opacity-50 z-50">
             <div className="bg-white relative rounded-lg shadow-lg md:p-4 p-2 md:w-[35rem] w-full ">
                 <Steps
-                    progressDot
                     direction='horizontal'
                     size='small'
                     className='w-full'
@@ -279,7 +295,7 @@ const Stepper = ({ shopData, onClose }: { shopData: any, onClose:any }) => {
                             </Button>
                         )}
                         {current === steps.length - 1 && (
-                            <Button className='bg-green-500 text-white' onClick={handleSubmit}>
+                            <Button className='bg-green-500 text-white' onClick={handleFinish}>
                                 Ohereza
                             </Button>
                         )}
