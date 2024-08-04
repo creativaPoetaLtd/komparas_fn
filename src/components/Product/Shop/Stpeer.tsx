@@ -1,4 +1,4 @@
-import { useState, ReactNode } from 'react';
+import { useState, ReactNode, useEffect } from 'react';
 import { Steps, Button, Form, Input, Checkbox, Radio, notification } from 'antd';
 import { Link } from 'react-router-dom';
 
@@ -10,7 +10,7 @@ interface FormData {
     checkbox1: boolean;
     checkbox2: boolean;
     checkbox3: boolean;
-    contactMethod: 'whatsapp' | 'email';
+    contactMethod: 'whatsapp' | 'email' | 'none';
     komparasCode: string;
 }
 
@@ -103,15 +103,6 @@ const steps: StepType[] = [
     },
     {
         title: '',
-        content: (formData: FormData) => (
-            <div className="flex flex-col mx-auto justify-center items-center">
-                <h2 className="text-lg font-semibold mb-4">Uraho neza {`${formData?.fullName}`}</h2>
-                <h1 className='generateCode text-green-600 font-semibold'>KANDA AHANDITSE KOMEZA, UHABWE KOMPARAS KODE URIFASHISHA</h1>
-            </div>
-        ),
-    },
-    {
-        title: '',
         content: (formData: FormData, shopData) => (
             <div className="flex flex-col">
                 <div className="flex flex-col">
@@ -170,6 +161,9 @@ const steps: StepType[] = [
                             <Radio value="email" className="flex">
                                 <p className="flex ml-1 my-auto justify-center font-bold items-center">Email</p>
                             </Radio>
+                            <Radio value="none" className="flex">
+                                <p className="flex ml-1 my-auto justify-center font-bold items-center">Ntanahamwe</p>
+                            </Radio>
                         </Radio.Group>
                     </Form.Item>
                 </div>
@@ -188,22 +182,27 @@ const steps: StepType[] = [
                     <strong>Phone Number:</strong> {formData.phoneNumber}
                 </p>
                 <p>
-                    <strong>Komparas Code:</strong> 12345676
+                    <strong>Komparas Code:</strong> {formData.komparasCode}
                 </p>
-                <p>
-                    <strong>Send Via:</strong> {formData.contactMethod === 'whatsapp' ? 'WhatsApp' : 'Email'}
-                </p>
-                <p>
-                    <strong>Note:</strong> The code will be sent to your{' '}
-                    {formData.contactMethod === 'whatsapp' ? 'WhatsApp number' : 'email address'}.
-                </p>
+                {formData?.contactMethod !== 'none' && (
+                    <p>
+                        <strong>Send Via:</strong> {formData.contactMethod === 'whatsapp' ? 'WhatsApp' : 'Email'}
+                    </p>
+                )}
+                {formData?.contactMethod !== 'none' && (
+
+                    <p>
+                        <strong>Note:</strong> The code will be sent to your{' '}
+                        {formData.contactMethod === 'whatsapp' ? 'WhatsApp number' : 'email address'}.
+                    </p>
+                )}
             </div>
         ),
     },
 ];
 
 
-const Stepper = ({ shopData }: { shopData: any }) => {
+const Stepper = ({ shopData, onClose }: { shopData: any, onClose:any }) => {
     const [current, setCurrent] = useState(0);
     const [form] = Form.useForm();
     const [formData, setFormData] = useState<FormData>({
@@ -225,21 +224,25 @@ const Stepper = ({ shopData }: { shopData: any }) => {
     const next = async () => {
         try {
             const values = await form.validateFields();
-            setFormData((prev) => ({ ...prev, ...values, komparasCode }));
+            setFormData((prev) => ({ ...prev, ...values }));
             setCurrent((prev) => prev + 1);
         } catch (error) {
             console.error('Validation failed:', error);
         }
-    };
 
+    };
+    useEffect(() => {
+        setFormData((prev) => ({ ...prev, komparasCode }));
+    }
+        , [formData.fullName, formData.phoneNumber, shopData.name]);
     const prev = () => {
         setCurrent((prev) => prev - 1);
     };
 
     const handleSubmit = () => {
         notification.success({
-            message: 'Success',
-            description: `The Komparas code has been sent to your ${formData.contactMethod === 'whatsapp' ? 'WhatsApp number' : 'email address'}.`,
+            message: 'Byagenze neza',
+            description: `Komparas code yawe ni ${komparasCode}.`,
             placement: 'topRight',
         });
     };
@@ -251,14 +254,14 @@ const Stepper = ({ shopData }: { shopData: any }) => {
     };
     return (
         <div className="fixed inset-0 flex items-center justify-center md:px-0 px-1 bg-black bg-opacity-50 z-50">
-            <div className="bg-white rounded-lg shadow-lg md:p-4 p-2 md:w-[35rem] w-full ">
+            <div className="bg-white relative rounded-lg shadow-lg md:p-4 p-2 md:w-[35rem] w-full ">
                 <Steps
-                progressDot
-                direction='horizontal'
-                size='small'
-                className='w-full'
-                responsive={false}
-                 current={current}>
+                    progressDot
+                    direction='horizontal'
+                    size='small'
+                    className='w-full'
+                    responsive={false}
+                    current={current}>
                     {steps.map((item) => (
                         <Step key={item.title} title={item.title} />
                     ))}
@@ -267,22 +270,25 @@ const Stepper = ({ shopData }: { shopData: any }) => {
                     <div className="steps-content mt-6 mb-4">
                         {renderStepContent(steps[current])}
                     </div>
+                    <div className='flex justify-between'>
+                    <button className='bg-red-200 hover:bg-red-500 rounded-md p-2 text-white' onClick={onClose}>Close</button>
                     <div className="steps-action flex justify-end space-x-4">
                         {current < steps.length - 1 && (
                             <Button className='bg-green-500 text-white' onClick={next}>
-                                Next
+                                Komeza
                             </Button>
                         )}
                         {current === steps.length - 1 && (
                             <Button className='bg-green-500 text-white' onClick={handleSubmit}>
-                                Submit
+                                Ohereza
                             </Button>
                         )}
                         {current > 0 && (
                             <Button style={{ margin: '0 8px' }} onClick={prev}>
-                                Previous
+                                Gusubira Inyuma
                             </Button>
                         )}
+                    </div>
                     </div>
                 </Form>
             </div>
