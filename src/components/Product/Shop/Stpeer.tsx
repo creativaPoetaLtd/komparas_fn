@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, ReactNode } from 'react';
 import { Steps, Button, Form, Input, Checkbox, Radio, notification } from 'antd';
 import { Link } from 'react-router-dom';
 
@@ -13,10 +13,17 @@ interface FormData {
     contactMethod: 'whatsapp' | 'email';
 }
 
-const steps = [
+type StepContent = ReactNode | ((formData: FormData, shopData: any) => ReactNode);
+
+interface StepType {
+    title: string;
+    content: StepContent;
+}
+
+
+const steps: StepType[] = [
     {
         title: 'Step 1',
-        // Step 1 does not require any dynamic data, so it is just a JSX element.
         content: (
             <div>
                 <h2 className="text-lg font-semibold mb-4">Step 1: Personal Information</h2>
@@ -95,8 +102,7 @@ const steps = [
     },
     {
         title: 'Step 2',
-        // Step 2 requires dynamic data, so it is a function that receives formData.
-        content: (formData: FormData, shopData:any) => (
+        content: (formData: FormData, shopData) => (
             <div className="flex flex-col">
                 <div className="flex flex-col">
                     <p className="w-full flex items-center mx-auto justify-center">Urakoze Cyane</p>
@@ -163,7 +169,6 @@ const steps = [
     },
     {
         title: 'Step 3',
-        // Step 3 also needs dynamic data to display user input summary.
         content: (formData: FormData) => (
             <div className="OpenWhatsappOrEmail flex flex-col">
                 <h2 className="text-lg font-semibold mb-4">Step 3: Review Information</h2>
@@ -188,7 +193,8 @@ const steps = [
     },
 ];
 
-const Stepper = ({shopData}:any) => {
+
+const Stepper = ({ shopData }: { shopData: any }) => {
     const [current, setCurrent] = useState(0);
     const [form] = Form.useForm();
     const [formData, setFormData] = useState<FormData>({
@@ -199,6 +205,7 @@ const Stepper = ({shopData}:any) => {
         checkbox3: false,
         contactMethod: 'whatsapp',
     });
+
 
     const next = async () => {
         try {
@@ -217,26 +224,28 @@ const Stepper = ({shopData}:any) => {
     const handleSubmit = () => {
         notification.success({
             message: 'Success',
-            description: `The Komparas code has been sent to your ${formData.contactMethod === 'whatsapp' ? 'WhatsApp number' : 'email address'
-                }.`,
+            description: `The Komparas code has been sent to your ${formData.contactMethod === 'whatsapp' ? 'WhatsApp number' : 'email address'}.`,
             placement: 'topRight',
         });
     };
-
+    const renderStepContent = (step: StepType): ReactNode => {
+        if (typeof step.content === 'function') {
+            return step.content(formData, shopData);
+        }
+        return step.content;
+    };
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div className="bg-white rounded-lg shadow-lg p-4 w-[35rem]">
-                <Steps current={current}>
-                    {steps.map((item) => (
-                        <Step key={item.title} title={item.title} />
-                    ))}
-                </Steps>
-                <Form form={form} layout="vertical" className="mt-4">
-                    <div className="steps-content mt-6 mb-4">
-                        {typeof steps[current].content === 'function'
-                            ? steps[current].content(formData, shopData)
-                            : steps[current].content}
-                    </div>
+        <div className="bg-white rounded-lg shadow-lg p-4 w-[35rem]">
+            <Steps current={current}>
+                {steps.map((item) => (
+                    <Step key={item.title} title={item.title} />
+                ))}
+            </Steps>
+            <Form form={form} layout="vertical" className="mt-4">
+                <div className="steps-content mt-6 mb-4">
+                    {renderStepContent(steps[current])}
+                </div>
                     <div className="steps-action flex justify-end space-x-4">
                         {current < steps.length - 1 && (
                             <Button className='bg-green-500 text-white' onClick={next}>
