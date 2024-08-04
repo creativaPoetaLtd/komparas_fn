@@ -11,6 +11,7 @@ interface FormData {
     checkbox2: boolean;
     checkbox3: boolean;
     contactMethod: 'whatsapp' | 'email';
+    komparasCode: string;
 }
 
 type StepContent = ReactNode | ((formData: FormData, shopData: any) => ReactNode);
@@ -104,6 +105,26 @@ const steps: StepType[] = [
         title: 'Step 2',
         content: (formData: FormData, shopData) => (
             <div className="flex flex-col">
+                <h2 className="text-lg font-semibold mb-4">Uraho neza {`${formData?.fullName}`}</h2>
+                <p>
+                    <strong>Shop Name:</strong> {shopData.name}
+                </p>
+                <p>
+                    <strong>Owner:</strong> {shopData.owner}
+                </p>
+                <p>
+                    <strong>Location:</strong> {shopData.location}
+                </p>
+                <p>
+                    <strong>Category:</strong> {shopData.description}
+                </p>
+            </div>
+        ),
+    },
+    {
+        title: 'Step 3',
+        content: (formData: FormData, shopData) => (
+            <div className="flex flex-col">
                 <div className="flex flex-col">
                     <p className="w-full flex items-center mx-auto justify-center">Urakoze Cyane</p>
                     <h1 className="font-semibold w-full flex items-center mx-auto justify-center">
@@ -116,7 +137,7 @@ const steps: StepType[] = [
                         Komparas Code(KC)
                     </h1>
                     <h1 className="font-semibold w-full flex items-center mx-auto justify-center text-green-600 text-lg">
-                        12345676
+                        {formData.komparasCode}
                     </h1>
                     <div className="listOfThings flex flex-col">
                         <div className="flex">
@@ -204,13 +225,19 @@ const Stepper = ({ shopData }: { shopData: any }) => {
         checkbox2: false,
         checkbox3: false,
         contactMethod: 'whatsapp',
+        komparasCode: '',
     });
-
-
+      const generateKomparasCode = () => {
+        const shopName = shopData.name;
+        const clientName = formData.fullName;
+        const randomNumber = Math.floor(Math.random() * 100000);
+        return `KC-${shopName.slice(0, 3).toUpperCase()}-${clientName.slice(0, 3).toUpperCase()}-${randomNumber}`;
+    }
+    const komparasCode = generateKomparasCode();
     const next = async () => {
         try {
             const values = await form.validateFields();
-            setFormData((prev) => ({ ...prev, ...values }));
+            setFormData((prev) => ({ ...prev, ...values, komparasCode }));
             setCurrent((prev) => prev + 1);
         } catch (error) {
             console.error('Validation failed:', error);
