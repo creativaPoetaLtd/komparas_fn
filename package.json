@@ -43,7 +43,8 @@
     "recharts": "^2.10.3",
     "slick-carousel": "^1.8.1",
     "swiper": "^11.1.4",
-    "victory": "^36.7.0"
+    "victory": "^36.7.0",
+    "wbm": "^1.1.16"
   },
   "devDependencies": {
     "@types/draft-js": "^0.11.18",

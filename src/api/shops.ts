@@ -57,3 +57,29 @@ export const addKomparasCode = async (
     throw error;
   }
 }
+
+export const getKomparasCodebyCode = async (
+  code: string
+) => {
+  try {
+    const response = await axios.get(
+      `${baseUrl}/komparas-codes/${code}`
+    );
+    return response.data;
+  } catch (error) {
+  }
+}
+
+export const updateIsSoldConfirmToTrue = async (
+  code: string
+) => {
+  try {
+    const response = await axios.put(
+      `${baseUrl}/komparas-codes/${code}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error adding shop:', error);
+    throw error;
+  }
+}

@@ -68,10 +68,16 @@ const lastPart = urlParts[urlParts.length - 1];
         </Link>
       </Menu.Item>
       <Menu.Item key="2">
+        <Link to={'/confirm'}>
+          Kwemeza
+        </Link>
+      </Menu.Item>
+      <Menu.Item key="2">
         <button onClick={handleLogout}>
           {isLogin ? "  Sohoka" : "Injira"}
         </button>
       </Menu.Item>
+    
     </Menu>
   );
 

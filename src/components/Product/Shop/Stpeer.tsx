@@ -2,7 +2,7 @@ import { useState, ReactNode, useEffect } from 'react';
 import { Steps, Button, Form, Input, Checkbox, Radio, notification } from 'antd';
 import { Link } from 'react-router-dom';
 import { addKomparasCode } from '../../../api/shops';
-
+import { useParams } from 'react-router-dom';
 const { Step } = Steps;
 
 interface FormData {
@@ -15,16 +15,14 @@ interface FormData {
     komparasCode: string;
     shopId: string;
     shopName: string;
+    product_id: string;
+    sold_confirm: boolean;
 }
-
 type StepContent = ReactNode | ((formData: FormData, shopData: any) => ReactNode);
-
 interface StepType {
     title: string;
     content: StepContent;
 }
-
-
 const steps: StepType[] = [
     {
         title: '',
@@ -208,6 +206,7 @@ const steps: StepType[] = [
 const Stepper = ({ shopData, onClose }: { shopData: any, onClose:any }) => {
     const [current, setCurrent] = useState(0);
     const [form] = Form.useForm();
+    const { productId }:any = useParams();
     const [formData, setFormData] = useState<FormData>({
         fullName: '',
         phoneNumberOrEmail: '',
@@ -218,6 +217,8 @@ const Stepper = ({ shopData, onClose }: { shopData: any, onClose:any }) => {
         komparasCode: '',
         shopId: shopData._id,
         shopName: shopData.name,
+        product_id: productId,
+        sold_confirm: false,
     });
     const generateKomparasCode = () => {
         const shopName = shopData.name;
@@ -234,7 +235,6 @@ const Stepper = ({ shopData, onClose }: { shopData: any, onClose:any }) => {
         } catch (error) {
             console.error('Validation failed:', error);
         }
-
     };
     useEffect(() => {
         setFormData((prev) => ({ ...prev, komparasCode }));
