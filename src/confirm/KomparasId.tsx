@@ -9,6 +9,7 @@ import { getPoductById } from "../api/product"
 import { useNavigate } from "react-router-dom"
 import { updateIsSoldConfirmToTrue } from "../api/shops"
 import { notification } from "antd"
+import Stepper from "./Stepper"
 
 const Confirm = () => {
     const [data, setData] = useState<any>(null);
@@ -18,18 +19,8 @@ const Confirm = () => {
     const [productLoading, setProductLoading] = useState<boolean>(true);
     const { KomparasId }: any = useParams();
     const [refresh, setRefresh] = useState<boolean>(false);
+    const [isSteps, setIsSteps] = useState<boolean>(false);
     const navigate = useNavigate();
-    // useEffect(() => {
-    //     const fetchCode = async () => {
-    //         const response = await getKomparasCodebyCode(KomparasId);
-    //         setData(response?.komparasCode);
-    //         setProductId(response?.komparasCode?.product_id);
-    //         setLoading(false);
-    //     }
-    //     fetchCode();
-    // }
-    // , [KomparasId])
-
     useEffect(() => {
         const fetchCode = async () => {
             const response = await getKomparasCodebyCode(KomparasId);
@@ -52,8 +43,12 @@ const Confirm = () => {
 
     }, [productId]);
 
+    const handleSteps = () => {
+        setIsSteps(!isSteps);
+    }
+
     const handleConfirmToTrue = async () => {
-       const res =  await updateIsSoldConfirmToTrue(KomparasId);
+        const res = await updateIsSoldConfirmToTrue(KomparasId);
         notification.success({
             message: 'Byakunze',
             description: res.message
@@ -81,28 +76,30 @@ const Confirm = () => {
                                 <h1 className="">Aho waguze telephone: {data?.shopName}</h1>
                                 <div className="phoneCard flex h-[10rem] mt-12">
                                     <div className="h-full w-[12rem] p-2 border border-yellow-500 rounded-md">
-                                        {productLoading ? <div className="loader">Loading...</div> : 
-                                        <img src={
-                                            product?.product?.product_image
-                                        } alt="phone" className="h-full w-full object-contain" />
+                                        {productLoading ? <div className="loader">Loading...</div> :
+                                            <img src={
+                                                product?.product?.product_image
+                                            } alt="phone" className="h-full w-full object-contain" />
                                         }
                                     </div>
                                     <div className="flex flex-col h-full justify-between ml-4">
-                                        {productLoading ? <div className="loader">Loading...</div> :(
-                                        <div className="flex flex-col">
-                                            <h1 className="text-lg">
-                                                {product?.product?.product_name}
-                                            </h1>
-                                            <p className="text-sm">Igiciro: RWF
-                                                {product?.product?.vendor_prices?.find((vendor: any) => vendor.vendor_id === data?.shopId)?.price}
-                                            </p>
-                                        </div>
+                                        {productLoading ? <div className="loader">Loading...</div> : (
+                                            <div className="flex flex-col">
+                                                <h1 className="text-lg">
+                                                    {product?.product?.product_name}
+                                                </h1>
+                                                <p className="text-sm">Igiciro: RWF
+                                                    {product?.product?.vendor_prices?.find((vendor: any) => vendor.vendor_id === data?.shopId)?.price}
+                                                </p>
+                                            </div>
                                         )}
                                     </div>
                                 </div>
-                                <form className="flex gap-4 mt-12">
-                                    {data?.sold_confirm ?
-                                        <p className="text-green-600 text-lg">Wamaze kwemeza ko fone wayiguze</p> :
+                                <form className="flex gap-4 mt-10 w-full">
+                                    {data?.sold_confirm ? <div className="flex relative gap-4 w-full mt-8">
+                                        <p className="text-green-600 text-lg">Wamaze kwemeza ko fone wayiguze</p>
+                                        <button type="button" className="bg-yellow-500 flex self-end absolute text-xs -bottom-10 px-4 py-1 w-fit right-0 rounded-md" onClick={handleSteps}>Komeza</button>
+                                    </div> :
                                         (
                                             <>
                                                 <input
@@ -126,10 +123,9 @@ const Confirm = () => {
                                 </div>
                             </div>
                         )}
-
                     </div>
                 )}
-                
+                {isSteps && <Stepper onClose={handleSteps} />}
             <Footer />
         </div>
     )
