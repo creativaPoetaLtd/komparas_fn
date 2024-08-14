@@ -22,6 +22,7 @@ const Products: React.FC = () => {
 
     React.useEffect(() => {
         const fetchProducts = async () => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const data:any = await getAllProductsWithCategoryNames();
             setMockProducts(data);
         };

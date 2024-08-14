@@ -300,3 +300,6 @@ tr:nth-child(even){
   background-color: #faf4f4;
   /* color: white; */
 }
+html {
+  scroll-behavior: smooth;
+}

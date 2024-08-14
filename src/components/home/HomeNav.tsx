@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Dropdown, Menu } from 'antd';
 import { useState, useEffect } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
@@ -106,19 +107,19 @@ const lastPart = urlParts[urlParts.length - 1];
         </div>
         <div className='flex flex-col space-y-0 w-fit'>
           <li className={`text-white ${selectedMenu === 'servisi' ? 'text-bold font-bold' : ''}`}>
-            <NavLink to='/#'>Serivisi</NavLink>
+            <NavLink to='/serivisi'>Serivisi</NavLink>
           </li>
           {selectedMenu === 'servisi' && <div className='line h-[2px] w-full bg-green-500'></div>}
         </div>
         <div className='flex flex-col space-y-0 w-fit'>
           <li className={`text-white ${selectedMenu === 'sobanukirwa' ? 'text-bold font-bold' : ''}`}>
-            <NavLink to='/#'>Sobanukirwa</NavLink>
+            <NavLink to='/sobanukirwa'>Sobanukirwa</NavLink>
           </li>
           {selectedMenu === 'sobanukirwa' && <div className='line h-[2px] w-full bg-green-500'></div>}
         </div>
         <div className='flex flex-col space-y-0 w-fit'>
           <li className={`text-white ${selectedMenu === 'contact_us' ? 'text-bold font-bold' : ''}`}>
-            <NavLink to='/contact_us'>Tuvugishe</NavLink>
+            <NavLink to='/contact_us'>Twandikire</NavLink>
           </li>
           {selectedMenu === 'contact_us' && <div className='line h-[2px] w-full bg-green-500'></div>}
         </div>

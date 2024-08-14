@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Menu, Dropdown, Button } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -94,13 +95,13 @@ const lastPart = urlParts[urlParts.length - 1];
         </Link>
       </Menu.Item>
       <Menu.Item key="4">
-        <Link to="/">
+        <Link to="/sobanukirwa">
           <a>Sobanukirwa</a>
         </Link>
       </Menu.Item>
       <Menu.Item key="2">
         <Link to="/contact">
-          <a>Tuvugishe</a>
+          <a>Twandikire</a>
         </Link>
       </Menu.Item>
       {/* <Menu.Item key="3">

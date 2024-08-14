@@ -10,6 +10,7 @@ import { FaYoutube } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa6";
 import { FaTiktok } from "react-icons/fa";
 import { FaWhatsapp } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 
 
 
@@ -25,18 +26,35 @@ const Footer: React.FC = () => {
       <div className='grid lg:grid-cols-4 grid-cols-2 gap-10 md:gap-32 lg:gap-44 pb-8'>
         <div className='flex card1 flex-col space-y-3'>
           <h1 className='flex font-bold text-[#EDB62E]'>Komparas</h1>
+          <Link to="/about_us">
           <p className='flex'>Abo turibo</p>
+          </Link>
+          <Link to="/serivisi">
           <p className='flex'>Serivisi</p>
+          </Link>
+          <Link to="/sobanukirwa">
           <p className='flex'>Sobanukirwa</p>
+          </Link>
+          <Link to="/contact_us">
           <p className='flex'>Twandikire</p>
+          </Link>
         </div>
         <div className='flex card1 flex-col space-y-3'>
-          <h1 className='flex font-bold'>Ubufatanyabikorwa</h1>
-          <p className='flex'>Ndi umucuruzi</p>
-          <p className='flex'>Garagara kuri Kompras</p>
-          <p className='flex'>Kwamamaza</p>
-          <p className='flex'>Akazi</p>
-        </div>
+  <h1 className='flex font-bold'>Ubufatanyabikorwa</h1>
+  <Link to="/partnership#ndi_umucuruzi">
+    <p className='flex'>Ndi umucuruzi</p>
+  </Link>
+  <Link to="/partnership#umuguzi">
+    <p className='flex'>Ndi umuguzi</p>
+  </Link>
+  <Link to="/partnership#kwamamaza">
+    <p className='flex'>Kwamamaza</p>
+  </Link>
+  <Link to="akazi">
+    <p className='flex'>Akazi</p>
+  </Link>
+</div>
+
         <div className='flex card1 flex-col space-y-3'>
           <h1 className='flex font-bold'>Ubufasha mu gukoresha uru rubuga</h1>
           <div className='flex gap-2 items-center'><MdOutlineEmail/> 
