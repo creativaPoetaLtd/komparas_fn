@@ -23,6 +23,9 @@ import ProductPage from './components/Product/ProductPage.tsx'
 import ShopPage from './components/Product/Shop/Page.tsx'
 import Confirm from './confirm/Confirm.tsx'
 import KomparasId from './confirm/KomparasId.tsx'
+import ServicePage from './components/about/servicePage.tsx'
+import TechnicalTermsPage from './components/about/TechnicalTermsPage.tsx'
+import PartnershipPage from './components/about/PartnershipPage.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -40,13 +43,13 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/confirm/:KomparasId" element={<KomparasId />} />
         <Route path="/contact_us" element={<ContactPage />} />
         <Route path="/about_us" element={<AboutPage />} />
+        <Route path="/serivisi" element={<ServicePage />} />
+        <Route path="/sobanukirwa" element={<TechnicalTermsPage />} />
+        <Route path="/partnership" element={<PartnershipPage />} />
         <Route path="/confirm" element={<Confirm />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/products" element={<Products />} />
         <Route path="/product/:productId/shop/:shopId" element={<ShopPage />} />
-
-
-
       </Routes>
     </BrowserRouter>
     <ToastContainer />
