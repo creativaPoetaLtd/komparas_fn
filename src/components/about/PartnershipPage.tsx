@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import SubNav from '../Navigations/SubNav';
 import HomeNav from '../home/HomeNav';
 import MobileHomeNav from '../home/HomeMobileNav';
