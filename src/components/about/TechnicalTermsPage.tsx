@@ -47,10 +47,10 @@ const TechnicalTermsPage = () => {
       </div>
 
       <div className="bg-primary-500  py-12 text-center">
-        <h2 className="text-3xl font-bold mb-4">Need more information?</h2>
-        <p className="text-xl mb-6">Contact our support team for further assistance.</p>
-        <button className="bg-white text-primary-500 font-bold py-2 px-6 rounded-full hover:bg-gray-100">
-          <Link to='/contact_us' >Contact Support</Link>
+        <h2 className="text-3xl font-bold mb-4">Ukeneye andi makuru?</h2>
+        <p className="text-xl mb-6">Twandikire cyangwa uduhamagare tugufashe</p>
+        <button className="bg-[#EDB62E] text-primary-500 font-bold py-2 px-6 rounded-full hover:bg-gray-100">
+          <Link to='/contact_us' >Twandikire</Link>
         </button>
       </div>
       <Footer />

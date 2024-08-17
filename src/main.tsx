@@ -26,6 +26,7 @@ import KomparasId from './confirm/KomparasId.tsx'
 import ServicePage from './components/about/servicePage.tsx'
 import TechnicalTermsPage from './components/about/TechnicalTermsPage.tsx'
 import PartnershipPage from './components/about/PartnershipPage.tsx'
+import JobDescriptionPage from './components/about/Jobdescription.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -46,6 +47,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/serivisi" element={<ServicePage />} />
         <Route path="/sobanukirwa" element={<TechnicalTermsPage />} />
         <Route path="/partnership" element={<PartnershipPage />} />
+        <Route path="/akazi" element={<JobDescriptionPage />} />
         <Route path="/confirm" element={<Confirm />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/products" element={<Products />} />

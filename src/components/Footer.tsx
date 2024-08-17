@@ -50,7 +50,7 @@ const Footer: React.FC = () => {
   <Link to="/partnership#kwamamaza">
     <p className='flex'>Kwamamaza</p>
   </Link>
-  <Link to="akazi">
+  <Link to="/akazi">
     <p className='flex'>Akazi</p>
   </Link>
 </div>
