@@ -65,8 +65,13 @@ export const getKomparasCodebyCode = async (
     const response = await axios.get(
       `${baseUrl}/komparas-codes/${code}`
     );
+
+    console.log('Response:', response);
+    
     return response.data;
-  } catch (error) {
+  } catch (error:any) {
+    return error.response.data;
+    
   }
 }
 

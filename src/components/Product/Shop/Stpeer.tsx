@@ -114,12 +114,7 @@ const steps: StepType[] = [
                     <p className="w-full flex items-center mx-auto justify-center">
                         Gukoresha <Link className="ml-1" to={''}> Komparas</Link>
                     </p>
-                    <h1 className="font-semibold w-full flex items-center mx-auto justify-center mt-1 text-green-600">
-                        Komparas Code(KC)
-                    </h1>
-                    <h1 className="font-semibold w-full flex items-center mx-auto justify-center text-green-600 text-lg">
-                        {formData.komparasCode}
-                    </h1>
+                    
                     <div className="listOfThings flex flex-col">
                         <div className="flex">
                             <p className="flex my-auto justify-center items-center">
@@ -182,7 +177,7 @@ const steps: StepType[] = [
                 <p>
                     <strong>Phone Number:</strong> {formData.phoneNumberOrEmail}
                 </p>
-                <p>
+                <p className='text-green-600'>
                     <strong>Komparas Code:</strong> {formData.komparasCode}
                 </p>
                 {formData?.contactMethod !== 'none' && (
@@ -202,11 +197,12 @@ const steps: StepType[] = [
     },
 ];
 
-
-const Stepper = ({ shopData, onClose }: { shopData: any, onClose:any }) => {
+const Stepper = ({ shopData, onClose }: { shopData: any, onClose: any }) => {
     const [current, setCurrent] = useState(0);
     const [form] = Form.useForm();
-    const { productId }:any = useParams();
+    const { productId }: any = useParams();
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(false);
     const [formData, setFormData] = useState<FormData>({
         fullName: '',
         phoneNumberOrEmail: '',
@@ -220,30 +216,23 @@ const Stepper = ({ shopData, onClose }: { shopData: any, onClose:any }) => {
         product_id: productId,
         sold_confirm: false,
     });
+
     const generateKomparasCode = () => {
         const shopName = shopData.name;
         const clientName = formData.fullName;
         const randomNumber = Math.floor(Math.random() * 100000);
         return `KC-${shopName.slice(0, 3).toUpperCase()}-${clientName.slice(0, 3).toUpperCase()}-${randomNumber}`;
-    }
-    const komparasCode = generateKomparasCode();
-    const next = async () => {
-        try {
-            const values = await form.validateFields();
-            setFormData((prev) => ({ ...prev, ...values }));
-            setCurrent((prev) => prev + 1);
-        } catch (error) {
-            console.error('Validation failed:', error);
-        }
     };
+    
+    const komparasCode = generateKomparasCode();
+
     useEffect(() => {
         setFormData((prev) => ({ ...prev, komparasCode }));
-    }
-        , [formData.fullName, formData.phoneNumberOrEmail, shopData.name]);
+    }, [formData.fullName, formData.phoneNumberOrEmail, shopData.name]);
+
     const prev = () => {
         setCurrent((prev) => prev - 1);
     };
-
 
     const renderStepContent = (step: StepType): ReactNode => {
         if (typeof step.content === 'function') {
@@ -251,7 +240,10 @@ const Stepper = ({ shopData, onClose }: { shopData: any, onClose:any }) => {
         }
         return step.content;
     };
+
     const handleFinish = async () => {
+        setLoading(true);
+        setError(false);
         try {
             await addKomparasCode(formData);
             notification.success({
@@ -259,7 +251,6 @@ const Stepper = ({ shopData, onClose }: { shopData: any, onClose:any }) => {
                 description: `Komparas code yawe ni ${komparasCode}.`,
                 placement: 'topRight',
             });
-            onClose();
         } catch (error) {
             console.error('Failed to add Komparas code:', error);
             notification.error({
@@ -267,17 +258,46 @@ const Stepper = ({ shopData, onClose }: { shopData: any, onClose:any }) => {
                 description: 'Ntibyagenze, ongera ugerageze',
                 placement: 'topRight',
             });
+            setError(true);
+        } finally {
+            setLoading(false);
         }
     };
+
+    const next = async () => {
+        try {
+            const values = await form.validateFields();
+            setFormData((prev) => ({ ...prev, ...values }));
+    
+            if (current === steps.length - 2) {
+                await handleFinish();
+                if (error) {
+                    setCurrent((prev) => prev + 1);
+                }
+            } else {
+                setCurrent((prev) => prev + 1);
+            }
+        } catch (validationError) {
+            console.error('Validation failed:', validationError);
+            notification.error({
+                message: 'Validation Error',
+                description: 'Please correct the errors in the form before proceeding.',
+                placement: 'topRight',
+            });
+        }
+    };
+    
+
     return (
         <div className="fixed inset-0 flex items-center justify-center md:px-0 px-1 bg-black bg-opacity-50 z-50">
-            <div className="bg-white relative rounded-lg shadow-lg md:p-4 p-2 md:w-[35rem] w-full ">
+            <div className="bg-white relative rounded-lg shadow-lg md:p-4 p-2 md:w-[35rem] w-full">
                 <Steps
                     direction='horizontal'
                     size='small'
                     className='w-full'
                     responsive={false}
-                    current={current}>
+                    current={current}
+                >
                     {steps.map((item) => (
                         <Step key={item.title} title={item.title} />
                     ))}
@@ -287,25 +307,24 @@ const Stepper = ({ shopData, onClose }: { shopData: any, onClose:any }) => {
                         {renderStepContent(steps[current])}
                     </div>
                     <div className='flex justify-between'>
-                    <button className='bg-red-200 hover:bg-red-500 rounded-md px-2 text-white' onClick={onClose}>Close</button>
-                    <div className="steps-action flex justify-end space-x-4">
-                    {current > 0 && (
-                            <Button style={{ margin: '0 8px' }} onClick={prev}>
-                                Gusubira Inyuma
-                            </Button>
-                        )}
-                        {current < steps.length - 1 && (
-                            <Button className='bg-green-500 text-white' onClick={next}>
-                                Komeza
-                            </Button>
-                        )}
-                        {current === steps.length - 1 && (
-                            <Button className='bg-green-500 text-white' onClick={handleFinish}>
-                                Ohereza
-                            </Button>
-                        )}
-                       
-                    </div>
+                        <button className='bg-red-200 hover:bg-red-500 rounded-md px-2 text-white' onClick={onClose}>Close</button>
+                        <div className="steps-action flex justify-end space-x-4">
+                            {current > 0 && (
+                                <Button style={{ margin: '0 8px' }} onClick={prev}>
+                                    Gusubira Inyuma
+                                </Button>
+                            )}
+                            {current < steps.length - 1 && (
+                                <Button className='bg-green-500 text-white' onClick={next} loading={loading}>
+                                    Komeza
+                                </Button>
+                            )}
+                            {current === steps.length - 1 && (
+                                <Button className='bg-green-500 text-white' onClick={onClose}>
+                                    Funga
+                                </Button>
+                            )}
+                        </div>
                     </div>
                 </Form>
             </div>
