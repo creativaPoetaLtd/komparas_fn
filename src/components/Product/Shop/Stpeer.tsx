@@ -289,6 +289,11 @@ const Stepper = ({ shopData, onClose }: { shopData: any, onClose:any }) => {
                     <div className='flex justify-between'>
                     <button className='bg-red-200 hover:bg-red-500 rounded-md px-2 text-white' onClick={onClose}>Close</button>
                     <div className="steps-action flex justify-end space-x-4">
+                    {current > 0 && (
+                            <Button style={{ margin: '0 8px' }} onClick={prev}>
+                                Gusubira Inyuma
+                            </Button>
+                        )}
                         {current < steps.length - 1 && (
                             <Button className='bg-green-500 text-white' onClick={next}>
                                 Komeza
@@ -299,11 +304,7 @@ const Stepper = ({ shopData, onClose }: { shopData: any, onClose:any }) => {
                                 Ohereza
                             </Button>
                         )}
-                        {current > 0 && (
-                            <Button style={{ margin: '0 8px' }} onClick={prev}>
-                                Gusubira Inyuma
-                            </Button>
-                        )}
+                       
                     </div>
                     </div>
                 </Form>
