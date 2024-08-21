@@ -1,7 +1,10 @@
 import { useState, ReactNode } from 'react';
-import { Steps, Button, Form, Checkbox, notification } from 'antd';
+import { Steps, Button, Form, notification } from 'antd';
 import { addKomparasCode } from '../api/shops';
-import { Star } from '@phosphor-icons/react';
+import PriceCard from './PriceCard';
+import CheckCard from './CheckCard';
+import Switcher from './Switcher';
+
 const { Step } = Steps;
 
 interface FormData {
@@ -13,224 +16,101 @@ interface FormData {
     contactMethod: 'whatsapp' | 'email' | 'none';
     komparasCode: string;
 }
-type StepContent = ReactNode | ((formData: FormData, handleSelect: () => void, selected: boolean) => ReactNode);
+
+type StepContent = ReactNode | ((formData: FormData, handleSelect: (index: number, value: boolean) => void, selected: boolean[]) => ReactNode);
+
 interface StepType {
     title: string;
     content: StepContent;
 }
+
 const steps: StepType[] = [
     {
         title: '',
         content: (_, handleSelect, selected) => (
             <div>
-                <h2 className="text-lg font-semibold mb-4">Step 1: Kuguranirwa fone</h2>
                 <p>⦁ Ndashaka guhabwa serivisi ijyanye no kuguranirwa telefoni mu gihe ntagishaka iyo mfite</p>
-                <div className="flex w-full">
-                    <p className="font-bold">Igiciro cya serivisi :</p>
-                    <div className="flex flex-col">
-                        <p className="text-sm text-red-500 line-through font-bold">15 000 RWF</p>
-                        <p className="text-sm text-green-500">Ubuntu</p>
-                    </div>
-                </div>
+                <PriceCard price={200} />
                 <div className='w-full flex my-4 flex-col'>
-                    <div className='switcher border-yellow-500 rounded-md border  w-fit flex mx-auto justify-center'>
-                        <button
-                            className={`switcher__item rounded-l-md p-2 px-4 ${selected ? 'bg-green-400 ' : 'bg-white'}`}
-                            onClick={(e) => {
-                                e.preventDefault();
-                                handleSelect();
-                            }}>
-                            Yego
-                        </button>
-                        <button
-                            className={`switcher__item rounded-r-md p-2 px-4 ${!selected ? 'bg-green-400' : 'bg-white'}`}
-                            onClick={(e) => {
-                                e.preventDefault();
-                                handleSelect();
-                            }}>
-                            Oya
-                        </button>
-                    </div>
+                    <Switcher selected={selected[0]} onSelect={(value) => handleSelect(0, value)} />
                 </div>
-                <Form.Item
-                    name="checkbox1"
-                    valuePropName="checked"
-                    rules={[{ required: true, message: 'Please agree to this term.' }]}>
-                    <Checkbox>
-                        Ndemeza ko nasomye kandi numvishe neza amategeko n’amabwiriza ndetse n’ibindi bijyanye na serivisi yo kuguranirwa telefoni (yasome neza)
-                    </Checkbox>
-                </Form.Item>
-                <div className="flex w-full">
-                    <Star className="text-red-500 my-auto justify-center" />
-                    <p className="ml-2">Soma amategeko n’amabwiriza agenga ibijyanye no kuguranirwa telefoni mu gihe utagishaka iyo ufite</p>
-                </div>
+                <CheckCard />
             </div>
         ),
-    },   {
+    },
+    {
         title: '',
         content: (_, handleSelect, selected) => (
             <div>
-                <h2 className="text-lg font-semibold mb-4">Step 1: Kugurizwa amafaranga</h2>
                 <p>⦁ Ndashaka guhabwa serivisi ijyanye no kuba nagurizwa amafaranga mu gihe nyacyeneye, ariko mbaje gutangaho ingwate iyi telefoni*</p>
-                <div className="flex w-full">
-                    <p className="font-bold">Igiciro cya serivisi :</p>
-                    <div className="flex flex-col">
-                        <p className="text-sm text-red-500 line-through font-bold">15 000 RWF</p>
-                        <p className="text-sm text-green-500">Ubuntu</p>
-                    </div>
-                </div>
+                <PriceCard price={200} />
                 <div className='w-full flex my-4 flex-col'>
-                <div className='switcher border-yellow-500 rounded-md border  w-fit flex mx-auto justify-center'>
-                        <button
-                            className={`switcher__item rounded-l-md p-2 px-4 ${selected ? 'bg-green-400 ' : 'bg-white'}`}
-                            onClick={(e) => {
-                                e.preventDefault();
-                                handleSelect();
-                            }}>
-                            Yego
-                        </button>
-                        <button
-                            className={`switcher__item rounded-r-md p-2 px-4 ${!selected ? 'bg-green-400' : 'bg-white'}`}
-                            onClick={(e) => {
-                                e.preventDefault();
-                                handleSelect();
-                            }}>
-                            Oya
-                        </button>
-                    </div>
+                    <Switcher selected={selected[1]} onSelect={(value) => handleSelect(1, value)} />
                 </div>
-                <Form.Item
-                    name="checkbox2"
-                    valuePropName="checked"
-                    rules={[{ required: true, message: 'Please agree to this term.' }]}>
-                    <Checkbox>
-                        Ndemeza ko nasomye kandi numvishe neza amategeko n’amabwiriza ndetse n’ibindi bijyanye na kongera igihe garantie izamara (yasome neza)
-                    </Checkbox>
-                </Form.Item>
-                <div className="flex w-full">
-                    <Star className="text-red-500 my-auto justify-center" />
-                    <p className="ml-2">Soma amategeko n’amabwiriza agenga ibijyanye no kongera igihe garantie imara</p>
-                </div>
+                <CheckCard />
             </div>
-        ),
-    },   {
-        title: '',
-        content: (_, handleSelect, selected) => (
-            <div>
-            <h2 className="text-lg font-semibold mb-4">Step 2: Kuhabwa ubwishingizi</h2>
-            <p>⦁	Ndashaka gufata ubwishingiza bwa byose*
-            </p>
-            <div className="flex w-full">
-                <p className="font-bold">Igiciro cya serivisi :</p>
-                <div className="w flex flex-col">
-                    <p className="text-sm text-red-500 line-through font-bold">15 000 RWF</p>
-                    <p className="text-sm text-green-500">Ubuntu</p>
-                </div>
-            </div>
-            <div className='w-full flex my-4 flex-col'>
-            <div className='switcher border-yellow-500 rounded-md border  w-fit flex mx-auto justify-center'>
-                        <button
-                            className={`switcher__item rounded-l-md p-2 px-4 ${selected ? 'bg-green-400 ' : 'bg-white'}`}
-                            onClick={(e) => {
-                                e.preventDefault();
-                                handleSelect();
-                            }}>
-                            Yego
-                        </button>
-                        <button
-                            className={`switcher__item rounded-r-md p-2 px-4 ${!selected ? 'bg-green-400' : 'bg-white'}`}
-                            onClick={(e) => {
-                                e.preventDefault();
-                                handleSelect();
-                            }}>
-                            Oya
-                        </button>
-                    </div>
-            </div>
-            <Form.Item
-                name="checkbox1"
-                valuePropName="checked"
-                rules={[{ required: true, message: 'Please agree to this term.' }]}
-            >
-                <Checkbox>
-                    Ndemeza ko nasomye kandi numvishe neza amategeko n’amabwiriza ndetse n’ibindi bijyanye na kongera igihe garantie izamara (yasome neza)
-                </Checkbox>
-            </Form.Item>
-
-            <div className="flex w-full">
-                <Star className="text-red-500 my-auto justify-center" />
-                <p className="ml-2">Soma amategeko n’amabwiriza agenga ibijyanye no kongera igihe garantie imara</p>
-            </div>
-        </div>
         ),
     },
     {
         title: '',
         content: (_, handleSelect, selected) => (
             <div>
-            <h2 className="text-lg font-semibold mb-4">Step 1: Kugurizwa amafaranga</h2>
-            <p>⦁	Ndashaka guhabwa serivisi ijyanye no kuba nagurizwa amafaranga mu gihe nyacyeneye, ariko mbaje gutangaho ingwate iyi telefoni*
-            </p>
-            <div className="flex w-full">
-                <p className="font-bold">Igiciro cya serivisi :</p>
-                <div className="w flex flex-col">
-                    <p className="text-sm text-red-500 line-through font-bold">15 000 RWF</p>
-                    <p className="text-sm text-green-500">Ubuntu</p>
+                <p>⦁ Ndashaka gufata ubwishingiza bwa byose*</p>
+                <PriceCard price={200} />
+                <div className='w-full flex my-4 flex-col'>
+                    <Switcher selected={selected[2]} onSelect={(value) => handleSelect(2, value)} />
                 </div>
+                <CheckCard />
             </div>
-            <div className='w-full flex my-4 flex-col'>
-            <div className='switcher border-yellow-500 rounded-md border  w-fit flex mx-auto justify-center'>
-                        <button
-                            className={`switcher__item rounded-l-md p-2 px-4 ${selected ? 'bg-green-400 ' : 'bg-white'}`}
-                            onClick={(e) => {
-                                e.preventDefault();
-                                handleSelect();
-                            }}>
-                            Yego
-                        </button>
-                        <button
-                            className={`switcher__item rounded-r-md p-2 px-4 ${!selected ? 'bg-green-400' : 'bg-white'}`}
-                            onClick={(e) => {
-                                e.preventDefault();
-                                handleSelect();
-                            }}>
-                            Oya
-                        </button>
-                    </div>
-            </div>
-            <Form.Item
-                name="checkbox1"
-                valuePropName="checked"
-                rules={[{ required: true, message: 'Please agree to this term.' }]}
-            >
-                <Checkbox>
-                    Ndemeza ko nasomye kandi numvishe neza amategeko n’amabwiriza ndetse n’ibindi bijyanye na kongera igihe garantie izamara (yasome neza)
-                </Checkbox>
-            </Form.Item>
-
-            <div className="flex w-full">
-                <Star className="text-red-500 my-auto justify-center" />
-                <p className="ml-2">Soma amategeko n’amabwiriza agenga ibijyanye no kongera igihe garantie imara</p>
-            </div>
-        </div>
         ),
     },
     {
         title: '',
-        content: (formData, _ , selected) => {
-            const totalAmount = selected ? 15000 : 0;
+        content: (_, handleSelect, selected) => (
+            <div>
+                <p>⦁ Ndashaka guhabwa serivisi ijyanye no kuba nagurizwa amafaranga mu gihe nyacyeneye, ariko mbaje gutangaho ingwate iyi telefoni*</p>
+                <PriceCard price={200} />
+                <div className='w-full flex my-4 flex-col'>
+                    <Switcher selected={selected[3]} onSelect={(value) => handleSelect(3, value)} />
+                </div>
+                <CheckCard />
+            </div>
+        ),
+    },
+    {
+        title: '',
+        content: (formData, _, selected) => {
+            const totalAmount = selected.filter(Boolean).length * 15000; // Each 'Yego' selected adds 15000 to the total
 
             return (
-                <div>
-                    <h2 className="text-lg font-semibold mb-4">Summary</h2>
-                    <p><strong>Full Name:</strong> {formData.fullName}</p>
-                    <p><strong>Contact:</strong> {formData.phoneNumberOrEmail}</p>
-                    <p><strong>Kuguranirwa fone:</strong> {selected ? 'Yes' : 'No'}</p>
-                    <p><strong>Kugurizwa amafaranga:</strong> {selected ? 'Yes' : 'No'}</p>
-                    <p><strong>Kuhabwa ubwishingizi:</strong> {selected ? 'Yes' : 'No'}</p>
-                    <p><strong>Kugurizwa amafaranga:</strong> {selected ? 'Yes' : 'No'}</p>
-                    <p><strong>Total Amount:</strong> {totalAmount === 0 ? 'Ubuntu' : `${totalAmount} RWF`}</p>
-                </div>
+                <table className="w-full">
+                    <tbody>
+                        <tr>
+                            <td><strong className='text-green-600'>Amaserivise</strong></td>
+                            <td>{formData.phoneNumberOrEmail}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kuguranirwa fone:</strong></td>
+                            <td>{selected[0] ? 'Yego' : 'Oya'}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kugurizwa amafaranga:</strong></td>
+                            <td>{selected[1] ? 'Yego' : 'Oya'}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kuhabwa ubwishingizi:</strong></td>
+                            <td>{selected[2] ? 'Yego' : 'Oya'}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kugurizwa amafaranga:</strong></td>
+                            <td>{selected[3] ? 'Yego' : 'Oya'}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Total Amount:</strong></td>
+                            <td>{totalAmount === 0 ? 'Ubuntu' : `${totalAmount} RWF`}</td>
+                        </tr>
+                    </tbody>
+                </table>
             );
         },
     },
@@ -248,10 +128,14 @@ const Stepper = ({ onClose }: { onClose: () => void }) => {
         contactMethod: 'whatsapp',
         komparasCode: '',
     });
-    const [selected, setSelected] = useState<boolean>(true);
+    const [selected, setSelected] = useState<boolean[]>([false, false, false, false]);
 
-    const handleSelect = () => {
-        setSelected((prev) => !prev);
+    const handleSelect = (index: number, value: boolean) => {
+        setSelected((prev) => {
+            const newSelected = [...prev];
+            newSelected[index] = value;
+            return newSelected;
+        });
     };
 
     const next = async () => {

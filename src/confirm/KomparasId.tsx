@@ -97,7 +97,7 @@ const Confirm = () => {
                                 </div>
                                 <form className="flex gap-4 mt-10 w-full">
                                     {data?.sold_confirm ? <div className="flex relative gap-4 w-full mt-8">
-                                        <p className="text-green-600 text-lg">Wamaze kwemeza ko fone wayiguze</p>
+                                        <p className="text-green-600 text-lg">Komeza urebe izindi serivise tugufitiye</p>
                                         <button type="button" className="bg-yellow-500 flex self-end absolute text-xs -bottom-10 px-4 py-1 w-fit right-0 rounded-md" onClick={handleSteps}>Komeza</button>
                                     </div> :
                                         (
