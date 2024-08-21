@@ -71,6 +71,9 @@ const Footer: React.FC = () => {
           <p className='flex'>Ku batanga serivisi cyangwa abacuruzi</p>
           <p className='flex'>Ku bakeneye serivisi cyangwa abaguzi</p>
           <p className='flex'>Ibibazo bikunze kwibazwa(F.A.Q)</p>
+          <Link to='/amategeko-agenga-kompras' >
+          <p className='flex'>Amategeko n'amabwiriza</p>
+          </Link>
         </div>
       </div>
 

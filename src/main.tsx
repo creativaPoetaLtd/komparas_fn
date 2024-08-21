@@ -27,6 +27,7 @@ import ServicePage from './components/about/servicePage.tsx'
 import TechnicalTermsPage from './components/about/TechnicalTermsPage.tsx'
 import PartnershipPage from './components/about/PartnershipPage.tsx'
 import JobDescriptionPage from './components/about/Jobdescription.tsx'
+import TermsAndConditions from './components/about/TermsAndConditions.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -48,6 +49,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/sobanukirwa" element={<TechnicalTermsPage />} />
         <Route path="/partnership" element={<PartnershipPage />} />
         <Route path="/akazi" element={<JobDescriptionPage />} />
+        <Route path="/amategeko-agenga-kompras" element={<TermsAndConditions />} />
         <Route path="/confirm" element={<Confirm />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/products" element={<Products />} />
