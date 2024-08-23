@@ -89,7 +89,7 @@ const steps: StepType[] = [
                 >
                     <Checkbox>
                         Uturushouhabwa iyo uguze uciye kuri uru rubuga, dukubiye muri serivisi Komparas itanga. Ushobora
-                        kubona izo serivisi uciye kuri iyi ‘link/lien’ : <Link to={''}>Serivisi</Link>
+                        kubona izo serivisi uciye kuri iyi ‘link/lien’ : <Link className='u underline-offset-1 text-blue-700' to={'/serivisi'}>Serivisi</Link>
                     </Checkbox>
                 </Form.Item>
                 <Form.Item
@@ -228,7 +228,7 @@ const Stepper = ({ shopData, onClose }: { shopData: any, onClose: any }) => {
         const shopName = shopData.name;
         const clientName = formData.fullName;
         const randomNumber = Math.floor(Math.random() * 100000);
-        return `KC-${shopName.slice(0, 3).toUpperCase()}-${clientName.slice(0, 3).toUpperCase()}-${randomNumber}`;
+        return `KC-${shopName?.slice(0, 3).toUpperCase()}-${clientName?.slice(0, 3).toUpperCase()}-${randomNumber}`;
     };
     const komparasCode = generateKomparasCode();
     useEffect(() => {

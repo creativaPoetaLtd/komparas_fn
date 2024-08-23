@@ -7,6 +7,7 @@ import { getKomparasCodebyCode, updateIsSoldConfirmToTrue } from "../api/shops";
 import { getPoductById } from "../api/product";
 import { useParams, useNavigate } from "react-router-dom";
 import { notification } from "antd";
+import Stepper from "./Stepper";
 
 const Confirm = () => {
   const [data, setData] = useState<any>(null);
@@ -183,6 +184,7 @@ const Confirm = () => {
           </div>
         )}
       </div>
+      {isSteps && <Stepper onClose={handleSteps} />}
       <Footer />
     </div>
   );
