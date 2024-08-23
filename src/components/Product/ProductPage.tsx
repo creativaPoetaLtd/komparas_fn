@@ -16,17 +16,14 @@ import ComparisonDrawer from './Pdrawer';
 import { SlRefresh } from "react-icons/sl";
 import { Trash } from '@phosphor-icons/react';
 import { useNavigate } from 'react-router-dom';
-// import { toast } from 'react-toastify';
 import { getAllProducts } from '../../api/product';
 const ProductPage = () => {
     const [products, setProduct] = useState<any>([]);
     const navigate = useNavigate();
-
     const { productId }: any = useParams();
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [productId]);
-
     useEffect(() => {
         const fetchProduct = async () => {
             const { data } = await getPoductById(productId);

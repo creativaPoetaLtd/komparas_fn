@@ -49,14 +49,10 @@ const lastPart = urlParts[urlParts.length - 1];
   const navigate = useNavigate();
   const menu = (
     <Menu>
-      <Menu.Item key="0">
-        <Link to="/">
-          <a>Profile</a>
-        </Link>
-      </Menu.Item>
-      <Menu.Item key="1">
-        <Link to="/">
-          <a>Setting</a>
+      
+      <Menu.Item key="2">
+        <Link to={'/confirm'}>
+          Kwemeza
         </Link>
       </Menu.Item>
       <Menu.Item key="2">

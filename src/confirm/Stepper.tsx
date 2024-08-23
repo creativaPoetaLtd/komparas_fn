@@ -4,6 +4,7 @@ import { addKomparasCode } from '../api/shops';
 import PriceCard from './PriceCard';
 import CheckCard from './CheckCard';
 import Switcher from './Switcher';
+import { Star } from '@phosphor-icons/react';
 
 const { Step } = Steps;
 
@@ -212,6 +213,13 @@ const Stepper = ({ onClose }: { onClose: () => void }) => {
                             )}
                         </div>
                     </div>
+                    {current < steps.length - 1 && (
+                        <div className="flex w-full">
+                            <Star className="text-red-500 my-auto justify-center" />
+                            <p className="ml-2">Soma amategeko n’amabwiriza agenga ibijyanye no kuguranirwa telefoni mu gihe utagishaka iyo ufite</p>
+                        </div>
+                    )
+                    }
                 </Form>
             </div>
         </div>
