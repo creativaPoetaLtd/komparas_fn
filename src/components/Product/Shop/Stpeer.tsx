@@ -1,5 +1,5 @@
 import { useState, ReactNode, useEffect } from 'react';
-import { Steps, Button, Form, Input, Checkbox, Radio, notification } from 'antd';
+import { Steps, Button, Form, Input, Checkbox,  notification } from 'antd';
 import { Link } from 'react-router-dom';
 import { addKomparasCode } from '../../../api/shops';
 import { useParams } from 'react-router-dom';
@@ -51,7 +51,10 @@ const steps: StepType[] = [
                 </Form.Item>
                 <Form.Item
                     name="phoneNumberOrEmail"
-                    rules={[{ required: true, message: 'Syiramo nimero ya telephone' }]}
+                    rules={[{ 
+                        required: true, 
+                        pattern: /^(\+250|0)(7[0-8]|8[0-9]|9[0-4]|9[6-8])\d{7}$|^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                        message: 'Syiramo email cg numero ya telephone itangiza na (+250)' }]}
                 >
                     <Input
                         placeholder="Telephone or email"
@@ -146,7 +149,7 @@ const steps: StepType[] = [
                             </p>
                         </div>
                     </div>
-                    <Form.Item
+                    {/* <Form.Item
                         name="contactMethod"
                         rules={[{ required: true, message: 'Please select a contact method.' }]}
                     >
@@ -161,7 +164,7 @@ const steps: StepType[] = [
                                 <p className="flex ml-1 my-auto justify-center font-bold items-center">Ntanahamwe</p>
                             </Radio>
                         </Radio.Group>
-                    </Form.Item>
+                    </Form.Item> */}
                 </div>
             </div>
         ),
@@ -216,24 +219,24 @@ const Stepper = ({ shopData, onClose }: { shopData: any, onClose: any }) => {
         product_id: productId,
         sold_confirm: false,
     });
-
+    const phoneNumberOrEmail = form?.getFieldValue("phoneNumberOrEmail");
+    const contactMethod = phoneNumberOrEmail?.match(/^(\+250|0)(7[0-8]|8[0-9]|9[0-4]|9[6-8])\d{7}$/) ? 'whatsapp' : 'email';
+    useEffect(() => {
+        setFormData((prev) => ({ ...prev, contactMethod }));
+    }, [phoneNumberOrEmail]);
     const generateKomparasCode = () => {
         const shopName = shopData.name;
         const clientName = formData.fullName;
         const randomNumber = Math.floor(Math.random() * 100000);
         return `KC-${shopName.slice(0, 3).toUpperCase()}-${clientName.slice(0, 3).toUpperCase()}-${randomNumber}`;
     };
-    
     const komparasCode = generateKomparasCode();
-
     useEffect(() => {
         setFormData((prev) => ({ ...prev, komparasCode }));
     }, [formData.fullName, formData.phoneNumberOrEmail, shopData.name]);
-
     const prev = () => {
         setCurrent((prev) => prev - 1);
     };
-
     const renderStepContent = (step: StepType): ReactNode => {
         if (typeof step.content === 'function') {
             return step.content(formData, shopData);
@@ -271,7 +274,7 @@ const Stepper = ({ shopData, onClose }: { shopData: any, onClose: any }) => {
     
             if (current === steps.length - 2) {
                 await handleFinish();
-                if (error) {
+                if (!error) {
                     setCurrent((prev) => prev + 1);
                 }
             } else {
