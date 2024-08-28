@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { baseUrl } from '.';
 import axios from "axios";
 
@@ -73,6 +74,7 @@ export const getKomparasCodebyCode = async (
     return error.response.data;
     
   }
+
 }
 
 export const updateIsSoldConfirmToTrue = async (

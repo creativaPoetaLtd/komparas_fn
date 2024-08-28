@@ -28,6 +28,7 @@ import TechnicalTermsPage from './components/about/TechnicalTermsPage.tsx'
 import PartnershipPage from './components/about/PartnershipPage.tsx'
 import JobDescriptionPage from './components/about/Jobdescription.tsx'
 import TermsAndConditions from './components/about/TermsAndConditions.tsx'
+import JobApplicationsTable from './components/dashboard/Jobs/JobList.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
