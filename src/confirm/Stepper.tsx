@@ -1,6 +1,5 @@
 import { useState, ReactNode } from 'react';
 import { Steps, Button, Form, notification } from 'antd';
-import { addKomparasCode } from '../api/shops';
 import PriceCard from './PriceCard';
 import CheckCard from './CheckCard';
 import Switcher from './Switcher';
