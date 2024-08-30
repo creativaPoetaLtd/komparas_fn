@@ -25,25 +25,12 @@ const ConfirmSteps = () => {
 
 
     return (
-        <div className="flex py-12 flex-col w-fit  h-fit min-h-max  border-gray-950 border-2 m-auto justify-center gap-4 p-3 items-center">
+        <div className="flex py-24 relative flex-col w-fit  h-fit min-h-max  border-gray-950 border-2 m-auto justify-center gap-4 p-24 items-center">
             <div className="flex w-full justify-between">
-                <button className=" w-fit rounded-md"><MdOutlineKeyboardBackspace className="text-3xl" /></button>
-                <button className=" w-fit rounded-md">Ndi Umuguzi</button>
+                <button onClick={()=>navigate(-1)} className="absolute top-2 left-2 w-fit rounded-md"><MdOutlineKeyboardBackspace className="text-3xl" /></button>
+                <button className=" w-fit rounded-md absolute top-2 right-2 font-bold text-green-600">Ndi Umuguzi</button>
             </div>
             <form className="flex flex-col gap-4 mt-12">
-                {/* <input
-                 type="text" 
-                 placeholder="Amazina ryawe" 
-                 value={formData.name}
-                 onChange={handleChange}
-                 name="name"
-                 className="border-b-green-600 p-2 border-b outline-none bg-white" />
-                <input type="text"
-                 placeholder="Telefoni cg Email" 
-                 value={formData.email}
-                 onChange={handleChange}
-                 name="email"
-                 className="border-b-green-600 p-2 border-b outline-none bg-white" /> */}
                 <input type="text"
                  value={formData.code}
                  onChange={handleChange}
