@@ -57,3 +57,15 @@ export const replyToJobApplication = async (id:string, subject: string, message:
     throw error;
   }
 }
+
+// priotize a job application
+
+export const prioritizeJobApplication = async (id: string) => {
+  try {
+    const response = await axios.put(`${baseUrl}/job-applications/${id}/prioritize`);
+    return response.data;
+  } catch (error) {
+    console.error("Error prioritizing job application:", error);
+    throw error;
+  }
+};
