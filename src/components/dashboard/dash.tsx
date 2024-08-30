@@ -10,6 +10,7 @@ import Shops from './components/Shops';
 import Profile from './components/Profile';
 import Settings from './components/Settings';
 import Help from './components/Help';
+import JobApplicationsTable from './Jobs/JobList';
 
 function Dashboard() {
     const [selectedMenu, setSelectedMenu] = useState('dashboard'); // Set the default selected menu to 'dashboard'
@@ -32,6 +33,7 @@ function Dashboard() {
                     {selectedMenu === 'profile' && <Profile />}
                     {selectedMenu === 'settings' && <Settings />}
                     {selectedMenu === 'helps' && <Help />}
+                    {selectedMenu === 'jobs' && <JobApplicationsTable />}
                 </div>
             </div>
         </div>

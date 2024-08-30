@@ -26,6 +26,8 @@ const Sidebar = ({ selectedMenu, onMenuClick }:any) => {
           <MenuItem icon={FaShopSlash} label="Shops" selected={selectedMenu === 'shops'} onClick={() => onMenuClick('shops')} />
           <MenuItem icon={FaProductHunt} label="Products" selected={selectedMenu === 'products'} onClick={() => onMenuClick('products')} />
           <MenuItem icon={MdCategory} label="Categories" selected={selectedMenu === 'categories'} onClick={() => onMenuClick('categories')} />
+          <MenuItem icon={MdCategory} label=" Jobs" selected={selectedMenu === 'jobs'} onClick={() => onMenuClick('jobs')} />
+
         </div>
         <div className="flex flex-col">
           <MenuItem icon={CgProfile} label="Profile" selected={selectedMenu === 'profile'} onClick={() => onMenuClick('profile')} />
