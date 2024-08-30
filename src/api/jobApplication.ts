@@ -45,3 +45,15 @@ export const deleteJobApplication = async (id: string) => {
     throw error;
   }
 };
+
+// reply to job application
+
+export const replyToJobApplication = async (id:string, subject: string, message:string) => {
+  try {
+    const response = await axios.post(`${baseUrl}/job-applications/${id}/reply`, { subject, message });
+    return response.data;
+  } catch (error) {
+    console.error("Ubtumwa bwoherejwe neza:", error);
+    throw error;
+  }
+}

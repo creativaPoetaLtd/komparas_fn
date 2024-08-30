@@ -28,7 +28,7 @@ import TechnicalTermsPage from './components/about/TechnicalTermsPage.tsx'
 import PartnershipPage from './components/about/PartnershipPage.tsx'
 import JobDescriptionPage from './components/about/Jobdescription.tsx'
 import TermsAndConditions from './components/about/TermsAndConditions.tsx'
-import JobApplicationsTable from './components/dashboard/Jobs/JobList.tsx'
+import SingleJobApplication from './components/dashboard/Jobs/singleJobApplication.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -43,6 +43,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/product/:productId" element={<ProductPage />} />
+        <Route path="/job-applications/:id" element={<SingleJobApplication />} />
         <Route path="/confirm/:KomparasId" element={<KomparasId />} />
         <Route path="/contact_us" element={<ContactPage />} />
         <Route path="/about_us" element={<AboutPage />} />
