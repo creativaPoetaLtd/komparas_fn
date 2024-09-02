@@ -18,9 +18,6 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
     setSelectedImageIndex(index);
   };
 
-  // const isAdminFromLocalStorag: any = JSON.parse(localStorage.getItem("KomparasLoginsInfo") as any) || {};
-  // const isAdminFromLocalStorage = isAdminFromLocalStorag.role === "admin" ? true : false;
-
   const handleNextImage = () => {
     setSelectedImageIndex((prevIndex) => (prevIndex + 1) % products?.product?.product_images.length);
   };

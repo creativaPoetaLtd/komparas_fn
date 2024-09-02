@@ -29,17 +29,17 @@ const ThreeButtons: React.FC<IProduct> = ({ products }) => {
 
         setShowValueMap(updatedShowValueMap);
     };
-   return (
+    return (
         <div className="lg:w-[54%] md:w-[337px] flex flex-col">
             <div className="flex flex-col space-y-5 xl:w-[637px] lg:w-[537px] md:w-full w-full m-auto justify-center">
                 <div className="threeButtons text-xs flex flex-row">
-                <button
+                    <button
                         className={`w-[39%] text-white p-2 rounded-l-md ${activeButton === 'ourReview1' ? 'bg-[#EDB62E]' : 'bg-[#0C203B]'}`}
                         onClick={() => handleButtonClick('ourReview1')}
                     >
                         Yimenye neza
                     </button>
-                    
+
                     <button
                         className={`w-[32%] text-white p-2 ${activeButton === 'specification' ? 'bg-[#EDB62E]' : 'bg-[#0C203B]'}`}
                         onClick={() => handleButtonClick('specification')}
@@ -63,18 +63,18 @@ const ThreeButtons: React.FC<IProduct> = ({ products }) => {
                     <>
                         {products?.product?.our_review?.map((review: any, index: number) => (
                             <>
-                            {review.key !== 'Umwanzuro' && (
+                                {review.key !== 'Umwanzuro' && (
 
-                            <div key={index + 1} className='ourReview rounded-md border border-green-500 flex flex-col'>
-                                <div className="text-sm font-semibold text-start rounded-md bg-yellow-100 p-2 flex" onClick={() => handleValueClick(index)}>
-                                    <p className='KeyDiv text-sm'>{review?.key}</p>
-                                    {showValueMap[index] ? <Minus className='ml-auto' /> : <Plus className='ml-auto' />}
-                                </div>
-                                {showValueMap[index] && (
-                                    <div className='ValusePargrapth text-sm text-justify p-3' dangerouslySetInnerHTML={{ __html: review?.value }}></div>
+                                    <div key={index + 1} className='ourReview rounded-md border border-green-500 flex flex-col'>
+                                        <div className="text-sm font-semibold text-start rounded-md bg-yellow-100 p-2 flex" onClick={() => handleValueClick(index)}>
+                                            <p className='KeyDiv text-sm'>{review?.key}</p>
+                                            {showValueMap[index] ? <Minus className='ml-auto' /> : <Plus className='ml-auto' />}
+                                        </div>
+                                        {showValueMap[index] && (
+                                            <div className='ValusePargrapth text-sm text-justify p-3' dangerouslySetInnerHTML={{ __html: review?.value }}></div>
+                                        )}
+                                    </div>
                                 )}
-                            </div>
-                            )}
                             </>
                         ))}
                     </>
@@ -84,17 +84,17 @@ const ThreeButtons: React.FC<IProduct> = ({ products }) => {
                         {products?.product?.our_review?.map((review: any, index: number) => (
                             <>
 
-{review.key === 'Umwanzuro' && (
+                                {review.key === 'Umwanzuro' && (
 
-                            
-                            <div key={index + 1} className='ourReview rounded-md border border-green-500 flex flex-col'>
-                                {/* <div className="text-sm font-semibold text-start rounded-md bg-slate-200 p-2 flex" onClick={() => handleValueClick(index)}>
+
+                                    <div key={index + 1} className='ourReview rounded-md border border-green-500 flex flex-col'>
+                                        {/* <div className="text-sm font-semibold text-start rounded-md bg-slate-200 p-2 flex" onClick={() => handleValueClick(index)}>
                                     <p className='KeyDiv text-sm'>{review?.key}</p>
                                 </div> */}
-                                    <div className='ValusePargrapth text-sm text-justify p-3' dangerouslySetInnerHTML={{ __html: review?.value }}></div>
-                            </div>
-                        )}
-                        </>
+                                        <div className='ValusePargrapth text-sm text-justify p-3' dangerouslySetInnerHTML={{ __html: review?.value }}></div>
+                                    </div>
+                                )}
+                            </>
                         ))}
                     </>
                 )}
