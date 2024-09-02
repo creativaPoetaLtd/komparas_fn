@@ -5,7 +5,6 @@ import SubNav from '../Navigations/SubNav'
 import HomeNav from '../home/HomeNav'
 import MobileHomeNav from '../home/HomeMobileNav'
 import { FaArrowCircleUp, FaSearch, FaTimes } from 'react-icons/fa'
-// import { MdFilterList } from 'react-icons/md';
 import { getAllProducts, getComparison } from '../../api/product';
 import ComparisonDrawer from './ComparisonDrawer';
 import { TbAdjustmentsHorizontal } from "react-icons/tb";

@@ -36,7 +36,6 @@ const ProductPage = () => {
     const onClose = () => {
         setOpen(false);
     };
-
     const category = products?.product?.category?.name;
     const [relatedProducts, setRelatedProducts] = useState<any>([]);
     const [allProd, setAllProd] = useState<any>([])
@@ -68,6 +67,31 @@ const ProductPage = () => {
     const img2Selected = localStorage.getItem('selectedProductImage2');
     const [openModel1, setOpenModel1] = useState(false);
     const [openModel2, setOpenModel2] = useState(false);
+
+const [filteredProd, setFilteredProd] = useState<any[]>([]);
+
+// Initially set the products when the modal opens
+useEffect(() => {
+    setFilteredProd(allProd);
+}, [allProd]);
+
+// Function to handle search input changes
+const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const search = e.target.value.toLowerCase();
+    const searchWords = search.split(' ').filter(word => word);
+
+    // If there are search words, filter the products, otherwise restore the original list
+    const filteredProducts = searchWords.length
+        ? allProd.filter((product: any) =>
+            searchWords.every(word =>
+                product.product_name.toLowerCase().includes(word)
+            )
+        )
+        : allProd;
+
+    setFilteredProd(filteredProducts);
+};
+
 
     const handelOpenModel1 = () => {
         setOpenModel1(!openModel1);
@@ -183,7 +207,7 @@ const ProductPage = () => {
                                         Igiciro: {' '}
                                         {product?.vendor_prices?.length >= 1 && product?.vendor_prices?.reduce((prev: any, current: any) => (prev.price < current.price) ? prev : current).price
                                             .toLocaleString('en-US', { maximumFractionDigits: 4 })} Rwf
-                                    </p>                                </Link>
+                                    </p></Link>
                             </SwiperSlide>
                         ))}
                     </Swiper>
@@ -194,41 +218,34 @@ const ProductPage = () => {
             </div>
             <Footer />
             {openModel1 && (
-                <Modal
-                    title="Choose Products"
-                    visible={openModel1}
-                    onCancel={handelOpenModel1}
-                    footer={[
-                        <Button key="cancel" onClick={handelOpenModel1}>Cancel</Button>,
-                        <Button key="ok" onClick={handelOpenModel1}>
-                            CONTINUE
-                        </Button>,
-                    ]}
-                >
-                    <input
-                        type="text"
-                        placeholder="Shakisha Telefoni"
-                        className="border border-gray-300 rounded-md p-2 w-full mb-4"
-                        onChange={(e) => {
-                            const search = e.target.value.toLowerCase();
-                            const filteredProducts = search
-                                ? allProd.filter((product: any) =>
-                                    product.product_name.toLowerCase().includes(search)
-                                )
-                                : allProd;
-                            setAllProd(filteredProducts);
-                        }}
-                    />
-                    {allProd?.map((product: any, index: any) => (
-                        <div key={index}>
-                            <div className="flex justify-between items-center">
-                                <img src={product.product_image} width={100} height={100} alt="" />
-                                <p>{product.product_name}</p>
-                                <Button onClick={() => handleButtonClick(product._id, product.product_image)}>Select</Button>
-                            </div>
-                        </div>
-                    ))}
-                </Modal>
+                 <Modal
+                 title="Choose Products"
+                 visible={openModel1}
+                 onCancel={handelOpenModel1}
+                 footer={[
+                     <button key="cancel" className='p-2 rounded-md bg-red-300 text-white hover:bg-red-600 py-1 absolute left-3' onClick={handelOpenModel1}>FUNGA</button>,
+                     <button key="ok" className='border bg-green-600 text-white py-1 px-2 rounded-md' onClick={handelOpenModel1}>
+                         KOMEZA
+                     </button>,
+                 ]}
+             >
+                 <input
+                     type="text"
+                     placeholder="Shakisha Telefoni"
+                     className="border border-green-400 outline-none rounded-md p-2 w-full mb-4 "
+                     onChange={handleSearch}
+                 />
+                 {filteredProd?.map((product: any, index: any) => (
+                     <div key={index} className=''>
+                         <div className="flex justify-between mt-1 p-2 border-green-600 rounded-md border items-center">
+                             <img src={product.product_image} width={100} height={50} alt="" className='h-[100px] object-contain ' />
+                             <p>{product.product_name}</p>
+                             <Button onClick={() => handleButtonClick(product._id, product.product_image)}>Select</Button>
+                         </div>
+                     </div>
+                 ))}
+             </Modal>
+
             )}
             {openModel2 && (
                 <Modal
@@ -236,17 +253,23 @@ const ProductPage = () => {
                     visible={openModel2}
                     onCancel={handleOpenModel2}
                     footer={[
-                        <Button key="cancel" onClick={handleOpenModel2}>Cancel</Button>,
-                        <Button key="ok" onClick={handleOpenModel2}>
-                            CONTINUE
-                        </Button>,
+                        <button key="cancel" className='p-2 rounded-md bg-red-300 text-white hover:bg-red-600 py-1 absolute left-3' onClick={handleOpenModel2}>FUNGA</button>,
+                        <button key="ok" className='border bg-green-600 text-white py-1 px-2 rounded-md' onClick={handleOpenModel2}>
+                            KOMEZA
+                        </button>,
                     ]}
                 >
-                    {allProd?.map((product: any, index: any) => (
+                      <input
+                     type="text"
+                     placeholder="Shakisha Telefoni"
+                     className="border border-green-400 outline-none rounded-md p-2 w-full mb-4 "
+                     onChange={handleSearch}
+                 />
+                 {filteredProd?.map((product: any, index: any) => (
                         <div key={index}>
-                            <div className="flex justify-between items-center">
-                                <img src={product.product_image} width={100} height={100} alt="" />
-                                <p>{product.product_name}</p>
+                         <div className="flex justify-between mt-1 p-2 border-green-600 rounded-md border items-center">
+                         <img src={product.product_image} width={100} height={50} alt="" className='h-[100px] object-contain ' />
+                         <p>{product.product_name}</p>
                                 <Button onClick={() => handleButtonClick2(product._id, product.product_image)}>Select</Button>
                             </div>
                         </div>
