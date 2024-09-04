@@ -256,7 +256,7 @@ const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
                         <button key="cancel" className='p-2 rounded-md bg-red-300 text-white hover:bg-red-600 py-1 absolute left-3' onClick={handleOpenModel2}>FUNGA</button>,
                         <button key="ok" className='border bg-green-600 text-white py-1 px-2 rounded-md' onClick={handleOpenModel2}>
                             KOMEZA
-                        </button>,
+                        </button>
                     ]}
                 >
                       <input
