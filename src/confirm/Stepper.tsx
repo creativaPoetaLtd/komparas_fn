@@ -233,11 +233,15 @@ const Stepper = ({ onClose }: { onClose: () => void }) => {
     return (
         <div className=" fixed inset-0 flex items-center justify-center bg-black py-12 bg-opacity-50 z-50">
             <div className="bg-white relative rounded-lg shadow-lg md:p-4  p-2 md:w-[35rem] w-full">
-                <Steps current={current} className='mt-6'>
+                <Steps
+                                         responsive={false}
+ current={current} className='mt-6'>
                     {steps.map((item) => (
                         <Step
+                        progressDot={false}
                             style={{ fontSize: '0.01rem', color: "yellow" }}
                             key={item.title} title={item.title} />
+          
                     ))}
                 </Steps>
                 <Form form={form} layout="vertical" className="mt-4">

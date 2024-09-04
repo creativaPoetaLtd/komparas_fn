@@ -201,7 +201,7 @@ const TimingProduct = () => {
                             </Link>
                         </div>
                         <div className="image w-[50%] h-full pr-12 md:pt-32 pt-24 relative">
-                            <div className='timerCircle text-xs absolute bg-[#EDB62E] md:top-[26px] top-3 md:right-16 right-3 flex-col p-2 items-center border-4 border-white flex rounded-full md:h-[100px] h-[80px] md:w-[100px] w-[80px] my-auto justify-center'>
+                            <div className='timerCircle text-xs absolute bg-[#EDB62E] md:top-[26px] top-3 md:right-16 right-3 flex-col p-2 items-center border-4 border-white flex rounded-full md:h-fit h-[80px] md:w-fit w-fit my-auto justify-center'>
                                 <div className='label text-white text-xl font-semibold'>
                                     {dayProduct[0]?.price}Rwf
                                 </div>
