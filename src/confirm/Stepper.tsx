@@ -102,7 +102,7 @@ const steps: StepType[] = [
                                         <strong>Kuguranirwa fone:</strong>
                                     </td>
                                     <td>
-                                    <div className='flex space-x-4 font-medium'>
+                                        <div className='flex space-x-4 font-medium'>
                                             <p className='f text-gray-700 line-through
                                             '>1500rwf</p>
                                             <p>0</p>
@@ -117,7 +117,7 @@ const steps: StepType[] = [
                                         <strong>Kugurizwa amafaranga:</strong>
                                     </td>
                                     <td>
-                                    <div className='flex space-x-4 font-medium'>
+                                        <div className='flex space-x-4 font-medium'>
                                             <p className='f text-gray-700 line-through
                                             '>1500rwf</p>
                                             <p>0</p>
@@ -148,7 +148,7 @@ const steps: StepType[] = [
                                         <strong>Kugurizwa amafaranga:</strong>
                                     </td>
                                     <td>
-                                    <div className='flex space-x-4 font-medium'>
+                                        <div className='flex space-x-4 font-medium'>
                                             <p className='f text-gray-700 line-through
                                             '>1500rwf</p>
                                             <p>0</p>
@@ -222,26 +222,26 @@ const Stepper = ({ onClose }: { onClose: () => void }) => {
     };
 
     const handleFinish = async () => {
-            notification.success({
-                message: 'Byagenze neza',
-                description: 'Urakoze gihitamo izo serivise.',
-                placement: 'topRight',
-            });
-            onClose();
+        notification.success({
+            message: 'Byagenze neza',
+            description: 'Urakoze gihitamo izo serivise.',
+            placement: 'topRight',
+        });
+        onClose();
     };
 
     return (
         <div className=" fixed inset-0 flex items-center justify-center bg-black py-12 bg-opacity-50 z-50">
-            <div className="bg-white relative rounded-lg shadow-lg md:p-4  p-2 md:w-[35rem] w-full">
+            <div className="bg-white relative py-12 rounded-lg shadow-lg md:p-4  p-2 md:w-[35rem] w-[98%]">
                 <Steps
-                                         responsive={false}
- current={current} className='mt-6'>
+                    responsive={false}
+                    current={current} className='md:mt-6 mt-6 '>
                     {steps.map((item) => (
                         <Step
-                        progressDot={false}
+                            progressDot={false}
                             style={{ fontSize: '0.01rem', color: "yellow" }}
                             key={item.title} title={item.title} />
-          
+
                     ))}
                 </Steps>
                 <Form form={form} layout="vertical" className="mt-4">
@@ -249,7 +249,7 @@ const Stepper = ({ onClose }: { onClose: () => void }) => {
                         {renderStepContent(steps[current])}
                     </div>
                     <div className="flex ">
-                        <button className=" absolute top-0 right-0 bg-red-500 hover:bg-red-600  px-2 py-2 text-white rounded-full" onClick={onClose}>
+                        <button className=" absolute top-2 right-2 bg-red-500 hover:bg-red-600 md:px-2 md:py-2 px-3 py-3 text-white rounded-full" onClick={onClose}>
                             <FaTimes />
                         </button>
                         <div className="steps-action w-full justify-between flex">
