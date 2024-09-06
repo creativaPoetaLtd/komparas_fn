@@ -209,7 +209,7 @@ const TimingProduct = () => {
                             <div className="md:w-[250px] w-[180px] md:h-[275px] h-[200px] object-cover">
                                 <img src={
                                     dayProduct[0]?.image
-                                } height={100} width={100} alt="" className="w-full h-full " />
+                                } height={100} width={100} alt="" className="w-full h-full object-contain " />
                             </div>
                         </div>
                         <div className="circles w-full absolute bottom-3 left-2 flex justify-start">
