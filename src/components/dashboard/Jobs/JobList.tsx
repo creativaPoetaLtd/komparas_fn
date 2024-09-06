@@ -156,7 +156,7 @@ const JobApplicationsTable = () => {
                         onClick={(e) => handleTogglePriority(application._id, e)}
                         className="text-red-600 cursor-pointer"
                         title="Toggle Priority">
-                        {application.isPriotized ? <RiUnpinFill />:<BsFillPinAngleFill />}
+                        {application.isPriotized ? <BsFillPinAngleFill />: <RiUnpinFill />}
                       </span>
                     </td>
                   </tr>
