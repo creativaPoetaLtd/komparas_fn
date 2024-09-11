@@ -2,6 +2,9 @@ import Footer from "../Footer";
 import { addJobApplication } from "../../api/jobApplication";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import SubNav from "../Navigations/SubNav";
+import HomeNav from "../home/HomeNav";
+import MobileHomeNav from "../home/HomeMobileNav";
 
 const JobDescriptionPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -49,6 +52,9 @@ const JobDescriptionPage = () => {
 
   return (
     <>
+     <SubNav />
+      <HomeNav />
+      <MobileHomeNav />
       <header className="bg-gradient-to-r from-slate-600 to-blue-950 text-white py-16 text-center">
         <h1 className="text-4xl font-bold mb-4">
           Umukozi ukusanya amakuru kuri telefoni runaka
