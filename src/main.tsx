@@ -32,8 +32,13 @@ import TermsAndConditions from './components/about/TermsAndConditions.tsx'
 import SingleJobApplication from './components/dashboard/Jobs/singleJobApplication.tsx'
 import ComparisonDrawer from './components/products-page/ComparisonDrawer.tsx'
 import ComparisonDrawerSingle from './components/Product/Pdrawer.tsx'
+import HowToUseKompras from './components/about/HowToUseKompras.tsx'
+import WhyBuyersUseKompras from './components/about/WhyBuyersUseKompras.tsx'
+import WhyShopsUseKompras from './components/about/WhyShopsUseKompras.tsx'
+import RegisterShop from './components/about/registerShop.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
+
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
@@ -56,9 +61,14 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/sobanukirwa" element={<TechnicalTermsPage />} />
         <Route path="/partnership" element={<PartnershipPage />} />
         <Route path="/akazi" element={<JobDescriptionPage />} />
+        <Route path="/koresha-kompras" element={<HowToUseKompras />} />
+        <Route path="/ibyiza-bya-kompras-umukiriye" element={<WhyBuyersUseKompras />} />
+        <Route path="/ibyiza-bya-kompras-iduka" element={<WhyShopsUseKompras />} />
         <Route path="/amategeko-agenga-kompras" element={<TermsAndConditions />} />
         <Route path="/client/confirm" element={<Confirm />} />
         <Route path="/shop/confirm" element={<Confirm />} />
+        <Route path="/andikisha-iduka-ryawe" element={<RegisterShop />} />
+        <Route path="/confirm" element={<Confirm />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/products" element={<Products />} />
         <Route path="/products/compare"  element={<ComparisonDrawer open={false} onClose={() => { } } refresh={false} />} />

@@ -32,3 +32,10 @@ export const updateShop = (shopData: any, id:string) => {
 export const deleteShop = (id: string) => {
   return axios.delete(`${baseUrl}/shops/${id}`);
 }
+
+// updateShop acceptance status
+
+export const updateShopAcceptance = (id: string) => {
+  return axios.put(`${baseUrl}/shops/toggle-acceptance/${id}`);
+}
+
