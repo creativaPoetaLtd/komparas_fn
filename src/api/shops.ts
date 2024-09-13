@@ -90,3 +90,31 @@ export const updateIsSoldConfirmToTrue = async (
     throw error;
   }
 }
+
+export const updateIsShopSoldConfirmToTrue = async (
+  code:string
+)=>{
+  try {
+    const response = await axios.put(
+      `${baseUrl}/komparas-codes/shop-sold-confirm/${code}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error adding shop:', error);
+    throw error;
+  }
+}
+
+export const getLatestComparasCodeByfullName = async (
+  fullName: string
+) => {
+  try {
+    const response = await axios.get(
+      `${baseUrl}/komparas-codes/latest/${fullName}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error adding shop:', error);
+    throw error;
+  }
+}

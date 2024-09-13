@@ -170,7 +170,7 @@ const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
                             </div>
                             <button className="w-fit bg-[#0C203B] mt-2 text-white p-2 px-3 rounded-md self-end"
                                 onClick={() => setOpen(true)}
-                            >Compare</button>
+                            >Gereranya</button>
                         </div>
                     </div>
                 </div>
