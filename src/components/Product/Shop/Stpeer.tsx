@@ -15,6 +15,7 @@ interface FormData {
     komparasCode: string;
     shopId: string;
     shopName: string;
+    shopEmail: string;
     product_id: string;
     sold_confirm: boolean;
 }
@@ -216,6 +217,7 @@ const Stepper = ({ shopData, onClose }: { shopData: any, onClose: any }) => {
         komparasCode: '',
         shopId: shopData._id,
         shopName: shopData.name,
+        shopEmail: shopData.email,
         product_id: productId,
         sold_confirm: false,
     });

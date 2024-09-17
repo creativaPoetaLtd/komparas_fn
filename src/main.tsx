@@ -22,6 +22,7 @@ import SigninPage from './components/SignIn/SignInPage.tsx'
 import ProductPage from './components/Product/ProductPage.tsx'
 import ShopPage from './components/Product/Shop/Page.tsx'
 import Confirm from './confirm/Confirm.tsx'
+import ConfirmShop from './confirm/ShopComfirm.tsx'
 import KomparasId from './confirm/KomparasId.tsx'
 import ServicePage from './components/about/servicePage.tsx'
 import TechnicalTermsPage from './components/about/TechnicalTermsPage.tsx'
@@ -44,7 +45,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/" element={<App />} />
         <Route path="/product/:productId" element={<ProductPage />} />
         <Route path="/job-applications/:id" element={<SingleJobApplication />} />
-        <Route path="/confirm/:KomparasId" element={<KomparasId />} />
+        <Route path="/client/confirm/:KomparasId" element={<KomparasId />} />
+        <Route path="/shop/confirm/:KomparasId" element={<ConfirmShop />} />
         <Route path="/contact_us" element={<ContactPage />} />
         <Route path="/about_us" element={<AboutPage />} />
         <Route path="/serivisi" element={<ServicePage />} />
@@ -52,7 +54,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/partnership" element={<PartnershipPage />} />
         <Route path="/akazi" element={<JobDescriptionPage />} />
         <Route path="/amategeko-agenga-kompras" element={<TermsAndConditions />} />
-        <Route path="/confirm" element={<Confirm />} />
+        <Route path="/client/confirm" element={<Confirm />} />
+        <Route path="/shop/confirm" element={<Confirm />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/products" element={<Products />} />
         <Route path="/product/:productId/shop/:shopId" element={<ShopPage />} />

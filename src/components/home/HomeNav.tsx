@@ -59,7 +59,7 @@ const lastPart = urlParts[urlParts.length - 1];
   const menu = (
     <Menu>
       <Menu.Item key="2">
-        <Link to={'/confirm'}>
+        <Link to={'/client/confirm'}>
           Kwemeza
         </Link>
       </Menu.Item>
