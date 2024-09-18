@@ -12,7 +12,7 @@ import ProdNavigations from "./NavIgations";
 import MainProductPage from "./MainProductPage";
 import ThreeButtons from "./ThreeButtons";
 import Footer from "../Footer";
-import ComparisonDrawer from './Pdrawer';
+// import ComparisonDrawer from './Pdrawer';
 import { SlRefresh } from "react-icons/sl";
 import { Trash } from '@phosphor-icons/react';
 import { useNavigate } from 'react-router-dom';
@@ -31,11 +31,11 @@ const ProductPage = () => {
         };
         fetchProduct();
     }, [productId]);
-    const [open, setOpen] = useState(false);
+    // const [open, setOpen] = useState(false);
 
-    const onClose = () => {
-        setOpen(false);
-    };
+    // const onClose = () => {
+    //     setOpen(false);
+    // };
     const category = products?.product?.category?.name;
     const [relatedProducts, setRelatedProducts] = useState<any>([]);
     const [allProd, setAllProd] = useState<any>([])
@@ -278,9 +278,9 @@ const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
                     ))}
                 </Modal>
             )}
-            <ComparisonDrawer
+            {/* <ComparisonDrawer
                 open={open}
-                onClose={onClose} comparisonData={undefined} />
+                onClose={onClose} comparisonData={undefined} /> */}
         </div>
     );
 };
