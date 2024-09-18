@@ -168,9 +168,11 @@ const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
                                     {img2Selected ? <img src={img2Selected} width={100} height={100} alt="" className="md:w-[100px] w-[55px] md:h-[89px] h-[49px] object-contain" /> : <button onClick={handleOpenModel2} >+</button>}
                                 </button>
                             </div>
-                            <button className="w-fit bg-[#0C203B] mt-2 text-white p-2 px-3 rounded-md self-end"
-                                onClick={() => setOpen(true)}
-                            >Gereranya</button>
+                            <Link
+                             to={`/product/${productId}/compare`}
+                             className="w-fit bg-[#0C203B] mt-2 text-white p-2 px-3 rounded-md self-end"
+                               
+                            >Gereranya</Link>
                         </div>
                     </div>
                 </div>
