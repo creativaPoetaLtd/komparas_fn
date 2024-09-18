@@ -30,6 +30,8 @@ import PartnershipPage from './components/about/PartnershipPage.tsx'
 import JobDescriptionPage from './components/about/Jobdescription.tsx'
 import TermsAndConditions from './components/about/TermsAndConditions.tsx'
 import SingleJobApplication from './components/dashboard/Jobs/singleJobApplication.tsx'
+import ComparisonDrawer from './components/products-page/ComparisonDrawer.tsx'
+import ComparisonDrawerSingle from './components/Product/Pdrawer.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -44,6 +46,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/product/:productId" element={<ProductPage />} />
+        <Route path="/product/:productId/compare" element={<ComparisonDrawerSingle open={false} onClose={() => {}} comparisonData={{}} />} />
         <Route path="/job-applications/:id" element={<SingleJobApplication />} />
         <Route path="/client/confirm/:KomparasId" element={<KomparasId />} />
         <Route path="/shop/confirm/:KomparasId" element={<ConfirmShop />} />
@@ -58,6 +61,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/shop/confirm" element={<Confirm />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/products" element={<Products />} />
+        <Route path="/products/compare"  element={<ComparisonDrawer open={false} onClose={() => { } } refresh={false} />} />
         <Route path="/product/:productId/shop/:shopId" element={<ShopPage />} />
       </Routes>
     </BrowserRouter>

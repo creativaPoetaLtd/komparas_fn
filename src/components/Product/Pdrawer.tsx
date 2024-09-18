@@ -1,109 +1,163 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Drawer } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getProductByMultpleIdsInQueryParams } from '../../api/product';
 import { useParams } from 'react-router-dom';
-import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
+import { FaAngleDown, FaAngleUp } from 'react-icons/fa6';
+import { FaTimes } from 'react-icons/fa';
 
 interface Props {
     open: boolean;
     onClose: () => void;
     comparisonData: any;
 }
-const ComparisonDrawer: React.FC<Props> = ({ open, onClose }) => {
+
+const ComparisonDrawerSingle: React.FC<Props> = ({ onClose }) => {
     const id1 = localStorage.getItem('selectedProductId') as string;
     const id2: string = localStorage.getItem('selectedProductId2') as string;
     const [showValueMap, setShowValueMap] = useState<{ [key: number]: boolean }>({});
     const handleValueClick = (index: number) => {
         setShowValueMap({
             ...showValueMap,
-            [index]: !showValueMap[index]
+            [index]: !showValueMap[index],
         });
     };
+
     const { productId }: any = useParams();
-    const [product, setProduct] = React.useState<any>([]);
+    const [product, setProduct] = useState<any>([]);
+    const [fixed, setFixed] = useState(false);
+
     useEffect(() => {
         const ids = [id1, id2, productId].filter((id) => id !== null);
         const fetchData = async () => {
             const response = await getProductByMultpleIdsInQueryParams(ids);
             setProduct(response.data);
+
             const initialShowValueMap: { [key: number]: boolean } = {};
             response.data?.product?.forEach((_product: any, index: number) => {
                 initialShowValueMap[index] = true;
             });
             setShowValueMap(initialShowValueMap);
-        }
+        };
         fetchData();
     }, [id1, id2, productId]);
 
+    useEffect(() => {
+        const handleScroll = () => {
+            const top = window.scrollY;
+            if (top > 200) {  // Adjust this value based on your layout
+                setFixed(true);
+            } else {
+                setFixed(false);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
     const navigate = useNavigate();
-    const handleView = (id: string) => {
-        navigate(`/product/${id}`);
-    }
-    function addSpaceBetweenWords(str: any) {
+   function addSpaceBetweenWords(str: any) {
         return str.replace(/\//g, ' /');
     }
+
+
     return (
-        <Drawer
-            title="Zigeranye"
-            onClose={onClose}
-            visible={open}
-            placement="right"
-            width={1000}
-            footer={
-                <div className="flex  justify-between">
-                    <Button className='closeBtn' onClick={onClose}  size='large'>
-                        <span className='text-red-500'>Funga</span>
-                    </Button>
-                    <Button className='clearBtn bg-black' onClick={()=> {
-                            localStorage.removeItem('selectedProductId');
-                            localStorage.removeItem('selectedProductId2');
-                            onClose();
-                        }
-                    }  size='large'>
-                        <span className='text-white'>Siba</span>
-                    </Button>
-                </div>
-            }
-        >
-            <div className="flex overflow-x-auto justify-center items-center flex-col h-fit w-full">
-                <div className='ProductCards overflow-x-auto flex flex-row scr lg:w-[900px] w-fit mx-auto md:gap-4 gap-1'>
-                    {product?.product?.map((product: any) => (
-                        <div key={product._id} className="flex relative flex-col items-start justify-start rounded-md border border-green-600 md:p-3 p-2">
-                            <div className="flex justify-center">
-                                <img src={product.product_image} height={152} width={172} alt="" className="w-[172px] h-[152px] object-contain mb-4" />
+        <div className="overflow-y-auto w-full z-50 bg-black bg-opacity-50 flex items-center justify-end">
+            <div className="bg-white w-full overflow-y-auto max-w-5xl p-4 relative rounded-md shadow-lg">
+                <button onClick={
+                    () => {
+                        localStorage.removeItem('selectedProductId');
+                        localStorage.removeItem('selectedProductId2');
+                        onClose();
+                        navigate(-1);
+                    }
+                } className="absolute top-4 right-4 text-red-500">
+                    <FaTimes size={24} />
+                </button>
+                <h2 className="text-2xl font-semibold mb-4">Gereranya</h2>
+                <div className="flex relative overflow-y-auto  flex-col items-center">
+                    <div className={`${fixed ? 'fixed top-0 flex mx-auto justify-center gap-4 pb-2 px-3  z-50 w-[71%] right-3 bg-red-50 md:pb-0' : 'hidden'}`}>
+                        {product?.product?.map((product: any) => (
+                            <div
+                                key={product._id}
+                                className="border p-4 rounded-md w-64 flex flex-col items-start"
+                            >
+                                <img src={product.product_image} alt={product.product_name} className="w-[20%] mx-auto flex justify-center h-10 object-contain mb-4" />
+                                <h3 className="font-semibold flex mx-auto justify-center  text-xs">{product.product_name}</h3>
+                                <p className='flex text-sm mx-auto justify-center font-semibold text-green-600'>
+                                    {product?.vendor_prices?.length >= 1 && product?.vendor_prices?.reduce((prev: any, current: any) => (prev.price < current.price) ? prev : current).price
+                                        .toLocaleString('en-US', { maximumFractionDigits: 4 })} Rwf
+                                </p>
+                                <Link to={`/product/${product._id}`} className="mt- w-full bg-black text-yellow-500 py-1 text-xs rounded-md flex justify-center">
+                                    Yirebe
+                                </Link>
                             </div>
-                            <div className='flex relative flex-col items-strt h-fit  md:w-[13rem] w-[7rem] justify-start mt-4 '>
-                                <h1 className="md:text-xl text-base h-20  font-semibold text-start items-start flex float-left self-start">{product.product_name}</h1>
+                        ))}
+                    </div>
+                    <div className="flex flex-wrap pb-12 gap-4 justify-center w-full">
+                        {product?.product?.map((product: any) => (
+                            <div
+                                key={product._id}
+                                className="border border-green-600 p-4 rounded-md w-64 flex flex-col items-start"
+                            >
+                                <img src={product.product_image} alt={product.product_name} className="w-full h-40 object-contain mb-4" />
+                                <h3 className="font-semibold text-lg">{product.product_name}</h3>
                                 <p className='flex font-semibold text-green-600 mt-4 mb-4'>
                                     {product?.vendor_prices?.length >= 1 && product?.vendor_prices?.reduce((prev: any, current: any) => (prev.price < current.price) ? prev : current).price
                                         .toLocaleString('en-US', { maximumFractionDigits: 4 })} Rwf
                                 </p>
-                                <ul className='text-sm w-full flex-wrap flex'>
-                                    {product?.product_specifications?.map((spec: { key: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; value: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; }, index: any) => (
-                                        <div key={index + 1} className='ourReview flex-wrap rounded-md   w-full space-y-3 mb-2 mt-2 flex flex-col'>
-                                            <div className="maindiv text-sm font-semibold text-start rounded-md p-2 flex" onClick={() => handleValueClick(index)}>
-                                                <p className='KeyDiv flex-wrap justify-center ml-auto flex text-sm overflow-hidden'>{addSpaceBetweenWords(spec?.key)}</p>
-                                                {showValueMap[index] ? <FaAngleUp className='ml-auto text-xl' /> : <FaAngleDown className='ml-auto text-xl font-thin' />}
+                                <ul className="text-sm w-full">
+                                    {product?.product_specifications?.map((spec: any, index: any) => (
+                                        <div key={index} className="flex flex-col mb-2">
+                                            <div
+                                                className="flex justify-between items-center cursor-pointer"
+                                                onClick={() => handleValueClick(index)}
+                                            >
+                                                <span>{addSpaceBetweenWords(spec.key)}</span>
+                                                {showValueMap[index] ? <FaAngleUp /> : <FaAngleDown />}
                                             </div>
-                                            {showValueMap[index] && <p className='ValusePargrapth justify-center mx-auto text-sm p-3 text-green-600'>{spec?.value}</p>}
+                                            {showValueMap[index] && (
+                                                <p className="text-green-600 mt-1">{spec.value}</p>
+                                            )}
                                         </div>
                                     ))}
                                 </ul>
-                                <div className='flex flex-col bottom-0 justify-center'>
-                                <p className='flex font-semibold text-green-600 mt-4 mb-4'>
-                                    {product?.vendor_prices?.length >= 1 && product?.vendor_prices?.reduce((prev: any, current: any) => (prev.price < current.price) ? prev : current).price
-                                        .toLocaleString('en-US', { maximumFractionDigits: 4 })} Rwf
-                                </p>
-                                    <button onClick={() => handleView(product._id)} className="mt-2 rounded-md w-full bg-black px-2 py-1 text-yellow-500">Yirebe</button>
-                                </div>
+                                {/* <button
+                                    onClick={() => handleView(product._id)}
+                                    className="mt-4 w-full bg-black text-yellow-500 py-2 rounded-md"
+                                >
+                                    Yirebe
+                                </button> */}
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
+                    <div className="mt-4 p-2 fixed justify-between bottom-0 px-3  z-50 w-[71%] right-3 bg-white flex gap-4">
+                        <button
+                            onClick={() => {
+                                localStorage.removeItem('selectedProductId');
+                                localStorage.removeItem('selectedProductId2');
+                                onClose();
+                                navigate(-1);
+                            }}
+                            className="bg-black text-white px-4 py-1 rounded-md"
+                        >
+                            Siba
+                        </button>
+                        <button onClick={()=>{
+                            onClose();
+                            navigate(-1);
+                        }} className="text-red-500 px-4 py-1 rounded-md border border-red-500">
+
+                            Funga
+                        </button>
+                    </div>
                 </div>
             </div>
-        </Drawer>
+        </div>
     );
 };
 
-export default ComparisonDrawer;
+export default ComparisonDrawerSingle;
