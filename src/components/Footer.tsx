@@ -64,12 +64,18 @@ const Footer: React.FC = () => {
             <p className=''>+250 987 656 078</p>
           </div>
           <p className=''>Kigali-Rwanda</p>
+          <Link to='/koresha-kompras' >
           <p className=''>Gukoresha uru rubuga</p>
+          </Link>
         </div>
         <div className='flex card1 flex-col space-y-3'>
           <h1 className='flex font-bold'>Impamvu ukwiye gukoresha Kompras</h1>
+          <Link to="/ibyiza-bya-kompras-iduka">
           <p className='flex'>Ku batanga serivisi cyangwa abacuruzi</p>
+          </Link>
+          <Link to="/ibyiza-bya-kompras-umukiriye">
           <p className='flex'>Ku bakeneye serivisi cyangwa abaguzi</p>
+          </Link>
           <p className='flex'>Ibibazo bikunze kwibazwa(F.A.Q)</p>
           <Link to='/amategeko-agenga-kompras' >
           <p className='flex'>Amategeko n'amabwiriza</p>
