@@ -79,7 +79,7 @@ const ComparisonDrawerSingle: React.FC<Props> = ({ onClose }) => {
                 </button>
                 <h2 className="text-2xl font-semibold mb-4">Gereranya</h2>
                 <div className="flex relative overflow-y-auto  flex-col items-center">
-                    <div className={`${fixed ? 'fixed top-0 flex mx-auto justify-center gap-4 pb-2 px-3  z-50 w-[71%] right-3 bg-red-50 md:pb-0' : 'hidden'}`}>
+                    <div className={`${fixed ? 'fixed top-0 flex mx-auto justify-center gap-4 pb-2 px-3  z-50 lg:w-[71%] w-full lg:right-3 right-0 bg-red-50 md:pb-0' : 'hidden'}`}>
                         {product?.product?.map((product: any) => (
                             <div
                                 key={product._id}
@@ -97,11 +97,11 @@ const ComparisonDrawerSingle: React.FC<Props> = ({ onClose }) => {
                             </div>
                         ))}
                     </div>
-                    <div className="flex flex-wrap pb-12 gap-4 justify-center w-full">
+                    <div className="pb-12 lg:gap-4 gap-1 grid grid-cols-3 justify-center lg:w-[80%] w-full">
                         {product?.product?.map((product: any) => (
                             <div
                                 key={product._id}
-                                className="border border-green-600 p-4 rounded-md w-64 flex flex-col items-start"
+                                className="border border-green-600 lg:p-4 p-1 rounded-md   flex flex-col items-start"
                             >
                                 <img src={product.product_image} alt={product.product_name} className="w-full h-40 object-contain mb-4" />
                                 <h3 className="font-semibold text-lg">{product.product_name}</h3>
@@ -134,7 +134,7 @@ const ComparisonDrawerSingle: React.FC<Props> = ({ onClose }) => {
                             </div>
                         ))}
                     </div>
-                    <div className="mt-4 p-2 fixed justify-between bottom-0 px-3  z-50 w-[71%] right-3 bg-white flex gap-4">
+                    <div className="mt-4 p-2 fixed justify-between bottom-0 px-3  z-50 lg:w-[71%] w-full lg:right-3 right-0 bg-white flex gap-4">
                         <button
                             onClick={() => {
                                 localStorage.removeItem('selectedProductId');
@@ -146,7 +146,7 @@ const ComparisonDrawerSingle: React.FC<Props> = ({ onClose }) => {
                         >
                             Siba
                         </button>
-                        <button onClick={()=>{
+                        <button onClick={() => {
                             onClose();
                             navigate(-1);
                         }} className="text-red-500 px-4 py-1 rounded-md border border-red-500">

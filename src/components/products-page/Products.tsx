@@ -6,7 +6,7 @@ import HomeNav from '../home/HomeNav'
 import MobileHomeNav from '../home/HomeMobileNav'
 import { FaArrowCircleUp, FaSearch, FaTimes } from 'react-icons/fa'
 import { getAllProducts, getComparison } from '../../api/product';
-import ComparisonDrawer from './ComparisonDrawer';
+// import ComparisonDrawer from './ComparisonDrawer';
 import { TbAdjustmentsHorizontal } from "react-icons/tb";
 import PorductCheckInput from './ProdCheck';
 import { toast } from 'react-toastify';
@@ -279,14 +279,14 @@ const Products = () => {
 
     const cardsPerPage = 24;
     const totalProducts = productsData?.length;
-    const [open, setOpen] = useState(false);
+    const [, setOpen] = useState(false);
     const [openBottom, setOpenBottom] = useState(false);
     const showDrawer = () => {
         setOpen(true);
     };
-    const onClose = () => {
-        setOpen(false);
-    };
+    // const onClose = () => {
+    //     setOpen(false);
+    // };
     const showBottomDrawer = () => {
         setOpenBottom(true);
     };
@@ -572,13 +572,13 @@ const Products = () => {
             </div>
             <div className='fixed flex space-x-3 bg-green-200 bottom-10 right-10  px-2 py-1 rounded-md text-white'>
                 <button className='view flex my-auto text-black justify-center'><button onClick={showBottomDrawer}><FaArrowCircleUp /></button></button>
-                <button onClick={showDrawer} className='text-sm rounded-md p-[2px] bg-black'>{!JSON.parse(localStorage.getItem("compareProductIds") as any) ? [] : JSON.parse(localStorage.getItem("compareProductIds") as any)?.length < 2 ? '(' + JSON.parse(localStorage.getItem("compareProductIds") as any)?.length + ')' + '   Yigereranye' : '(' + JSON.parse(localStorage.getItem("compareProductIds") as any)?.length + ')' + ' Zigereranye'}</button>
+                <Link onClick={showDrawer} className='text-sm rounded-md p-[2px] bg-black' to={'compare'}>{!JSON.parse(localStorage.getItem("compareProductIds") as any) ? [] : JSON.parse(localStorage.getItem("compareProductIds") as any)?.length < 2 ? '(' + JSON.parse(localStorage.getItem("compareProductIds") as any)?.length + ')' + '   Yigereranye' : '(' + JSON.parse(localStorage.getItem("compareProductIds") as any)?.length + ')' + ' Zigereranye'}</Link>
             </div>
-            <ComparisonDrawer
+            {/* <ComparisonDrawer
                 open={open}
                 onClose={onClose}
                 refresh={refresh}
-            />
+            /> */}
             <BottomDrawer
                 open={openBottom}
                 onClose={onCloseBottom}
