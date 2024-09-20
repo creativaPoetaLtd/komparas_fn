@@ -3,7 +3,6 @@ import Slider from "react-slick";
 import {  fetchParentCategoriesm } from "../../api/getAllCategories";
 import { Phone } from "@phosphor-icons/react";
 import { Menu, MenuProps } from 'antd';
-import dummyData from "./dummData";
 import { CiCircleChevLeft, CiCircleChevRight } from "react-icons/ci";
 import { useNavigate } from "react-router-dom"
 import { getAllProducts } from "../../api/product";
