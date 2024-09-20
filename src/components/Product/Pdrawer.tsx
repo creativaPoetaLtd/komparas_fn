@@ -44,7 +44,7 @@ const ComparisonDrawerSingle: React.FC<Props> = ({ onClose }) => {
     useEffect(() => {
         const handleScroll = () => {
             const top = window.scrollY;
-            if (top > 200) {  // Adjust this value based on your layout
+            if (top > 200) {
                 setFixed(true);
             } else {
                 setFixed(false);
@@ -59,14 +59,14 @@ const ComparisonDrawerSingle: React.FC<Props> = ({ onClose }) => {
     }, []);
 
     const navigate = useNavigate();
-   function addSpaceBetweenWords(str: any) {
+    function addSpaceBetweenWords(str: any) {
         return str.replace(/\//g, ' /');
     }
 
 
     return (
-        <div className="overflow-y-auto w-full z-50 bg-black bg-opacity-50 flex items-center justify-end">
-            <div className="bg-white w-full overflow-y-auto max-w-5xl p-4 relative rounded-md shadow-lg">
+        <div className="overflow-y-auto  w-full bg-black bg-opacity-50 ">
+            <div className="bg-white w-full overflow-y-auto p-4 relative rounded-md shadow-lg">
                 <button onClick={
                     () => {
                         localStorage.removeItem('selectedProductId');
@@ -79,15 +79,15 @@ const ComparisonDrawerSingle: React.FC<Props> = ({ onClose }) => {
                 </button>
                 <h2 className="text-2xl font-semibold mb-4">Gereranya</h2>
                 <div className="flex relative overflow-y-auto  flex-col items-center">
-                    <div className={`${fixed ? 'fixed top-0 flex mx-auto justify-center gap-4 pb-2 px-3  z-50 lg:w-[71%] w-full lg:right-3 right-0 bg-red-50 md:pb-0' : 'hidden'}`}>
+                    <div className={`${fixed ? 'fixed grid lg:px-[10%] px-0 grid-cols-3 flex-shrink-1 top-0  mx-auto justify-center gap-4 pb-2  z-50  w-full lg:right-3 right-0 bg-red-50 md:pb-0' : 'hidden'}`}>
                         {product?.product?.map((product: any) => (
                             <div
                                 key={product._id}
-                                className="border p-4 rounded-md w-64 flex flex-col items-start"
+                                className="border p-4 rounded-md flex flex-col items-start"
                             >
-                                <img src={product.product_image} alt={product.product_name} className="w-[20%] mx-auto flex justify-center h-10 object-contain mb-4" />
-                                <h3 className="font-semibold flex mx-auto justify-center  text-xs">{product.product_name}</h3>
-                                <p className='flex text-sm mx-auto justify-center font-semibold text-green-600'>
+                                <img src={product.product_image} alt={product.product_name} className="w-[20%] mx-auto flex justify-center h-10 object-contain mb-2" />
+                                <h3 className="font-medium flex mx-auto justify-center  text-xs">{product.product_name}</h3>
+                                <p className='flex text-xs mx-auto justify-center text-green-600'>
                                     {product?.vendor_prices?.length >= 1 && product?.vendor_prices?.reduce((prev: any, current: any) => (prev.price < current.price) ? prev : current).price
                                         .toLocaleString('en-US', { maximumFractionDigits: 4 })} Rwf
                                 </p>
@@ -97,7 +97,7 @@ const ComparisonDrawerSingle: React.FC<Props> = ({ onClose }) => {
                             </div>
                         ))}
                     </div>
-                    <div className="pb-12 lg:gap-4 gap-1 grid grid-cols-3 justify-center lg:w-[80%] w-full">
+                    <div className="pb-12 lg:px-[10%] px-0 lg:gap-4 gap-1 grid grid-cols-3 r  w-full">
                         {product?.product?.map((product: any) => (
                             <div
                                 key={product._id}
@@ -125,16 +125,10 @@ const ComparisonDrawerSingle: React.FC<Props> = ({ onClose }) => {
                                         </div>
                                     ))}
                                 </ul>
-                                {/* <button
-                                    onClick={() => handleView(product._id)}
-                                    className="mt-4 w-full bg-black text-yellow-500 py-2 rounded-md"
-                                >
-                                    Yirebe
-                                </button> */}
                             </div>
                         ))}
                     </div>
-                    <div className="mt-4 p-2 fixed justify-between bottom-0 px-3  z-50 lg:w-[71%] w-full lg:right-3 right-0 bg-white flex gap-4">
+                    <div className="mt-4 p-2 fixed justify-between bottom-0 lg:px-[13%] px-4  z-50  w-full lg:right-0 right-0 bg-white flex gap-4">
                         <button
                             onClick={() => {
                                 localStorage.removeItem('selectedProductId');
