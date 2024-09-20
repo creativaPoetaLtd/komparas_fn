@@ -42,7 +42,7 @@ const NewArrival: React.FC<NewArrivalProps> = ({}) => {
             </div>
             <div className="flex lg:flex-row px-2 md:flex-col flex-col w-full lg:space-x-8 lg:space-y-0 space-y-3">
                 <div className={`flex lg:w-1/2 md:w-full w-full h-[600px] relative ${!isAdminFromLocalStorage ? "bg-[#0C203B]" : "bg-[#848482]"} `}>
-                    <div className="absolute w-full bottom-8 left-8 text-white flex flex-col">
+                    <div className="absolute  w-[70%] left-12 md:w-[40%] md:left-8 bottom-32 rounded-lg shadow-md justify-center items-center m-auto text-black bg-white flex flex-col">
                         <h1 className="flex font-semibold">{
                             top3Products[0]?.product_name
                             }</h1>
@@ -63,7 +63,7 @@ const NewArrival: React.FC<NewArrivalProps> = ({}) => {
                 </div>
                 <div className="flex lg:w-1/2 w-full flex-col lg:space-y-8 space-y-3 h-[600px]"> 
                     <div className={`flex h-1/2 relative w-full ${!isAdminFromLocalStorage ? "bg-[#0C203B]" : "bg-[#848482]"} items-end`}>
-                        <div className="absolute  md:bottom-8 bottom-4 md:w-[50%] w-[80%] md:left-6 left-1 text-white flex flex-col">
+                        <div className="absolute  md:bottom-8 bottom-4 md:w-[40%] w-[60%] md:left-6 left-1 z-1 text-black bg-white  items-center shadow-md rounded-lg flex flex-col">
                             <h1 className="flex font-semibold">
                                 {
                                     top3Products[1]?.product_name
@@ -85,7 +85,7 @@ const NewArrival: React.FC<NewArrivalProps> = ({}) => {
                     </div>
                     <div className="w-full h-1/2 flex md:space-x-8 space-x-2">
                         <div className={`flex w-1/2 relative ${!isAdminFromLocalStorage ? "bg-[#0C203B]" : "bg-[#848482]"} `}>
-                            <div className="absolute  bg-transparent w-[90%] md:bottom-6 bottom-3 md:left-6 left-1 text-white flex flex-col">
+                            <div className="absolute  bg-transparent w-[100%] md:w-[80%] p-2 items-center md:bottom-6 bottom-3 md:left-6 left-1 text-black bg-white shadow-md rounded-lg flex flex-col">
                                 <h1 className="flex font-semibold">
                                     {
                                         top3Products[2]?.product_name
@@ -106,7 +106,7 @@ const NewArrival: React.FC<NewArrivalProps> = ({}) => {
                             </div>
                         </div>
                         <div className={`flex w-1/2 relative ${!isAdminFromLocalStorage ? "bg-[#0C203B]" : "bg-[#848482]"} `}>
-                            <div className="absolute md:bottom-6 w-[90%] bottom-3 md:left-6 left-1 text-white flex flex-col">
+                            <div className="absolute md:bottom-6 w-[98%] left-1 bottom-3 md:left-6 md:w-[80%]  text-black bg-white rounded-lg shadow-md items-center flex flex-col">
                                 <h1 className="flex font-semibold">
                                     {
                                         top3Products[3]?.product_name
