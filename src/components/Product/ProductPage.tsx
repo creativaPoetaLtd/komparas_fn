@@ -238,11 +238,11 @@ const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
                      onChange={handleSearch}
                  />
                  {filteredProd?.map((product: any, index: any) => (
-                     <div key={index} className=''>
-                         <div className="flex justify-between mt-1 p-2 border-green-600 rounded-md border items-center">
+                     <div onClick={() => handleButtonClick(product._id, product.product_image)} key={index} className=''>
+                         <div onClick={() => handleButtonClick(product._id, product.product_image)} className="flex justify-between mt-1 p-2 border-green-600 rounded-md border items-center">
                              <img src={product.product_image} width={100} height={50} alt="" className='h-[100px] object-contain ' />
-                             <p>{product.product_name}</p>
-                             <Button onClick={() => handleButtonClick(product._id, product.product_image)}>Select</Button>
+                             <p onClick={() => handleButtonClick(product._id, product.product_image)}>{product.product_name}</p>
+                             <Button onClick={() => handleButtonClick(product._id, product.product_image)}>Hitamo</Button>
                          </div>
                      </div>
                  ))}
@@ -268,19 +268,17 @@ const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
                      onChange={handleSearch}
                  />
                  {filteredProd?.map((product: any, index: any) => (
-                        <div key={index}>
-                         <div className="flex justify-between mt-1 p-2 border-green-600 rounded-md border items-center">
+                        <div onClick={() => handleButtonClick2(product._id, product.product_image)} key={index}>
+                         <div onClick={() => handleButtonClick2(product._id, product.product_image)} className="flex justify-between mt-1 p-2 border-green-600 rounded-md border items-center">
                          <img src={product.product_image} width={100} height={50} alt="" className='h-[100px] object-contain ' />
-                         <p>{product.product_name}</p>
-                                <Button onClick={() => handleButtonClick2(product._id, product.product_image)}>Select</Button>
+                         <p onClick={() => handleButtonClick2(product._id, product.product_image)}>{product.product_name}</p>
+                                <Button onClick={() => handleButtonClick2(product._id, product.product_image)}>Hitamo</Button>
                             </div>
                         </div>
                     ))}
                 </Modal>
             )}
-            {/* <ComparisonDrawer
-                open={open}
-                onClose={onClose} comparisonData={undefined} /> */}
+           
         </div>
     );
 };
