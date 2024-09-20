@@ -6,6 +6,7 @@ import { Menu, MenuProps } from 'antd';
 import dummyData from "./dummData";
 import { CiCircleChevLeft, CiCircleChevRight } from "react-icons/ci";
 import { useNavigate } from "react-router-dom"
+import { getAllProducts } from "../../api/product";
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -29,6 +30,7 @@ const HomeBurner = () => {
   const [categories, setCategories] = useState<any>([]);
   const [typingIndex, setTypingIndex] = useState(0);
   const navigate = useNavigate();
+  const [products, setProducts] = React.useState<any[]>([]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -36,6 +38,13 @@ const HomeBurner = () => {
       setCategories(data?.data);          
     }
     fetchCategories();
+  }, []);
+  React.useEffect(() => {
+    const fetchProducts = async () => {
+      const response = await getAllProducts();
+      setProducts(response?.data?.products?.reverse());
+    };
+    fetchProducts();
   }, []);
 
   useEffect(() => {
@@ -95,18 +104,26 @@ const HomeBurner = () => {
         />
       </div>
       <Slider {...sliderSettings} className='lg:w-[80%] w-[100%] self-center h-full' ref={sliderRef => slider = sliderRef}>
-        {dummyData?.map((data, index) => (
-          <div key={index + 1} className={`relative bunnerPAgeDiv lg:w-3/4 w-[90%] ${!isAdminFromLocalStorage ? "bg-[#0C203B]" : "bg-[#848482]"} mt-6 h-full md:py-4 py-4 md:pl-4 pl-0 px-0`}>
+      {products.slice(0,7).map((product: any) => (
+          <div key={product._id} className={`relative bunnerPAgeDiv lg:w-3/4 w-[90%] ${!isAdminFromLocalStorage ? "bg-[#0C203B]" : "bg-[#848482]"} mt-6 h-full md:py-4 py-4 md:pl-4 pl-0 px-0`}>
             <div className={`mainPage flex md:flex-row flex-col  md:h-[275px] h-fit relative`}>
               <div className='mainPageContent md:w-[44%] w-full h-full md:p-12 p-5'>
-                {data?.bgImage && <img src={data?.bgImage} alt='logo' className='h-12 mt-4' />}
-                <p className='lg:text-md text-xl mt-6 p-2 text-white'>
-                  {data?.title.slice(0, typingIndex)}
-                </p>
+               {
+                product?.product_description?.length > 200 ? (
+                  <p className="text-white text-lg">{product?.product_description?.slice(0, 200)}...</p>
+                ) : (
+                  <p className="text-white text-lg">{product?.product_description}</p>
+                )
+               }
+               <button
+                onClick={() => navigate(`/product/${product._id}`)}
+                className="bg-[#FFD700] text-black px-12 py-2 mt-4 rounded-md">Yirebe</button>
               </div>
               <div className="image md:w-[60%] w-full h-full md:p-4 p-1 pb-12">
                 <div className="w-full h-full object-cover">
-                  <img src={data?.image} height={100} width={100} alt="" className="w-full h-[254px] object-contain" />
+                  <img src={
+                    product?.product_image 
+                  } height={100} width={100} alt="" className="w-full h-[254px] object-contain" />
                 </div>
               </div>
             </div>
