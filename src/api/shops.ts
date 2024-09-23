@@ -105,12 +105,12 @@ export const updateIsShopSoldConfirmToTrue = async (
   }
 }
 
-export const getLatestComparasCodeByfullName = async (
-  fullName: string
+export const getLatestComparasCodeByEmailOrPhone = async (
+  emailOrPhone: string
 ) => {
   try {
     const response = await axios.get(
-      `${baseUrl}/komparas-codes/latest/${fullName}`
+      `${baseUrl}/komparas-codes/latestemailOrPhone/${emailOrPhone}`
     );
     return response.data;
   } catch (error) {
