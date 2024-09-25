@@ -42,19 +42,22 @@ const NewArrival: React.FC<NewArrivalProps> = ({}) => {
             </div>
             <div className="flex lg:flex-row px-2 md:flex-col flex-col w-full lg:space-x-8 lg:space-y-0 space-y-3">
                 <div className={`flex lg:w-1/2 md:w-full w-full h-[600px] relative ${!isAdminFromLocalStorage ? "bg-[#0C203B]" : "bg-[#848482]"} `}>
-                    <div className="absolute  w-[70%] left-12 md:w-[40%] md:left-8 bottom-32 rounded-lg shadow-md justify-center items-center m-auto text-black bg-white flex flex-col">
-                        <h1 className="flex font-semibold">{
-                            top3Products[0]?.product_name
-                            }</h1>
-                        <p className="flex text-xs mt-3 w-[242px]">
-                            {
-                                top3Products[0]?.product_description?.length > 100 ? top3Products[0]?.product_description?.slice(0, 100) + "..." : top3Products[0]?.product_description
-                            }
-                        </p>
-                        <Link className="flex underline underline-offset-4 mt-4 text-[#FFAD33]" to={
-                            `/product/${top3Products[0]?.id}`
-                        }>REBA BYOSE</Link>
-                    </div>
+                <div className="absolute w-[70%] left-12 md:w-[40%] md:left-8 bottom-32 rounded-lg shadow-md justify-center items-center m-auto text-white bg-black bg-opacity-50 flex flex-col">
+    <h1 className="flex font-semibold">
+        {
+            top3Products[0]?.product_name
+        }
+    </h1>
+    <p className="flex text-xs mt-3 w-[242px]">
+        {
+            top3Products[0]?.product_description?.length > 100 ? top3Products[0]?.product_description?.slice(0, 100) + "..." : top3Products[0]?.product_description
+        }
+    </p>
+    <Link className="flex underline underline-offset-4 mt-4 text-[#FFAD33]" to={ `/product/${top3Products[0]?.id}` }>
+        REBA BYOSE
+    </Link>
+</div>
+
                     <div className="flex h-[511px] w-[511px]  justify-center items-center m-auto">
                         <img src={
                             top3Products[0]?.product_image
@@ -63,20 +66,22 @@ const NewArrival: React.FC<NewArrivalProps> = ({}) => {
                 </div>
                 <div className="flex lg:w-1/2 w-full flex-col lg:space-y-8 space-y-3 h-[600px]"> 
                     <div className={`flex h-1/2 relative w-full ${!isAdminFromLocalStorage ? "bg-[#0C203B]" : "bg-[#848482]"} items-end`}>
-                        <div className="absolute  md:bottom-8 bottom-4 md:w-[40%] w-[60%] md:left-6 left-1 z-1 text-black bg-white  items-center shadow-md rounded-lg flex flex-col">
-                            <h1 className="flex font-semibold">
-                                {
-                                    top3Products[1]?.product_name
-                                }
-                            </h1>
-                            <p className="flex text-xs mt-3 md:w-[242px] w-[150px]">
-                                {
-                                    top3Products[1]?.product_description?.length > 100 ? top3Products[1]?.product_description?.slice(0, 100) + "..." : top3Products[1]?.product_description
-                                }
-                            </p>
-                            <Link className="flex underline underline-offset-4 mt-4 text-[#FFAD33]" to={
-                            `/product/${top3Products[1]?.id}`
-                        }>REBA BYOSE</Link>                        </div>
+                    <div className="absolute md:bottom-8 bottom-4 md:w-[40%] w-[60%] md:left-6 left-1 z-1 text-white bg-black bg-opacity-50 py-2 items-center shadow-md rounded-lg flex flex-col">
+    <h1 className="flex font-semibold">
+        {
+            top3Products[1]?.product_name
+        }
+    </h1>
+    <p className="flex text-xs mt-3 md:w-[242px] w-[150px]">
+        {
+            top3Products[1]?.product_description?.length > 100 ? top3Products[1]?.product_description?.slice(0, 100) + "..." : top3Products[1]?.product_description
+        }
+    </p>
+    <Link className="flex underline underline-offset-4 mt-4 text-[#FFAD33]" to={ `/product/${top3Products[1]?.id}` }>
+        REBA BYOSE
+    </Link>
+</div>
+
                         <div className="flex p-2  md:h-[286px] md:w-[290px] w-[180px] h-[200px] float-right absolute right-0">
                             <img src={
                                 top3Products[1]?.product_image
@@ -85,20 +90,22 @@ const NewArrival: React.FC<NewArrivalProps> = ({}) => {
                     </div>
                     <div className="w-full h-1/2 flex md:space-x-8 space-x-2">
                         <div className={`flex w-1/2 relative ${!isAdminFromLocalStorage ? "bg-[#0C203B]" : "bg-[#848482]"} `}>
-                            <div className="absolute  bg-transparent w-[100%] md:w-[80%] p-2 items-center md:bottom-6 bottom-3 md:left-6 left-1 text-black bg-white shadow-md rounded-lg flex flex-col">
-                                <h1 className="flex font-semibold">
-                                    {
-                                        top3Products[2]?.product_name
-                                    }
-                                </h1>
-                                <p className="flex text-xs mt-2 md:w-[242px]">
-                                    {
-                                        top3Products[2]?.product_description?.length > 100 ? top3Products[2]?.product_description?.slice(0, 100) + "..." : top3Products[2]?.product_description
-                                    }
-                                </p>
-                                <Link className="flex underline underline-offset-4 mt-4 text-[#FFAD33]" to={
-                            `/product/${top3Products[2]?.id}`
-                        }>REBA BYOSE</Link>                            </div>
+                        <div className="absolute bg-black bg-opacity-50 w-[100%] md:w-[80%] p-2 items-center md:bottom-6 bottom-3 md:left-6 left-1 text-white shadow-md rounded-lg flex flex-col">
+    <h1 className="flex font-semibold">
+        {
+            top3Products[2]?.product_name
+        }
+    </h1>
+    <p className="flex text-xs mt-2 md:w-[242px]">
+        {
+            top3Products[2]?.product_description?.length > 100 ? top3Products[2]?.product_description?.slice(0, 100) + "..." : top3Products[2]?.product_description
+        }
+    </p>
+    <Link className="flex underline underline-offset-4 mt-4 text-[#FFAD33]" to={ `/product/${top3Products[2]?.id}` }>
+        REBA BYOSE
+    </Link>
+</div>
+
                             <div className="flex h-[221px] w-[190px] justify-center items-center m-auto">
                                 <img src={
                                     top3Products[2]?.product_image
@@ -106,20 +113,22 @@ const NewArrival: React.FC<NewArrivalProps> = ({}) => {
                             </div>
                         </div>
                         <div className={`flex w-1/2 relative ${!isAdminFromLocalStorage ? "bg-[#0C203B]" : "bg-[#848482]"} `}>
-                            <div className="absolute md:bottom-6 w-[98%] left-1 bottom-3 md:left-6 md:w-[80%]  text-black bg-white rounded-lg shadow-md items-center flex flex-col">
-                                <h1 className="flex font-semibold">
-                                    {
-                                        top3Products[3]?.product_name
-                                    }
-                                </h1>
-                                <p className="flex text-xs mt-2 md:w-[242px]">
-                                    {
-                                        top3Products[3]?.product_description?.length > 100 ? top3Products[3]?.product_description?.slice(0, 100) + "..." : top3Products[3]?.product_description
-                                    }
-                                </p>
-                                <Link className="flex underline underline-offset-4 mt-4 text-[#FFAD33]" to={
-                            `/product/${top3Products[3]?.id}`
-                        }>REBA BYOSE</Link>                            </div>
+                           <div className="absolute md:bottom-6 w-[98%] left-1 bottom-3 md:left-6 md:w-[80%] text-white bg-black bg-opacity-50 rounded-lg shadow-md items-center flex flex-col">
+    <h1 className="flex font-semibold">
+        {
+            top3Products[3]?.product_name
+        }
+    </h1>
+    <p className="flex text-xs mt-2 md:w-[242px]">
+        {
+            top3Products[3]?.product_description?.length > 100 ? top3Products[3]?.product_description?.slice(0, 100) + "..." : top3Products[3]?.product_description
+        }
+    </p>
+    <Link className="flex underline underline-offset-4 mt-4 text-[#FFAD33]" to={ `/product/${top3Products[3]?.id}` }>
+        REBA BYOSE
+    </Link>
+</div>
+
                             <div className="flex h-[221px] w-[190px] justify-center items-center m-auto">
                                 <img src={
                                     top3Products[3]?.product_image
