@@ -235,33 +235,33 @@ const Products = () => {
     }, [userId, deleteRefresh]);
 
     const comparedProductId = comparisonData?.productsInfo?.map((product: any) => product._id);
-    const handleAddProductIdToLocalStorageCompare = (productId: any) => {
+    const handleAddProductIdToLocalStorageCompare = (productId: string) => {
         const productIds = localStorage.getItem('compareProductIds');
-        handleRefresh();
+    
         if (productIds) {
-            const productIdsArray = JSON.parse(productIds);
-            handleRefresh();
-
-            if (productIdsArray.length < 4) {
-                localStorage.setItem('compareProductIds', JSON.stringify([...productIdsArray, productId]));
-                setLocastorageCompareProductIds(
-                    JSON.stringify([...productIdsArray, productId])
-                );
-                handleRefresh();
-
-            } else {
-                toast.error('Ushobora kugereranya telephone enye gusa!');
-            }
-            handleRefresh();
-
+          const productIdsArray = JSON.parse(productIds);
+          
+          // Check if the product is already in the comparison list
+          if (productIdsArray.includes(productId)) {
+            toast.warn('Product is already in comparison!');
+            return;
+          }
+    
+          // Limit comparison to 4 products
+          if (productIdsArray.length < 4) {
+            const updatedProductIds = [...productIdsArray, productId];
+            localStorage.setItem('compareProductIds', JSON.stringify(updatedProductIds));
+            setLocastorageCompareProductIds(updatedProductIds);
+          } else {
+            toast.error('You can only compare up to 4 products!');
+          }
         } else {
-            handleRefresh();
-
-            localStorage.setItem('compareProductIds', JSON.stringify([productId]));
-            handleRefresh();
-
+          // Initialize comparison with the first product
+          localStorage.setItem('compareProductIds', JSON.stringify([productId]));
+          setLocastorageCompareProductIds([productId]);
         }
-    }
+      };
+    
 
     const handleRemoveProductIdFromLocalStorageCompare = (productId: any) => {
         handleRefresh()

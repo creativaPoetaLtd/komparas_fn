@@ -237,7 +237,7 @@ const ProductPage = () => {
                         onChange={handleSearch}
                     />
                     {filteredProd?.map((product: any, index: any) => (
-                        <div onClick={() => handleButtonClick(product._id, product.product_image)} key={index} className=''>
+                        <div  onClick={() => handleButtonClick(product._id, product.product_image)} key={index} className='cur cursor-pointer'>
                             <div onClick={() => handleButtonClick(product._id, product.product_image)} className="flex justify-between mt-1 p-2 border-green-600 rounded-md border items-center">
                                 <img src={product.product_image} width={100} height={50} alt="" className='h-[100px] object-contain ' />
                                 <p onClick={() => handleButtonClick(product._id, product.product_image)}>{product.product_name}</p>
@@ -267,7 +267,7 @@ const ProductPage = () => {
                         onChange={handleSearch}
                     />
                     {filteredProd?.map((product: any, index: any) => (
-                        <div onClick={() => handleButtonClick2(product._id, product.product_image)} key={index}>
+                        <div onClick={() => handleButtonClick2(product._id, product.product_image)} key={index} className='cursor-pointer'>
                             <div onClick={() => handleButtonClick2(product._id, product.product_image)} className="flex justify-between mt-1 p-2 border-green-600 rounded-md border items-center">
                                 <img src={product.product_image} width={100} height={50} alt="" className='h-[100px] object-contain ' />
                                 <p onClick={() => handleButtonClick2(product._id, product.product_image)}>{product.product_name}</p>
