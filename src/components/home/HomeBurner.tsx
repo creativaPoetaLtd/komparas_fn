@@ -119,7 +119,8 @@ const HomeBurner = () => {
                 className="bg-[#FFD700] text-black px-12 py-2 mt-4 rounded-md">Yirebe</button>
               </div>
               <div className="image md:w-[60%] w-full h-full md:p-4 p-1 pb-12">
-                <div className="w-full h-full object-cover">
+                <div                 onClick={() => navigate(`/product/${product._id}`)}
+ className="w-full cursor-pointer h-full object-cover">
                   <img src={
                     product?.product_image 
                   } height={100} width={100} alt="" className="w-full h-[254px] object-contain" />
