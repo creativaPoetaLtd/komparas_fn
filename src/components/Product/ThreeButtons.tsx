@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Minus, Plus } from '@phosphor-icons/react';
-import { useLocation } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 
 interface IProduct {
     products: any
@@ -14,10 +14,10 @@ const ThreeButtons: React.FC<IProduct> = ({ products }) => {
         setActiveButton(buttonType);
     };
 
-    const location = useLocation();
-    useEffect(() => {
-        localStorage.clear();
-    }, [location.pathname]);
+    // const location = useLocation();
+    // useEffect(() => {
+    //     localStorage.clear();
+    // }, [location.pathname]);
     const handleValueClick = (index: number) => {
         const updatedShowValueMap: { [key: number]: boolean } = {};
         updatedShowValueMap[index] = !showValueMap[index];

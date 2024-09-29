@@ -12,11 +12,12 @@ import ProdNavigations from "./NavIgations";
 import MainProductPage from "./MainProductPage";
 import ThreeButtons from "./ThreeButtons";
 import Footer from "../Footer";
-// import ComparisonDrawer from './Pdrawer';
 import { SlRefresh } from "react-icons/sl";
 import { Trash } from '@phosphor-icons/react';
 import { useNavigate } from 'react-router-dom';
 import { getAllProducts } from '../../api/product';
+import { useLocation } from 'react-router-dom';
+
 const ProductPage = () => {
     const [products, setProduct] = useState<any>([]);
     const navigate = useNavigate();
@@ -31,16 +32,12 @@ const ProductPage = () => {
         };
         fetchProduct();
     }, [productId]);
-    // const [open, setOpen] = useState(false);
-
-    // const onClose = () => {
-    //     setOpen(false);
-    // };
     const category = products?.product?.category?.name;
     const [relatedProducts, setRelatedProducts] = useState<any>([]);
     const [allProd, setAllProd] = useState<any>([])
     const [, setLoading] = useState(false);
     const [, setError] = useState(false);
+    const location = useLocation();
     useEffect(() => {
         const fetchRelatedProducts = async () => {
             setLoading(true);
@@ -63,63 +60,65 @@ const ProductPage = () => {
     }
         , []);
 
-    const imgeSelected = localStorage.getItem('selectedProductImage');
-    const img2Selected = localStorage.getItem('selectedProductImage2');
+    const [refresh, setRefresh] = useState(false);
+    const [imgeSelected, setImgeSelected] = useState<string | null>(null);
+    const [img2Selected, setImg2Selected] = useState<string | null>(null);
+
+    useEffect(() => {
+        const imgeSelected = localStorage.getItem('selectedProductImage');
+        const img2Selected = localStorage.getItem('selectedProductImage2');
+        setImgeSelected(imgeSelected);
+        setImg2Selected(img2Selected);
+    }
+        , [refresh, location.pathname]);
     const [openModel1, setOpenModel1] = useState(false);
     const [openModel2, setOpenModel2] = useState(false);
-
-const [filteredProd, setFilteredProd] = useState<any[]>([]);
-
-// Initially set the products when the modal opens
-useEffect(() => {
-    setFilteredProd(allProd);
-}, [allProd]);
-
-// Function to handle search input changes
-const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const search = e.target.value.toLowerCase();
-    const searchWords = search.split(' ').filter(word => word);
-
-    // If there are search words, filter the products, otherwise restore the original list
-    const filteredProducts = searchWords.length
-        ? allProd.filter((product: any) =>
-            searchWords.every(word =>
-                product.product_name.toLowerCase().includes(word)
+    const [filteredProd, setFilteredProd] = useState<any[]>([]);
+    useEffect(() => {
+        setFilteredProd(allProd);
+    }, [allProd, setFilteredProd, refresh]);
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const search = e.target.value.toLowerCase();
+        const searchWords = search.split(' ').filter(word => word);
+        const filteredProducts = searchWords.length
+            ? allProd.filter((product: any) =>
+                searchWords.every(word =>
+                    product.product_name.toLowerCase().includes(word)
+                )
             )
-        )
-        : allProd;
-
-    setFilteredProd(filteredProducts);
-};
-
-
+            : allProd;
+        setFilteredProd(filteredProducts);
+    };
     const handelOpenModel1 = () => {
         setOpenModel1(!openModel1);
     }
-
     const handleOpenModel2 = () => {
         setOpenModel2(!openModel2);
     }
-
+    const handleRefresh = () => {
+        setRefresh(!refresh);
+    }
     const handleButtonClick = async (productId: string, productImage: string) => {
         localStorage.setItem('selectedProductId', productId);
         localStorage.setItem('selectedProductImage', productImage);
         handelOpenModel1()
+        handleRefresh()
     };
     const handleButtonClick2 = (productId: string, productImage: string) => {
-
         localStorage.setItem('selectedProductImage2', productImage);
         localStorage.setItem('selectedProductId2', productId);
         handleOpenModel2()
+        handleRefresh()
     };
     const handleDelete = () => {
         localStorage.removeItem('selectedProductId');
         localStorage.removeItem('selectedProductImage');
+        handleRefresh()
     };
     const handleDelete2 = () => {
         localStorage.removeItem('selectedProductId2')
         localStorage.removeItem('selectedProductImage2');
-
+        handleRefresh()
     }
     const handleViewAllProducts = () => {
         navigate("/products");
@@ -169,9 +168,9 @@ const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
                                 </button>
                             </div>
                             <Link
-                             to={`/product/${productId}/compare`}
-                             className="w-fit bg-[#0C203B] mt-2 text-white p-2 px-3 rounded-md self-end"
-                               
+                                to={`/product/${productId}/compare`}
+                                className="w-fit bg-[#0C203B] mt-2 text-white p-2 px-3 rounded-md self-end"
+
                             >Gereranya</Link>
                         </div>
                     </div>
@@ -220,33 +219,33 @@ const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
             </div>
             <Footer />
             {openModel1 && (
-                 <Modal
-                 title="Choose Products"
-                 visible={openModel1}
-                 onCancel={handelOpenModel1}
-                 footer={[
-                     <button key="cancel" className='p-2 rounded-md bg-red-300 text-white hover:bg-red-600 py-1 absolute left-3' onClick={handelOpenModel1}>FUNGA</button>,
-                     <button key="ok" className='border bg-green-600 text-white py-1 px-2 rounded-md' onClick={handelOpenModel1}>
-                         KOMEZA
-                     </button>,
-                 ]}
-             >
-                 <input
-                     type="text"
-                     placeholder="Shakisha Telefoni"
-                     className="border border-green-400 outline-none rounded-md p-2 w-full mb-4 "
-                     onChange={handleSearch}
-                 />
-                 {filteredProd?.map((product: any, index: any) => (
-                     <div onClick={() => handleButtonClick(product._id, product.product_image)} key={index} className=''>
-                         <div onClick={() => handleButtonClick(product._id, product.product_image)} className="flex justify-between mt-1 p-2 border-green-600 rounded-md border items-center">
-                             <img src={product.product_image} width={100} height={50} alt="" className='h-[100px] object-contain ' />
-                             <p onClick={() => handleButtonClick(product._id, product.product_image)}>{product.product_name}</p>
-                             <Button onClick={() => handleButtonClick(product._id, product.product_image)}>Hitamo</Button>
-                         </div>
-                     </div>
-                 ))}
-             </Modal>
+                <Modal
+                    title="Choose Products"
+                    visible={openModel1}
+                    onCancel={handelOpenModel1}
+                    footer={[
+                        <button key="cancel" className='p-2 rounded-md bg-red-300 text-white hover:bg-red-600 py-1 absolute left-3' onClick={handelOpenModel1}>FUNGA</button>,
+                        <button key="ok" className='border bg-green-600 text-white py-1 px-2 rounded-md' onClick={handelOpenModel1}>
+                            KOMEZA
+                        </button>,
+                    ]}
+                >
+                    <input
+                        type="text"
+                        placeholder="Shakisha Telefoni"
+                        className="border border-green-400 outline-none rounded-md p-2 w-full mb-4 "
+                        onChange={handleSearch}
+                    />
+                    {filteredProd?.map((product: any, index: any) => (
+                        <div onClick={() => handleButtonClick(product._id, product.product_image)} key={index} className=''>
+                            <div onClick={() => handleButtonClick(product._id, product.product_image)} className="flex justify-between mt-1 p-2 border-green-600 rounded-md border items-center">
+                                <img src={product.product_image} width={100} height={50} alt="" className='h-[100px] object-contain ' />
+                                <p onClick={() => handleButtonClick(product._id, product.product_image)}>{product.product_name}</p>
+                                <Button onClick={() => handleButtonClick(product._id, product.product_image)}>Hitamo</Button>
+                            </div>
+                        </div>
+                    ))}
+                </Modal>
 
             )}
             {openModel2 && (
@@ -261,24 +260,23 @@ const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
                         </button>
                     ]}
                 >
-                      <input
-                     type="text"
-                     placeholder="Shakisha Telefoni"
-                     className="border border-green-400 outline-none rounded-md p-2 w-full mb-4 "
-                     onChange={handleSearch}
-                 />
-                 {filteredProd?.map((product: any, index: any) => (
+                    <input
+                        type="text"
+                        placeholder="Shakisha Telefoni"
+                        className="border border-green-400 outline-none rounded-md p-2 w-full mb-4 "
+                        onChange={handleSearch}
+                    />
+                    {filteredProd?.map((product: any, index: any) => (
                         <div onClick={() => handleButtonClick2(product._id, product.product_image)} key={index}>
-                         <div onClick={() => handleButtonClick2(product._id, product.product_image)} className="flex justify-between mt-1 p-2 border-green-600 rounded-md border items-center">
-                         <img src={product.product_image} width={100} height={50} alt="" className='h-[100px] object-contain ' />
-                         <p onClick={() => handleButtonClick2(product._id, product.product_image)}>{product.product_name}</p>
+                            <div onClick={() => handleButtonClick2(product._id, product.product_image)} className="flex justify-between mt-1 p-2 border-green-600 rounded-md border items-center">
+                                <img src={product.product_image} width={100} height={50} alt="" className='h-[100px] object-contain ' />
+                                <p onClick={() => handleButtonClick2(product._id, product.product_image)}>{product.product_name}</p>
                                 <Button onClick={() => handleButtonClick2(product._id, product.product_image)}>Hitamo</Button>
                             </div>
                         </div>
                     ))}
                 </Modal>
             )}
-           
         </div>
     );
 };
