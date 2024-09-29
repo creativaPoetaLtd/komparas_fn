@@ -36,19 +36,34 @@ import HowToUseKompras from './components/about/HowToUseKompras.tsx'
 import WhyBuyersUseKompras from './components/about/WhyBuyersUseKompras.tsx'
 import WhyShopsUseKompras from './components/about/WhyShopsUseKompras.tsx'
 import RegisterShop from './components/about/registerShop.tsx'
+import ProtectedRoute from './components/auth/ProtectRoutes/Protecting.tsx'
+import RedirectIfAuthenticated from './components/auth/ProtectRoutes/RedirectIfAuthenticated.tsx'
+
+let userddata = JSON.parse(localStorage.getItem("loggedUserInfo")!);
+let user = userddata;
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
 
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<SigninPage />} />
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/login" element={
+          <RedirectIfAuthenticated user={user}>
+            <SigninPage />
+          </RedirectIfAuthenticated>
+        } />
+        <Route path="/signup" element={
+          <RedirectIfAuthenticated user={user}>
+            <SignupPage />
+          </RedirectIfAuthenticated>
+        } />
+        <Route path="/dashboard" element={
+          <ProtectedRoute user={user}>
+            <Dashboard />
+          </ProtectedRoute>
+        } />
         <Route path="/forgot_password" element={<ForgotPasswordForm />} />
         <Route path="/reset_password?resetToken=:resetToken" element={<ResetPassword />} />
-      </Routes>
-      <Routes>
         <Route path="/" element={<App />} />
         <Route path="/product/:productId" element={<ProductPage />} />
         <Route path="/product/:productId/compare" element={<ComparisonDrawerSingle open={false} onClose={() => {}} comparisonData={{}} />} />
