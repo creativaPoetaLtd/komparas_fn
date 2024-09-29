@@ -66,7 +66,7 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
           <div className="md:flex hidden md:[w-20%] md:h-[450px] md:space-y-4 space-y-0 py-4 md:overflow-y-auto w-full md:flex-col justify-between">
             {products?.product?.product_images?.map((image: any, index: number) => (
               <div key={index} className={`otherImages md:w-full w-[55px] items-start flex justify-start md:h-[138px] h-[50px] ${selectedImageIndex === index ? 'border-2x border-blue-50f0' : ''}`} onClick={() => handleImageClick(index)}>
-                <img src={image.product_image} width={100} height={100} alt="" className={` ${selectedImageIndex === index ? 'border-2 border-yellow-600 rounded-md p-2' : ''} md:w-full w-[55px] md:h-[89px] h-[49px] object-contain`} />
+                <img src={image.product_image} width={100} height={100} alt="" className={` ${selectedImageIndex === index ? 'border-2 border-yellow-600 rounded-md p-2' : ''} md:w-[100px] w-[55px] md:h-[89px] h-[49px] object-contain`} />
               </div>
             ))}
           </div>
