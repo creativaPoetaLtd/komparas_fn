@@ -40,7 +40,6 @@ const lastPart = urlParts[urlParts.length - 1];
     if (selectedOption) {
       setSearchedId(selectedOption.id);
       navigate(`/product/${selectedOption.id}`);
-      console.log('Selected Product ID:', selectedOption.id);
     }
   };
 

@@ -90,8 +90,6 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
       try {
         setLoading(true);
         const { data } = await getPoductById(editID);
-        console.log("data", data);
-        
         setProductData(data?.product);
       } catch (error) {
         toast.error("Failed to fetch product details");
@@ -103,7 +101,6 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
     fetchProduct();
   }, [editID]);
 
-  // Populate form data with product details
   useEffect(() => {
     if (productData) {
       setFormData({
@@ -211,7 +208,6 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
     fetchCategories();
   }, []);
 
-  console.log("formData", formData);
   
   return (
     <div className="AddProductForm w-full h-fit flex flex-col pb-12 bg-gray-300 p-2">

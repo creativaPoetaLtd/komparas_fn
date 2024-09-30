@@ -67,8 +67,6 @@ export const getKomparasCodebyCode = async (
       `${baseUrl}/komparas-codes/${code}`
     );
 
-    console.log('Response:', response);
-    
     return response.data;
   } catch (error:any) {
     return error.response.data;
@@ -111,6 +109,18 @@ export const getLatestComparasCodeByEmailOrPhone = async (
   try {
     const response = await axios.get(
       `${baseUrl}/komparas-codes/latestemailOrPhone/${emailOrPhone}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error adding shop:', error);
+    throw error;
+  }
+}
+
+export const getAllKomparasCodes = async () => {
+  try {
+    const response = await axios.get(
+      `${baseUrl}/komparas-codes`
     );
     return response.data;
   } catch (error) {
