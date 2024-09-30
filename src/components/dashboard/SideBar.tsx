@@ -7,6 +7,7 @@ import { CgProfile } from "react-icons/cg";
 import { IoMdSettings } from "react-icons/io";
 import { IoMdHelpCircleOutline } from "react-icons/io";
 import { Link } from "react-router-dom";
+import { BsCode, BsJournalAlbum } from "react-icons/bs";
 
 const MenuItem = ({ icon: Icon, label, selected, onClick }:any) => (
   <div className={`menu-item flex cursor-pointer text-md font-medium py-2 ${selected ? 'active' : ''}`} onClick={onClick}>
@@ -26,7 +27,8 @@ const Sidebar = ({ selectedMenu, onMenuClick }:any) => {
           <MenuItem icon={FaShopSlash} label="Shops" selected={selectedMenu === 'shops'} onClick={() => onMenuClick('shops')} />
           <MenuItem icon={FaProductHunt} label="Products" selected={selectedMenu === 'products'} onClick={() => onMenuClick('products')} />
           <MenuItem icon={MdCategory} label="Categories" selected={selectedMenu === 'categories'} onClick={() => onMenuClick('categories')} />
-          <MenuItem icon={MdCategory} label=" Jobs" selected={selectedMenu === 'jobs'} onClick={() => onMenuClick('jobs')} />
+          <MenuItem icon={BsJournalAlbum} label=" Jobs" selected={selectedMenu === 'jobs'} onClick={() => onMenuClick('jobs')} />
+          <MenuItem icon={BsCode} label=" Kodes" selected={selectedMenu === 'kodes'} onClick={() => onMenuClick('kodes')} />
 
         </div>
         <div className="flex flex-col">
