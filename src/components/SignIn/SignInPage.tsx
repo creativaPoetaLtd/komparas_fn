@@ -4,16 +4,13 @@ import MobileHomeNav from "../home/HomeMobileNav"
 import HomeNav from "../home/HomeNav"
 import loginp from "../../assets/login.png"
 import { toast } from "react-toastify"
-import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { login } from "../../api/auth/login"
 
 const SigninPage = () => {
     const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-//   const [showPassword, setShowPassword] = useState(true);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
   useEffect(() => {
     window.scrollTo(0, 0);
 }, []);
@@ -23,14 +20,11 @@ const SigninPage = () => {
     try {
       const res = await login({ email, password });
       if(res.status===true){
-      localStorage.setItem("KomparasLoginsInfo", JSON.stringify(res.user));
+      localStorage.setItem("loggedUserInfo", JSON.stringify(res.user));
       toast.success("Login successful");
       setLoading(false);
-      if(res?.user?.role === "admin"){
-        navigate("/dashboard");
-      } else {
-        navigate("/products");
-      }
+        window.location.href = '/dashboard';
+
       }
 
       else{

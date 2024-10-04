@@ -3,10 +3,13 @@ import { FaMessage } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import io from "socket.io-client";
 import { baseUrl } from "../../api";
+// import { useNavigate } from "react-router-dom";
 
 const TopNavbar = () => {
   const [notifications, setNotifications] = useState<any[]>([]);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
+  // const navigate = useNavigate();
 
   useEffect(() => {
     const socket = io(`${baseUrl}`);
@@ -24,6 +27,15 @@ const TopNavbar = () => {
     setShowNotifications(!showNotifications);
   };
 
+  const handleProfileClick = () => {
+    setShowProfileMenu(!showProfileMenu);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("loggedUserInfo");
+    window.location.href = '/login';
+  };
+  
   return (
     <div className="ml-[15%] px-3 py-2 shadow-sm">
       <div className="search-bar relative flex justify-between items-center">
@@ -40,10 +52,11 @@ const TopNavbar = () => {
         </div>
         <div className="search-bar__right flex space-x-10">
           {/* Message Icon with Notification Count */}
-          <div className="relative flex justify-center items-center text-2xl cursor-pointer"
-               onClick={handleNotificationClick}>
+          <div
+            className="relative flex justify-center items-center text-2xl cursor-pointer"
+            onClick={handleNotificationClick}
+          >
             <FaMessage />
-            {/* Notification count positioned relative to the message icon */}
             {notifications.length > 0 && (
               <span className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full">
                 {notifications.length}
@@ -55,12 +68,32 @@ const TopNavbar = () => {
             <FaBell />
           </div>
 
-          <div className="search-bar__right__icon flex text-4xl justify-center items-center">
-            <img
-              src="https://i.pravatar.cc/150?img=8"
-              alt="user"
-              className="w-[40px] h-[40px] rounded-full"
-            />
+          {/* Profile Image with Dropdown */}
+          <div className="relative">
+            <div
+              className="search-bar__right__icon flex text-4xl justify-center items-center cursor-pointer"
+              onClick={handleProfileClick}
+            >
+              <img
+                src="https://i.pravatar.cc/150?img=8"
+                alt="user"
+                className="w-[40px] h-[40px] rounded-full"
+              />
+            </div>
+
+            {/* Profile Menu (Dropdown) */}
+            {showProfileMenu && (
+              <div className="absolute right-0 mt-2 w-48 bg-white border rounded-md shadow-lg z-10">
+                <ul className="py-1">
+                  <li
+                    className="px-4 py-2 text-gray-800 hover:bg-gray-100 cursor-pointer"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </li>
+                </ul>
+              </div>
+            )}
           </div>
         </div>
       </div>

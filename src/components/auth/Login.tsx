@@ -7,7 +7,6 @@ import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
 import { login } from "../../api/auth/login";
-import { useNavigate } from "react-router-dom";
 
 
 
@@ -16,22 +15,17 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(true);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     try {
       const res = await login({ email, password });
+      console.log("responseeeeeeeeeeeeeeeeeeeeeeeeeeeeee", res);
       if(res.status===true){
       localStorage.setItem("KomparasLoginsInfo", JSON.stringify(res.user));
       toast.success("Login successful");
-      setLoading(false);
-      if(res?.user?.role === "admin"){
-        navigate("/dashboard");
-      } else {
-        navigate("/");
-      }
+   
       }
 
       else{
