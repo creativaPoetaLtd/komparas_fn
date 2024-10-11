@@ -6,6 +6,7 @@ import { HiBars3BottomLeft } from "react-icons/hi2";
 import { FaSearch } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import { getAllProducts } from '../../api/product';
+import { isAdminFromLocalStorage } from '../Footer';
 
 
 const MobileHomeNav = () => {
@@ -108,11 +109,9 @@ const lastPart = urlParts[urlParts.length - 1];
       </Menu.Item> */}
     </Menu>
   );
-  const isAdminFromLocalStorag:any = JSON.parse(localStorage.getItem("KomparasLoginsInfo") as any) || {};
-  const isAdminFromLocalStorage = isAdminFromLocalStorag.role === "admin" ? true : false;
 
   return (
-    <div className={`w-full text-white lg:hidden flex ${!isAdminFromLocalStorage ? "bg-[#0C203B]" : "bg-[#848482]"}  h-fit justify-between flex-col`}>
+    <div className={`w-full text-white lg:hidden flex ${isAdminFromLocalStorage() ? "bg-[#848482]" : "bg-[#0C203B]"}  h-fit justify-between flex-col`}>
       <nav className=" flex justify-between items-center p-4">
         <div>
           <Dropdown overlay={burgerMenu}>

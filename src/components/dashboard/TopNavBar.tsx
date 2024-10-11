@@ -5,6 +5,12 @@ import io from "socket.io-client";
 import { baseUrl } from "../../api";
 // import { useNavigate } from "react-router-dom";
 
+export const handleLogout = () => {
+  localStorage.removeItem("authToken");
+  window.location.href = '/login';
+};
+
+
 const TopNavbar = () => {
   const [notifications, setNotifications] = useState<any[]>([]);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -30,12 +36,6 @@ const TopNavbar = () => {
   const handleProfileClick = () => {
     setShowProfileMenu(!showProfileMenu);
   };
-
-  const handleLogout = () => {
-    localStorage.removeItem("loggedUserInfo");
-    window.location.href = '/login';
-  };
-  
   return (
     <div className="ml-[15%] px-3 py-2 shadow-sm">
       <div className="search-bar relative flex justify-between items-center">

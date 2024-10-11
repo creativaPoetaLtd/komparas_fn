@@ -10,6 +10,7 @@ import { addDayProduct3, getDayProduct3, updateDayProduct3 } from '../../api/off
 import { getAllProducts } from '../../api/product';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { isAdminFromLocalStorage } from '../Footer';
 
 const TimingProduct = () => {
     const [isFormVisible, setIsFormVisible] = useState(false);
@@ -21,10 +22,7 @@ const TimingProduct = () => {
     const handleRefresh = () => {
       setRefresh(!refresh);
     }
-    const isAdminFromLocalStorag:any = JSON.parse(localStorage.getItem("KomparasLoginsInfo") as any) || {};
-    const isAdminFromLocalStorage = isAdminFromLocalStorag.role === "admin" ? true : false;
     
-  
     useEffect(() => {
       const fetchDayProduct = async () => {
         const data = await getDayProduct3();
@@ -156,9 +154,9 @@ const TimingProduct = () => {
         <div className='flex  flex-col w-full lg:px-[4rem] px-2'>
             <div className='flex lg:flex-row md:flex-col flex-col w-full justify-between md:h-[520px] h-fit'>
                 <div className='bunner lg:w-[63%] md:w-full w-full h-full  py-4 lg:pl-2 pl-2'>
-                    <div className={`mainPage flex ${!isAdminFromLocalStorage ? "bg-[#0C203B]" : "bg-[#848482]"} pb-5 h-full relative`}>
+                    <div className={`mainPage flex ${isAdminFromLocalStorage() ? "bg-[#848482]" : "bg-[#0C203B]"} pb-5 h-full relative`}>
                         {
-                            isAdminFromLocalStorage && (
+                            isAdminFromLocalStorage() && (
                                 <button onClick={() => setIsFormVisible(true)} className="absolute text-xs bottom-1 right-1 bg-green-400 text-white p-1 rounded-lg mr-2 mt-2">Add Product</button>
                             )
                         }

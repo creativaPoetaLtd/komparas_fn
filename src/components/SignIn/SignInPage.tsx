@@ -19,8 +19,9 @@ const SigninPage = () => {
     setLoading(true);
     try {
       const res = await login({ email, password });
+      console.log("responseeeeeeeeeeeeeeeeeeeeeeeeeeeeee", res);
       if(res.status===true){
-      localStorage.setItem("loggedUserInfo", JSON.stringify(res.user));
+      localStorage.setItem("authToken", res.token);
       toast.success("Login successful");
       setLoading(false);
         window.location.href = '/dashboard';

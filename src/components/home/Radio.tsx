@@ -3,6 +3,7 @@ import { ArrowRight } from '@phosphor-icons/react';
 import { getAllProducts } from '../../api/product';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { isAdminFromLocalStorage } from '../Footer';
 
 const RadioSection = () => {
   const [products, setProducts] = React.useState<any[]>([]);
@@ -15,14 +16,12 @@ const RadioSection = () => {
   }
     , []);
   const prod3 = products[(products?.length) - 3]
-  const isAdminFromLocalStorag:any = JSON.parse(localStorage.getItem("KomparasLoginsInfo") as any) || {};
-  const isAdminFromLocalStorage = isAdminFromLocalStorag.role === "admin" ? true : false;
 
   return (
     <div className='flex flex-col w-full lg:px-[4rem] lg:mt-0 2xl:mt-0 xl:mt-0 md:mt-96 px-2'>
       <div className='flex md:flex-row flex-col w-full justify-between md:h-[520px] h-fit'>
         <div className='bunner w-full h-full  py-4 lg:pl-1 pl-1'>
-          <div className={`mainPage flex md:flex-row flex-col m-auto items-center ${!isAdminFromLocalStorage ? "bg-[#0C203B]" : "bg-[#848482]"}  justify-between h-full relative`}>
+          <div className={`mainPage flex md:flex-row flex-col m-auto items-center ${isAdminFromLocalStorage() ? "bg-[#848482]" : "bg-[#0C203B]"} justify-between h-full relative`}>
             <div className='mainPageContent lg:w-[30%] md:w-[50%] w-full flex flex-col m-auto justify-center items-start h-full p-8'>
 
               <div className='flex mt-6'>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
-import { getAllShops, deleteShop, updateShopAcceptance } from "../../../../api/getAllShops"
+import { deleteShop, updateShopAcceptance } from "../../../../api/getAllShops"
+import { fetchAllShops } from "../../../../api/shops"
 
 interface AddShopProps {
   setIsAddShop: (isAddShop: boolean) => void
@@ -14,8 +15,9 @@ const ShopListing = ({ setIsAddShop, setIsEditShop, setSelectedShopId }: AddShop
 
   const fetchShops = async () => {
     setLoading(true)
-    const shops = await getAllShops()
-    setShops(shops?.data)
+    const shops = await fetchAllShops();
+    
+    setShops(shops)
     setLoading(false)
   }
 

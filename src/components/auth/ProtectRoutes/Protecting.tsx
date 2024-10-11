@@ -2,12 +2,12 @@ import { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 
 interface ProtectedRouteProps {
-  user: { role: string } | null;
+  token: string;
   children: ReactNode;
 }
 
-const ProtectedRoute = ({ user, children }: ProtectedRouteProps) => {
-  const isLoggedIn = !!user;
+const ProtectedRoute = ({ token, children }: ProtectedRouteProps) => {
+  const isLoggedIn = !!token;
 
   if (isLoggedIn) {
     return <>{children}</>;

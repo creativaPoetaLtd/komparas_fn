@@ -5,6 +5,8 @@ import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { getAllProducts } from '../../api/product';
 import { UserOutlined } from '@ant-design/icons';
+import { isAdminFromLocalStorage } from '../Footer';
+import { handleLogout } from '../dashboard/TopNavBar';
 
 const HomeNav = () => {
   const location = useLocation();
@@ -48,12 +50,8 @@ const lastPart = urlParts[urlParts.length - 1];
     setSelectedMenu(path || 'home');
   }, [location]);
 
-  const isLogin = localStorage.getItem("KomparasLoginsInfo");
   const navigate = useNavigate();
-  const handleLogout = () => {
-    localStorage.removeItem("KomparasLoginsInfo");
-    navigate("/login");
-  }
+
 
   const menu = (
     <Menu>
@@ -64,18 +62,15 @@ const lastPart = urlParts[urlParts.length - 1];
       </Menu.Item>
       <Menu.Item key="2">
         <button onClick={handleLogout}>
-          {isLogin ? "  Sohoka" : "Injira"}
+          {isAdminFromLocalStorage() ? "  Sohoka" : "Injira"}
         </button>
       </Menu.Item>
     
     </Menu>
   );
 
-  const isAdminFromLocalStorag: any = JSON.parse(localStorage.getItem("KomparasLoginsInfo") as any) || {};
-  const isAdminFromLocalStorage = isAdminFromLocalStorag.role === "admin";
-
   return (
-    <nav className={`w-full text-white lg:flex hidden justify-between px-32 pb-3 pt-7 ${!isAdminFromLocalStorage ? "bg-[#0C203B]" : "bg-[#848482]"} `}>
+    <nav className={`w-full text-white lg:flex hidden justify-between px-32 pb-3 pt-7 ${isAdminFromLocalStorage() ? "bg-[#848482]" : "bg-[#0C203B]"} `}>
       <div className='logo flex my-auto justify-center pl-5 '>
         <Link className='text-xl text-white font-semibold' to={'/'}>
           <img src='/cc.png' alt='logo' className='h-8' />

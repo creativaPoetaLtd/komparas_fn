@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useSwipeable } from 'react-swipeable';
 import AddOtheShopsModal from './AddingOtherShopsModel';
 import { removeShopFromProduct } from '../../api/shops';
+import { isAdminFromLocalStorage } from '../Footer';
 
 interface Product {
   products: any;
@@ -159,10 +160,10 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
                             price?.vendor_id === shop?._id && (
                               <td key={priceIndex} className="text-[#353535] item-start m-auto p-r2">
                                 <Link to={`shop/${shop?._id}`} className="bg-black text-yellow-500 px-2 py-1 rounded-md">Yirebe</Link>
-                                {/* {isAdminFromLocalStorage &&( */}
+                                {isAdminFromLocalStorage() &&(
                                 <button className='deleteButton bg-red-500 ml-2 text-white px-2 py-1 rounded-md'
                                   onClick={() => deleteShopFromProduct(shop?._id)}> X </button>
-                                {/* )} */}
+                                )} 
                               </td>
                             )
                           ))}
@@ -174,14 +175,14 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
                 ))}
               </tbody>
             </table>
-            {/* {isAdminFromLocalStorage && ( */}
+            {isAdminFromLocalStorage() && (
               <button
                 className="bg-black text-yellow-500 px-2 py-1 rounded-md"
                 onClick={() => setIsModalOpen(true)}
               >
                 Add Other Shops
               </button>
-            {/* )} */}
+            )} 
             <AddOtheShopsModal
 
               isOpen={isModalOpen}
