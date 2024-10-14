@@ -2,11 +2,30 @@
 import { baseUrl } from '.';
 import axios from "axios";
 
-export const getAllShops = async () => {
-    const res = axios.get(`${baseUrl}/shops`);
-    return await res;
-}
-// api/shops.ts
+// Function to fetch all shops, with token (if logged in)
+export const fetchAllShops = async () => {
+  try {
+    // Get the token from localStorage
+    const token = localStorage.getItem('authToken');
+
+    // Set the Authorization header if token exists
+    const config = token
+      ? {
+          headers: {
+            Authorization: `Bearer ${token}`, // Ensure it starts with 'Bearer '
+          },
+        }
+      : {};
+
+    // Fetch the shops
+    const response = await axios.get(`${baseUrl}/shops`, config);
+    return response.data; // Return the data (shops)
+  } catch (error) {
+    console.error('Error fetching shops:', error);
+    throw error;
+  }
+};
+
 
 export const addShopToProduct = async (
   productId: string,

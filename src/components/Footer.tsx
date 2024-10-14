@@ -13,16 +13,16 @@ import { FaWhatsapp } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 
 
-
-
+export const isAdminFromLocalStorage = () => {
+  const token = localStorage.getItem("authToken");
+  return token !== null; 
+};
 
 const Footer: React.FC = () => {
-  const isAdminFromLocalStorag:any = JSON.parse(localStorage.getItem("KomparasLoginsInfo") as any) || {};
-  const isAdminFromLocalStorage = isAdminFromLocalStorag.role === "admin" ? true : false;
 
   return (
     <footer className={`flex md:text-base text-sm flex-col justify-between items-center text-white w-full lg:px-[8
-      rem] px-2 ${!isAdminFromLocalStorage ? "bg-[#0C203B]" : "bg-[#848482]"}  py-8`}>
+      rem] px-2 ${isAdminFromLocalStorage() ? "bg-[#848482]" : "bg-[#0C203B]"}  py-8`}>
       <div className='grid lg:grid-cols-4 grid-cols-2 gap-10 md:gap-32 lg:gap-44 pb-8'>
         <div className='flex card1 flex-col space-y-3'>
           <h1 className='flex font-bold text-[#EDB62E]'>Komparas</h1>

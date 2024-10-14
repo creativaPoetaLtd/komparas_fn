@@ -2,12 +2,12 @@
 import React from "react";
 import { getAllProducts } from "../../api/product";
 import { Link } from "react-router-dom";
+import { isAdminFromLocalStorage } from "../Footer";
 interface NewArrivalProps {
     productData: any;
 }
 const NewArrival: React.FC<NewArrivalProps> = ({}) => {
-    const isAdminFromLocalStorag:any = JSON.parse(localStorage.getItem("KomparasLoginsInfo") as any) || {};
-    const isAdminFromLocalStorage = isAdminFromLocalStorag.role === "admin" ? true : false;
+
     const [products, setProducts] = React.useState<any[]>([]);
     React.useEffect(() => {
       const fetchProducts = async () => {
@@ -41,7 +41,7 @@ const NewArrival: React.FC<NewArrivalProps> = ({}) => {
                 {/* <h1 className='flex text-2xl text-[#0C203B] mt-3 font-semibold'>Telefoni zikigera ku isoko</h1> */}
             </div>
             <div className="flex lg:flex-row px-2 md:flex-col flex-col w-full lg:space-x-8 lg:space-y-0 space-y-3">
-                <div className={`flex lg:w-1/2 md:w-full w-full h-[600px] relative ${!isAdminFromLocalStorage ? "bg-[#0C203B]" : "bg-[#848482]"} `}>
+                <div className={`flex lg:w-1/2 md:w-full w-full h-[600px] relative ${isAdminFromLocalStorage() ? "bg-[#848482]" : "bg-[#0C203B]"} `}>
                 <div className="absolute w-[70%] left-12 md:w-[40%] md:left-8 bottom-32 rounded-lg shadow-md justify-center items-center m-auto text-white bg-black bg-opacity-50 flex flex-col">
     <h1 className="flex font-semibold">
         {
@@ -65,7 +65,7 @@ const NewArrival: React.FC<NewArrivalProps> = ({}) => {
                     </div>
                 </div>
                 <div className="flex lg:w-1/2 w-full flex-col lg:space-y-8 space-y-3 h-[600px]"> 
-                    <div className={`flex h-1/2 relative w-full ${!isAdminFromLocalStorage ? "bg-[#0C203B]" : "bg-[#848482]"} items-end`}>
+                    <div className={`flex h-1/2 relative w-full ${isAdminFromLocalStorage() ? "bg-[#848482]" : "bg-[#0C203B]"} items-end`}>
                     <div className="absolute md:bottom-8 bottom-4 md:w-[40%] w-[60%] md:left-6 left-1 z-1 text-white bg-black bg-opacity-50 py-2 items-center shadow-md rounded-lg flex flex-col">
     <h1 className="flex font-semibold">
         {
@@ -89,7 +89,7 @@ const NewArrival: React.FC<NewArrivalProps> = ({}) => {
                         </div>
                     </div>
                     <div className="w-full h-1/2 flex md:space-x-8 space-x-2">
-                        <div className={`flex w-1/2 relative ${!isAdminFromLocalStorage ? "bg-[#0C203B]" : "bg-[#848482]"} `}>
+                        <div className={`flex w-1/2 relative ${isAdminFromLocalStorage() ? "bg-[#848482]" : "bg-[#0C203B]"} `}>
                         <div className="absolute bg-black bg-opacity-50 w-[100%] md:w-[80%] p-2 items-center md:bottom-6 bottom-3 md:left-6 left-1 text-white shadow-md rounded-lg flex flex-col">
     <h1 className="flex font-semibold">
         {
@@ -112,7 +112,7 @@ const NewArrival: React.FC<NewArrivalProps> = ({}) => {
                                 }width={100} height={100} className="w-full h-full object-contain" />
                             </div>
                         </div>
-                        <div className={`flex w-1/2 relative ${!isAdminFromLocalStorage ? "bg-[#0C203B]" : "bg-[#848482]"} `}>
+                        <div className={`flex w-1/2 relative ${isAdminFromLocalStorage() ? "bg-[#848482]" : "bg-[#0C203B]"} `}>
                            <div className="absolute md:bottom-6 w-[98%] left-1 bottom-3 md:left-6 md:w-[80%] text-white bg-black bg-opacity-50 rounded-lg shadow-md items-center flex flex-col">
     <h1 className="flex font-semibold">
         {

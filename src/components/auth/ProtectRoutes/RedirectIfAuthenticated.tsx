@@ -2,12 +2,12 @@ import { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 
 interface RedirectIfAuthenticatedProps {
-  user: { role: string } | null;
+  token: string;
   children: ReactNode;
 }
 
-const RedirectIfAuthenticated = ({ user, children }: RedirectIfAuthenticatedProps) => {
-  const isLoggedIn = !!user;
+const RedirectIfAuthenticated = ({ token, children }: RedirectIfAuthenticatedProps) => {
+  const isLoggedIn = !!token;
 
   if (isLoggedIn) {
     return <Navigate to="/dashboard" />;

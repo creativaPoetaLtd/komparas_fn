@@ -6,6 +6,7 @@ import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 import { Link, useNavigate } from 'react-router-dom';
 import { getAllProducts } from '../../api/product';
 import { Phone } from '@phosphor-icons/react';
+import { isAdminFromLocalStorage } from '../Footer';
 
 const SlidingCards: React.FC = () => {
   const PrevArrow = (props: any) => {
@@ -68,8 +69,7 @@ const SlidingCards: React.FC = () => {
     };
     fetchProducts();
   }, []);
-    const isAdminFromLocalStorag: any = JSON.parse(localStorage.getItem("KomparasLoginsInfo") as any) || {};
-  const isAdminFromLocalStorage = isAdminFromLocalStorag.role === "admin" ? true : false;
+
 
   const navigate = useNavigate();
   const handleViewAllProducts = () => {
@@ -122,9 +122,7 @@ const SlidingCards: React.FC = () => {
 
 <div className="flex justify-center mt-12 w-full">
          <button
-           className={`${
-             !isAdminFromLocalStorage ? "bg-[#0C203B]" : "bg-[#848482]"
-           } text-white p-2 text-sm rounded-md underline underline-offset-4`}
+           className={`${isAdminFromLocalStorage() ? "bg-[#848482]" : "bg-[#0C203B]"} text-white p-2 text-sm rounded-md underline underline-offset-4`}
            onClick={handleViewAllProducts}
          >
            Reba zose

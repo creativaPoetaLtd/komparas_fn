@@ -4,6 +4,7 @@ import { UploadSimple } from "@phosphor-icons/react";
 import { getAllProducts } from "../../api/product";
 import React from "react";
 import { Link } from "react-router-dom";
+import { isAdminFromLocalStorage } from "../Footer";
 interface ProductOfTheDayProps {
   productData: any;
 }
@@ -24,8 +25,7 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
     fetchProducts();
   }
     , []);
-  const isAdminFromLocalStorag:any = JSON.parse(localStorage.getItem("KomparasLoginsInfo") as any) || {};
-  const isAdminFromLocalStorage = isAdminFromLocalStorag.role === "admin" ? true : false;
+
   useEffect(() => {
     const fetchDayProduct = async () => {
       const data = await getDayProduct();
@@ -119,7 +119,7 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
 
   return (
     <div className='bunner flex flex-col self-center m-auto justify-center lg:w-[94%] w-full lg:h-[632px] h-full p-4 pl-4'>
-      <div className={`mainPage  flex md:flex-row flex-col justify-between ${!isAdminFromLocalStorage ? "bg-[#0C203B]" : "bg-[#848482]"}  h-full relative md:px-20 px-6 pt-6`}>
+      <div className={`mainPage  flex md:flex-row flex-col justify-between ${isAdminFromLocalStorage() ? "bg-[#848482]" : "bg-[#0C203B]"}  h-full relative md:px-20 px-6 pt-6`}>
         <div className='mainPageContent md:w-[60%] w-full h-full md:p-12 p-1 my-auto justify-center flex flex-col'>
           <div className='flex'>
             <p className='text-[#FFFFFF] text-sm md:ml-1 my-auto font-thin justify-center'>Telefoni y'umunsi</p>
@@ -138,7 +138,7 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
           <div className="w-full h-full object-cover">
             <img src={dayProduct[0]?.image} height={998} width={406} alt="" className="w-[406px] object-contain h-full" />
           </div>
-          {isAdminFromLocalStorage && (
+          {isAdminFromLocalStorage() && (
             <button onClick={() => setIsFormVisible(true)} className="bg-[#EDB62E] absolute right-3 bottom-2 text-white px-4 py-2 rounded mt-4">Upload New Product</button>
           )}
           {/* <button onClick={() => setIsFormVisible(true)} className="bg-[#EDB62E] absolute right-3 bottom-2 text-white px-4 py-2 rounded mt-4">Upload New Product</button> */}

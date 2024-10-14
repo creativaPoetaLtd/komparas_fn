@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { addDayProduct2, getDayProduct2, updateDayProduct2 } from '../../api/offer';
 import { getAllProducts } from '../../api/product';
 import { Link } from 'react-router-dom';
+import { isAdminFromLocalStorage } from '../Footer';
 
 const Time2 = () => {
     const [isFormVisible, setIsFormVisible] = useState(false);
@@ -41,8 +42,6 @@ const Time2 = () => {
       product: ""
     });
     const [imageUrl, setImageUrl] = useState<string | null>(null);
-    const isAdminFromLocalStorag:any = JSON.parse(localStorage.getItem("KomparasLoginsInfo") as any) || {};
-    const isAdminFromLocalStorage = isAdminFromLocalStorag.role === "admin" ? true : false;
   
     
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -127,7 +126,7 @@ const Time2 = () => {
         </div>
     </div>
     {
-        isAdminFromLocalStorage && (
+        isAdminFromLocalStorage() && (
             <button onClick={() => setIsFormVisible(true)} className="absolute bottom-1 right-1 bg-black text-white p-1 text-sm rounded-md">Add Product</button>
         )
     }

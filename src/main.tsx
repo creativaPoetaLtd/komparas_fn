@@ -39,8 +39,8 @@ import RegisterShop from './components/about/registerShop.tsx'
 import ProtectedRoute from './components/auth/ProtectRoutes/Protecting.tsx'
 import RedirectIfAuthenticated from './components/auth/ProtectRoutes/RedirectIfAuthenticated.tsx'
 
-let userddata = JSON.parse(localStorage.getItem("loggedUserInfo")!);
-let user = userddata;
+let userddata = localStorage.getItem("authToken");
+let user = userddata || '';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
 
@@ -48,17 +48,17 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
       <Routes>
       <Route path="/login" element={
-          <RedirectIfAuthenticated user={user}>
+          <RedirectIfAuthenticated token={user}>
             <SigninPage />
           </RedirectIfAuthenticated>
         } />
         <Route path="/signup" element={
-          <RedirectIfAuthenticated user={user}>
+          <RedirectIfAuthenticated token={user}>
             <SignupPage />
           </RedirectIfAuthenticated>
         } />
         <Route path="/dashboard" element={
-          <ProtectedRoute user={user}>
+          <ProtectedRoute token={user}>
             <Dashboard />
           </ProtectedRoute>
         } />

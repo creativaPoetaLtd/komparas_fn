@@ -6,7 +6,7 @@ const UserAvatal = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("KomparasLoginsInfo");
+    localStorage.removeItem("authToken");
     navigate('/login')
   }
     const [showProfileInfo, setShowProfileInfo] = React.useState(false);

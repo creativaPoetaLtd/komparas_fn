@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { addDayProduct1, getDayProduct1, updateDayProduct1 } from '../../api/offer';
 import { getAllProducts } from '../../api/product';
 import { Link } from 'react-router-dom';
+import { isAdminFromLocalStorage } from '../Footer';
 
 
 const Time1 = () => {
@@ -16,8 +17,7 @@ const Time1 = () => {
     const handleRefresh = () => {
       setRefresh(!refresh);
     }
-  const isAdminFromLocalStorag:any = JSON.parse(localStorage.getItem("KomparasLoginsInfo") as any) || {};
-  const isAdminFromLocalStorage = isAdminFromLocalStorag.role === "admin" ? true : false;
+
   const [products, setProducts] = React.useState<any[]>([]);
   useEffect(() => {
     const fetchProducts = async () => {
@@ -121,7 +121,7 @@ const Time1 = () => {
       image?.click();
     };
   return (
-    <div className={`h-[50%] sm:h-[50%] lg:h-[50%] 2xl:h-[50%] md:h-[100%] flex w-full  justify-between ${!isAdminFromLocalStorage ? "bg-[#0C203B]" : "bg-[#848482]"}  relative`}>
+    <div className={`h-[50%] sm:h-[50%] lg:h-[50%] 2xl:h-[50%] md:h-[100%] flex w-full  justify-between ${isAdminFromLocalStorage() ? "bg-[#848482]" : "bg-[#0C203B]"}  relative`}>
     <div className='absolute top-8 rounded-md p-2 right-12 w-fit h-fit bg-[#EDB62E] text-white'>
         <p className='text-lg'>{dayProduct[0]?.offer}% OFF</p>
     </div>
@@ -144,7 +144,7 @@ const Time1 = () => {
         <div className="w-full h-full object-cover">
             <img src={ dayProduct[0]?.image } height={312} width={312} alt="" className="w-[312px] h-full object-contain" />
             {
-                isAdminFromLocalStorage && (
+                isAdminFromLocalStorage() && (
                     <button onClick={() => setIsFormVisible(true)} className="absolute bottom-1 right-1 bg-black text-white p-1 text-sm rounded-md">Add Product</button>
                 )
             }

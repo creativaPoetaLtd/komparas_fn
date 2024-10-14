@@ -1,6 +1,6 @@
 // Modal.tsx
 import React, { useEffect, useState } from 'react';
-import { getAllShops } from '../../api/shops';
+import { fetchAllShops } from '../../api/shops';
 import { addShopToProduct } from '../../api/shops'; // Import the API function
 
 interface ModalProps {
@@ -39,7 +39,7 @@ const AddOtherShopsModal: React.FC<ModalProps> = ({
   useEffect(() => {
     const fetchShops = async () => {
       try {
-        const { data } = await getAllShops();
+        const { data } = await fetchAllShops();
         setAllShops(data);
       } catch (error) {
         console.error('Failed to fetch shops:', error);
