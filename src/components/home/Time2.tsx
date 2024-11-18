@@ -4,18 +4,25 @@ import { addDayProduct2, getDayProduct2, updateDayProduct2 } from '../../api/off
 import { getAllProducts } from '../../api/product';
 import { Link } from 'react-router-dom';
 import { isAdminFromLocalStorage } from '../Footer';
+import { getAllShops } from '../../api/getAllShops';
 
 const Time2 = () => {
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [loading, setLoading] = useState(false);
-  
     const [dayProduct, setDayProduct] = useState<any>([]);
     const [refresh, setRefresh] = useState(false);
-  
     const handleRefresh = () => {
       setRefresh(!refresh);
     }
-  
+    const [shops, setShops] = React.useState<any[]>([]);
+    useEffect(() => {
+      const fetchShops = async () => {
+        const response = await getAllShops();
+        setShops(response?.data);
+      }
+      fetchShops();
+    }
+      , []);
     const [products, setProducts] = React.useState<any[]>([]);
     useEffect(() => {
       const fetchProducts = async () => {
@@ -39,7 +46,8 @@ const Time2 = () => {
       offer: "",
       price: "",
       image: undefined,
-      product: ""
+      product: "",
+      shop: ""
     });
     const [imageUrl, setImageUrl] = useState<string | null>(null);
   
@@ -72,6 +80,7 @@ const Time2 = () => {
             price: newImageData.price || dayProduct[0].price,
             image: newImageData.image || dayProduct[0].image,
             product: newImageData.product || dayProduct[0].product,
+            shop: newImageData.shop || dayProduct[0].shop,
           };
           await updateDayProduct2(updatedData);
         } else {
@@ -84,7 +93,8 @@ const Time2 = () => {
           offer: "",
           price: "",
           image: undefined,
-          product: ""
+          product: "",
+          shop: ""
         });
         handleRefresh();
         setLoading(false);
@@ -108,7 +118,8 @@ const Time2 = () => {
         offer: "",
         price: "",
         image: undefined,
-        product: ""
+        product: "",
+        shop: ""
       });
       setIsFormVisible(false);
     };
@@ -138,7 +149,7 @@ const Time2 = () => {
         <div className='flex justify-center text-start'>
             <p className=' font-thin justify-start text-start flex'>{dayProduct[0]?.price} Rwf</p>
         </div>
-        <Link to={`/product/${dayProduct[0]?.product?._id}`} className="flex space-x-2 rounded-md text-sm mt-6 md:p-3 p-2 md:px-4 px-2 font-semibold bg-[#EDB62E] text-white">
+        <Link to={`/product/${dayProduct[0]?.product?._id}/shop/${dayProduct[0]?.shop?.id}?shop=shop`} className="flex space-x-2 rounded-md text-sm mt-6 md:p-3 p-2 md:px-4 px-2 font-semibold bg-[#EDB62E] text-white">
             <p className="">Reba byose</p>
             <ArrowRight className="m-auto justify-center" />
         </Link>
@@ -223,6 +234,17 @@ const Time2 = () => {
                   {products.map((product) => (
                     <option key={product._id} value={product._id}>
                       {product.product_name}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  className="border border-gray-300 p-2 mb-4"
+                  onChange={(e) => setNewImageData({ ...newImageData, shop: e.target.value })}
+                >
+                  <option value="">Select related Shop</option>
+                  {shops?.map((shop) => (
+                    <option key={shop._id} value={shop._id}>
+                      {shop.name}
                     </option>
                   ))}
                 </select>

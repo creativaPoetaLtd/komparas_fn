@@ -15,6 +15,7 @@ import Location from "./Location";
 import MobileHomeNav from "../../home/HomeMobileNav";
 import { getShopById } from "../../../api/getAllShops";
 import OtherShops from "./OtherShops";
+import { useSearchParams } from "react-router-dom";
 
 const ShopPage = () => {
     const [products, setProduct] = useState<any>([]);
@@ -22,6 +23,8 @@ const ShopPage = () => {
     const [shopProducts, setShopProducts] = useState<any>([]);
     const { productId }: any = useParams();
     const { shopId }: any = useParams();
+    const [searchParams] = useSearchParams();
+    const search = searchParams.get("shop");
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -74,7 +77,9 @@ const ShopPage = () => {
                         </div>
                         <RelatedProfducts shopProducts={shopProducts} vendorID={shopId} shopData={shopData} />
                         <Line />
+                        {search !== "shop" &&
                         <OtherShops products={products} productID={productId} vendorID={shopId} />
+                        }
                         <div className="flex flex-col md:hidden">
                             <Line />
                         </div>

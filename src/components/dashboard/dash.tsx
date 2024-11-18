@@ -12,6 +12,7 @@ import Settings from './components/Settings';
 import Help from './components/Help';
 import JobApplicationsTable from './Jobs/JobList';
 import KomparaKodeTable from './Codes/KomparasKodes';
+import AdsManagementPage from './ads/AdsPage';
 
 function Dashboard() {
     const [selectedMenu, setSelectedMenu] = useState('dashboard'); // Set the default selected menu to 'dashboard'
@@ -36,6 +37,7 @@ function Dashboard() {
                     {selectedMenu === 'helps' && <Help />}
                     {selectedMenu === 'jobs' && <JobApplicationsTable />}
                     {selectedMenu === 'kodes' && <KomparaKodeTable />}
+                    {selectedMenu === 'ads' && <AdsManagementPage />}
                 </div>
             </div>
         </div>

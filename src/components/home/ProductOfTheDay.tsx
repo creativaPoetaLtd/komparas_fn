@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { addDayProduct, getDayProduct, updateDayProduct } from "../../api/offer";
 import { UploadSimple } from "@phosphor-icons/react";
 import { getAllProducts } from "../../api/product";
+import { getAllShops } from "../../api/getAllShops";
 import React from "react";
 import { Link } from "react-router-dom";
 import { isAdminFromLocalStorage } from "../Footer";
@@ -40,8 +41,19 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
     offer: "",
     price: "",
     image: undefined,
-    product: ""
+    product: "",
+    shop: "",
   });
+  const [shops, setShops] = React.useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchShops = async () => {
+      const response = await getAllShops();
+      setShops(response?.data);
+    }
+    fetchShops();
+  }
+    , []);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -70,7 +82,8 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
           offer: newImageData.offer || dayProduct[0].offer,
           price: newImageData.price || dayProduct[0].price,
           image: newImageData.image || dayProduct[0].image,
-          product: newImageData.product || dayProduct[0].product
+          product: newImageData.product || dayProduct[0].product,
+          shop: newImageData?.shop || dayProduct[0].shop
         };
         await updateDayProduct(updatedData);
       } else {
@@ -83,7 +96,8 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
         offer: "",
         price: "",
         image: undefined,
-        product: ""
+        product: "",
+        shop: ""
       });
       handleRefresh();
       setLoading(false);
@@ -106,7 +120,8 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
       offer: "",
       price: "",
       image: undefined,
-      product: ""
+      product: "",
+      shop:""
     });
     setIsFormVisible(false);
   };
@@ -130,7 +145,7 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
           <p className='text-[#FFFFFF] text-sm mt-2 font-thin '>
             {dayProduct[0]?.description}
           </p>
-          <Link to={`/product/${dayProduct[0]?.product?._id}`} className="flex space-x-2 p-2 px-4 rounded w-fit h-fit text-sm mt-2 bg-[#EDB62E]">
+          <Link to={`/product/${dayProduct[0]?.product?._id}/shop/${dayProduct[0]?.shop?._id}?shop=shop`} className="flex space-x-2 p-2 px-4 rounded w-fit h-fit text-sm mt-2 bg-[#EDB62E]">
             <p className="">Reba aho wayigurira</p>
           </Link>
         </div>
@@ -141,7 +156,6 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
           {isAdminFromLocalStorage() && (
             <button onClick={() => setIsFormVisible(true)} className="bg-[#EDB62E] absolute right-3 bottom-2 text-white px-4 py-2 rounded mt-4">Upload New Product</button>
           )}
-          {/* <button onClick={() => setIsFormVisible(true)} className="bg-[#EDB62E] absolute right-3 bottom-2 text-white px-4 py-2 rounded mt-4">Upload New Product</button> */}
         </div>
       </div>
       {isFormVisible && (
@@ -222,6 +236,17 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
                   {products.map((product) => (
                     <option key={product._id} value={product._id}>
                       {product.product_name}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  className="border border-gray-300 p-2 mb-4"
+                  onChange={(e) => setNewImageData({ ...newImageData, shop: e.target.value })}
+                >
+                  <option value="">Select related Shop</option>
+                  {shops?.map((shop) => (
+                    <option key={shop._id} value={shop._id}>
+                      {shop.name}
                     </option>
                   ))}
                 </select>

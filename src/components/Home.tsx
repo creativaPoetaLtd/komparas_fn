@@ -15,6 +15,7 @@ import Questions from "./home/Questions";
 import MobileHomeNav from "./home/HomeMobileNav";
 import { useEffect, useState } from "react";
 import { getAllProducts } from "../api/product";
+import AdSlider from "./home/Ads";
 
 const Home = () => {
   const [searchValue, ] = useState("");
@@ -44,6 +45,7 @@ const Home = () => {
       <HomeBurner />
       <SlidingCards />
       <CategoryCards />
+      <AdSlider />
       <ProductOfTheDay productData={productsData} />
       <TimingProduct />
       <NewProduct />

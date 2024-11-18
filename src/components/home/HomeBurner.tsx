@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
-import {  fetchParentCategoriesm } from "../../api/getAllCategories";
+import { fetchParentCategoriesm } from "../../api/getAllCategories";
 import { Phone } from "@phosphor-icons/react";
 import { Menu, MenuProps } from 'antd';
 import { CiCircleChevLeft, CiCircleChevRight } from "react-icons/ci";
 import { useNavigate } from "react-router-dom"
-import { getAllProducts } from "../../api/product";
+import { getAllAds } from "../../api/ads";
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -29,27 +29,29 @@ const HomeBurner = () => {
   const [categories, setCategories] = useState<any>([]);
   const [typingIndex, setTypingIndex] = useState(0);
   const navigate = useNavigate();
-  const [products, setProducts] = React.useState<any[]>([]);
+  const [ads, setAds] = React.useState<any[]>([]);
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const data = await fetchParentCategoriesm();            
-      setCategories(data?.data);          
+      const data = await fetchParentCategoriesm();
+      setCategories(data?.data);
     }
     fetchCategories();
   }, []);
-  React.useEffect(() => {
-    const fetchProducts = async () => {
-      const response = await getAllProducts();
-      setProducts(response?.data?.products?.reverse());
-    };
-    fetchProducts();
-  }, []);
 
+  useEffect(() => {
+    const fetchAds = async () => {
+      const response = await getAllAds();
+      setAds(response?.data?.advertisements);
+    };
+    fetchAds();
+  }
+    , []);
+ 
   useEffect(() => {
     const typingTimer = setTimeout(() => {
       setTypingIndex(prevIndex => (prevIndex + 1) % (maxTitleLength + 1));
-    }, 100); 
+    }, 100);
     return () => clearTimeout(typingTimer);
   }, [typingIndex]);
   const maxTitleLength = 120;
@@ -80,59 +82,63 @@ const HomeBurner = () => {
 
   const nextSlide = () => {
     if (slider) {
-       slider.slickNext();
+      slider.slickNext();
     }
-   };
-   
-   const prevSlide = () => {
-    if (slider) {
-       slider.slickPrev();
-    }
-   };
+  };
 
-  let slider: Slider | null  = null;
+  const prevSlide = () => {
+    if (slider) {
+      slider.slickPrev();
+    }
+  };
+
+  let slider: Slider | null = null;
 
   return (
     <div className='bunnerPage flex z-10 md:w-[100%] w-[92%] m-auto md:px-16 px-0'>
       <div className=' sideCategories w-fit hidden bg-white lg:flex h-full'>
-        <Menu 
-          style={{ width: 200, boxShadow: 'white', border: 'none', borderRight: "white" }} 
-          mode="vertical" 
-          items={categoryItems} 
+        <Menu
+          style={{ width: 200, boxShadow: 'white', border: 'none', borderRight: "white" }}
+          mode="vertical"
+          items={categoryItems}
           onClick={handleMenuClick}
         />
       </div>
       <Slider {...sliderSettings} className='lg:w-[80%] w-[100%] self-center h-full' ref={sliderRef => slider = sliderRef}>
-      {products.slice(0,7).map((product: any) => (
-          <div key={product._id} className={`relative bunnerPAgeDiv lg:w-3/4 w-[90%] ${!isAdminFromLocalStorage ? "bg-[#0C203B]" : "bg-[#848482]"} mt-6 h-full md:py-4 py-4 md:pl-4 pl-0 px-0`}>
+        {ads.map((ad: any) => (
+          <div key={ad._id} className={`relative bunnerPAgeDiv lg:w-3/4 w-[90%] ${!isAdminFromLocalStorage ? "bg-[#0C203B]" : "bg-[#848482]"} mt-6 h-full md:py-4 py-4 md:pl-4 pl-0 px-0`}>
             <div className={`mainPage flex md:flex-row flex-col  md:h-[275px] h-fit relative`}>
               <div className='mainPageContent md:w-[44%] w-full h-full md:p-12 p-5'>
-               {
-                product?.product_description?.length > 200 ? (
-                  <p className="text-white text-lg">{product?.product_description?.slice(0, 200)}...</p>
-                ) : (
-                  <p className="text-white text-lg">{product?.product_description}</p>
-                )
-               }
-               <button
-                onClick={() => navigate(`/product/${product._id}`)}
-                className="bg-[#FFD700] text-black px-12 py-2 mt-4 rounded-md">Yirebe</button>
+                {
+                  ad?.description?.length > 200 ? (
+                    <p className="text-white text-lg">{ad?.description?.slice(0, 200)}...</p>
+                  ) : (
+                    <p className="text-white text-lg">{ad?.description}</p>
+                  )
+                }
+
+                {ad.product_id  && 
+                <button
+                  onClick={() => navigate(`/product/${ad.product_id}`)}
+                  className="bg-[#FFD700] text-black px-12 py-2 mt-4 rounded-md">Yirebe</button> 
+                }
               </div>
               <div className="image md:w-[60%] w-full h-full md:p-4 p-1 pb-12">
-                <div                 onClick={() => navigate(`/product/${product._id}`)}
- className="w-full cursor-pointer h-full object-cover">
+                <div 
+                  className="w-full cursor-pointer h-full object-cover">
                   <img src={
-                    product?.product_image 
+                    ad?.image
                   } height={100} width={100} alt="" className="w-full h-[254px] object-contain" />
                 </div>
               </div>
+              
             </div>
             <button className="absolute top-1/2 left-2 " onClick={prevSlide}>
-            <CiCircleChevLeft className="bg bg-gray-300 rounded-full hover:bg-slate-800" />
+              <CiCircleChevLeft className="bg bg-gray-300 rounded-full hover:bg-slate-800" />
             </button>
-        <button className="absolute top-1/2 right-2" onClick={nextSlide}>
-        <CiCircleChevRight className="bg bg-gray-300 rounded-full hover:bg-slate-800" />
-        </button>
+            <button className="absolute top-1/2 right-2" onClick={nextSlide}>
+              <CiCircleChevRight className="bg bg-gray-300 rounded-full hover:bg-slate-800" />
+            </button>
           </div>
         ))}
       </Slider>
