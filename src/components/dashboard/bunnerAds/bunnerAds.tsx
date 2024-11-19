@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Popconfirm, message } from 'antd';
+import { Table, Button, message } from 'antd';
 import axios from 'axios';
 import AdUploadForm from './AdUploadForm';
 import { baseUrl } from '../../../api';
@@ -23,9 +23,9 @@ const AdvertisementList: React.FC = () => {
 
   const deleteAd = async (id: string) => {
     try {
-      await axios.delete(`/api/advertisements/${id}`);
+      await axios.delete(`${baseUrl}/ads/${id}`);
       message.success('Advertisement deleted successfully');
-      fetchAds(); // Refresh the list
+      fetchAds(); 
     } catch (error) {
       message.error('Failed to delete advertisement');
     }
@@ -36,14 +36,13 @@ const AdvertisementList: React.FC = () => {
     { title: 'Description', dataIndex: 'description', key: 'description' },
     { title: 'Ad Type', dataIndex: 'ad_type', key: 'ad_type' },
     { title: 'Actions', key: 'actions', render: (_: any, record: any) => (
-      <Popconfirm
-        title="Are you sure to delete this advertisement?"
-        onConfirm={() => deleteAd(record.id)}
-        okText="Yes"
-        cancelText="No"
-      >
-        <Button danger>Delete</Button>
-      </Popconfirm>
+     
+        <Button 
+        onClick={
+            () => {
+                deleteAd(record._id);
+            }
+        } danger>Delete</Button>
     ) },
   ];
 
