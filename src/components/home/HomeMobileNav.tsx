@@ -10,7 +10,6 @@ import { isAdminFromLocalStorage } from '../Footer';
 
 
 const MobileHomeNav = () => {
-//get the last part of the url
 
 const location = useLocation();
 const urlParts = location.pathname.split("/");
