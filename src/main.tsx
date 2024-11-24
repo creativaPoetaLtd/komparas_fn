@@ -38,6 +38,7 @@ import WhyShopsUseKompras from './components/about/WhyShopsUseKompras.tsx'
 import RegisterShop from './components/about/registerShop.tsx'
 import ProtectedRoute from './components/auth/ProtectRoutes/Protecting.tsx'
 import RedirectIfAuthenticated from './components/auth/ProtectRoutes/RedirectIfAuthenticated.tsx'
+import SingleServicePage from './components/SingleService.tsx'
 
 let userddata = localStorage.getItem("authToken");
 let user = userddata || '';
@@ -88,6 +89,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/products" element={<Products />} />
         <Route path="/products/compare"  element={<ComparisonDrawer open={false} onClose={() => { } } refresh={false} />} />
         <Route path="/product/:productId/shop/:shopId" element={<ShopPage />} />
+        <Route path="/services/:id" element={<SingleServicePage />} />
       </Routes>
     </BrowserRouter>
     <ToastContainer />

@@ -13,7 +13,7 @@ const SlidingCards: React.FC = () => {
     const { onClick } = props;
     return (
       <button
-        className="slick-arrow absolute -bottom-8 md:flex hidden md:-right-5 right-0 z-10 text-gray-900 rounded-full w-8 h-8 items-center justify-center"
+        className="slick-arrow absolute -bottom-8 md:flex hidden md:right-6 right-0 z-10 text-gray-900 rounded-full w-8 h-8 items-center justify-center"
         onClick={onClick}
       >
         <GoArrowRight />
@@ -25,7 +25,7 @@ const SlidingCards: React.FC = () => {
     const { onClick } = props;
     return (
       <button
-        className="slick-arrow absolute -bottom-8 md:flex hidden right-3 z-10 text-gray-900 rounded-full w-8 h-8  items-center justify-center"
+        className="slick-arrow absolute -bottom-8 md:flex hidden right-14 z-10 text-gray-900 rounded-full w-8 h-8  items-center justify-center"
         onClick={onClick}
       >
         <GoArrowLeft />
@@ -77,7 +77,7 @@ const SlidingCards: React.FC = () => {
   };
 
   return (
-    <div className="lg:w-[100%] z-0 w-full justify-center self-center py-12 lg:mt-4 md:mt-4 xl:mt-4 2xl:mt-4 mt-[1%] md:px-[5.8rem] flex-col lg:relative block px-3">
+    <div className="lg:w-[96%] z-0 w-full justify-center self-center py-12 lg:mt-4 md:mt-4 xl:mt-4 2xl:mt-4 mt-[1%] m  flex-col lg:relative block px-3">
       {products.length > 0 ? (
         <Slider {...settings}
           className="flex justify-center"

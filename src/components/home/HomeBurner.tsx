@@ -106,7 +106,9 @@ const HomeBurner = () => {
       </div>
       <Slider {...sliderSettings} className='lg:w-[80%] w-[100%] self-center h-full' ref={sliderRef => slider = sliderRef}>
         {ads.map((ad: any) => (
-          <div key={ad._id} className={`relative bunnerPAgeDiv lg:w-3/4 w-[90%] ${!isAdminFromLocalStorage ? "bg-[#0C203B]" : "bg-[#848482]"} mt-6 h-full md:py-4 py-4 md:pl-4 pl-0 px-0`}>
+          <div key={ad._id}
+           
+           className={`relative bunnerPAgeDiv lg:w-3/4 w-[90%] ${!isAdminFromLocalStorage ? "bg-[#0C203B]" : "bg-[#848482]"} mt-6 h-full md:py-4 py-4 md:pl-4 pl-0 px-0`}>
             <div className={`mainPage flex md:flex-row flex-col  md:h-[275px] h-fit relative`}>
               <div className='mainPageContent md:w-[44%] w-full h-full md:p-12 p-5'>
                 {
@@ -117,14 +119,49 @@ const HomeBurner = () => {
                   )
                 }
 
-                {ad.product_id  && 
+                
                 <button
-                  onClick={() => navigate(`/product/${ad.product_id}`)}
+                  onClick={() => {
+                    if (ad.product_id) {
+                      navigate(`/product/${ad.product_id}`);
+                    }
+                  else  if (ad.shop_id) {
+                      navigate(`/shop/${ad.shop_id}`);
+                    }
+                    else  {
+                      navigate(`/services/${ad.service_id}`);
+                    }
+                  }}
                   className="bg-[#FFD700] text-black px-12 py-2 mt-4 rounded-md">Yirebe</button> 
-                }
+                
               </div>
-              <div className="image md:w-[60%] w-full h-full md:p-4 p-1 pb-12">
+              <div
+               onClick={() => {
+                if (ad.product_id) {
+                  navigate(`/product/${ad.product_id}`);
+            
+                }
+                else if (ad.shop_id) {
+                  navigate(`/shop/${ad.shop_id}`);
+                }
+                else {
+                  navigate(`/service/${ad.service_id}`);
+                }
+            }}
+               className="image md:w-[60%] w-full h-full md:p-4 p-1 pb-12">
                 <div 
+                onClick={() => {
+                  if (ad.product_id) {
+                    navigate(`/product/${ad.product_id}`);
+              
+                  }
+                  if (ad.shop_id) {
+                    navigate(`/shop/${ad.shop_id}`);
+                  }
+                  if (ad.service_id) {
+                    navigate(`/service/${ad.service_id}`);
+                  }
+              }}
                   className="w-full cursor-pointer h-full object-cover">
                   <img src={
                     ad?.image

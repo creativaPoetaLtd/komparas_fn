@@ -4,57 +4,31 @@ import MobileHomeNav from '../home/HomeMobileNav';
 import HomeNav from '../home/HomeNav';
 import SubNav from '../Navigations/SubNav';
 import ServiceCard from './serviceCard';
-import { FaShieldAlt, FaMobileAlt, FaRecycle, FaLaptop } from 'react-icons/fa';
+import axios from 'axios';
+import { baseUrl } from '../../api';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const services = [
-  {
-    icon: <FaShieldAlt className="text-5xl" />,
-    title: 'Kongererwa Guarantee',
-    description: 'Iyo uguze telefoni unyuze kuri komparas, ubusanzwe uhabwa guarantee ya amezi 6 ariko tugira uburyo bwo kongera guarantee kuri telefoni yawe ku buryo igihe cyose ipfuye uza tukayigukorera ku buntu',
-  },
-  {
-    icon: <FaMobileAlt className="text-5xl" />,
-    title: 'Ubwishingizi bwa Telefoni',
-    description: 'Dutanga kandi ubwishingizi bwa telefoni uguriye kuri komparas, kugira ngo igihe cyose ya telefoni ihuye na ibibazo bitunguranye uzabashe guhabwa ubufasha.',
-  },
-  {
-    icon: <FaRecycle className="text-5xl" />,
-    title: 'Kugugura telefoni mu gihe umukiriya ayigaruye', 
-    description: 'Igihe uguriye telefoni iwacu ariko nyuma ugashaka kugura indi ushobora kuzana iyo wari ufite tukayigura hanyuma ukatwongera amafaranga tukaguha indi wifuza',
-  },
-  {
-    icon: <FaLaptop className="text-5xl" />,
-    title: 'Gushushanya',
-    description: 'Dutanga kandi ubufasha mu gukora ibishushanyo bitandukanye harimo nka flyers, business cards, logo, save the dates, invitations, banners, posters, brochures,....',
-  },
-  {
-    icon: <FaLaptop className="text-5xl" />,
-    title: 'Gushushanya',
-    description: 'Dutanga kandi ubufasha mu gukora ibishushanyo bitandukanye harimo nka flyers, business cards, logo, save the dates, invitations, banners, posters, brochures,....',
-  },
-  {
-    icon: <FaLaptop className="text-5xl" />,
-    title: 'Gushushanya',
-    description: 'Dutanga kandi ubufasha mu gukora ibishushanyo bitandukanye harimo nka flyers, business cards, logo, save the dates, invitations, banners, posters, brochures,....',
-  },
-  {
-    icon: <FaLaptop className="text-5xl" />,
-    title: 'Gushushanya',
-    description: 'Dutanga kandi ubufasha mu gukora ibishushanyo bitandukanye harimo nka flyers, business cards, logo, save the dates, invitations, banners, posters, brochures,....',
-  },
-  {
-    icon: <FaLaptop className="text-5xl" />,
-    title: 'Gushushanya',
-    description: 'Dutanga kandi ubufasha mu gukora ibishushanyo bitandukanye harimo nka flyers, business cards, logo, save the dates, invitations, banners, posters, brochures,....',
-  },
-  {
-    icon: <FaLaptop className="text-5xl" />,
-    title: 'Gushushanya',
-    description: 'Dutanga kandi ubufasha mu gukora ibishushanyo bitandukanye harimo nka flyers, business cards, logo, save the dates, invitations, banners, posters, brochures,....',
-  },
-];
 
 const ServicePage = () => {
+
+  const navigate = useNavigate();
+  const [services, setServices] = React.useState<any[]>([]);
+  React.useEffect(() => {
+    const fetchServices = async () => {
+      const response = await axios.get(`${baseUrl}/services`);
+      setServices(response.data.advertisements);
+    };
+    fetchServices();
+  }, []);
+  
+  const handleNavigation = (id: string) => {
+    console.log(`Navigating to: /services/${id}`);
+    navigate(`/services/${id}`);
+  };
+  
+
+    
   return (
     <div className="flex flex-col h-fit">
             <SubNav />
@@ -70,9 +44,10 @@ const ServicePage = () => {
           {services.map((service, index) => (
             <ServiceCard
               key={index}
-              icon={service.icon}
-              title={service.title}
-              description={service.description}
+              icon={service.image}
+              title={service.service_name}
+              description={service.service_description}
+              onNavigate={() => handleNavigation(service._id)}
             />
           ))}
         </div>

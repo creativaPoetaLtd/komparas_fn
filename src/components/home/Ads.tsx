@@ -50,8 +50,8 @@ const AdSlider: React.FC = () => {
   };
 
   return (
-    <div className="relative w-full lg:px-[3rem] px-2 py-12 overflow-hidden rounded-lg shadow-lg">
-      <div className="relative h-[30rem]">
+    <div className='relative flex flex-col w-[88%] mx-auto justify-center  lg:px-[4rem] lg:mt-0 2xl:mt-0 xl:mt-0 md:mt-96 px-2 mb-8'>
+      <div className="relative h-[8rem]">
         {slides.map((slide, index) => (
           <div
             key={slide.id}
@@ -65,10 +65,10 @@ const AdSlider: React.FC = () => {
               width={3000}
               className="object-cover w-full h-full"
             />
-            <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/70 to-transparent text-white">
+            {/* <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/70 to-transparent text-white">
               <h2 className="text-3xl font-bold mb-2">{slide.name}</h2>
               <p className="text-lg">{slide.title}</p>
-            </div>
+            </div> */}
           </div>
         ))}
       </div>
@@ -76,15 +76,15 @@ const AdSlider: React.FC = () => {
         onClick={prevSlide}
         className="absolute md:left-12 left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/30 hover:bg-white/50 transition-colors"
       >
-        <ChevronLeft className="w-6 h-6 text-white" />
+        <ChevronLeft className="w-6 h-6 text-green-600" />
       </button>
       <button
         onClick={nextSlide}
         className="absolute md:right-12 right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/30 hover:bg-white/50 transition-colors"
       >
-        <ChevronRight className="w-6 h-6 text-white" />
+        <ChevronRight className="w-6 h-6 text-green-600" />
       </button>
-      <div className="absolute bottom-14 left-1/2 -translate-x-1/2 flex space-x-2">
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
         {slides.map((_, index) => (
           <button
             key={index}

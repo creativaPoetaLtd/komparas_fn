@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Input, Upload, Button, Select, message, Modal } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import { Form, Input, Button, Select, message, Modal } from 'antd';
 import { RcFile } from 'antd/es/upload/interface';
 import axios from 'axios';
 import { baseUrl } from '../../../api';
 import { getAllProducts } from '../../../api/product';
+import { getAllShops } from '../../../api/getAllShops';
 
 interface AdUploadFormProps {
   visible: boolean;
@@ -23,10 +23,14 @@ const AdUploadForm: React.FC<AdUploadFormProps> = ({ visible, onClose, onAdAdded
     formData.append('ad_type', values.ad_type);
   
     if (values.product_id) {
-      formData.append('product_id', values.product_id);
+      formData.append('product_id', values.product_id ?? undefined);
     }
-  
-    // Append the image file
+    if (values.shop_id) {
+      formData.append('shop_id', values.shop_id ?? undefined);
+    }
+    if (values.service_id) {
+      formData.append('service_id', values.service_id ?? undefined);
+    }
     if (values.image) {
       formData.append('image', values.image.originFileObj as RcFile);
     } else {
@@ -55,10 +59,28 @@ const AdUploadForm: React.FC<AdUploadFormProps> = ({ visible, onClose, onAdAdded
   }
     , []);
 
+    const [shops, setShops] = React.useState<any>([]);
+    React.useEffect(() => {
+      const fetchShops = async () => {
+        const response = await getAllShops();
+        setShops(response?.data);
+      }
+      fetchShops();
+    }, []);
+
+    const [services, setServices] = React.useState<any>([]);
+    React.useEffect(() => {
+      const fetchServices = async () => {
+        const response = await axios.get(`${baseUrl}/services`);
+        setServices(response?.data?.advertisements);
+      }
+      fetchServices();
+    }, []);
+
   const handleAdTypeChange = (value: string) => {
-    setAdType(value);
-    form.resetFields(['product_id', 'image']); 
+    setAdType(value); 
   };
+ 
 
   return (
     <Modal
@@ -101,8 +123,6 @@ const AdUploadForm: React.FC<AdUploadFormProps> = ({ visible, onClose, onAdAdded
             <Select.Option value="CATEGORY">Category</Select.Option>
           </Select>
         </Form.Item>
-
-        {/* Show Product ID field only when ad_type is PRODUCT */}
         {adType === 'PRODUCT' && (
           <Form.Item
             label="Product ID (only for Product ads)"
@@ -118,37 +138,40 @@ const AdUploadForm: React.FC<AdUploadFormProps> = ({ visible, onClose, onAdAdded
             </Select>
           </Form.Item>
         )}
-
-        {/* Show Upload field only when ad_type is not PRODUCT */}
-        {adType !== 'PRODUCT' && (
-         <Form.Item
-         label="Image"
-         name="image"
-         valuePropName="file"
-         getValueFromEvent={(e: any) => {
-           if (Array.isArray(e)) {
-             return e;
-           }
-           return e?.fileList?.[0]; // Return the first file in the file list
-         }}
-         rules={[{ required: true, message: 'Please upload an image' }]}
-       >
-         <Upload
-           name="image"
-           listType="picture"
-           maxCount={1}
-           beforeUpload={() => false} // Prevent auto-upload
-           onChange={(info) => console.log('Upload Info:', info.fileList)}
-         >
-           <Button icon={<UploadOutlined />}>Upload Image</Button>
-         </Upload>
-       </Form.Item>
-       
-        
-        
+        {adType === 'SHOP' && (
+          <Form.Item
+            label="Shop ID (only for Shop ads)"
+            name="shop_id"
+            rules={[{ required: true, message: 'Please enter the shop ID' }]}
+          >
+            <Select placeholder="Select shop">
+              {shops.map((shop: any) => (
+                <Select.Option key={shop._id} value={shop._id}>
+                  {shop.name}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
         )}
 
-        <Form.Item>
+        {adType === 'CATEGORY' && (
+          <Form.Item
+            label="Service ID (only for Category ads)"
+            name="service_id"
+            rules={[{ required: true, message: 'Please enter the service ID' }]}
+          >
+            <Select placeholder="Select service">
+              {services?.map((service: any) => (
+                <Select.Option key={service._id} value={service._id}>
+                  {service?.service_name}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+        )}
+
+        
+       <Form.Item>
           <Button htmlType="submit">
             Submit
           </Button>

@@ -72,7 +72,6 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
     }
   };
   const handleSubmit = async () => {
-
     try {
       if (dayProduct.length > 0) {
         setLoading(true);
@@ -89,7 +88,6 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
       } else {
         await addDayProduct(newImageData);
       }
-      // Clear the form after submitting
       setNewImageData({
         name: "",
         description: "",
@@ -113,7 +111,6 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
   };
 
   const handleCancel = () => {
-    // Clear the form on cancel
     setNewImageData({
       name: "",
       description: "",
@@ -133,7 +130,7 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
   };
 
   return (
-    <div className='bunner flex flex-col self-center m-auto justify-center lg:w-[94%] w-full lg:h-[632px] h-full p-4 pl-4'>
+    <div className='flex flex-col w-full lg:px-[4.5rem] lg:mt-0 2xl:mt-0 xl:mt-0 md:mt-96 px-2'>
       <div className={`mainPage  flex md:flex-row flex-col justify-between ${isAdminFromLocalStorage() ? "bg-[#848482]" : "bg-[#0C203B]"}  h-full relative md:px-20 px-6 pt-6`}>
         <div className='mainPageContent md:w-[60%] w-full h-full md:p-12 p-1 my-auto justify-center flex flex-col'>
           <div className='flex'>

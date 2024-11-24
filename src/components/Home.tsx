@@ -25,7 +25,7 @@ const Home = () => {
     const fetchProducts = async () => {
       const response = await getAllProducts();
       const allProducts = response?.data?.products;
-      // const productNames = allProducts.map((product: any) => product.product_name);
+     // const productNames = allProducts.map((product: any) => product.product_name);
       // setAutocompleteOptions(productNames);
       const filteredProducts = allProducts.filter((product: any) =>
         product.product_name.toLowerCase().includes(searchValue.toLowerCase())
@@ -57,7 +57,7 @@ const Home = () => {
       <Questions />
       </div>
     </div>
-  );
+  ); 
 };
 
 export default Home;

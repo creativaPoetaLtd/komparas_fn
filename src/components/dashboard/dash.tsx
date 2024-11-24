@@ -14,6 +14,7 @@ import JobApplicationsTable from './Jobs/JobList';
 import KomparaKodeTable from './Codes/KomparasKodes';
 import AdsManagementPage from './ads/AdsPage';
 import AdvertisementList from './bunnerAds/bunnerAds';
+import ServiceList from './services/Service';
 
 function Dashboard() {
     const [selectedMenu, setSelectedMenu] = useState('dashboard'); // Set the default selected menu to 'dashboard'
@@ -40,6 +41,7 @@ function Dashboard() {
                     {selectedMenu === 'kodes' && <KomparaKodeTable />}
                     {selectedMenu === 'ads' && <AdsManagementPage />}
                     {selectedMenu === 'bunner ads' && <AdvertisementList />}
+                    {selectedMenu === 'services' && <ServiceList />}
                 </div>
             </div>
         </div>

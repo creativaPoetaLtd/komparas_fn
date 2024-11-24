@@ -3,9 +3,9 @@ import { FaUsers } from "react-icons/fa6";
 import { FaProductHunt } from "react-icons/fa";
 import { FaShopSlash } from "react-icons/fa6";
 import { MdCategory } from "react-icons/md";
-import { CgProfile } from "react-icons/cg";
-import { IoMdSettings } from "react-icons/io";
-import { IoMdHelpCircleOutline } from "react-icons/io";
+// import { CgProfile } from "react-icons/cg";
+// import { IoMdSettings } from "react-icons/io";
+// import { IoMdHelpCircleOutline } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { BsCode, BsJournalAlbum } from "react-icons/bs";
 import { ShoppingBag } from "lucide-react";
@@ -32,13 +32,14 @@ const Sidebar = ({ selectedMenu, onMenuClick }:any) => {
           <MenuItem icon={BsCode} label=" Kodes" selected={selectedMenu === 'kodes'} onClick={() => onMenuClick('kodes')} />
           <MenuItem icon={ShoppingBag} label=" Ads" selected={selectedMenu === 'ads'} onClick={() => onMenuClick('ads')} />
           <MenuItem icon={ShoppingBag} label=" Bunner Ads" selected={selectedMenu === 'bunner ads'} onClick={() => onMenuClick('bunner ads')} />
+          <MenuItem icon={FaShopSlash} label=" Services" selected={selectedMenu === 'services'} onClick={() => onMenuClick('services')} />
 
         </div>
-        <div className="flex flex-col">
+        {/* <div className="flex flex-col">
           <MenuItem icon={CgProfile} label="Profile" selected={selectedMenu === 'profile'} onClick={() => onMenuClick('profile')} />
           <MenuItem icon={IoMdSettings} label="Settings" selected={selectedMenu === 'settings'} onClick={() => onMenuClick('settings')} />
           <MenuItem icon={IoMdHelpCircleOutline} label="Help" selected={selectedMenu === 'helps'} onClick={() => onMenuClick('helps')} />
-        </div>
+        </div> */}
       </div>
     </div>
   );
