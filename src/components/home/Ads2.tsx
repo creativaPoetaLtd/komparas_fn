@@ -7,14 +7,14 @@ interface SlideData {
   image: string;
 }
 
-const AdSlider: React.FC = () => {
+const AdSlider2: React.FC = () => {
 
   const [slides, setSlides] = useState<SlideData[]>([]);
 
     useEffect(() => {
         const fetchAds = async () => {
         const response = await getAllCompaniesAds();
-        setSlides(response?.data?.advertisements.slice(0, 2));
+        setSlides(response?.data?.advertisements.slice(2, 4));
         };
         fetchAds();
     }, []);
@@ -22,7 +22,7 @@ const AdSlider: React.FC = () => {
   return (
     <>
     {slides.length > 0 && (
-    <div className='relative flex flex-col w-[88%] mx-auto justify-center  lg:px-[4rem] lg:mt-0 2xl:mt-0 xl:mt-0 md:mt-96 px-2 mb-8'>
+    <div className=' bg-green-300 py-2 relative flex flex-col w-[90%] mx-auto justify-center  lg:px-[4rem] lg:mt-0 2xl:mt-0 xl:mt-0 md:mt-96 px-2 mb-8'>
       <div className="relative h-[8rem] gap-2 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 w-full
       ">
         {slides.map((slide) => (
@@ -37,4 +37,4 @@ const AdSlider: React.FC = () => {
   );
 };
 
-export default AdSlider;
+export default AdSlider2;

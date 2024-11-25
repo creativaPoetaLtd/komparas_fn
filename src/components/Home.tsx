@@ -16,6 +16,7 @@ import MobileHomeNav from "./home/HomeMobileNav";
 import { useEffect, useState } from "react";
 import { getAllProducts } from "../api/product";
 import AdSlider from "./home/Ads";
+import AdSlider2 from "./home/Ads2";
 
 const Home = () => {
   const [searchValue, ] = useState("");
@@ -50,6 +51,7 @@ const Home = () => {
       <TimingProduct />
       <NewProduct />
       <RadioSection />
+      <AdSlider2 />
       <DifferentProduct productData={productsData} />
       <NewArrival productData={productsData} />
       <ShopCards />
