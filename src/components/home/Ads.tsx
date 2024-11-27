@@ -22,12 +22,12 @@ const AdSlider: React.FC = () => {
   return (
     <>
     {slides.length > 0 && (
-    <div className='relative flex flex-col w-[88%] mx-auto justify-center  lg:px-[4rem] lg:mt-0 2xl:mt-0 xl:mt-0 md:mt-96 px-2 mb-8'>
-      <div className="relative h-[8rem] gap-2 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 w-full
+    <div className=' py-2 relative flex flex-col w-[90.5%] mx-auto justify-center lg:mt-0 2xl:mt-0 xl:mt-0 md:mt-96  mb-8'>
+      <div className="relative gap-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 w-full
       ">
         {slides.map((slide) => (
-          <div key={slide._id} className="relative h-[8rem]">
-            <img src={slide.image} alt={slide.name} className="object-cover h-[8rem] w-full" />
+          <div key={slide._id} className="relative">
+            <img src={slide.image} alt={slide.name} className="object-cover w-full" />
           </div>
         ))}
       </div>
