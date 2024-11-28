@@ -108,7 +108,7 @@ const HomeBurner = () => {
         {ads.map((ad: any) => (
           <div key={ad._id}
            
-           className={`relative bunnerPAgeDiv lg:w-3/4 w-[90%] ${!isAdminFromLocalStorage ? "bg-[#0C203B]" : "bg-[#848482]"} mt-6 h-full md:py-4 py-4 md:pl-4 pl-0 px-0`}>
+           className={`relative bunnerPAgeDiv lg:w-3/4 w-[90%] ${!isAdminFromLocalStorage ? "bg-[#0C203B]" : "bg-[#848482]"} mt-6 md:h-full h-[35rem] md:py-4 py-4 md:pl-4 pl-0 px-0`}>
             <div className={`mainPage flex md:flex-row flex-col  md:h-[275px] h-fit relative`}>
               <div className='mainPageContent md:w-[44%] w-full h-full md:p-12 p-5'>
                 {

@@ -17,6 +17,10 @@ import { useEffect, useState } from "react";
 import { getAllProducts } from "../api/product";
 import AdSlider from "./home/Ads";
 import AdSlider2 from "./home/Ads2";
+import AdSlider3 from "./home/Ads3";
+import AdSlider4 from "./home/Ads4";
+import AdSlider5 from "./home/Ads5";
+import AdSlider6 from "./home/Ads6";
 
 const Home = () => {
   const [searchValue, ] = useState("");
@@ -44,18 +48,22 @@ const Home = () => {
       <div className="xl:px-16 lg:px-16 px-0 w-full bg-white h-fit justify-between flex flex-col">
       <MobileHomeNav />
       <HomeBurner />
-      <SlidingCards />
-      <CategoryCards />
       <AdSlider />
+      <SlidingCards />
+      <AdSlider2 />
+      <CategoryCards />
       <ProductOfTheDay productData={productsData} />
       <TimingProduct />
+      <AdSlider3 />
       <NewProduct />
       <RadioSection />
-      <AdSlider2 />
+      <AdSlider4 />
       <DifferentProduct productData={productsData} />
       <NewArrival productData={productsData} />
+      <AdSlider5 />
       <ShopCards />
       <Parteners />
+      <AdSlider6 />
       <Questions />
       </div>
     </div>
