@@ -458,7 +458,7 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
                             disabled = {formData?.product_image === "" || formData?.product_name === "" || formData?.product_price === "" || formData?.product_description === "" || formData?.category === "" || formData?.vendor_prices === null || formData?.specifications === null}
                             className={`flex justify-center items-center w-96 h-10 rounded-md bg-blue-700 text-white ${formData?.product_image === "" || formData?.product_name === "" || formData?.product_price === "" || formData?.product_description === "" || formData?.category === "" || formData?.vendor_prices === null || formData?.specifications === undefined ? "opacity-50 cursor-not-allowed" : "opacity-100 cursor-pointer"}`}
                         >
-                            {loading ? "Loading..." : "Add Product"}
+                            {loading ? "Loading..." : "Update Product"}
                         </button>
                     </form>
                 </div>
