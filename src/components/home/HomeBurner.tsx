@@ -95,7 +95,7 @@ const HomeBurner = () => {
   let slider: Slider | null = null;
 
   return (
-    <div className='bunnerPage flex z-10 md:w-[100%] w-[92%] m-auto md:px-16 px-0'>
+    <div className='bunnerPage mb-12 flex z-10 md:w-[100%] w-[92%] m-auto md:px-16 px-0'>
       <div className=' sideCategories w-fit hidden bg-white lg:flex h-full'>
         <Menu
           style={{ width: 200, boxShadow: 'white', border: 'none', borderRight: "white" }}
@@ -108,7 +108,7 @@ const HomeBurner = () => {
         {ads.map((ad: any) => (
           <div key={ad._id}
            
-           className={`relative bunnerPAgeDiv lg:w-3/4 w-[90%] ${!isAdminFromLocalStorage ? "bg-[#0C203B]" : "bg-[#848482]"} mt-6 md:h-full h-[35rem] md:py-4 py-4 md:pl-4 pl-0 px-0`}>
+           className={`relative bunnerPAgeDiv lg:w-3/4 w-[90%] ${!isAdminFromLocalStorage ? "bg-black" : "bg-[#848482]"} mt-6 md:h-full h-[35rem] md:py-4 py-4 md:pl-4 pl-0 px-0`}>
             <div className={`mainPage flex md:flex-row flex-col  md:h-[275px] h-fit relative`}>
               <div className='mainPageContent md:w-[44%] w-full h-full md:p-12 p-5'>
                 {
@@ -122,14 +122,17 @@ const HomeBurner = () => {
                 
                 <button
                   onClick={() => {
-                    if (ad.product_id) {
+                    if (ad?.product_id) {
                       navigate(`/product/${ad.product_id}`);
                     }
                   else  if (ad.shop_id) {
                       navigate(`/shop/${ad.shop_id}`);
                     }
-                    else  {
+                  else if (ad.service_id)  {
                       navigate(`/services/${ad.service_id}`);
+                    }
+                    else  {
+                      navigate(`/`);
                     }
                   }}
                   className="bg-[#FFD700] text-black px-12 py-2 mt-4 rounded-md">Yirebe</button> 
@@ -144,8 +147,11 @@ const HomeBurner = () => {
                 else if (ad.shop_id) {
                   navigate(`/shop/${ad.shop_id}`);
                 }
+                else if (ad.service_id)  {
+                  navigate(`/services/${ad.service_id}`);
+                }
                 else {
-                  navigate(`/service/${ad.service_id}`);
+                  navigate("/");
                 }
             }}
                className="image md:w-[60%] w-full h-full md:p-4 p-1 pb-12">
@@ -158,8 +164,11 @@ const HomeBurner = () => {
                   if (ad.shop_id) {
                     navigate(`/shop/${ad.shop_id}`);
                   }
-                  if (ad.service_id) {
-                    navigate(`/service/${ad.service_id}`);
+                  else if (ad.service_id)  {
+                    navigate(`/services/${ad.service_id}`);
+                  }
+                  else {
+                    navigate("/");
                   }
               }}
                   className="w-full cursor-pointer h-full object-cover">

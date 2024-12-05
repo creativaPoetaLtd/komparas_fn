@@ -77,7 +77,7 @@ const SlidingCards: React.FC = () => {
   };
 
   return (
-    <div className="lg:w-[96%] z-0 w-full justify-center self-center py-12 lg:mt-4 md:mt-4 xl:mt-4 2xl:mt-4 mt-[1%] m  flex-col lg:relative block px-3">
+    <div className="lg:w-[96%] z-0 w-full justify-center self-center py-8 lg:mt-4 md:mt-4 xl:mt-4 2xl:mt-4 mt-[1%] m  flex-col lg:relative block px-3">
       {products.length > 0 ? (
         <Slider {...settings}
           className="flex justify-center"
