@@ -27,7 +27,7 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
         product_description: "",
         category: "",
         vendor_prices: [],
-        specifications: [],
+        product_specifications: [],
         product_image: undefined,
     });
     const [imageUrl, setImageUrl] = useState<string | null>(null);
@@ -53,7 +53,6 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
     const handleBackButton = () => {
         setIsEditProduct(false);
     };
-   // Update form data and specifications when product data is loaded
    useEffect(() => {
     if (productData) {
         setFormData({
@@ -62,11 +61,10 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
             product_description: productData.product_description || "",
             category: productData.category?.name || "", 
             vendor_prices: productData.vendor_prices || [],
-            specifications: productData.product_specifications || [],
+            product_specifications: productData.product_specifications || [],
             product_image: productData.product_image,
         });
 
-        // Initialize specifications and vendor prices
         setSpecifications(
             productData.product_specifications?.length 
                 ? productData.product_specifications 
@@ -79,7 +77,6 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
                 : [{ key: "", value: "" }]
         );
 
-        // Set image URL if product has an image
         if (productData.product_image) {
             setImageUrl(productData.product_image);
         }
@@ -106,7 +103,7 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
                 product_description: productData.product_description,
                 category: productData.category?._id || "", 
                 vendor_prices: productData.vendor_prices || [],
-                specifications: productData.product_specifications || [], 
+                product_specifications: productData.product_specifications || [], 
                 product_image: productData.product_image,
             });
         }
@@ -201,7 +198,7 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
             product_description: "",
             category: "",
             vendor_prices: [],
-            specifications: [],
+            product_specifications: [],
             product_image: undefined,
         });
         setSpecifications([{ key: "", value: "" }]);
@@ -219,7 +216,7 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
             product_description: formData?.product_description,
             category: formData.category,
             vendor_prices: vendor_prices,
-            specifications: specifications,
+            product_specifications: specifications,
             product_image: formData.product_image,
             our_review: productData?.our_review,
 
@@ -455,8 +452,8 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
                         </div>
                         <button
                             type="submit"
-                            disabled = {formData?.product_image === "" || formData?.product_name === "" || formData?.product_price === "" || formData?.product_description === "" || formData?.category === "" || formData?.vendor_prices === null || formData?.specifications === null}
-                            className={`flex justify-center items-center w-96 h-10 rounded-md bg-blue-700 text-white ${formData?.product_image === "" || formData?.product_name === "" || formData?.product_price === "" || formData?.product_description === "" || formData?.category === "" || formData?.vendor_prices === null || formData?.specifications === undefined ? "opacity-50 cursor-not-allowed" : "opacity-100 cursor-pointer"}`}
+                            disabled = {formData?.product_image === "" || formData?.product_name === "" || formData?.product_price === "" || formData?.product_description === "" || formData?.category === "" || formData?.vendor_prices === null || formData?.product_specifications === null}
+                            className={`flex justify-center items-center w-96 h-10 rounded-md bg-blue-700 text-white ${formData?.product_image === "" || formData?.product_name === "" || formData?.product_price === "" || formData?.product_description === "" || formData?.category === "" || formData?.vendor_prices === null || formData?.product_specifications === undefined ? "opacity-50 cursor-not-allowed" : "opacity-100 cursor-pointer"}`}
                         >
                             {loading ? "Loading..." : "Update Product"}
                         </button>

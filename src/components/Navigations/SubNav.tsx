@@ -48,7 +48,7 @@ const Marquee: React.FC<MarqueeProps> = ({ className, children }) => {
 const SubNav = () => {
   
     return (
-        <div className={`lg:flex md:flex-row flex-col md:px-32 px-2  m-auto p-2 text-white justify-end md:space-x-16 space-x-5 items-end w-full ${isAdminFromLocalStorage() ? "bg-[#848482]" : "bg-[#0C203B]"} `}>
+        <div className={`lg:flex md:flex-row flex-col md:px-32 px-2  m-auto p-2 text-white justify-end md:space-x-16 space-x-5 items-end w-full ${isAdminFromLocalStorage() ? "bg-[#848482]" : "bg-black"} `}>
 
             <Marquee className='flex justify-end w-full items-end'>
             <p className='text-sm'>Koresha Komparas Code, ugabanyirizweho 15% kuri buri telefoni yose uguriye mu Isaro shop <span className='ml-3'>
