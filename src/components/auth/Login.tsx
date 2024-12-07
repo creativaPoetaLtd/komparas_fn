@@ -21,7 +21,6 @@ const LoginForm = () => {
     setLoading(true);
     try {
       const res = await login({ email, password });
-      console.log("responseeeeeeeeeeeeeeeeeeeeeeeeeeeeee", res);
       if(res.status===true){
       localStorage.setItem("KomparasLoginsInfo", JSON.stringify(res.user));
       toast.success("Login successful");

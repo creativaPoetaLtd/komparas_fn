@@ -19,7 +19,6 @@ const SigninPage = () => {
     setLoading(true);
     try {
       const res = await login({ email, password });
-      console.log("responseeeeeeeeeeeeeeeeeeeeeeeeeeeeee", res);
       if(res.status===true){
       localStorage.setItem("authToken", res.token);
       toast.success("Login successful");

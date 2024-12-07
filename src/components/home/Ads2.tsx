@@ -20,7 +20,6 @@ const AdSlider2: React.FC = () => {
         };
         fetchAds();
     }, []);
-console.log("============", slides[1]);
 
   return (
     <>

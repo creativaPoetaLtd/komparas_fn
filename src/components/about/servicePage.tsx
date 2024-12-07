@@ -23,7 +23,6 @@ const ServicePage = () => {
   }, []);
   
   const handleNavigation = (id: string) => {
-    console.log(`Navigating to: /services/${id}`);
     navigate(`/services/${id}`);
   };
   

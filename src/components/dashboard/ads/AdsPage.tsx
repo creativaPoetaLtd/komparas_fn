@@ -142,13 +142,11 @@ const AdsManagementPage: React.FC = () => {
           setIsModalVisible(false);
           form.resetFields();
         } catch (error) {
-          console.log('Form Data for creation:', Object.fromEntries(formData));
           message.error('Failed to create ad');
         }
       } else {
         try {
           await axios.put(`/company-ads/${selectedAd._id}`, formData);
-          console.log('Form Data for update:', Object.fromEntries(formData));
           message.success('Ad updated successfully');
           setIsModalVisible(false);
           form.resetFields();
