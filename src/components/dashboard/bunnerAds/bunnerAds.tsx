@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button, message } from 'antd';
+import { Table, Button, message, Space } from 'antd';
 import axios from 'axios';
 import AdUploadForm from './AdUploadForm';
 import { baseUrl } from '../../../api';
+import { toggleAdvertActiveStatus } from '../../../api/ads';
+import { MdDelete, MdSync } from 'react-icons/md';
 
 const AdvertisementList: React.FC = () => {
   const [ads, setAds] = useState([]);
@@ -12,7 +14,7 @@ const AdvertisementList: React.FC = () => {
   const fetchAds = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${baseUrl}/ads`);
+      const response = await axios.get(`${baseUrl}/ads/admin`);
       setAds(response.data.advertisements);
     } catch (error) {
       message.error('Failed to fetch advertisements');
@@ -20,6 +22,16 @@ const AdvertisementList: React.FC = () => {
       setLoading(false);
     }
   };
+
+  const handleToggleAdvertActiveStatus = async (id: string) => {
+      try {
+        await toggleAdvertActiveStatus(id);
+        fetchAds();
+        message.success('Ad active status toggled successfully');
+      } catch (error) {
+        message.error('Failed to toggle ad active status');
+      }
+    };
 
   const deleteAd = async (id: string) => {
     try {
@@ -35,14 +47,22 @@ const AdvertisementList: React.FC = () => {
     { title: 'Title', dataIndex: 'title', key: 'title' },
     { title: 'Description', dataIndex: 'description', key: 'description' },
     { title: 'Ad Type', dataIndex: 'ad_type', key: 'ad_type' },
+    { title: 'Active', dataIndex: 'active', key: 'active', render: (active: boolean) => (
+      <span>{active ? 'Yes' : 'No'}</span>
+    ), },
     { title: 'Actions', key: 'actions', render: (_: any, record: any) => (
-     
-        <Button 
-        onClick={
-            () => {
-                deleteAd(record._id);
-            }
-        } danger>Delete</Button>
+        <Space>
+          <Button 
+          onClick={
+              () => {
+                  deleteAd(record._id);
+              }
+          } danger icon={<MdDelete />}/>
+        <Button
+          onClick={() => handleToggleAdvertActiveStatus(record._id)}
+          icon={<MdSync />}
+        />
+        </Space>
     ) },
   ];
 
