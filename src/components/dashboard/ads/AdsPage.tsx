@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getAllCompaniesAds } from '../../../api/ads';
+import { getAllCompaniesAdsAdmin, toggleAdActiveStatus } from '../../../api/ads';
 import { baseUrl } from '../../../api';
 import axios from 'axios';
 import { 
@@ -13,7 +13,7 @@ import {
   Space,
   message,
 } from 'antd';
-import { Delete } from 'lucide-react';
+import { MdDelete, MdSync } from 'react-icons/md';
 
 const { TabPane } = Tabs;
 
@@ -25,6 +25,7 @@ interface ICompanyAds {
   name: string;
   url: string;
   title: string;
+  active: Boolean;
   createdAt: string;
 }
 
@@ -42,7 +43,7 @@ const AdsManagementPage: React.FC = () => {
   
     useEffect(() => {
         const fetchAds = async () => {
-        const response = await getAllCompaniesAds();
+        const response = await getAllCompaniesAdsAdmin();
         setCompanyAds(response?.data?.advertisements);
         };
         fetchAds();
@@ -74,6 +75,14 @@ const AdsManagementPage: React.FC = () => {
       key: 'url',
     },
     {
+      title: 'Active',
+      dataIndex: 'active',
+      key: 'active',
+      render: (active: boolean) => (
+        <span>{active ? 'Yes' : 'No'}</span>
+      ),
+    },
+    {
       title: 'Created At',
       dataIndex: 'createdAt',
       key: 'createdAt',
@@ -92,7 +101,11 @@ const AdsManagementPage: React.FC = () => {
               () => {
                 handleDelete(record._id);
               }
-            } danger icon={<Delete />} />
+            } danger icon={<MdDelete />} />
+        <Button
+          onClick={() => handleToggleAdActiveStatus(record._id)}
+          icon={<MdSync />}
+        />
         </Space>
       ),
     },
@@ -119,6 +132,16 @@ const AdsManagementPage: React.FC = () => {
       message.success('Ad deleted successfully');
     } catch (error) {
       message.error('Failed to delete ad');
+    }
+  };
+  const handleToggleAdActiveStatus = async (id: string) => {
+    try {
+      await toggleAdActiveStatus(id);
+      message.success('Ad active status toggled successfully');
+      const response = await getAllCompaniesAdsAdmin();
+      setCompanyAds(response?.data?.advertisements);
+    } catch (error) {
+      message.error('Failed to toggle ad active status');
     }
   };
   const handleModalSubmit = async () => {

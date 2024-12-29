@@ -39,7 +39,7 @@ const AddOtherShopsModal: React.FC<ModalProps> = ({
   useEffect(() => {
     const fetchShops = async () => {
       try {
-        const { data } = await fetchAllShops();
+        const data = await fetchAllShops();
         setAllShops(data);
       } catch (error) {
         console.error('Failed to fetch shops:', error);

@@ -129,7 +129,7 @@ const lastPart = urlParts[urlParts.length - 1];
       )}
       <Dropdown overlay={menu} className='mt-1'>
         <Button>
-          <UserOutlined className='test text-white' />
+          <UserOutlined className='test text-black' />
         </Button>
       </Dropdown>
     </nav>
