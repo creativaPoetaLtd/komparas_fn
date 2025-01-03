@@ -7,6 +7,7 @@ import { UploadSimple } from "@phosphor-icons/react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { toast } from "react-toastify";
 import { Editor } from "primereact/editor";
+import AddCategoryForm from "../categories/AddCategoryForm"
 
 interface AddProductProps {
   setIsAddProduct: (isAddProduct: boolean) => void;
@@ -65,6 +66,7 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
     our_review: ourReview.map((key) => ({ key, value: "" })),
   });
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [isAddCategoryModalVisible, setIsAddCategoryModalVisible] = useState(false);
 
   const fetchCategories = async () => {
     setLoading(true);
@@ -124,14 +126,26 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
     });
   };
 
+  const handleCategoryChange = (category: string) => {
+    if (category === "other") {
+      setIsAddCategoryModalVisible(true);
+    } else {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        category,
+      }));
+    }
+  };
 
-  const handleCategoryChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      category: event.target.value,
-    }));
+ // Wrapper function to handle the onChange event for selecting category
+  const handleCategoryChangeWrapper = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    handleCategoryChange(event.target.value);
+  };
+
+  const handleAddNewCategory = (newCategory: any) => {
+    setCategories((prevCategories: any) => [...prevCategories, newCategory]);
+    // Hide the modal after adding the category
+    setIsAddCategoryModalVisible(false);
   };
 
   const handleRemoveProfilePicture = () => {
@@ -265,11 +279,11 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
               </label>
               <select
                 className="AddProductForm__form__inputs__category__input w-96 h-10 rounded-md border outline-blue-700 border-gray-300 px-2"
-                onChange={handleCategoryChange}
+                onChange={handleCategoryChangeWrapper}
                 value={formData.category}
               >
                 <option value="" disabled selected>
-                  Hotamo ubwoko
+                  Hitamo ubwoko
                 </option>
                 {loading ? (
                   <option>Loading categories...</option>
@@ -280,6 +294,7 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
                     </option>
                   ))
                 )}
+                <option value="other">Other (Ongeramo ubwoko bushya)</option>
               </select>
             </div>
             <div className="AddProductForm__form__inputs__price flex flex-col justify-start items-start mb-5">
@@ -378,6 +393,12 @@ const AddProduct = ({ setIsAddProduct }: AddProductProps) => {
           </form>
         </div>
       </div>
+      {isAddCategoryModalVisible && (
+        <AddCategoryForm
+          setIsAddCategory={setIsAddCategoryModalVisible}
+          onAddCategory={handleAddNewCategory}
+        />
+      )}
     </div>
   );
 };
