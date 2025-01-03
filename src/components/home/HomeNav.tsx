@@ -60,11 +60,13 @@ const lastPart = urlParts[urlParts.length - 1];
           Kwemeza
         </Link>
       </Menu.Item>
-      <Menu.Item key="2">
-        <button onClick={handleLogout}>
-          {isAdminFromLocalStorage() ? "  Sohoka" : "Injira"}
-        </button>
-      </Menu.Item>
+      {isAdminFromLocalStorage() && (
+        <Menu.Item key="3">
+          <button onClick={handleLogout}>
+            Sohoka
+          </button>
+        </Menu.Item>
+      )}
     
     </Menu>
   );

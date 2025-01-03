@@ -5,9 +5,10 @@ import { baseUrl } from "../../../../api";
 
 interface CategoriesProps {
   setIsAddCategory: (value: boolean) => void;
+  onAddCategory?: (newCategory: { id: string; name: string }) => void;
 }
 
-const AddCategoryForm = ({ setIsAddCategory }: CategoriesProps) => {
+const AddCategoryForm = ({ setIsAddCategory, onAddCategory}: CategoriesProps) => {
   const [, setLoading] = useState(false);
   const [categories, setCategories] = useState<any[]>([]);
   const [isAddSubCategory, setIsAddSubCategory] = useState(false);
@@ -63,20 +64,23 @@ const AddCategoryForm = ({ setIsAddCategory }: CategoriesProps) => {
   const handleAddCategory = async (e: any) => {
     e.preventDefault();
     setLoading(true);
-
+  
     try {
       const formDataToSend = new FormData();
       formDataToSend.append("name", formData.name);
       formDataToSend.append("parent_id", formData.parent_id);
-      // if (imageFile) {
+      //if (imageFile) {
         formDataToSend.append("image", imageFile);
-      // }
-
-      await axios.post(`${baseUrl}/category/add`, formDataToSend, {
+      //}
+  
+      const response = await axios.post(`${baseUrl}/category/add`, formDataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
+  
+      const newCategory = response.data.category;
+      onAddCategory?.(newCategory);
 
       setLoading(false);
       setIsAddCategory(false);
