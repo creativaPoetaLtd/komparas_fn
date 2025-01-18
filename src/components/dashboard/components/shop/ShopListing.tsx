@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { deleteShop, updateShopAcceptance } from "../../../../api/getAllShops";
 import { fetchAllShops } from "../../../../api/shops";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import ConfirmModal from "../../../models/ConfirmModal";
 
 interface AddShopProps {
   setIsAddShop: (isAddShop: boolean) => void;
@@ -17,6 +18,8 @@ const ShopListing = ({
   const [shops, setShops] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [currentShopId, setCurrentShopId] = useState<string | null>(null);
 
   const fetchShops = async () => {
     setLoading(true);
@@ -33,6 +36,18 @@ const ShopListing = ({
   const handleDeleteShop = async (id: string) => {
     await deleteShop(id);
     setRefresh((prev) => !prev);
+  };
+
+  const handleDeleteClick = (id: string) => {
+    setCurrentShopId(id);
+    setModalOpen(true);
+  };
+
+  const confirmDelete = () => {
+    if (currentShopId) {
+      handleDeleteShop(currentShopId);
+      setModalOpen(false);
+    }
   };
 
   const handleEdit = (id: string) => {
@@ -157,7 +172,7 @@ const ShopListing = ({
                     </button>
                     <button
                       className="shadow px-2"
-                      onClick={() => handleDeleteShop(shop?._id)}
+                      onClick={() => handleDeleteClick(shop?._id)}
                     >
                       <FaTrashAlt className="h-6 w-4 text-red-500" />
                     </button>
@@ -168,6 +183,13 @@ const ShopListing = ({
           </tbody>
         </table>
       </div>
+      <ConfirmModal
+        isOpen={isModalOpen}
+        onClose={() => setModalOpen(false)}
+        onConfirm={confirmDelete}
+        title="Delete Shop"
+        message="Are you sure you want to delete this shop?"
+      />
     </div>
   );
 };

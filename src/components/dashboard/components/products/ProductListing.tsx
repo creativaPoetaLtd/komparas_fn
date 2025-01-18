@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { getAllProducts } from "../../../../api/product";
 import { deleteProduct } from "../../../../api/product";
 import { FaEdit, FaTrashAlt, FaImage } from "react-icons/fa";
+import ConfirmModal from "../../../models/ConfirmModal";
+
 interface AddProductProps {
   setIsAddProduct: (isAddProduct: boolean) => void;
   setIsEditProduct: (isEditProduct: boolean) => void;
@@ -16,6 +18,9 @@ const ProductListing = ({
   const [products, setProducts] = useState<any>([]);
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [currentProductId, setCurrentProductId] = useState<string | null>(null);
+
   const fetchProducts = async () => {
     setLoading(true);
     const products = await getAllProducts();
@@ -28,6 +33,18 @@ const ProductListing = ({
   const handleDeleteProduct = async (id: any) => {
     await deleteProduct(id);
     setRefresh((prev) => !prev);
+  };
+
+  const handleDeleteClick = (id: string) => {
+    setCurrentProductId(id);
+    setModalOpen(true);
+  };
+
+  const confirmDelete = () => {
+    if (currentProductId) {
+        handleDeleteProduct(currentProductId);
+      setModalOpen(false);
+    }
   };
 
   const handleEdit = async (id: any) => {
@@ -139,7 +156,7 @@ const ProductListing = ({
                     </button>
                     <button
                       className="shadow px-2"
-                      onClick={() => handleDeleteProduct(product?._id)}
+                      onClick={() => handleDeleteClick(product?._id)}
                     >
                       <FaTrashAlt className="h-8 w-4 text-red-500" />
                     </button>
@@ -164,6 +181,13 @@ const ProductListing = ({
           </tr>
         )}
       </div>
+      <ConfirmModal
+        isOpen={isModalOpen}
+        onClose={() => setModalOpen(false)}
+        onConfirm={confirmDelete}
+        title="Delete Product"
+        message="Are you sure you want to delete this product?"
+      />
     </>
   );
 };

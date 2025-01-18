@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getUsers } from "../../../api/userCrud";
-import { FaHome, FaImage, FaTrashAlt } from "react-icons/fa";
+import { FaHome, FaTrashAlt } from "react-icons/fa";
 
 const Users = () => {
   const [users, setUsers] = useState<any>([]);
@@ -108,7 +108,7 @@ const Users = () => {
                       <FaHome className="h-8 w-4 text-green-500" />
                     </button>
                     <button className="shadow px-2">
-                      <FaImage className="h-8 w-4 text-yellow-500" />
+                      <FaHome className="h-8 w-4 text-yellow-500" />
                     </button>
                     <button className="shadow px-2">
                       <FaTrashAlt className="h-8 w-4 text-red-500" />

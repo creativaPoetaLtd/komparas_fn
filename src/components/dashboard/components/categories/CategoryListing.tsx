@@ -4,6 +4,7 @@ import {
   deleteCategory,
 } from "../../../../api/getAllCategories";
 import { FaHome, FaEdit, FaTrashAlt } from "react-icons/fa";
+import ConfirmModal from "../../../models/ConfirmModal";
 
 interface CategoriesProps {
   setIsAddCategory: (value: boolean) => void;
@@ -18,6 +19,9 @@ const CategoryListing = ({
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [currentCategoryId, setCurrentCategoryId] = useState<string | null>(null);
+
   useEffect(() => {
     getAllCategories()
       .then((res) => {
@@ -32,6 +36,18 @@ const CategoryListing = ({
         setRefresh(!refresh);
       })
       .catch(() => {});
+  };
+
+  const handleDeleteClick = (id: string) => {
+    setCurrentCategoryId(id);
+    setModalOpen(true);
+  };
+
+  const confirmDelete = () => {
+    if (currentCategoryId) {
+      handleDelete(currentCategoryId);
+      setModalOpen(false);
+    }
   };
 
   const handleEditCategory = async (id: any) => {
@@ -123,9 +139,6 @@ const CategoryListing = ({
                       <button className="shadow px-2">
                         <FaHome className="h-8 w-4 text-green-500" />
                       </button>
-                      <button className="shadow px-2">
-                        <FaHome className="h-8 w-4 text-yellow-500" />
-                      </button>
                       <button
                         className="shadow px-2"
                         onClick={() => handleEditCategory(category?._id)}
@@ -134,7 +147,7 @@ const CategoryListing = ({
                       </button>
                       <button
                         className="shadow px-2"
-                        onClick={() => handleDelete(category._id)}
+                        onClick={() => handleDeleteClick(category._id)}
                       >
                         <FaTrashAlt className="h-8 w-4 text-red-500" />
                       </button>
@@ -145,6 +158,13 @@ const CategoryListing = ({
           </tbody>
         </table>
       </div>
+      <ConfirmModal
+        isOpen={isModalOpen}
+        onClose={() => setModalOpen(false)}
+        onConfirm={confirmDelete}
+        title="Delete Category"
+        message="Are you sure you want to delete this category?"
+      />
     </div>
   );
 };
