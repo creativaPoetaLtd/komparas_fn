@@ -1,24 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { getAllCompaniesAdsAdmin, toggleAdActiveStatus } from '../../../api/ads';
-import { baseUrl } from '../../../api';
-import axios from 'axios';
-import { 
-  Table, 
-  Tabs, 
-  Button, 
-  Modal, 
-  Form, 
-  Input, 
+import React, { useEffect, useState } from "react";
+import {
+  getAllCompaniesAdsAdmin,
+  toggleAdActiveStatus,
+} from "../../../api/ads";
+import { baseUrl } from "../../../api";
+import axios from "axios";
+import {
+  Table,
+  Tabs,
+  Button,
+  Modal,
+  Form,
+  Input,
   Upload,
   Space,
   message,
-} from 'antd';
-import { MdDelete, MdSync } from 'react-icons/md';
+} from "antd";
+import { MdDelete, MdSync } from "react-icons/md";
+import ConfirmModal from "../../models/ConfirmModal";
 
 const { TabPane } = Tabs;
-
-
-// Types based on your MongoDB schemas
 interface ICompanyAds {
   _id: string;
   image?: string;
@@ -30,90 +31,87 @@ interface ICompanyAds {
 }
 
 const AdsManagementPage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<string>('company');
+  const [activeTab, setActiveTab] = useState<string>("company");
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  const [modalMode, setModalMode] = useState<'add' | 'edit'>('add');
+  const [modalMode, setModalMode] = useState<"add" | "edit">("add");
   const [selectedAd, setSelectedAd] = useState<any>(null);
   const [form] = Form.useForm();
-
- 
-
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [currentAdId, setCurrentAdId] = useState<string | null>(null);
 
   const [companyAd, setCompanyAds] = useState<ICompanyAds[]>([]);
-  
-    useEffect(() => {
-        const fetchAds = async () => {
-        const response = await getAllCompaniesAdsAdmin();
-        setCompanyAds(response?.data?.advertisements);
-        };
-        fetchAds();
-    }
-    , []);
-    const companyAds: ICompanyAds[] = companyAd;
+
+  useEffect(() => {
+    const fetchAds = async () => {
+      const response = await getAllCompaniesAdsAdmin();
+      setCompanyAds(response?.data?.advertisements);
+    };
+    fetchAds();
+  }, []);
+  const companyAds: ICompanyAds[] = companyAd;
   const companyColumns = [
     {
-      title: 'Image',
-      dataIndex: 'image',
-      key: 'image',
+      title: "Image",
+      dataIndex: "image",
+      key: "image",
       render: (image: string) => (
         <img src={image} alt="ad" className="w-16 h-16 object-cover rounded" />
       ),
     },
     {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
     },
     {
-      title: 'Title',
-      dataIndex: 'title',
-      key: 'title',
+      title: "Title",
+      dataIndex: "title",
+      key: "title",
     },
     {
-      title: 'URL',
-      dataIndex: 'url',
-      key: 'url',
+      title: "URL",
+      dataIndex: "url",
+      key: "url",
     },
     {
-      title: 'Active',
-      dataIndex: 'active',
-      key: 'active',
-      render: (active: boolean) => (
-        <span>{active ? 'Yes' : 'No'}</span>
-      ),
+      title: "Active",
+      dataIndex: "active",
+      key: "active",
+      render: (active: boolean) => <span>{active ? "Yes" : "No"}</span>,
     },
     {
-      title: 'Created At',
-      dataIndex: 'createdAt',
-      key: 'createdAt',
+      title: "Created At",
+      dataIndex: "createdAt",
+      key: "createdAt",
       render: (date: string) => new Date(date).toLocaleDateString(),
     },
     {
-      title: 'Actions',
-      key: 'actions',
+      title: "Actions",
+      key: "actions",
       render: (_: any, record: ICompanyAds) => (
         <Space>
           {/* <Button
             icon={<Edit />}
             onClick={() => handleEdit(record)}
           /> */}
-            <Button onClick={
-              () => {
-                handleDelete(record._id);
-              }
-            } danger icon={<MdDelete />} />
-        <Button
-          onClick={() => handleToggleAdActiveStatus(record._id)}
-          icon={<MdSync />}
-        />
+          <Button
+            onClick={() => {
+              handleDeleteClick(record._id);
+            }}
+            danger
+            icon={<MdDelete />}
+          />
+          <Button
+            onClick={() => handleToggleAdActiveStatus(record._id)}
+            icon={<MdSync />}
+          />
         </Space>
       ),
     },
   ];
 
- 
   const handleAdd = () => {
-    setModalMode('add');
+    setModalMode("add");
     setSelectedAd(null);
     form.resetFields();
     setIsModalVisible(true);
@@ -129,70 +127,85 @@ const AdsManagementPage: React.FC = () => {
   const handleDelete = async (id: string) => {
     try {
       await axios.delete(`${baseUrl}/company-ads/${id}`);
-      message.success('Ad deleted successfully');
+      message.success("Ad deleted successfully");
     } catch (error) {
-      message.error('Failed to delete ad');
+      message.error("Failed to delete ad");
+    } finally {
+      setModalOpen(false);
     }
   };
+
+  const handleDeleteClick = (id: string) => {
+    setCurrentAdId(id);
+    setModalOpen(true);
+  };
+
+  const confirmDelete = () => {
+    if (currentAdId) {
+      handleDelete(currentAdId);
+    }
+  };
+
   const handleToggleAdActiveStatus = async (id: string) => {
     try {
       await toggleAdActiveStatus(id);
-      message.success('Ad active status toggled successfully');
+      message.success("Ad active status toggled successfully");
       const response = await getAllCompaniesAdsAdmin();
       setCompanyAds(response?.data?.advertisements);
     } catch (error) {
-      message.error('Failed to toggle ad active status');
+      message.error("Failed to toggle ad active status");
     }
   };
   const handleModalSubmit = async () => {
     try {
       const values = await form.validateFields();
       const formData = new FormData();
-      const imageField = form.getFieldValue('image');
+      const imageField = form.getFieldValue("image");
       if (imageField?.[0]?.originFileObj) {
-        formData.append('image', imageField[0].originFileObj);
+        formData.append("image", imageField[0].originFileObj);
       }
-      Object.keys(values)?.forEach(key => {
-        if (key !== 'image') {
+      Object.keys(values)?.forEach((key) => {
+        if (key !== "image") {
           formData.append(key, values[key]);
         }
       });
 
-      if (modalMode === 'add') {
+      if (modalMode === "add") {
         try {
-          await axios.post(`${baseUrl}/company-ads/add`, formData);          console.log('Form Data for creation:', Object.fromEntries(formData));
-          message.success('Ad created successfully');
+          await axios.post(`${baseUrl}/company-ads/add`, formData);
+          console.log("Form Data for creation:", Object.fromEntries(formData));
+          message.success("Ad created successfully");
           setIsModalVisible(false);
           form.resetFields();
         } catch (error) {
-          message.error('Failed to create ad');
+          message.error("Failed to create ad");
         }
       } else {
         try {
           await axios.put(`/company-ads/${selectedAd._id}`, formData);
-          message.success('Ad updated successfully');
+          message.success("Ad updated successfully");
           setIsModalVisible(false);
           form.resetFields();
         } catch (error) {
-          message.error('Failed to update ad');
+          message.error("Failed to update ad");
         }
       }
     } catch (error) {
-      console.error('Form validation error:', error);
-      message.error('Please check your inputs');
+      console.error("Form validation error:", error);
+      message.error("Please check your inputs");
     }
   };
 
   const uploadProps = {
     beforeUpload: (file: File) => {
-      const isImage = file.type.startsWith('image/');
+      const isImage = file.type.startsWith("image/");
       if (!isImage) {
-        message.error('You can only upload image files!');
+        message.error("You can only upload image files!");
         return Upload.LIST_IGNORE;
       }
       const isLt2M = file.size / 1024 / 1024 < 2;
       if (!isLt2M) {
-        message.error('Image must be smaller than 2MB!');
+        message.error("Image must be smaller than 2MB!");
         return Upload.LIST_IGNORE;
       }
       return false;
@@ -201,13 +214,13 @@ const AdsManagementPage: React.FC = () => {
     multiple: false,
     listType: "picture-card" as const,
     onRemove: () => {
-      form.setFieldValue('image', []);
+      form.setFieldValue("image", []);
     },
     onChange: (info: any) => {
-      if (info.file.status === 'removed') {
-        form.setFieldValue('image', []);
+      if (info.file.status === "removed") {
+        form.setFieldValue("image", []);
       }
-    }
+    },
   };
 
   const normFile = (e: any) => {
@@ -222,53 +235,54 @@ const AdsManagementPage: React.FC = () => {
       <Form.Item
         name="name"
         label="Name"
-        rules={[{ required: true, message: 'Please input the name!' }]}
+        rules={[{ required: true, message: "Please input the name!" }]}
       >
         <Input />
       </Form.Item>
       <Form.Item
         name="title"
         label="Title"
-        rules={[{ required: true, message: 'Please input the title!' }]}
+        rules={[{ required: true, message: "Please input the title!" }]}
       >
         <Input />
       </Form.Item>
       <Form.Item
         name="url"
         label="URL"
-        rules={[{ required: true, message: 'Please input the URL!' }]}
+        rules={[{ required: true, message: "Please input the URL!" }]}
       >
         <Input />
       </Form.Item>
-      <Form.Item 
-  name="image" 
-  label="Image"
-  valuePropName="fileList"
-  getValueFromEvent={normFile}
-  extra="Only one image file is allowed (max 2MB)"
->
-  <Upload {...uploadProps}>
-    {form.getFieldValue('image')?.length ? null : (
-      <div>
-        <Upload />
-        <div className="mt-2">Upload Image</div>
-      </div>
-    )}
-  </Upload>
-</Form.Item>
-
+      <Form.Item
+        name="image"
+        label="Image"
+        valuePropName="fileList"
+        getValueFromEvent={normFile}
+        extra="Only one image file is allowed (max 2MB)"
+      >
+        <Upload {...uploadProps}>
+          {form.getFieldValue("image")?.length ? null : (
+            <div>
+              <Upload />
+              <div className="mt-2">Upload Image</div>
+            </div>
+          )}
+        </Upload>
+      </Form.Item>
     </Form>
   );
 
-  
   return (
     <div className="p-6">
-      <Tabs 
-        activeKey={activeTab} 
+      <Tabs
+        activeKey={activeTab}
         onChange={setActiveTab}
         tabBarExtraContent={
-          <button className='bg-black text-white px-3 py-1 font-medium rounded-md' onClick={handleAdd}>
-            Add New {activeTab === 'company' ? 'Company' : 'Banner'} Ad
+          <button
+            className="bg-black text-white px-3 py-1 font-medium rounded-md"
+            onClick={handleAdd}
+          >
+            Add New {activeTab === "company" ? "Company" : "Banner"} Ad
           </button>
         }
       >
@@ -280,20 +294,27 @@ const AdsManagementPage: React.FC = () => {
             pagination={{ pageSize: 10 }}
           />
         </TabPane>
-       
       </Tabs>
 
       <Modal
-        title={`${modalMode === 'add' ? 'Add New' : 'Edit'} ${
-          activeTab === 'company' ? 'Company' : 'Banner'
+        title={`${modalMode === "add" ? "Add New" : "Edit"} ${
+          activeTab === "company" ? "Company" : "Banner"
         } Ad`}
         open={isModalVisible}
         onOk={handleModalSubmit}
         onCancel={() => setIsModalVisible(false)}
         width={600}
       >
-       <CompanyAdsForm /> 
+        <CompanyAdsForm />
       </Modal>
+
+      <ConfirmModal
+        isOpen={isModalOpen}
+        onClose={() => setModalOpen(false)}
+        onConfirm={confirmDelete}
+        title="Delete Advertisement"
+        message="Are you sure you want to delete this advertisement?"
+      />
     </div>
   );
 };
