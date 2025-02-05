@@ -142,8 +142,19 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
           <p className='text-[#b6b4b4] text-sm font-thin my-4'>
             {dayProduct[0]?.description}
           </p>
-          <Link to={`/product/${dayProduct[0]?.product?._id}/shop/${dayProduct[0]?.shop?._id}?shop=shop`} className="flex space-x-2 p-2 px-4 rounded w-fit h-fit text-sm mt-2 bg-[#EDB62E]">
-            <p className="">Reba aho wayigurira</p>
+          <Link
+            to={
+              dayProduct[0]?.shop?._id
+                ? `/product/${dayProduct[0]?.product?._id}/shop/${dayProduct[0]?.shop?._id}?shop=shop`
+                : `/product/${dayProduct[0]?.product?._id}`
+            }
+            className={`flex space-x-2 rounded w-fit h-fit bg-[#EDB62E] ${
+              dayProduct[0]?.shop?._id
+                ? "p-2 px-4 mt-2 text-sm"
+                : "px-12 py-2 mt-4 text-base"
+            }`}
+          >
+            <p>{dayProduct[0]?.shop?._id ? "Reba aho wayigurira" : "Yirebe"}</p>
           </Link>
         </div>
         <div className="image md:w-[406px] md:h-[568px] w-full h-full pt-4 pb-12 overflow-hidden">
@@ -246,6 +257,7 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
                       {shop.name}
                     </option>
                   ))}
+                  <option value="NA">N/A</option>
                 </select>
                 <textarea
                   placeholder="Description"
