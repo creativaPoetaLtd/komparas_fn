@@ -7,7 +7,7 @@ interface SliderBarProps {
 }
 
 const SliderBar: React.FC<SliderBarProps> = ({ onPriceRangeChange }) => {
-    const [minPrice, setMinPrice] = useState<number>(10);
+    const [minPrice, setMinPrice] = useState<number>(10000);
     const [maxPrice, setMaxPrice] = useState<number>(2000000);
     
     const handleSliderChange = (values: any) => {
@@ -40,6 +40,7 @@ const SliderBar: React.FC<SliderBarProps> = ({ onPriceRangeChange }) => {
                         type='number'
                         id='minPrice'
                         value={minPrice}
+                        step={1000}
                         onChange={handleMinInputChange}
                         className='text-sm text-gray-600 py-2 px-2 rounded-md border border-gray-700'
                     />
@@ -50,6 +51,7 @@ const SliderBar: React.FC<SliderBarProps> = ({ onPriceRangeChange }) => {
                         type='number'
                         id='maxPrice'
                         value={maxPrice}
+                        step={1000}
                         onChange={handleMaxInputChange}
                         className='text-sm text-gray-600 py-2 px-2 rounded-md border border-gray-700'
                     />
@@ -61,6 +63,7 @@ const SliderBar: React.FC<SliderBarProps> = ({ onPriceRangeChange }) => {
                 className='custom-slider text-yellow-600 mt-5'
                 onChange={handleSliderChange}
                 max={2000000}
+                step={1000}
             />
         </div>
     );
