@@ -30,18 +30,29 @@ const ComparisonDrawer: React.FC<Props> = ({ onClose }) => {
         setFresh(!fresh);
     }
     const [product, setProduct] = React.useState<any>([]);
+
     useEffect(() => {
+        if (!idsToCompare || idsToCompare.length === 0) return; // Prevent unnecessary API call
+    
         const fetchData = async () => {
-            const response = await getProductByMultpleIdsInQueryParams(idsToCompare);
-            setProduct(response.data);
-            const initialShowValueMap: { [key: number]: boolean } = {};
-            response.data?.product?.forEach((_product: any, index: number) => {
-                initialShowValueMap[index] = true;
-            });
-            setShowValueMap(initialShowValueMap);
-        }
+            try {
+                const response = await getProductByMultpleIdsInQueryParams(idsToCompare);
+                if (response?.data) {
+                    setProduct(response.data);
+                    const initialShowValueMap: { [key: number]: boolean } = {};
+                    response.data?.product?.forEach((_product: any, index: number) => {
+                        initialShowValueMap[index] = true;
+                    });
+                    setShowValueMap(initialShowValueMap);
+                }
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            }
+        };
+    
         fetchData();
     }, [fresh]);
+
     const [productIds, setProductIds] = useState<any>();
     useEffect(() => {
         const productIds = localStorage.getItem('compareProductIds');

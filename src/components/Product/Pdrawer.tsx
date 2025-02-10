@@ -27,19 +27,28 @@ const ComparisonDrawerSingle: React.FC<Props> = ({ onClose }) => {
     const [fresh, setFresh] = useState(false);
 
     useEffect(() => {
-        const ids = [id1, id2, productId].filter((id) => id !== null);
+        const ids = [id1, id2, productId].filter((id) => id !== null && id !== undefined);
+    
+        if (ids.length === 0) return; // Prevent API call if no valid IDs
+    
         const fetchData = async () => {
-            const response = await getProductByMultpleIdsInQueryParams(ids);
-            setProduct(response.data);
-
-            const initialShowValueMap: { [key: number]: boolean } = {};
-            response.data?.product?.forEach((_product: any, index: number) => {
-                initialShowValueMap[index] = true;
-            });
-            setShowValueMap(initialShowValueMap);
+            try {
+                const response = await getProductByMultpleIdsInQueryParams(ids);
+                if (response) {
+                    setProduct(response.data);
+    
+                    const initialShowValueMap: { [key: number]: boolean } = {};
+                    response.data?.product?.forEach((_product: any, index: number) => {
+                        initialShowValueMap[index] = true;
+                    });
+                    setShowValueMap(initialShowValueMap);
+                }
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            }
         };
         fetchData();
-    }, [id1, id2, productId,fresh]);
+    }, [id1, id2, productId, fresh]);  
 
     useEffect(() => {
         const handleScroll = () => {

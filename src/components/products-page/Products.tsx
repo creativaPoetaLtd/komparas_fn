@@ -225,11 +225,17 @@ const Products = () => {
         handleRefresh();
     };
     const [comparisonData, setComparisonData] = useState<any>([]);
+
     useEffect(() => {
+        if (!userId) return; // Prevent API call if userId is null or undefined
         const fetchComparison = async () => {
-            const response = await getComparison(userId);
-            setComparisonData(response);
-            handleRefresh();
+            try {
+                const response = await getComparison(userId);
+                setComparisonData(response);
+                handleRefresh();
+            } catch (error) {
+                console.error("Error fetching comparison data:", error);
+            }
         };
         fetchComparison();
     }, [userId, deleteRefresh]);
