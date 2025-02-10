@@ -81,7 +81,7 @@ const NewProduct = () => {
                             </Link>
                         </div>
                         <div className="image md:w-[40%] w-full flex justify-end  h-full md:pr-8 pr-2 md:py-12 py-2 pb-9 relative">
-                            <div className='timerCircle text-xs absolute z-0 bg-[#EDB62E] md:top-0 -top-10 md:right-0 right-2 flex-col p-2 items-center border-1 border-white flex rounded-full h-[80px] w-[80px] my-auto justify-center'>
+                        <div className='timerRectangle text-xs absolute z-0 bg-[#EDB62E] md:top-0 -top-10 md:right-0 right-2 flex-col items-center border-1 border-white flex rounded-lg h-[45px] w-[110px] my-auto justify-center mr-4 mt-5'>
                                 <div className='label text-white text-xs font-semibold'>
                                     {prod2?.our_price} Rwf
                                 </div>
