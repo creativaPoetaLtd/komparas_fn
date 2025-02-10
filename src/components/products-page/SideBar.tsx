@@ -100,7 +100,7 @@ const SideBar: React.FC<SideBarProps> = ({
     return (
         <div className={`relative md:mx-2 mx-0 lg:w-[25%] md:hiddenf hiddenf mb-3 lg:flex flex-col h-fit pr-4 border border-green-600 rounded-md p-3 ${isOpen ? 'md:flex flex w-full z-30' : 'h hidden'}`}>
             <div className='flex justify-between items-center cursor-pointer' onClick={toggleSidebar}>
-                <p className='text-sm font-semibold text-gray-600'>Akayanguruzo</p>
+                <p className='text-sm font-semibold text-gray-600'>Akayunguruzo</p>
                 <FaTimes />
             </div>
             <SliderBar onPriceRangeChange={onPriceRangeChange} />
@@ -111,7 +111,7 @@ const SideBar: React.FC<SideBarProps> = ({
                 </div>
                 {sections.ram && (
                     <div className='flex-col grid grid-cols-2 mt-5 pb-3'>
-                        {['2GB', '4GB', '8GB', '16GB', '32GB', '64GB', '128GB'].map((ram, i) => (
+                        {['1GB','2GB', '4GB', '8GB','12GB', '16GB', '32GB', '64GB', '128GB'].map((ram, i) => (
                             <CheckboxInput key={i} label={ram} name='ram' checked={selectedRam?.includes(ram)} onChange={() => handleSelectRam(ram)} />
                         ))}
                     </div>

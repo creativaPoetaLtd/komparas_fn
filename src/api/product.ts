@@ -16,10 +16,16 @@ export const getAllProducts = async (minPrice?: number, maxPrice?: number, categ
   //   url += `&vendor_id=${vendorId.join(',')}`;
   // }
   if (ram && Array.isArray(ram) && ram.length > 0) {
-    url += `&ram=${ram.join(',')}`;
+    const numericRam = ram.map(r => r.match(/\d+/)?.[0]).filter(Boolean); 
+    if (numericRam.length > 0) {
+      url += `&ram=${numericRam.join(',')}`;
+    }
   }
   if (storage && Array.isArray(storage) && storage.length > 0) {
-    url += `&storage=${storage.join(',')}`;
+    const numericStorage = storage.map(s => s.match(/\d+/)?.[0]).filter(Boolean);
+    if (numericStorage.length > 0) {
+      url += `&storage=${numericStorage.join(',')}`;
+    }
   }
   if (camera && Array.isArray(camera) && camera.length > 0) {
     url += `&camera=${camera.join(',')}`;
