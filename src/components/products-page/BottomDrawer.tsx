@@ -11,22 +11,32 @@ interface Props {
 
 
 const BottomDrawer: React.FC<Props> = ({ open, onClose, refresh, handleRemoveProductIdFromLocalStorageCompare }) => {
+
     const idsToCompare = JSON.parse(localStorage.getItem("compareProductIds") || "[]");
-    
+
     const [product, setProduct] = React.useState<any>([]);
+
     useEffect(() => {
-        // const ids = [id1, id2, productId].filter((id) => id !== null);
+        if (!idsToCompare || idsToCompare.length === 0) return; // Prevent API call if no valid IDs
+
         const fetchData = async () => {
-            const response = await getProductByMultpleIdsInQueryParams(idsToCompare);
-            setProduct(response.data);
-            // Populate showValueMap with true values for each index
-            const initialShowValueMap: { [key: number]: boolean } = {};
-            response.data?.product?.forEach((_product: any, index: number) => {
-                initialShowValueMap[index] = true;
-            });
-        }
+            try {
+                const response = await getProductByMultpleIdsInQueryParams(idsToCompare);
+                if (response) {
+                    setProduct(response.data);
+                    const initialShowValueMap: { [key: number]: boolean } = {};
+                    response.data?.product?.forEach((_product: any, index: number) => {
+                        initialShowValueMap[index] = true;
+                    });
+                }
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            }
+        };
+
         fetchData();
     }, [refresh]);
+
     return (
         <Drawer
             title=""

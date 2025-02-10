@@ -148,3 +148,8 @@ export const getComparison = async (userId: string) => {
   const res = await fetch(`${baseUrl}/comparison/${userId}`);
   return await res.json();
 }
+
+export const getCheapestAndExpensivePhone = async () => {
+  const res = axios.get(`${baseUrl}/price-range`);
+  return await res;
+}

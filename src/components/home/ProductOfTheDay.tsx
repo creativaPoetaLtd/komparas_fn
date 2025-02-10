@@ -134,19 +134,30 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
       <div className={`mainPage  flex md:flex-row flex-col justify-between ${isAdminFromLocalStorage() ? "bg-[#848482]" : "bg-[#0C203B]"}  h-full relative md:px-20 px-6 pt-6`}>
         <div className='mainPageContent md:w-[60%] w-full h-full md:p-12 p-1 my-auto justify-center flex flex-col'>
           <div className='flex'>
-            <p className='text-[#FFFFFF] text-sm md:ml-1 my-auto font-thin justify-center'>Telefoni y'umunsi</p>
+            <p className='text-[#b6b4b4] text-3xl md:ml-1 my-auto font-thin justify-center'>Telefoni y'umunsi</p>
           </div>
           <p className='lg:text-4xl md:text-3xl text-2xl md:mt-6 mt-5 text-white'>
             {dayProduct[0]?.name}
           </p>
-          <p className='text-[#FFFFFF] text-sm mt-2 font-thin '>
+          <p className='text-[#b6b4b4] text-sm font-thin my-4'>
             {dayProduct[0]?.description}
           </p>
-          <Link to={`/product/${dayProduct[0]?.product?._id}/shop/${dayProduct[0]?.shop?._id}?shop=shop`} className="flex space-x-2 p-2 px-4 rounded w-fit h-fit text-sm mt-2 bg-[#EDB62E]">
-            <p className="">Reba aho wayigurira</p>
+          <Link
+            to={
+              dayProduct[0]?.shop?._id
+                ? `/product/${dayProduct[0]?.product?._id}/shop/${dayProduct[0]?.shop?._id}?shop=shop`
+                : `/product/${dayProduct[0]?.product?._id}`
+            }
+            className={`flex space-x-2 rounded w-fit h-fit bg-[#EDB62E] ${
+              dayProduct[0]?.shop?._id
+                ? "p-2 px-4 mt-2 text-sm"
+                : "px-12 py-2 mt-4 text-base"
+            }`}
+          >
+            <p>{dayProduct[0]?.shop?._id ? "Reba aho wayigurira" : "Yirebe"}</p>
           </Link>
         </div>
-        <div className="image md:w-[40%] w-full h-full pt-4 pbm-12">
+        <div className="image md:w-[406px] md:h-[568px] w-full h-full pt-4 pb-12 overflow-hidden">
           <div className="w-full h-full object-cover">
             <img src={dayProduct[0]?.image} height={998} width={406} alt="" className="w-[406px] object-contain h-full" />
           </div>
@@ -246,6 +257,7 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
                       {shop.name}
                     </option>
                   ))}
+                  <option value="NA">N/A</option>
                 </select>
                 <textarea
                   placeholder="Description"
