@@ -22,7 +22,10 @@ export const getAllProducts = async (minPrice?: number, maxPrice?: number, categ
     }
   }
   if (storage && Array.isArray(storage) && storage.length > 0) {
-    url += `&storage=${storage.join(',')}`;
+    const numericStorage = storage.map(s => s.match(/\d+/)?.[0]).filter(Boolean);
+    if (numericStorage.length > 0) {
+      url += `&storage=${numericStorage.join(',')}`;
+    }
   }
   if (camera && Array.isArray(camera) && camera.length > 0) {
     url += `&camera=${camera.join(',')}`;
