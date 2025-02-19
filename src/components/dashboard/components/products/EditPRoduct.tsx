@@ -68,7 +68,6 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
             product_specifications: productData.product_specifications || [],
             product_image: productData.product_image,
         });
-        console.log(formData.category);
 
         setSpecifications(
             productData.product_specifications?.length 

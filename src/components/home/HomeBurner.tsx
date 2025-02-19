@@ -25,6 +25,20 @@ function getItem(
   } as MenuItem;
 }
 
+// Recursive function to generate menu items
+const generateMenuItems = (categories: any[]): MenuItem[] => {
+  return categories.map((category) => {
+    const hasChildren = category.children && category.children.length > 0;
+
+    return getItem(
+      category.name,
+      category._id,
+      <Phone className="text-green-500" />,
+      hasChildren ? generateMenuItems(category.children) : undefined
+    );
+  });
+};
+
 const HomeBurner = () => {
   const [categories, setCategories] = useState<any>([]);
   const [typingIndex, setTypingIndex] = useState(0);
@@ -60,12 +74,7 @@ const HomeBurner = () => {
     navigate(`/products?categoryId=${categoryId}`);
   };
 
-  const categoryItems = categories?.map((category: any) => {
-    const hasChildren = category.children && category.children.length > 0;
-    return getItem(category.name, category._id, <Phone className="text-green-500" />, !hasChildren ? category.id ? category.id : null : category.children.map((child: any) => {
-      return getItem(child.name, child._id, <Phone />)
-    }));
-  });
+  const categoryItems = generateMenuItems(categories || []);
 
   const isAdminFromLocalStorage = JSON.parse(localStorage.getItem("KomparasLoginsInfo") as any)?.role === "admin";
 
