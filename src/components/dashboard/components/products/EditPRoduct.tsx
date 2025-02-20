@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { IoIosArrowRoundBack } from "react-icons/io";
+import AddCategoryForm from "../categories/AddCategoryForm"
 import { getAllCategories } from "../../../../api/getAllCategories";
 import { updateProduct } from "../../../../api/product";
 import { getPoductById } from "../../../../api/product";
@@ -21,6 +22,9 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
     const [specifications, setSpecifications] = useState([{ key: "", value: "" }]);
     const [vendor_prices, setVendorPrices] = useState([{ key: "", value: "" }]);
     const [productData, setProductData] = useState<any>();
+
+    const [isAddCategoryModalVisible, setIsAddCategoryModalVisible] = useState(false);
+
     const [formData, setFormData] = useState({
         product_name: "",
         product_price: "",
@@ -59,7 +63,7 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
             product_name: productData.product_name || "",
             product_price: productData.product_price || "",
             product_description: productData.product_description || "",
-            category: productData.category?.name || "", 
+            category: productData.category?._id || "", 
             vendor_prices: productData.vendor_prices || [],
             product_specifications: productData.product_specifications || [],
             product_image: productData.product_image,
@@ -116,12 +120,6 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
         setFormData((prevFormData: any) => ({
             ...prevFormData,
             [name]: value,
-        }));
-    };
-    const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            category: event.target.value,
         }));
     };
  
@@ -233,6 +231,27 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
         }
     }
 
+    const handleNewCategoryChange = (category: string) => {
+        if (category === "other") {
+          setIsAddCategoryModalVisible(true);
+        } else {
+          setFormData((prevFormData) => ({
+            ...prevFormData,
+            category,
+          }));
+        }
+      };
+
+      // Wrapper function to handle the onChange event for selecting category
+  const handleCategoryChangeWrapper = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    handleNewCategoryChange(event.target.value);
+  };
+  const handleAddNewCategory = (newCategory: any) => {
+    setCategories((prevCategories: any) => [...prevCategories, newCategory]);
+    // Hide the modal after adding the category
+    setIsAddCategoryModalVisible(false);
+  };
+
    
 
     return (
@@ -271,15 +290,16 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
                             <label className='EditProductForm__form__inputs__category__label  mb-2'>Product Category</label>
                             <select
                                 className='EditProductForm__form__inputs__category__input w-96 h-10 rounded-md border outline-blue-700 border-gray-300 px-2'
-                                onChange={handleCategoryChange}
+                                onChange={handleCategoryChangeWrapper}
                                 value={formData.category}
                             >
                                 <option value="" disabled selected>Select Category</option>
                                 {categories?.map((category: any) => (
-                                    <option key={category.name} value={category.name}>
+                                    <option key={category.name} value={category._id}>
                                         {category.name}
                                     </option>
-                                ))}
+                                    ))}
+                                    <option value="other">Other (Ongeramo ubwoko bushya)</option>
                             </select>
                         </div>
 
@@ -460,6 +480,12 @@ const EditProduct = ({ setIsEditProduct }: EditProductProps) => {
                     </form>
                 </div>
             </div>
+            {isAddCategoryModalVisible && (
+        <AddCategoryForm
+          setIsAddCategory={setIsAddCategoryModalVisible}
+          onAddCategory={handleAddNewCategory}
+        />
+      )}
         </div>
     )
 }
