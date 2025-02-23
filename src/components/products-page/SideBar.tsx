@@ -165,7 +165,7 @@ const SideBar: React.FC<SideBarProps> = ({
                 </div>
                 {sections.camera && (
                     <div className='flex-col grid grid-cols-2 mt-5'>
-                        {['12MP', '16MP', '20MP', '24MP', '32MP', '48MP', '64MP'].map((camera, i) => (
+                        {[ '16MP', '20MP', '24MP', '32MP', '48MP','50Mp', '64MP'].map((camera, i) => (
                             <CheckboxInput key={i} label={camera} name='camera' checked={selectedCamera?.includes(camera)} onChange={() => handleSelectCamera(camera)} />
                         ))}
                     </div>
@@ -178,7 +178,7 @@ const SideBar: React.FC<SideBarProps> = ({
                 </div>
                 {sections.screen && (
                     <div className='flex-col grid grid-cols-2 mt-5'>
-                        {['1920×1080', '1366×768', '1280×720', '3840×2160', '2560×1440', '1600×900', '2560×1600'].map((screen, i) => (
+                        {['1080×2400', '1366×768', '1284×720', '2796×2160', '1290×1440', '1170×1200', '1179×1600','1440×1600','720×1600'].map((screen, i) => (
                             <CheckboxInput key={i} label={screen} name='screen' checked={selectedscreen?.includes(screen)} onChange={() => handleSelectscreen(screen)} />
                         ))}
                     </div>
