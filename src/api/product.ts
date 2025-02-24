@@ -28,13 +28,19 @@ export const getAllProducts = async (minPrice?: number, maxPrice?: number, categ
     }
   }
   if (camera && Array.isArray(camera) && camera.length > 0) {
-    url += `&camera=${camera.join(',')}`;
+    const numericCamera = camera.map(c => c.match(/\d+/)?.[0]).filter(Boolean);
+    if (numericCamera.length > 0) {
+      url += `&camera=${numericCamera.join(',')}`;
+    }
   }
   if (colors && Array.isArray(colors) && colors.length > 0) {
     url += `&colors=${colors.join(',')}`;
   }
   if (screen && Array.isArray(screen) && screen.length > 0) {
-    url += `&screen=${screen.join(',')}`;
+    const numericScreen = screen.map(sc => sc.match(/\d+/)?.[0]).filter(Boolean);
+    if (numericScreen.length > 0) {
+      url += `&screen=${numericScreen.join(',')}`;
+    }
   }
 
   const res = await axios.get(url);
