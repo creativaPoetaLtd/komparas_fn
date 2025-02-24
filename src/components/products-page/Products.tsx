@@ -103,11 +103,17 @@ const Products = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
+
     const fetchCategories = async () => {
         const data = await fetchParentCategories();
-        setCategories(data?.data);
+    
+        const parentCategories = data?.data
+            ?.filter((category: any) => Array.isArray(category?.children) && category?.children.length > 0)
+            .sort((a: any, b: any) => a.name.localeCompare(b.name));
+    
+        setCategories(parentCategories);
     };
-
+    
     const fetchShops = async () => {
         const data = await getAllShops();
         setShops(data?.data);

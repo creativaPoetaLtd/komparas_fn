@@ -2,9 +2,11 @@
 // services/api.js
 import axios from 'axios';
 import { baseUrl } from '.';
+
 export const fetchParentCategories = () => {
   return axios.get(`${baseUrl}/categories/all`);
 };
+
 export const fetchParentCategoriesm = () => {
   return axios.get(`${baseUrl}/categories/parents`);
 };
