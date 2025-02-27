@@ -1,4 +1,4 @@
-import React, { SetStateAction, useEffect, useState } from 'react';
+import React, { SetStateAction, useEffect, useState, useRef } from 'react';
 import { Pagination } from 'antd';
 import SideBar from './SideBar'
 import SubNav from '../Navigations/SubNav'
@@ -322,6 +322,7 @@ const Products = () => {
         setMinPrice(min);
         setMaxPrice(max);
     };
+    const abortControllerRef = useRef<AbortController | null>(null);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -357,8 +358,15 @@ const Products = () => {
     const shopIdToUse: string[] = Array.isArray(shopst) && shopst.length > 0 ? shopst : (shopsId ? [shopsId] : []);
     useEffect(() => {
         const fetchProducts = async () => {
+            if (abortControllerRef.current) {
+                abortControllerRef.current.abort('New request made');
+            }
+            // Create a new AbortController for the current request
+            const abortController = new AbortController();
+            abortControllerRef.current = abortController;
+
             setProductsData([]);
-            const response = await getAllProducts(minPrice, maxPrice, categoryIdToUse, shopIdToUse, multipleRam,multioletStorage, multipleCamera, multipleColors,multiplesecreen);
+            const response = await getAllProducts(minPrice, maxPrice, categoryIdToUse, shopIdToUse, multipleRam,multioletStorage, multipleCamera, multipleColors,multiplesecreen, abortController.signal);
             const allProducts = response?.data?.products;
             let sortedProducts = allProducts;
             if (sortOrder === 'ascending') {
@@ -381,6 +389,14 @@ const Products = () => {
             setProductsData(filteredProducts);
         };
         fetchProducts();
+        
+        // Cleanup function to cancel the request when the component unmounts
+        return () => {
+            if (abortControllerRef.current) {
+            abortControllerRef.current.abort('Component unmounted');
+            }
+        };
+  
     }, [searchValue, refresh, deleteRefresh, minPrice, maxPrice, sortOrder, shopst]);
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchValue(event.target.value);

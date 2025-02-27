@@ -6,6 +6,9 @@ import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 import { Phone } from '@phosphor-icons/react';
 import { fetchParentCategoriesm } from '../../api/getAllCategories';
 import { Link } from 'react-router-dom';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
+
 const CategoryCards: React.FC = () => {
   const PrevArrow = (props: any) => {
     const { onClick } = props;
@@ -31,8 +34,7 @@ const CategoryCards: React.FC = () => {
     );
   };
 
-  const settings: { current: number, prevArrow:any,nextArrow:any, responsive:any, dots: boolean, dotsClass: string, infinite: boolean, speed: number, slidesToShow: number, slidesToScroll: number, autoplay:boolean, autoplaySpeed:number, pauseOnHover: boolean  } = {
-    current: 0,
+  const settings = {
     dots: true,
     dotsClass: "slick-dots slick-thumb",
     infinite: true,
@@ -59,53 +61,64 @@ const CategoryCards: React.FC = () => {
       }
     ],
   };
+
   const [categories, setCategories] = useState<any>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
       const fetchCategories = async () => {
           const data = await fetchParentCategoriesm();            
-          setCategories(data?.data);          
-      }
+          setCategories(data?.data);  
+          setLoading(false);        
+      };
       fetchCategories();
-  }
-  , []);
+  }, []);
+
   return (
-    <div className="lg:px-14 px-2 py-10">
+    <div className="lg:px-14 px-2 py-6">
       <div className='flex flex-col md:px-4 px-3 pb-6'>
         <div className="flex justify-start items-start">
-          <div className="flex w-[20px] h-[40px] rounded-md bg-[#EDB62E]">
-          </div>
-          <h1 className="text-lg flex my-auto justify-center font-bold ml-2 text-[#EDB62E]">Amoko yose</h1>
+          <div className="flex w-[20px] h-[40px] rounded-md bg-[#EDB62E]"></div>
+          <h1 className="text-lg flex my-auto justify-center font-bold ml-2 text-[#EDB62E]">
+            Amoko yose
+          </h1>
         </div>
-        {/* <h1 className='flex text-2xl text-[#0C203B] mt-3 font-semibold'>Hitamo telefoni ugendeye ku bwoko</h1> */}
       </div>
-      {categories.length > 0 ? (
-      <Slider {...settings}
-        className="flex justify-center"
-      >
-          {categories.map((category: any) => (
-          <Link 
-          key={category?._id} 
-           className="bg-white p-2 md:px-4 px-3  w-32 h-32 rounded-md " to={`/products?categoryId=${category?._id}`}>
-            <div className="flex flex-col space-y-2 rounded-md border-gray-300 border-[1px] items-center justify-center h-full">
-              {category?.image ? (
-                <img src={category?.image} alt="category" className="w-10 h-10" />
-              ) : (
-                <Phone className="text-5xl" />
-              )}
-              {/* <Phone className="text-5xl" /> */}
-              <h1 className='text-sm'>{category?.name}</h1>
+
+      {loading ? (
+        // Show Skeleton loader while fetching data
+        <Slider {...settings} className="flex justify-center">
+          {Array.from({ length: 5 }).map((_, index) => (
+            <div key={index} className="bg-white p-2 md:px-4 px-3 w-32 h-32 rounded-md">
+              <div className="flex flex-col space-y-2 rounded-md border-gray-300 border-[1px] items-center justify-center h-full">
+                <Skeleton circle width={40} height={40} />
+                <Skeleton width={80} height={20} />
+              </div>
             </div>
-          </Link>
-        ))}
-      </Slider>
+          ))}
+        </Slider>
       ) : (
-        <div>Loading...</div>
+        <Slider {...settings} className="flex justify-center">
+          {categories.map((category: any) => (
+            <Link 
+              key={category?._id} 
+              className="bg-white p-2 md:px-4 px-3 w-32 h-32 rounded-md" 
+              to={`/products?categoryId=${category?._id}`}
+            >
+              <div className="flex flex-col space-y-2 rounded-md border-gray-300 border-[1px] items-center justify-center h-full">
+                {category?.image ? (
+                  <img src={category?.image} alt="category" className="w-10 h-10" />
+                ) : (
+                  <Phone className="text-5xl" />
+                )}
+                <h1 className='text-sm'>{category?.name}</h1>
+              </div>
+            </Link>
+          ))}
+        </Slider>
       )}
-      
     </div>
   );
 };
-
 
 export default CategoryCards;
