@@ -30,7 +30,7 @@ const AdSlider2: React.FC = () => {
   }, []);
 
   return (
-    <div className="py-2 relative flex flex-col w-[90.5%] mx-auto justify-center lg:mt-0 2xl:mt-0 xl:mt-0 md:mt-12 mb-8">
+    <div className="py-2 relative flex flex-col w-[90.5%] mx-auto justify-center lg:mt-0 2xl:mt-0 xl:mt-0 md:mt-12 mb-2">
       {loading ? (
         // Skeleton Loader while fetching data
         <div className="relative w-full">
