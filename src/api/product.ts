@@ -1,7 +1,7 @@
 import { baseUrl } from '.';
 import axios from "axios";
 
-export const getAllProducts = async (minPrice?: number, maxPrice?: number, categoryId?: string[], vendorId?: string[], ram?: string[], storage?: string[], camera?: string[], colors?: string[], screen?: string[]) => {
+export const getAllProducts = async (minPrice?: number, maxPrice?: number, categoryId?: string[], vendorId?: string[], ram?: string[], storage?: string[], camera?: string[], colors?: string[], screen?: string[], signal?: AbortSignal) => {
   let url = `${baseUrl}/products?`;
   if (minPrice && maxPrice) {
     url += `minPrice=${minPrice}&maxPrice=${maxPrice}`;
@@ -43,7 +43,7 @@ export const getAllProducts = async (minPrice?: number, maxPrice?: number, categ
     }
   }
 
-  const res = await axios.get(url);
+  const res = await axios.get(url, { signal });
   return res;
 };
 
