@@ -75,7 +75,7 @@ const CategoryCards: React.FC = () => {
   }, []);
 
   return (
-    <div className="lg:px-14 px-2 py-6">
+    <div className="lg:px-14 px-2 pt-6 pb-10">
       <div className='flex flex-col md:px-4 px-3 pb-6'>
         <div className="flex justify-start items-start">
           <div className="flex w-[20px] h-[40px] rounded-md bg-[#EDB62E]"></div>
