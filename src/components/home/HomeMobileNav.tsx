@@ -7,6 +7,7 @@ import { FaSearch } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import { getAllProducts } from '../../api/product';
 import { isAdminFromLocalStorage } from '../Footer';
+import { handleLogout } from '../dashboard/TopNavBar';
 
 
 const MobileHomeNav = () => {
@@ -54,11 +55,13 @@ const lastPart = urlParts[urlParts.length - 1];
           Kwemeza
         </Link>
       </Menu.Item>
-      <Menu.Item key="2">
-        <Link to="/login">
-          <a>Injira</a>
-        </Link>
-      </Menu.Item>
+      {isAdminFromLocalStorage() && (
+        <Menu.Item key="3">
+          <button onClick={handleLogout}>
+            Sohoka
+          </button>
+        </Menu.Item>
+      )}
     </Menu>
   );
   const burgerMenu = (
