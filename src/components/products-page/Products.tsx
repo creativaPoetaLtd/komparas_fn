@@ -1,13 +1,12 @@
 import React, { SetStateAction, useEffect, useState, useRef } from 'react';
 import { Pagination } from 'antd';
-import SideBar from './SideBar'
-import SubNav from '../Navigations/SubNav'
-import HomeNav from '../home/HomeNav'
-import MobileHomeNav from '../home/HomeMobileNav'
-import { FaArrowCircleUp, FaSearch, FaTimes } from 'react-icons/fa'
+import SideBar from './SideBar';
+import SubNav from '../Navigations/SubNav';
+import HomeNav from '../home/HomeNav';
+import MobileHomeNav from '../home/HomeMobileNav';
+import { FaArrowCircleUp, FaSearch, FaTimes } from 'react-icons/fa';
 import { getAllProducts, getComparison } from '../../api/product';
-// import ComparisonDrawer from './ComparisonDrawer';
-import { TbAdjustmentsHorizontal } from "react-icons/tb";
+import { TbAdjustmentsHorizontal } from 'react-icons/tb';
 import PorductCheckInput from './ProdCheck';
 import { toast } from 'react-toastify';
 import { fetchParentCategories } from '../../api/getAllCategories';
@@ -20,6 +19,7 @@ import Footer from '../Footer';
 import AllProdNavs from '../Product/AllProdNavs';
 import { HiMiniArrowsUpDown } from 'react-icons/hi2';
 import BottomDrawer from './BottomDrawer';
+
 const Products = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [productsData, setProductsData] = useState<any[]>([]);
@@ -106,14 +106,14 @@ const Products = () => {
 
     const fetchCategories = async () => {
         const data = await fetchParentCategories();
-    
+
         const parentCategories = data?.data
             ?.filter((category: any) => Array.isArray(category?.children) && category?.children.length > 0)
             .sort((a: any, b: any) => a.name.localeCompare(b.name));
-    
+
         setCategories(parentCategories);
     };
-    
+
     const fetchShops = async () => {
         const data = await getAllShops();
         setShops(data?.data);
@@ -123,7 +123,6 @@ const Products = () => {
         fetchCategories();
         fetchShops();
     }, []);
-
 
     const [selectedShopNames, setSelectedShopNames] = useState<string[]>([]);
     const [shopst, setShopst] = useState<string[]>([]);
@@ -175,7 +174,6 @@ const Products = () => {
     const [multipleRam, setMultipleRam] = useState<string[]>([]);
     const handleSelectRam = async (ram: string) => {
         handleRefresh();
-        // setSelectedRam(ram);
         const index = multipleRam.indexOf(ram);
         if (index === -1) {
             setMultipleRam([...multipleRam, ram]);
@@ -227,13 +225,12 @@ const Products = () => {
             setMultiplesecreen(multiplesecreen.filter(secreenT => secreenT !== secreen));
             setSelectedsecreen(multiplesecreen.filter(secreenT => secreenT !== secreen));
         }
-        // setSelectedCamera(camera);
         handleRefresh();
     };
     const [comparisonData, setComparisonData] = useState<any>([]);
 
     useEffect(() => {
-        if (!userId) return; // Prevent API call if userId is null or undefined
+        if (!userId) return;
         const fetchComparison = async () => {
             try {
                 const response = await getComparison(userId);
@@ -249,17 +246,15 @@ const Products = () => {
     const comparedProductId = comparisonData?.productsInfo?.map((product: any) => product._id);
     const handleAddProductIdToLocalStorageCompare = (productId: string) => {
         const productIds = localStorage.getItem('compareProductIds');
-    
+
         if (productIds) {
           const productIdsArray = JSON.parse(productIds);
-          
-          // Check if the product is already in the comparison list
+
           if (productIdsArray.includes(productId)) {
             toast.warn('Product is already in comparison!');
             return;
           }
-    
-          // Limit comparison to 4 products
+
           if (productIdsArray.length < 4) {
             const updatedProductIds = [...productIdsArray, productId];
             localStorage.setItem('compareProductIds', JSON.stringify(updatedProductIds));
@@ -268,37 +263,32 @@ const Products = () => {
             toast.error('You can only compare up to 4 products!');
           }
         } else {
-          // Initialize comparison with the first product
           localStorage.setItem('compareProductIds', JSON.stringify([productId]));
           setLocastorageCompareProductIds([productId]);
         }
       };
-    
 
     const handleRemoveProductIdFromLocalStorageCompare = (productId: any) => {
-        handleRefresh()
+        handleRefresh();
         const productIds = localStorage.getItem('compareProductIds');
         if (productIds) {
-            handleRefresh()
+            handleRefresh();
             const productIdsArray = JSON.parse(productIds);
             const updatedProductIdsArray = productIdsArray.filter((id: any) => id !== productId);
             localStorage.setItem('compareProductIds', JSON.stringify(updatedProductIdsArray));
             setLocastorageCompareProductIds(JSON.stringify(updatedProductIdsArray));
-            handleRefresh()
+            handleRefresh();
         }
-        handleRefresh()
+        handleRefresh();
     }
 
     const cardsPerPage = 24;
-    const totalProducts = productsData?.length;
+    const [totalProducts, setTotalProducts] = useState(0);
     const [, setOpen] = useState(false);
     const [openBottom, setOpenBottom] = useState(false);
     const showDrawer = () => {
         setOpen(true);
     };
-    // const onClose = () => {
-    //     setOpen(false);
-    // };
     const showBottomDrawer = () => {
         setOpenBottom(true);
     };
@@ -327,7 +317,7 @@ const Products = () => {
     useEffect(() => {
         const handleScroll = () => {
             const top = window.scrollY;
-            if (top > 100) {  // Adjust this value based on your layout
+            if (top > 100) {
                 setFixed(true);
             } else {
                 setFixed(false);
@@ -352,7 +342,6 @@ const Products = () => {
         } else if (selectedValue === 'expensive') {
             setSortOrder('expensive');
         }
-
     };
     const categoryIdToUse: string[] = Array.isArray(categoryIdt) && categoryIdt.length > 0 ? categoryIdt : (catID ? [catID] : []);
     const shopIdToUse: string[] = Array.isArray(shopst) && shopst.length > 0 ? shopst : (shopsId ? [shopsId] : []);
@@ -361,13 +350,14 @@ const Products = () => {
             if (abortControllerRef.current) {
                 abortControllerRef.current.abort('New request made');
             }
-            // Create a new AbortController for the current request
             const abortController = new AbortController();
             abortControllerRef.current = abortController;
 
             setProductsData([]);
-            const response = await getAllProducts(minPrice, maxPrice, categoryIdToUse, shopIdToUse, multipleRam,multioletStorage, multipleCamera, multipleColors,multiplesecreen, abortController.signal);
+            const response = await getAllProducts(minPrice, maxPrice, categoryIdToUse, shopIdToUse, multipleRam, multioletStorage, multipleCamera, multipleColors, multiplesecreen, currentPage, cardsPerPage, abortController.signal);
             const allProducts = response?.data?.products;
+            const totalCount = response?.data?.totalProducts;
+            setTotalProducts(totalCount);
             let sortedProducts = allProducts;
             if (sortOrder === 'ascending') {
                 sortedProducts = allProducts?.sort((a: any, b: any) => a.product_name.localeCompare(b.product_name));
@@ -389,15 +379,13 @@ const Products = () => {
             setProductsData(filteredProducts);
         };
         fetchProducts();
-        
-        // Cleanup function to cancel the request when the component unmounts
+
         return () => {
             if (abortControllerRef.current) {
-            abortControllerRef.current.abort('Component unmounted');
+                abortControllerRef.current.abort('Component unmounted');
             }
         };
-  
-    }, [searchValue, refresh, deleteRefresh, minPrice, maxPrice, sortOrder, shopst]);
+    }, [searchValue, refresh, deleteRefresh, minPrice, maxPrice, sortOrder, shopst, currentPage]);
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchValue(event.target.value);
     };
@@ -505,9 +493,6 @@ const Products = () => {
                         </div>
                         <div className='products justify-between w-full flex bg-yellow-100 py-3 px-2 mt-3'>
                             <div className='filtersDiv flex relative'>
-                                {/* <button onClick={toggleSidebar}>
-                                    <MdFilterList className='text-xl cursor-pointer flex lg:hidden my-auto mr-4' />
-                                </button> */}
                                 <p className='text-sm my-auto text-green-600'>
                                     {activeFilters?.length === 0 ? '' : activeFilters.length > 1 ? `Utuyunguruzo ${activeFilters.length}` : `Akayunguruzo ${activeFilters.length}`} Habonekamo {productsData?.length}
                                 </p>
@@ -548,8 +533,6 @@ const Products = () => {
                                     </button>
                                 </div>}
                                 {shopsId && <div className='flex items-center bg-gray-200 rounded-md p-1 mx-1'>
-                                    {/* {shops.map((shop: any) => 
-                                    <p className="text-sm text-gray-800">{shop.name}</p>)} */}
                                     <p className="text-sm text-gray-800">{shops.find((shop: any) => shop._id === shopsId)?.name}</p>
                                     <button onClick={() => {
                                         navigate(-1)
@@ -603,11 +586,6 @@ const Products = () => {
                 <button className='view flex my-auto text-black justify-center'><button onClick={showBottomDrawer}><FaArrowCircleUp /></button></button>
                 <Link onClick={showDrawer} className='text-sm rounded-md p-[2px] bg-black' to={'compare'}>{!JSON.parse(localStorage.getItem("compareProductIds") as any) ? [] : JSON.parse(localStorage.getItem("compareProductIds") as any)?.length < 2 ? '(' + JSON.parse(localStorage.getItem("compareProductIds") as any)?.length + ')' + '   Yigereranye' : '(' + JSON.parse(localStorage.getItem("compareProductIds") as any)?.length + ')' + ' Zigereranye'}</Link>
             </div>
-            {/* <ComparisonDrawer
-                open={open}
-                onClose={onClose}
-                refresh={refresh}
-            /> */}
             <BottomDrawer
                 open={openBottom}
                 onClose={onCloseBottom}
@@ -615,7 +593,6 @@ const Products = () => {
                 refresh={refresh}
             />
         </div><Footer /></>
-
     );
 };
 

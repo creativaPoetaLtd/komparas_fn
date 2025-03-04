@@ -1,22 +1,33 @@
 import { baseUrl } from '.';
 import axios from "axios";
 
-export const getAllProducts = async (minPrice?: number, maxPrice?: number, categoryId?: string[], vendorId?: string[], ram?: string[], storage?: string[], camera?: string[], colors?: string[], screen?: string[], signal?: AbortSignal) => {
+export const getAllProducts = async (
+  minPrice?: number,
+  maxPrice?: number,
+  categoryId?: string[],
+  vendorId?: string[],
+  ram?: string[],
+  storage?: string[],
+  camera?: string[],
+  colors?: string[],
+  screen?: string[],
+  page?: number,
+  limit?: number,
+  signal?: AbortSignal
+) => {
   let url = `${baseUrl}/products?`;
+
   if (minPrice && maxPrice) {
     url += `minPrice=${minPrice}&maxPrice=${maxPrice}`;
   }
   if (categoryId && Array.isArray(categoryId) && categoryId.length > 0) {
     url += `&category=${categoryId.join(',')}`;
   }
-  if(vendorId && Array.isArray(vendorId) && vendorId.length > 0) {
+  if (vendorId && Array.isArray(vendorId) && vendorId.length > 0) {
     url += `&vendor_id=${vendorId.join(',')}`;
   }
-  // if (vendorId && Array.isArray(vendorId) && vendorId.length > 0) {
-  //   url += `&vendor_id=${vendorId.join(',')}`;
-  // }
   if (ram && Array.isArray(ram) && ram.length > 0) {
-    const numericRam = ram.map(r => r.match(/\d+/)?.[0]).filter(Boolean); 
+    const numericRam = ram.map(r => r.match(/\d+/)?.[0]).filter(Boolean);
     if (numericRam.length > 0) {
       url += `&ram=${numericRam.join(',')}`;
     }
@@ -42,11 +53,13 @@ export const getAllProducts = async (minPrice?: number, maxPrice?: number, categ
       url += `&screen=${numericScreen.join(',')}`;
     }
   }
+  if (page && limit) {
+    url += `&page=${page}&limit=${limit}`;
+  }
 
   const res = await axios.get(url, { signal });
   return res;
 };
-
 export const getProductByVendorId = async (vendorId: string[]) => {
   const res = axios.get(`${baseUrl}/products?vendor_id=${vendorId}`);
   return await res;
