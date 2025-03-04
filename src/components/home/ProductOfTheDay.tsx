@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
-import { addDayProduct, getDayProduct, updateDayProduct } from "../../api/offer";
+import {
+  addDayProduct,
+  getDayProduct,
+  updateDayProduct,
+} from "../../api/offer";
 import { UploadSimple } from "@phosphor-icons/react";
 import { getAllProducts } from "../../api/product";
 import { getAllShops } from "../../api/getAllShops";
@@ -16,16 +20,15 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
   const [refresh, setRefresh] = useState(false);
   const handleRefresh = () => {
     setRefresh(!refresh);
-  }
+  };
   const [products, setProducts] = React.useState<any[]>([]);
   useEffect(() => {
     const fetchProducts = async () => {
       const response = await getAllProducts();
       setProducts(response?.data?.products);
-    }
+    };
     fetchProducts();
-  }
-    , []);
+  }, []);
 
   useEffect(() => {
     const fetchDayProduct = async () => {
@@ -33,8 +36,7 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
       setDayProduct(data?.data?.dayProducts);
     };
     fetchDayProduct();
-  }
-    , [refresh]);
+  }, [refresh]);
   const [newImageData, setNewImageData] = useState({
     name: "",
     description: "",
@@ -50,10 +52,9 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
     const fetchShops = async () => {
       const response = await getAllShops();
       setShops(response?.data);
-    }
+    };
     fetchShops();
-  }
-    , []);
+  }, []);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -82,7 +83,7 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
           price: newImageData.price || dayProduct[0].price,
           image: newImageData.image || dayProduct[0].image,
           product: newImageData.product || dayProduct[0].product,
-          shop: newImageData?.shop || dayProduct[0].shop
+          shop: newImageData?.shop || dayProduct[0].shop,
         };
         await updateDayProduct(updatedData);
       } else {
@@ -95,19 +96,17 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
         price: "",
         image: undefined,
         product: "",
-        shop: ""
+        shop: "",
       });
       handleRefresh();
       setLoading(false);
-        setIsFormVisible(false)
-
+      setIsFormVisible(false);
     } catch (error) {
       handleRefresh();
       setLoading(false);
     }
     handleRefresh();
     setLoading(false);
-
   };
 
   const handleCancel = () => {
@@ -118,28 +117,33 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
       price: "",
       image: undefined,
       product: "",
-      shop:""
+      shop: "",
     });
     setIsFormVisible(false);
   };
 
   const handleImageUpload = () => {
-    const image: HTMLElement | null =
-      document.getElementById("image");
+    const image: HTMLElement | null = document.getElementById("image");
     image?.click();
   };
 
   return (
-    <div className='flex flex-col w-full lg:px-[4.5rem] lg:mt-0 2xl:mt-0 xl:mt-0 md:mt-12 px-2'>
-      <div className={`mainPage  flex md:flex-row flex-col justify-between ${isAdminFromLocalStorage() ? "bg-[#848482]" : "bg-[#0C203B]"}  h-full relative md:px-20 px-6 pt-6`}>
-        <div className='mainPageContent md:w-[60%] w-full h-full md:p-12 p-1 my-auto justify-center flex flex-col'>
-          <div className='flex'>
-            <p className='text-[#b6b4b4] text-3xl md:ml-1 my-auto font-thin justify-center'>Telefoni y'umunsi</p>
+    <div className="flex flex-col w-full lg:px-[4.5rem] lg:mt-0 2xl:mt-0 xl:mt-0 md:mt-12 px-2">
+      <div
+        className={`mainPage flex md:flex-row flex-col justify-between ${
+          isAdminFromLocalStorage() ? "bg-[#848482]" : "bg-[#0C203B]"
+        } h-[100vh] md:h-full relative md:px-20 px-6 pt-2 sm:pt-6`}
+      >
+        <div className="mainPageContent md:w-[60%] w-full min-h-fit md:h-full md:p-12 px-1 py-3 my-auto sm:justify-center justify-start flex flex-col">
+          <div className="flex">
+            <p className="text-[#b6b4b4] text-3xl md:ml-1 my-auto font-thin justify-center">
+              Telefoni y'umunsi
+            </p>
           </div>
-          <p className='lg:text-4xl md:text-3xl text-2xl md:mt-6 mt-5 text-white'>
+          <p className="lg:text-4xl md:text-3xl text-2xl mt-2 md:mt-6 text-white">
             {dayProduct[0]?.name}
           </p>
-          <p className='text-[#b6b4b4] text-sm font-thin my-4'>
+          <p className="text-[#b6b4b4] text-sm font-thin my-1 md:my-4">
             {dayProduct[0]?.description}
           </p>
           <Link
@@ -157,12 +161,24 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
             <p>{dayProduct[0]?.shop?._id ? "Reba aho wayigurira" : "Yirebe"}</p>
           </Link>
         </div>
-        <div className="image md:w-[406px] md:h-[568px] w-full h-full pt-4 pb-12 overflow-hidden">
+        
+        <div className="image w-full h-3/4 md:w-[406px] md:h-[568px] pt-4 pb-14 overflow-hidden">
           <div className="w-full h-full object-cover">
-            <img src={dayProduct[0]?.image} height={998} width={406} alt="" className="w-[406px] object-contain h-full" />
+            <img
+              src={dayProduct[0]?.image}
+              height={998}
+              width={406}
+              alt=""
+              className="w-[406px] object-contain h-full"
+            />
           </div>
           {isAdminFromLocalStorage() && (
-            <button onClick={() => setIsFormVisible(true)} className="bg-[#EDB62E] absolute right-3 bottom-2 text-white px-4 py-2 rounded mt-4">Upload New Product</button>
+            <button
+              onClick={() => setIsFormVisible(true)}
+              className="bg-[#EDB62E] absolute right-3 bottom-2 text-white px-4 py-2 rounded mt-4"
+            >
+              Upload New Product
+            </button>
           )}
         </div>
       </div>
@@ -185,7 +201,6 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
                         alt="Selected Profile"
                         className="w-full h-full object-fill rounded-lg"
                       />
-
                     </div>
                   ) : (
                     <div
@@ -201,13 +216,8 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
                         style={{ display: "none" }}
                       />
                       <div className="absolute flex flex-col gap-5 items-center">
-                        <UploadSimple
-                          color="#90A8A2"
-                          size={22}
-                        />
-                        <p className="text-sm text-grey-700">
-                          Upload product
-                        </p>
+                        <UploadSimple color="#90A8A2" size={22} />
+                        <p className="text-sm text-grey-700">Upload product</p>
                       </div>
                     </div>
                   )}
@@ -218,14 +228,18 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
                   type="text"
                   placeholder="Name"
                   value={newImageData.name}
-                  onChange={(e) => setNewImageData({ ...newImageData, name: e.target.value })}
+                  onChange={(e) =>
+                    setNewImageData({ ...newImageData, name: e.target.value })
+                  }
                   className="border border-gray-300 p-2 mb-4"
                 />
                 <input
                   type="text"
                   placeholder="Offer"
                   value={newImageData.offer}
-                  onChange={(e) => setNewImageData({ ...newImageData, offer: e.target.value })}
+                  onChange={(e) =>
+                    setNewImageData({ ...newImageData, offer: e.target.value })
+                  }
                   className="border border-gray-300 p-2 mb-4"
                 />
                 <input
@@ -233,12 +247,19 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
                   placeholder="price"
                   value={newImageData.price}
                   name="price"
-                  onChange={(e) => setNewImageData({ ...newImageData, price: e.target.value })}
+                  onChange={(e) =>
+                    setNewImageData({ ...newImageData, price: e.target.value })
+                  }
                   className="border border-gray-300 p-2 mb-4"
                 />
-                 <select
+                <select
                   className="border border-gray-300 p-2 mb-4"
-                  onChange={(e) => setNewImageData({ ...newImageData, product: e.target.value })}
+                  onChange={(e) =>
+                    setNewImageData({
+                      ...newImageData,
+                      product: e.target.value,
+                    })
+                  }
                 >
                   <option value="">Select related Product</option>
                   {products.map((product) => (
@@ -249,7 +270,9 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
                 </select>
                 <select
                   className="border border-gray-300 p-2 mb-4"
-                  onChange={(e) => setNewImageData({ ...newImageData, shop: e.target.value })}
+                  onChange={(e) =>
+                    setNewImageData({ ...newImageData, shop: e.target.value })
+                  }
                 >
                   <option value="">Select related Shop</option>
                   {shops?.map((shop) => (
@@ -262,25 +285,36 @@ const ProductOfTheDay: React.FC<ProductOfTheDayProps> = () => {
                 <textarea
                   placeholder="Description"
                   value={newImageData.description}
-                  onChange={(e) => setNewImageData({ ...newImageData, description: e.target.value })}
+                  onChange={(e) =>
+                    setNewImageData({
+                      ...newImageData,
+                      description: e.target.value,
+                    })
+                  }
                   className="border border-gray-300 p-2 mb-4"
                 ></textarea>
               </div>
             </div>
-            <button onClick={handleSubmit} className="bg-blue-500 w-fit justify-end self-end flex items-end text-white px-4 py-2 rounded">
-              {
-                loading ? "Loading..." : "Submit"
-              }
+            <button
+              onClick={handleSubmit}
+              className="bg-blue-500 w-fit justify-end self-end flex items-end text-white px-4 py-2 rounded"
+            >
+              {loading ? "Loading..." : "Submit"}
             </button>
-            <button onClick={() => {
-              setIsFormVisible(false)
-              handleCancel()
-            }} className="bg-gray-300 w-fit justify-end mt-3 self-end flex items-end text-gray-700 px-4 py-2 rounded ml-2">Cancel</button>
+            <button
+              onClick={() => {
+                setIsFormVisible(false);
+                handleCancel();
+              }}
+              className="bg-gray-300 w-fit justify-end mt-3 self-end flex items-end text-gray-700 px-4 py-2 rounded ml-2"
+            >
+              Cancel
+            </button>
           </div>
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
 export default ProductOfTheDay;
