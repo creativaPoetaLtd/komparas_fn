@@ -350,42 +350,66 @@ const Products = () => {
             if (abortControllerRef.current) {
                 abortControllerRef.current.abort('New request made');
             }
+
+            // Create a new AbortController for the current request
             const abortController = new AbortController();
             abortControllerRef.current = abortController;
-
+    
             setProductsData([]);
-            const response = await getAllProducts(minPrice, maxPrice, categoryIdToUse, shopIdToUse, multipleRam, multioletStorage, multipleCamera, multipleColors, multiplesecreen, currentPage, cardsPerPage, abortController.signal);
-            const allProducts = response?.data?.products;
-            const totalCount = response?.data?.totalProducts;
-            setTotalProducts(totalCount);
-            let sortedProducts = allProducts;
-            if (sortOrder === 'ascending') {
-                sortedProducts = allProducts?.sort((a: any, b: any) => a.product_name.localeCompare(b.product_name));
-            } else if (sortOrder === 'descending') {
-                sortedProducts = allProducts?.sort((a: any, b: any) => b.product_name.localeCompare(a.product_name));
-            } else if (sortOrder === 'cheaper') {
-                sortedProducts = allProducts?.sort((a: any, b: any) => a.our_price - b.our_price);
-            } else if (sortOrder === 'expensive') {
-                sortedProducts = allProducts?.sort((a: any, b: any) => b.our_price - a.our_price);
+            try {
+                const response = await getAllProducts(
+                    minPrice,
+                    maxPrice,
+                    categoryIdToUse,
+                    shopIdToUse,
+                    multipleRam,
+                    multioletStorage,
+                    multipleCamera,
+                    multipleColors,
+                    multiplesecreen,
+                    currentPage,
+                    cardsPerPage,
+                    abortController.signal
+                );
+                const allProducts = response?.data?.products;
+                const totalCount = response?.data?.totalProducts;
+                setTotalProducts(totalCount);
+    
+                let sortedProducts = allProducts;
+                if (sortOrder === 'ascending') {
+                    sortedProducts = allProducts?.sort((a: any, b: any) => a.product_name.localeCompare(b.product_name));
+                } else if (sortOrder === 'descending') {
+                    sortedProducts = allProducts?.sort((a: any, b: any) => b.product_name.localeCompare(a.product_name));
+                } else if (sortOrder === 'cheaper') {
+                    sortedProducts = allProducts?.sort((a: any, b: any) => a.our_price - b.our_price);
+                } else if (sortOrder === 'expensive') {
+                    sortedProducts = allProducts?.sort((a: any, b: any) => b.our_price - a.our_price);
+                }
+    
+                const productNames = sortedProducts?.map((product: any) => product.product_name);
+                setAutocompleteOptions(productNames);
+    
+                const filteredProducts = sortedProducts?.filter((product: any) =>
+                    product.product_name.toLowerCase().includes(searchValue.toLowerCase())
+                ).map((product: any) => ({
+                    ...product,
+                    checked: comparedProductId?.includes(product._id)
+                }));
+                setProductsData(filteredProducts);
+            } catch (error) {
+                console.error("Error fetching products:", error);
             }
-            const productNames = sortedProducts?.map((product: any) => product.product_name);
-            setAutocompleteOptions(productNames);
-            const filteredProducts = sortedProducts?.filter((product: any) =>
-                product.product_name.toLowerCase().includes(searchValue.toLowerCase())
-            ).map((product: any) => ({
-                ...product,
-                checked: comparedProductId?.includes(product._id)
-            }));
-            setProductsData(filteredProducts);
         };
+    
         fetchProducts();
 
+        // Cleanup function to cancel the request when the component unmounts
         return () => {
             if (abortControllerRef.current) {
                 abortControllerRef.current.abort('Component unmounted');
             }
         };
-    }, [searchValue, refresh, deleteRefresh, minPrice, maxPrice, sortOrder, shopst, currentPage]);
+    }, [searchValue, refresh, deleteRefresh, minPrice, maxPrice, sortOrder, shopst, currentPage, cardsPerPage]);
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchValue(event.target.value);
     };
@@ -548,7 +572,7 @@ const Products = () => {
                             }
                         </div>
                         <div className='products grid lg:grid-cols-3 md:grid-cols-3 grid-cols-2 lg:gap-12 md:gap-8 gap-3 mx-auto justify-center items-center mt-3'>
-                            {productsData?.slice(startIndex, endIndex)?.map((product) => (
+                            {productsData?.map((product) => (
                                 <div key={product._id} className='productCard md:w-[222px] w-[170px] border border-black rounded-md p-3 md:min-h-[200px] md:h-fit min-h-[256px] h-fit  m-auto justify-center flex flex-col'>
                                     <Link to={`/product/${product?._id}`} className="flex justify-center">
                                         <img src={product.product_image} height={152} width={172} alt="" className="w-[172px] h-[152px] object-contain mb-1" />
