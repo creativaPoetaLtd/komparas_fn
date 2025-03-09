@@ -1,4 +1,4 @@
-import React, { SetStateAction, useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, SetStateAction } from 'react';
 import { Pagination } from 'antd';
 import SideBar from './SideBar';
 import SubNav from '../Navigations/SubNav';
@@ -333,15 +333,7 @@ const Products = () => {
     const [sortOrder, setSortOrder] = useState<'ascending' | 'descending' | 'cheaper' | 'expensive'>('ascending');
     const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedValue = event.target.value;
-        if (selectedValue === 'ascending') {
-            setSortOrder('ascending');
-        } else if (selectedValue === 'descending') {
-            setSortOrder('descending');
-        } else if (selectedValue === 'cheaper') {
-            setSortOrder('cheaper');
-        } else if (selectedValue === 'expensive') {
-            setSortOrder('expensive');
-        }
+        setSortOrder(selectedValue as 'ascending' | 'descending' | 'cheaper' | 'expensive');
     };
     const categoryIdToUse: string[] = Array.isArray(categoryIdt) && categoryIdt.length > 0 ? categoryIdt : (catID ? [catID] : []);
     const shopIdToUse: string[] = Array.isArray(shopst) && shopst.length > 0 ? shopst : (shopsId ? [shopsId] : []);
@@ -354,7 +346,7 @@ const Products = () => {
             // Create a new AbortController for the current request
             const abortController = new AbortController();
             abortControllerRef.current = abortController;
-    
+
             setProductsData([]);
             try {
                 const response = await getAllProducts(
@@ -369,27 +361,17 @@ const Products = () => {
                     multiplesecreen,
                     currentPage,
                     cardsPerPage,
+                    sortOrder,
                     abortController.signal
                 );
                 const allProducts = response?.data?.products;
                 const totalCount = response?.data?.totalProducts;
                 setTotalProducts(totalCount);
-    
-                let sortedProducts = allProducts;
-                if (sortOrder === 'ascending') {
-                    sortedProducts = allProducts?.sort((a: any, b: any) => a.product_name.localeCompare(b.product_name));
-                } else if (sortOrder === 'descending') {
-                    sortedProducts = allProducts?.sort((a: any, b: any) => b.product_name.localeCompare(a.product_name));
-                } else if (sortOrder === 'cheaper') {
-                    sortedProducts = allProducts?.sort((a: any, b: any) => a.our_price - b.our_price);
-                } else if (sortOrder === 'expensive') {
-                    sortedProducts = allProducts?.sort((a: any, b: any) => b.our_price - a.our_price);
-                }
-    
-                const productNames = sortedProducts?.map((product: any) => product.product_name);
+
+                const productNames = allProducts?.map((product: any) => product.product_name);
                 setAutocompleteOptions(productNames);
-    
-                const filteredProducts = sortedProducts?.filter((product: any) =>
+
+                const filteredProducts = allProducts?.filter((product: any) =>
                     product.product_name.toLowerCase().includes(searchValue.toLowerCase())
                 ).map((product: any) => ({
                     ...product,
@@ -400,7 +382,7 @@ const Products = () => {
                 console.error("Error fetching products:", error);
             }
         };
-    
+
         fetchProducts();
 
         // Cleanup function to cancel the request when the component unmounts
@@ -518,7 +500,7 @@ const Products = () => {
                         <div className='products justify-between w-full flex bg-yellow-100 py-3 px-2 mt-3'>
                             <div className='filtersDiv flex relative'>
                                 <p className='text-sm my-auto text-green-600'>
-                                    {activeFilters?.length === 0 ? '' : activeFilters.length > 1 ? `Utuyunguruzo ${activeFilters.length}` : `Akayunguruzo ${activeFilters.length}`} Habonekamo {productsData?.length}
+                                    {activeFilters?.length === 0 ? '' : activeFilters.length > 1 ? `Utuyunguruzo ${activeFilters.length}` : `Akayunguruzo ${activeFilters.length}`} Habonekamo {totalProducts}  zose hamwe
                                 </p>
                                 <button className='' onClick={handleSetDropDownFilter}><div className='flex md:hidden justify-center items-center my-auto ml-3 text-sm'>
                                     {!isDropDownFilter ? <>

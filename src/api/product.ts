@@ -13,6 +13,7 @@ export const getAllProducts = async (
   screen?: string[],
   page?: number,
   limit?: number,
+  sortOrder?: 'ascending' | 'descending' | 'cheaper' | 'expensive',
   signal?: AbortSignal
 ) => {
   let url = `${baseUrl}/products?`;
@@ -55,6 +56,9 @@ export const getAllProducts = async (
   }
   if (page && limit) {
     url += `&page=${page}&limit=${limit}`;
+  }
+  if (sortOrder) {
+    url += `&sortOrder=${sortOrder}`;
   }
 
   const res = await axios.get(url, { signal });
