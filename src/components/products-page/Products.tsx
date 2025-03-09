@@ -564,8 +564,33 @@ const Products = () => {
                                     </Link>
                                     <div className='w-full h-fit m-auto flex flex-col justify-center items-start bg-white rounded-md p-2'>
                                         <Link to={`/product/${product?._id}`} className='text-sm font-semibold'>{product?.product_name?.length > 40 ? product?.product_name?.substring(0, 40) + '...' : product?.product_name?.substring(0, 40)}</Link>
-                                        <p className='text-sm text-gray-600 line-through'>{product?.vendor_prices?.length >=1 && product.vendor_prices?.reduce((prev: any, current: any) => (prev.price < current.price) ? prev : current).price}Rwf</p>
-                                        <Link to={`/product/${product?._id}`} className='text-sm text-green-600 flex justify-end mx-auto'>{product?.our_price}Rwf</Link>
+                                        {(() => {
+                                            const vendorPrices = product?.vendor_prices?.map((vendor: any) => vendor.price) || [];
+                                            const lowestVendorPrice = vendorPrices.length > 0 ? Math.min(...vendorPrices) : null;
+                                            const shouldShowDiscount = lowestVendorPrice !== null && lowestVendorPrice < product.our_price;
+
+                                            const formattedOurPrice = product.our_price.toLocaleString("en-US", { maximumFractionDigits: 2 });
+                                            const formattedLowestVendorPrice = lowestVendorPrice !== null ? lowestVendorPrice.toLocaleString("en-US", { maximumFractionDigits: 2 }) : null;
+
+                                            if (shouldShowDiscount) {
+                                                return (
+                                                    <>
+                                                        <p className="text-sm text-gray-600 line-through">
+                                                            {formattedOurPrice} Rwf
+                                                        </p>
+                                                        <Link to={`/product/${product?._id}`} className="text-sm text-green-600 flex justify-end mx-auto">
+                                                            {formattedLowestVendorPrice} Rwf
+                                                        </Link>
+                                                    </>
+                                                );
+                                            }
+
+                                            return (
+                                                <Link to={`/product/${product?._id}`} className="text-sm text-green-600 flex justify-end mx-auto py-2">
+                                                    {formattedLowestVendorPrice !== null ? `${formattedLowestVendorPrice} Rwf` : `${formattedOurPrice} Rwf`}
+                                                </Link>
+                                            );
+                                        })()}
                                         <Link to={`/product/${product?._id}`} className='bg-black py-[2px] px-8 text-center mx-auto rounded-md w-fit text-yellow-500 text-sm'>Yirebe</Link>
                                     </div>
                                     <div className='checkboxWithvalues px-2 text-sm w-full flex'>
