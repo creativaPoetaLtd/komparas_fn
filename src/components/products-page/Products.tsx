@@ -1,13 +1,12 @@
-import React, { SetStateAction, useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, SetStateAction } from 'react';
 import { Pagination } from 'antd';
-import SideBar from './SideBar'
-import SubNav from '../Navigations/SubNav'
-import HomeNav from '../home/HomeNav'
-import MobileHomeNav from '../home/HomeMobileNav'
-import { FaArrowCircleUp, FaSearch, FaTimes } from 'react-icons/fa'
+import SideBar from './SideBar';
+import SubNav from '../Navigations/SubNav';
+import HomeNav from '../home/HomeNav';
+import MobileHomeNav from '../home/HomeMobileNav';
+import { FaArrowCircleUp, FaSearch, FaTimes } from 'react-icons/fa';
 import { getAllProducts, getComparison } from '../../api/product';
-// import ComparisonDrawer from './ComparisonDrawer';
-import { TbAdjustmentsHorizontal } from "react-icons/tb";
+import { TbAdjustmentsHorizontal } from 'react-icons/tb';
 import PorductCheckInput from './ProdCheck';
 import { toast } from 'react-toastify';
 import { fetchParentCategories } from '../../api/getAllCategories';
@@ -20,6 +19,7 @@ import Footer from '../Footer';
 import AllProdNavs from '../Product/AllProdNavs';
 import { HiMiniArrowsUpDown } from 'react-icons/hi2';
 import BottomDrawer from './BottomDrawer';
+
 const Products = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [productsData, setProductsData] = useState<any[]>([]);
@@ -106,14 +106,14 @@ const Products = () => {
 
     const fetchCategories = async () => {
         const data = await fetchParentCategories();
-    
+
         const parentCategories = data?.data
             ?.filter((category: any) => Array.isArray(category?.children) && category?.children.length > 0)
             .sort((a: any, b: any) => a.name.localeCompare(b.name));
-    
+
         setCategories(parentCategories);
     };
-    
+
     const fetchShops = async () => {
         const data = await getAllShops();
         setShops(data?.data);
@@ -123,7 +123,6 @@ const Products = () => {
         fetchCategories();
         fetchShops();
     }, []);
-
 
     const [selectedShopNames, setSelectedShopNames] = useState<string[]>([]);
     const [shopst, setShopst] = useState<string[]>([]);
@@ -175,7 +174,6 @@ const Products = () => {
     const [multipleRam, setMultipleRam] = useState<string[]>([]);
     const handleSelectRam = async (ram: string) => {
         handleRefresh();
-        // setSelectedRam(ram);
         const index = multipleRam.indexOf(ram);
         if (index === -1) {
             setMultipleRam([...multipleRam, ram]);
@@ -227,13 +225,12 @@ const Products = () => {
             setMultiplesecreen(multiplesecreen.filter(secreenT => secreenT !== secreen));
             setSelectedsecreen(multiplesecreen.filter(secreenT => secreenT !== secreen));
         }
-        // setSelectedCamera(camera);
         handleRefresh();
     };
     const [comparisonData, setComparisonData] = useState<any>([]);
 
     useEffect(() => {
-        if (!userId) return; // Prevent API call if userId is null or undefined
+        if (!userId) return;
         const fetchComparison = async () => {
             try {
                 const response = await getComparison(userId);
@@ -249,17 +246,15 @@ const Products = () => {
     const comparedProductId = comparisonData?.productsInfo?.map((product: any) => product._id);
     const handleAddProductIdToLocalStorageCompare = (productId: string) => {
         const productIds = localStorage.getItem('compareProductIds');
-    
+
         if (productIds) {
           const productIdsArray = JSON.parse(productIds);
-          
-          // Check if the product is already in the comparison list
+
           if (productIdsArray.includes(productId)) {
             toast.warn('Product is already in comparison!');
             return;
           }
-    
-          // Limit comparison to 4 products
+
           if (productIdsArray.length < 4) {
             const updatedProductIds = [...productIdsArray, productId];
             localStorage.setItem('compareProductIds', JSON.stringify(updatedProductIds));
@@ -268,37 +263,32 @@ const Products = () => {
             toast.error('You can only compare up to 4 products!');
           }
         } else {
-          // Initialize comparison with the first product
           localStorage.setItem('compareProductIds', JSON.stringify([productId]));
           setLocastorageCompareProductIds([productId]);
         }
       };
-    
 
     const handleRemoveProductIdFromLocalStorageCompare = (productId: any) => {
-        handleRefresh()
+        handleRefresh();
         const productIds = localStorage.getItem('compareProductIds');
         if (productIds) {
-            handleRefresh()
+            handleRefresh();
             const productIdsArray = JSON.parse(productIds);
             const updatedProductIdsArray = productIdsArray.filter((id: any) => id !== productId);
             localStorage.setItem('compareProductIds', JSON.stringify(updatedProductIdsArray));
             setLocastorageCompareProductIds(JSON.stringify(updatedProductIdsArray));
-            handleRefresh()
+            handleRefresh();
         }
-        handleRefresh()
+        handleRefresh();
     }
 
     const cardsPerPage = 24;
-    const totalProducts = productsData?.length;
+    const [totalProducts, setTotalProducts] = useState(0);
     const [, setOpen] = useState(false);
     const [openBottom, setOpenBottom] = useState(false);
     const showDrawer = () => {
         setOpen(true);
     };
-    // const onClose = () => {
-    //     setOpen(false);
-    // };
     const showBottomDrawer = () => {
         setOpenBottom(true);
     };
@@ -310,6 +300,9 @@ const Products = () => {
     };
     const startIndex = (currentPage - 1) * cardsPerPage;
     const endIndex = Math.min(startIndex + cardsPerPage, totalProducts);
+    if(!endIndex){
+        console.log("hello");
+    }
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
@@ -327,7 +320,7 @@ const Products = () => {
     useEffect(() => {
         const handleScroll = () => {
             const top = window.scrollY;
-            if (top > 100) {  // Adjust this value based on your layout
+            if (top > 100) {
                 setFixed(true);
             } else {
                 setFixed(false);
@@ -343,16 +336,7 @@ const Products = () => {
     const [sortOrder, setSortOrder] = useState<'ascending' | 'descending' | 'cheaper' | 'expensive'>('ascending');
     const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedValue = event.target.value;
-        if (selectedValue === 'ascending') {
-            setSortOrder('ascending');
-        } else if (selectedValue === 'descending') {
-            setSortOrder('descending');
-        } else if (selectedValue === 'cheaper') {
-            setSortOrder('cheaper');
-        } else if (selectedValue === 'expensive') {
-            setSortOrder('expensive');
-        }
-
+        setSortOrder(selectedValue as 'ascending' | 'descending' | 'cheaper' | 'expensive');
     };
     const categoryIdToUse: string[] = Array.isArray(categoryIdt) && categoryIdt.length > 0 ? categoryIdt : (catID ? [catID] : []);
     const shopIdToUse: string[] = Array.isArray(shopst) && shopst.length > 0 ? shopst : (shopsId ? [shopsId] : []);
@@ -361,43 +345,56 @@ const Products = () => {
             if (abortControllerRef.current) {
                 abortControllerRef.current.abort('New request made');
             }
+
             // Create a new AbortController for the current request
             const abortController = new AbortController();
             abortControllerRef.current = abortController;
 
             setProductsData([]);
-            const response = await getAllProducts(minPrice, maxPrice, categoryIdToUse, shopIdToUse, multipleRam,multioletStorage, multipleCamera, multipleColors,multiplesecreen, abortController.signal);
-            const allProducts = response?.data?.products;
-            let sortedProducts = allProducts;
-            if (sortOrder === 'ascending') {
-                sortedProducts = allProducts?.sort((a: any, b: any) => a.product_name.localeCompare(b.product_name));
-            } else if (sortOrder === 'descending') {
-                sortedProducts = allProducts?.sort((a: any, b: any) => b.product_name.localeCompare(a.product_name));
-            } else if (sortOrder === 'cheaper') {
-                sortedProducts = allProducts?.sort((a: any, b: any) => a.our_price - b.our_price);
-            } else if (sortOrder === 'expensive') {
-                sortedProducts = allProducts?.sort((a: any, b: any) => b.our_price - a.our_price);
+            try {
+                const response = await getAllProducts(
+                    minPrice,
+                    maxPrice,
+                    categoryIdToUse,
+                    shopIdToUse,
+                    multipleRam,
+                    multioletStorage,
+                    multipleCamera,
+                    multipleColors,
+                    multiplesecreen,
+                    currentPage,
+                    cardsPerPage,
+                    sortOrder,
+                    abortController.signal
+                );
+                const allProducts = response?.data?.products;
+                const totalCount = response?.data?.totalProducts;
+                setTotalProducts(totalCount);
+
+                const productNames = allProducts?.map((product: any) => product.product_name);
+                setAutocompleteOptions(productNames);
+
+                const filteredProducts = allProducts?.filter((product: any) =>
+                    product.product_name.toLowerCase().includes(searchValue.toLowerCase())
+                ).map((product: any) => ({
+                    ...product,
+                    checked: comparedProductId?.includes(product._id)
+                }));
+                setProductsData(filteredProducts);
+            } catch (error) {
+                console.error("Error fetching products:", error);
             }
-            const productNames = sortedProducts?.map((product: any) => product.product_name);
-            setAutocompleteOptions(productNames);
-            const filteredProducts = sortedProducts?.filter((product: any) =>
-                product.product_name.toLowerCase().includes(searchValue.toLowerCase())
-            ).map((product: any) => ({
-                ...product,
-                checked: comparedProductId?.includes(product._id)
-            }));
-            setProductsData(filteredProducts);
         };
+
         fetchProducts();
-        
+
         // Cleanup function to cancel the request when the component unmounts
         return () => {
             if (abortControllerRef.current) {
-            abortControllerRef.current.abort('Component unmounted');
+                abortControllerRef.current.abort('Component unmounted');
             }
         };
-  
-    }, [searchValue, refresh, deleteRefresh, minPrice, maxPrice, sortOrder, shopst]);
+    }, [searchValue, refresh, deleteRefresh, minPrice, maxPrice, sortOrder, shopst, currentPage, cardsPerPage]);
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchValue(event.target.value);
     };
@@ -505,11 +502,8 @@ const Products = () => {
                         </div>
                         <div className='products justify-between w-full flex bg-yellow-100 py-3 px-2 mt-3'>
                             <div className='filtersDiv flex relative'>
-                                {/* <button onClick={toggleSidebar}>
-                                    <MdFilterList className='text-xl cursor-pointer flex lg:hidden my-auto mr-4' />
-                                </button> */}
                                 <p className='text-sm my-auto text-green-600'>
-                                    {activeFilters?.length === 0 ? '' : activeFilters.length > 1 ? `Utuyunguruzo ${activeFilters.length}` : `Akayunguruzo ${activeFilters.length}`} Habonekamo {productsData?.length}
+                                    {activeFilters?.length === 0 ? '' : activeFilters.length > 1 ? `Utuyunguruzo ${activeFilters.length}` : `Akayunguruzo ${activeFilters.length}`} Habonekamo {totalProducts}  zose hamwe
                                 </p>
                                 <button className='' onClick={handleSetDropDownFilter}><div className='flex md:hidden justify-center items-center my-auto ml-3 text-sm'>
                                     {!isDropDownFilter ? <>
@@ -548,8 +542,6 @@ const Products = () => {
                                     </button>
                                 </div>}
                                 {shopsId && <div className='flex items-center bg-gray-200 rounded-md p-1 mx-1'>
-                                    {/* {shops.map((shop: any) => 
-                                    <p className="text-sm text-gray-800">{shop.name}</p>)} */}
                                     <p className="text-sm text-gray-800">{shops.find((shop: any) => shop._id === shopsId)?.name}</p>
                                     <button onClick={() => {
                                         navigate(-1)
@@ -565,7 +557,7 @@ const Products = () => {
                             }
                         </div>
                         <div className='products grid lg:grid-cols-3 md:grid-cols-3 grid-cols-2 lg:gap-12 md:gap-8 gap-3 mx-auto justify-center items-center mt-3'>
-                            {productsData?.slice(startIndex, endIndex)?.map((product) => (
+                            {productsData?.map((product) => (
                                 <div key={product._id} className='productCard md:w-[222px] w-[170px] border border-black rounded-md p-3 md:min-h-[200px] md:h-fit min-h-[256px] h-fit  m-auto justify-center flex flex-col'>
                                     <Link to={`/product/${product?._id}`} className="flex justify-center">
                                         <img src={product.product_image} height={152} width={172} alt="" className="w-[172px] h-[152px] object-contain mb-1" />
@@ -603,11 +595,6 @@ const Products = () => {
                 <button className='view flex my-auto text-black justify-center'><button onClick={showBottomDrawer}><FaArrowCircleUp /></button></button>
                 <Link onClick={showDrawer} className='text-sm rounded-md p-[2px] bg-black' to={'compare'}>{!JSON.parse(localStorage.getItem("compareProductIds") as any) ? [] : JSON.parse(localStorage.getItem("compareProductIds") as any)?.length < 2 ? '(' + JSON.parse(localStorage.getItem("compareProductIds") as any)?.length + ')' + '   Yigereranye' : '(' + JSON.parse(localStorage.getItem("compareProductIds") as any)?.length + ')' + ' Zigereranye'}</Link>
             </div>
-            {/* <ComparisonDrawer
-                open={open}
-                onClose={onClose}
-                refresh={refresh}
-            /> */}
             <BottomDrawer
                 open={openBottom}
                 onClose={onCloseBottom}
@@ -615,7 +602,6 @@ const Products = () => {
                 refresh={refresh}
             />
         </div><Footer /></>
-
     );
 };
 
