@@ -300,6 +300,9 @@ const Products = () => {
     };
     const startIndex = (currentPage - 1) * cardsPerPage;
     const endIndex = Math.min(startIndex + cardsPerPage, totalProducts);
+    if(!endIndex){
+        console.log("hello");
+    }
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
