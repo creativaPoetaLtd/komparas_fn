@@ -92,6 +92,11 @@ export const getProductOnCategory = async (category: string) => {
   return await res;
 }
 
+export const getRecommendedProducts = async (productId: string) => {
+  const res = axios.get(`${baseUrl}/products/${productId}/recommended`);
+  return await res;
+}
+
 export const getProductOnShop = async (shop: string) => {
   const res = axios.get(`${baseUrl}/products/vendor/${shop}`);
   return await res;
