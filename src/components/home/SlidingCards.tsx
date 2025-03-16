@@ -4,7 +4,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 import { Link, useNavigate } from "react-router-dom";
-import { getAllProducts } from "../../api/product";
+import { getRecentProducts } from "../../api/product";
 import { Phone } from "@phosphor-icons/react";
 import { isAdminFromLocalStorage } from "../Footer";
 import Skeleton from "react-loading-skeleton";
@@ -17,8 +17,8 @@ const SlidingCards: React.FC = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await getAllProducts();
-        setProducts(response?.data?.products?.reverse() || []);
+        const response = await getRecentProducts();
+        setProducts(response?.data?.products || []);
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {

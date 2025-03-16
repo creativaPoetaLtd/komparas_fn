@@ -67,10 +67,13 @@ export const getAllProducts = async (
 export const getProductByVendorId = async (vendorId: string[]) => {
   const res = axios.get(`${baseUrl}/products?vendor_id=${vendorId}`);
   return await res;
-
   
 }
 
+export const getRecentProducts = async () => {
+  const res = axios.get(`${baseUrl}/products/recent`);
+  return await res;
+}
 
 export const getPoductByCategory = async (category: string) => {
   const res = axios.get(`${baseUrl}/products/category/${category}`);
