@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { CiCircleChevLeft, CiCircleChevRight } from "react-icons/ci";
 import { Link, useParams } from "react-router-dom";
 import { useSwipeable } from "react-swipeable";
 import AddOtheShopsModal from "./AddingOtherShopsModel";
@@ -101,31 +100,36 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
                 {products?.product?.product_name}
               </h1>
             </div>
-            <div
-              {...swipeHandlers}
-              className="MainIMageDiv md:w-[500px] w-full md:h-[600px] h-[370px] flex m-auto justify-center items-center relative"
-            >
-              <button
-                onClick={handlePrevImage}
-                className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-green-50 text-white px-2 py-1 rounded-md"
-              >
-                <CiCircleChevLeft className="bg-green-300 text-2xl text-yellow-500 rounded-full hover:bg-green-800" />
-              </button>
-              <img
-                src={
-                  products?.product?.product_images[selectedImageIndex]
-                    ?.product_image
-                }
-                alt=""
-                className="md:w-[446px] w-full md:h-[315px] h-full object-contain"
-              />
-              <button
-                onClick={handleNextImage}
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-green-50 text-white px-2 py-1 rounded-md"
-              >
-                <CiCircleChevRight className="bg-green-300 text-2xl text-yellow-500 rounded-full hover:bg-green-800" />
-              </button>
-            </div>
+            <div {...swipeHandlers} className="MainImageDiv md:w-[500px] w-full md:h-[600px] h-[370px] flex m-auto justify-center items-center relative">
+  {/* Previous button with improved styling */}
+  <button 
+    onClick={handlePrevImage} 
+    className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-green-600 hover:bg-green-700 text-white p-2 rounded-full shadow-md transition-all duration-200 flex items-center justify-center"
+    aria-label="Previous image"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+    </svg>
+  </button>
+  
+  {/* Product image */}
+  <img 
+    src={products?.product?.product_images[selectedImageIndex]?.product_image} 
+    alt="Product" 
+    className="md:w-[446px] w-full md:h-[315px] h-full object-contain" 
+  />
+  
+  {/* Next button with improved styling */}
+  <button 
+    onClick={handleNextImage} 
+    className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-green-600 hover:bg-green-700 text-white p-2 rounded-full shadow-md transition-all duration-200 flex items-center justify-center"
+    aria-label="Next image"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+    </svg>
+  </button>
+</div>
           </div>
           <div className="md:hidden w-full overflow-x-auto">
             <div className="md:hidden flex h-fit py-4 overflow-x-auto w-fit justify-between flex-row">
