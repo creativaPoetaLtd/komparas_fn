@@ -42,7 +42,6 @@ const ProductPage = () => {
             setLoading(true);
             try {
                 const { data } = await getRecommendedProducts(productId);
-                console.log(data.recommendedProducts);
                 setRecommendedProducts(data.recommendedProducts);
             } catch (error) {
                 setError(true);

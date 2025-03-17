@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Minus, Plus } from '@phosphor-icons/react';
+import { IoInformationCircleOutline } from "react-icons/io5";
 // import { useLocation } from 'react-router-dom';
 
 interface IProduct {
@@ -9,6 +10,26 @@ interface IProduct {
 const ThreeButtons: React.FC<IProduct> = ({ products }) => {
     const [activeButton, setActiveButton] = useState('ourReview1');
     const [showValueMap, setShowValueMap] = useState<{ [key: number]: boolean }>({});
+    const [openTooltip, setOpenTooltip] = useState<number | null>(null);
+    const tooltipRef = useRef<HTMLSpanElement>(null);
+
+    // Handle clicks outside the tooltip
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (tooltipRef.current && !tooltipRef.current.contains(event.target as Node)) {
+                setOpenTooltip(null);
+            }
+        };
+
+        // Add event listener when the tooltip is open
+        if (openTooltip !== null) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+        
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [openTooltip]);
 
     const handleButtonClick = (buttonType: string) => {
         setActiveButton(buttonType);
@@ -47,7 +68,7 @@ const ThreeButtons: React.FC<IProduct> = ({ products }) => {
     ];
 
     // Function to check if a term has a description
-    const hasDescription = (key: any) => {
+    const hasDescription = (key: string): boolean => {
         // Normalize the key for case-insensitive comparison
         const normalizedKey = key.trim().toUpperCase();
         
@@ -59,7 +80,7 @@ const ThreeButtons: React.FC<IProduct> = ({ products }) => {
     };
   
     // Function to get the description for a term
-    const getDescription = (key: any) => {
+    const getDescription = (key: string): string => {
         const normalizedKey = key.trim().toUpperCase();
         
         const term = terms.find(item => 
@@ -149,15 +170,36 @@ const ThreeButtons: React.FC<IProduct> = ({ products }) => {
                                     <td className="text-[#353535] border-b p-2 flex items-center">
                                         {spec?.key}
                                         {hasDescription(spec?.key) && (
-                                        <span className="relative group ml-1">
-                                            <span className="inline-flex items-center justify-center bg-gray-100 text-blue-600 rounded-full w-6 h-6 text-sm font-medium cursor-pointer hover:bg-gray-200 transition-colors duration-200">
-                                            ?
+                                            <span className="relative ml-1 flex items-center" ref={tooltipRef}>
+                                                <span 
+                                                    className="inline-flex items-center justify-center text-blue-600 text-sm font-medium cursor-pointer"
+                                                    onClick={() => setOpenTooltip(openTooltip === index ? null : index)}
+                                                >
+                                                    <IoInformationCircleOutline />
+                                                </span>
+                                                <span 
+                                                    className={`absolute left-0 bottom-full mb-2 sm:w-96 w-52 p-3 text-sm text-white bg-gray-800 rounded shadow-lg transition-all duration-200 z-10 ${
+                                                        openTooltip === index ? 'opacity-100 visible' : 'opacity-0 invisible'
+                                                    }`}
+                                                >
+                                                    <div className="flex justify-between items-start">
+                                                        <span>{getDescription(spec?.key)}</span>
+                                                        <span 
+                                                            className="text-white cursor-pointer p-1"
+                                                            onClick={() => setOpenTooltip(null)}
+                                                        >
+                                                            ✕
+                                                        </span>
+                                                    </div>
+                                                    <a 
+                                                        href="/sobanukirwa"
+                                                        className="text-blue-400 underline mt-2 block"
+                                                    >
+                                                        reba byose
+                                                    </a>
+                                                    <span className="absolute left-0 top-full w-2 h-2 bg-gray-800 transform rotate-45 translate-x-2 -translate-y-1"></span>
+                                                </span>
                                             </span>
-                                            <span className="absolute left-0 bottom-full mb-2 w-80 p-3 text-sm text-white bg-gray-800 rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
-                                            {getDescription(spec?.key)}
-                                            <span className="absolute left-0 top-full w-2 h-2 bg-gray-800 transform rotate-45 translate-x-2 -translate-y-1"></span>
-                                            </span>
-                                        </span>
                                         )}
                                     </td>
                                     <td className="text-[#353535] border-b item-start m-auto p-2">{spec?.value}</td>
