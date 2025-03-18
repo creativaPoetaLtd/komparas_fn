@@ -67,10 +67,13 @@ export const getAllProducts = async (
 export const getProductByVendorId = async (vendorId: string[]) => {
   const res = axios.get(`${baseUrl}/products?vendor_id=${vendorId}`);
   return await res;
-
   
 }
 
+export const getRecentProducts = async () => {
+  const res = axios.get(`${baseUrl}/products/recent`);
+  return await res;
+}
 
 export const getPoductByCategory = async (category: string) => {
   const res = axios.get(`${baseUrl}/products/category/${category}`);
@@ -89,6 +92,11 @@ export const getPoductById = async (id: string) => {
 
 export const getProductOnCategory = async (category: string) => {
   const res = axios.get(`${baseUrl}/products/category/${category}`);
+  return await res;
+}
+
+export const getRecommendedProducts = async (productId: string) => {
+  const res = axios.get(`${baseUrl}/products/${productId}/recommended`);
   return await res;
 }
 

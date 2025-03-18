@@ -1,7 +1,7 @@
 import { Button, Image, Modal } from 'antd';
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { getPoductById, getProductOnCategory } from "../../api/product";
+import { getPoductById, getRecommendedProducts } from "../../api/product";
 import { useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
@@ -32,25 +32,26 @@ const ProductPage = () => {
         };
         fetchProduct();
     }, [productId]);
-    const category = products?.product?.category?.name;
-    const [relatedProducts, setRelatedProducts] = useState<any>([]);
+    const [recommendedProducts, setRecommendedProducts] = useState<any>([]);
     const [allProd, setAllProd] = useState<any>([])
     const [, setLoading] = useState(false);
     const [, setError] = useState(false);
     const location = useLocation();
     useEffect(() => {
-        const fetchRelatedProducts = async () => {
+        const fetchRecommendedProducts = async () => {
             setLoading(true);
             try {
-                const { data } = await getProductOnCategory(category);
-                setRelatedProducts(data);
+                const { data } = await getRecommendedProducts(productId);
+                setRecommendedProducts(data.recommendedProducts);
             } catch (error) {
                 setError(true);
             }
             setLoading(false);
         };
-        fetchRelatedProducts();
-    }, [category]);
+        if (productId) {
+            fetchRecommendedProducts();
+        }
+    }, [productId]);
     useEffect(() => {
         const handleProd = async () => {
             const response = await getAllProducts();
@@ -180,7 +181,7 @@ const ProductPage = () => {
                         <div className="flex justify-start items-start">
                             <div className="flex w-[20px] h-[40px] rounded-md bg-[#EDB62E]">
                             </div>
-                            <h1 className="text-lg flex my-auto justify-center font-bold ml-2 text-[#EDB62E]">Related products</h1>
+                            <h1 className="text-lg flex my-auto justify-center font-bold ml-2 text-[#EDB62E]">Recommended products</h1>
                         </div>
                     </div>
                     <Swiper
@@ -197,7 +198,7 @@ const ProductPage = () => {
                             },
                         }}
                     >
-                        {relatedProducts?.products?.map((product: any, index: any) => (
+                        {recommendedProducts?.map((product: any, index: any) => (
                             <SwiperSlide key={index}>
                                 <Link className="p-4 flex flex-col rounded-md border-[1px] border-gray-300" to={`/product/${product?._id}`}>
                                     <div className="flex justify-center">
@@ -206,9 +207,13 @@ const ProductPage = () => {
                                     <p className='flex text-sm'>{product.product_name}</p>
                                     <p className='flex text-sm text-[#EDB62E] mt-1'>
                                         Igiciro: {' '}
-                                        {product?.vendor_prices?.length >= 1 && product?.vendor_prices?.reduce((prev: any, current: any) => (prev.price < current.price) ? prev : current).price
-                                            .toLocaleString('en-US', { maximumFractionDigits: 4 })} Rwf
-                                    </p></Link>
+                                        {product?.vendor_prices?.length 
+                                            ? product.vendor_prices.reduce((prev: any, current: any) => 
+                                                (prev.price < current.price ? prev : current)
+                                            ).price.toLocaleString('en-US', { maximumFractionDigits: 4 }) + ' Rwf'
+                                            : product.our_price.toLocaleString('en-US', { maximumFractionDigits: 4 }) + ' Rwf' }
+                                    </p>
+                                </Link>
                             </SwiperSlide>
                         ))}
                     </Swiper>
