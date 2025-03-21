@@ -69,7 +69,7 @@ const Footer: React.FC = () => {
           </Link>
         </div>
         <div className='flex card1 flex-col space-y-3'>
-          <h1 className='flex font-bold'>Impamvu ukwiye gukoresha Komparas</h1>
+          <h1 className='flex font-bold'>Impamvu ukwiye gukoresha Kompras</h1>
           <Link to="/ibyiza-bya-kompras-iduka">
           <p className='flex'>Ku batanga serivisi cyangwa abacuruzi</p>
           </Link>
@@ -104,7 +104,7 @@ const Footer: React.FC = () => {
         <img src="/cc.png" alt="logo" className=' h-6 md:h-10' />
 
         <p className="text-base leading-6 text-gray-400 xl:text-center pl-7">
-        Amategeko n'amabwiriza
+        Amategeko N'amabwiriza
         </p>
       </div>
       
