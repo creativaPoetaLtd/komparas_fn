@@ -98,7 +98,7 @@ const Footer: React.FC = () => {
      </div>
       <div className="mt-12 justify-between flex items-center w-full md:px-[5rem]">
         <p className="text-base leading-6 text-gray-400 xl:text-center">
-          &copy; 2025 Komparas
+          &copy; 2024 Kompras
         </p>
 
         <img src="/cc.png" alt="logo" className=' h-6 md:h-10' />
