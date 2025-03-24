@@ -41,14 +41,14 @@ const WhyShopsUseKompras: React.FC = () => {
           <div className="p-6 bg-white shadow-md rounded-lg">
             <h2 className="text-2xl font-bold mb-4">3. Curuza ibicuruzwa byawe mu gihe gito cyane</h2>
             <p className="text-lg">
-              Bitewe n'umubare munini w'abasura cyangwa bashakira telefoni nziza kandi zizwe kuri Komparas, kandi abenshi muri bo bahashakira kuko bacyeneye kugura, ibicuruzwa ushyize kuri Komparas bishakishwa na benshi, bikabonwa na benshi, bikagurwa mu gihe gito. 
+              Bitewe n'umubare munini w'abasura cyangwa bashakira telefoni nziza kandi zizewe kuri Komparas, kandi abenshi muri bo bahashakira kuko bacyeneye kugura, ibicuruzwa ushyize kuri Komparas bishakishwa na benshi, bikabonwa na benshi, bikagurwa mu gihe gito. 
             </p>
           </div>
           {/* Reason 3 */}
           <div className="p-6 bg-white shadow-md rounded-lg">
             <h2 className="text-2xl font-bold mb-4">4. Ubaka ikizere n'abakiliya bawe</h2>
             <p className="text-lg">
-              Komparas igufasha kubaka ikizere mu bakiliya bawe igihe cyose ugurisha telefoni nziza, zihariye kandi z'umwimerere. Impamvu nuko mbere y'uko umukiliya ahitamo telefoni aba yabanje kuyigereranya n'izindi bimeze kimwe zo mu yandi maduka.
+              Komparas igufasha kubaka ikizere mu bakiliya bawe igihe cyose ugurisha telefoni nziza kandi zizewe, zihariye kandi z'umwimerere. Impamvu nuko mbere y'uko umukiliya ahitamo telefoni aba yabanje kuyigereranya n'izindi bimeze kimwe zo mu yandi maduka.
             </p>
           </div>
 
