@@ -2,113 +2,138 @@ import { Link } from "react-router-dom";
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-const RelatedProfducts = ({shopProducts, vendorID, shopData}:any) => {
-    const settings: { current: number, responsive: any, dots: boolean, dotsClass: string, infinite: boolean, speed: number, slidesToShow: number, slidesToScroll: number, autoplay: boolean, autoplaySpeed: number, pauseOnHover: boolean } = {
-        current: 0,
-        dots: true,
-        dotsClass: "slick-dots slick-thumb",
-        infinite: true,
-        speed: 500,
-        slidesToShow: 2,
-        slidesToScroll: 1,
-        autoplay: true,
-        autoplaySpeed: 2000,
-        pauseOnHover: true,
-        responsive: [
-          {
-            breakpoint: 1024,
-            settings: {
-              slidesToShow: 2,
-            }
-          },
-          {
-            breakpoint: 768,
-            settings: {
-              slidesToShow: 2,
-            }
-          }
-        ],
-      };
+
+const RelatedProfducts = ({ shopProducts, vendorID, shopData }: any) => {
+  const settings = {
+    dots: true,
+    dotsClass: "slick-dots slick-thumb",
+    infinite: true,
+    speed: 500,
+    slidesToShow: 2,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    pauseOnHover: true,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        }
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        }
+      }
+    ],
+  };
+
+  const hasProducts = shopProducts?.data?.products?.length > 0;
+
   return (
-    <div className="flex w-full flex-col text-sm relatedProd">
-    <h1 className="text-sm text-yellow-500">Izindi Terefone dufite - {' '}
-        {shopData?.name}
-    </h1>
-    {shopProducts?.data?.products.length > 2 ? (
-        <Slider {...settings}
-          className="flex justify-center"
-        >
-             {shopProducts?.data?.products?.slice(0,3).map((product: any, index: number) => product?.vendor_prices?.map((vendor: any) => (
-            vendor?.vendor_id === vendorID && (
-            <Link className="bg-white p-2 md:px-6 px-3  rounded-md "  to={`/product/${product?._id}`}>
-               <div key={index} className="Card py-2 px-1 rounded-md bg-[#F7F7F7] flex md:w-[13rem] flex-col">
-                    <div className="h-[10rem] mx-auto justify-center flex md:w-full">
-                        <img src={product?.product_image} height={300} width={300} className="h-full object-contain w-full" />
-                    </div>
-                    <h1 className="flex font-semibold mt-8">{product?.product_name}</h1>
-                    <p className="text-xs text-[#909090] mt-2 text-justify">{
-                        product?.product_description?.length > 100 ? product?.product_description?.slice(0, 100) + '...' : product?.product_description
-                    }</p>
-                    <Link className="bg-[#EDB62E] mt-2 w-full text-center text-white h-fit p-1 md:px-4 px-2 md:py-2 rounded-md" to={
-                        `/product/${product?._id}`
-                    }>Yimenye neza</Link>
+    <div className="flex w-full flex-col mb-2">
+      {/* Section Header */}
+      <div className="flex justify-between items-center mb-2">
+        <h2 className="text-lg font-bold text-gray-800">
+          Izindi Telephone dufite - <span className="text-yellow-500">{shopData?.name}</span>
+        </h2>
+        {hasProducts && shopProducts?.data?.products.length > 3 && (
+          <Link 
+            to={`/products?shopId=${vendorID}`}
+            className="text-sm text-blue-600 hover:text-blue-800 transition-colors duration-200"
+          >
+            Reba zose →
+          </Link>
+        )}
+      </div>
+
+      {/* Products Display */}
+      {!hasProducts ? (
+        <div className="text-center py-8 bg-gray-50 rounded-lg">
+          <p className="text-gray-500">Nta telefone zihari ubu</p>
+        </div>
+      ) : shopProducts?.data?.products.length > 2 ? (
+        <Slider {...settings} className="pb-4">
+          {shopProducts?.data?.products?.slice(0, 6).map((product: any) => 
+            product?.vendor_prices?.map((vendor: any) => (
+              vendor?.vendor_id === vendorID && (
+                <div key={product?._id} className="px-2">
+                  <ProductCard product={product} vendor={vendor} />
                 </div>
-            </Link>
-            )
-        )))}
+              )
+            ))
+          )}
         </Slider>
       ) : (
-        <div className="grid gap-8 grid-cols-2 w-full">
-        {shopProducts?.data?.products?.map((product: any, index: number) => product?.vendor_prices?.map((vendor: any) => (
-            vendor?.vendor_id === vendorID && (
-                <div key={index} className="Card py-2 px-1 rounded-md bg-[#F7F7F7] flex md:w-[13rem] flex-col">
-                    <div className="h-[10rem] mx-auto justify-center flex md:w-full">
-                        <img src={product?.product_image} height={300} width={300} className="h-full object-contain w-full" />
-                    </div>
-                    <h1 className="flex font-semibold mt-8">{product?.product_name}</h1>
-                    <p className="text-xs text-[#909090] mt-2 text-justify">{
-                        product?.product_description?.length > 100 ? product?.product_description?.slice(0, 100) + '...' : product?.product_description
-                    }</p>
-                    <Link className="bg-[#EDB62E] mt-2 w-fit h-fit p-1 md:px-4 px-2 md:py-2 rounded-md" to={
-                        `/product/${product?._id}`
-                    }>Yirebe yose</Link>
-                </div>
-            )
-        )))}
-    </div>
+        <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2">
+          {shopProducts?.data?.products?.map((product: any) => 
+            product?.vendor_prices?.map((vendor: any) => (
+              vendor?.vendor_id === vendorID && (
+                <ProductCard key={product?._id} product={product} vendor={vendor} />
+              )
+            ))
+          )}
+        </div>
       )}
 
-    {/* <div className="grid gap-8 grid-cols-2 w-full">
-        {shopProducts?.data?.products?.map((product: any, index: number) => product?.vendor_prices?.map((vendor: any) => (
-            vendor?.vendor_id === vendorID && (
-                <div key={index} className="Card py-2 px-1 rounded-md bg-[#F7F7F7] flex md:w-[13rem] flex-col">
-                    <div className="h-[10rem] mx-auto justify-center flex md:w-full">
-                        <img src={product?.product_image} height={300} width={300} className="h-full object-contain w-full" />
-                    </div>
-                    <h1 className="flex font-semibold mt-8">{product?.product_name}</h1>
-                    <p className="text-xs text-[#909090] mt-2 text-justify">{
-                        product?.product_description?.length > 100 ? product?.product_description?.slice(0, 100) + '...' : product?.product_description
-                    }</p>
-                    <Link className="bg-[#EDB62E] mt-2 w-fit h-fit p-1 md:px-4 px-2 md:py-2 rounded-md" to={
-                        `/product/${product?._id}`
-                    }>Read more</Link>
-                </div>
-            )
-        )))}
-    </div> */}
-    {
-        shopProducts?.data?.products.length > 3 && (
-            <div className="flex justify-center mt-12 w-full">
-                <Link to={`/products?shopId=${vendorID}`}
-                    className="bg-[#0C203B] text-white p-2 text-sm rounded-md underline underline-offset-4"
-                >
-                    Reba zose
-                </Link>
-            </div>
-        )
-    }
-</div>
-  )
-}
+      {/* Mobile View: See All Button */}
+      {hasProducts && shopProducts?.data?.products.length > 3 && (
+        <div className="flex justify-center mt-6 md:hidden">
+          <Link 
+            to={`/products?shopId=${vendorID}`}
+            className="bg-gray-800 text-white py-2 px-6 rounded-lg text-sm font-medium hover:bg-gray-900 transition-colors duration-200"
+          >
+            Reba zose
+          </Link>
+        </div>
+      )}
+    </div>
+  );
+};
 
-export default RelatedProfducts
+// Product Card Component
+const ProductCard = ({ product, vendor }: { product: any, vendor: any }) => (
+  <Link to={`/product/${product?._id}`} className="block">
+    <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 h-full flex flex-col mb-2">
+      {/* Image Container */}
+      <div className="h-48 overflow-hidden bg-gray-50 flex items-center justify-center p-4">
+        <img 
+          src={product?.product_image} 
+          alt={product?.product_name} 
+          className="h-full object-contain" 
+        />
+      </div>
+      
+      {/* Content */}
+      <div className="p-4 flex flex-col flex-grow">
+        {/* Product Name */}
+        <h3 className="font-semibold text-gray-800 mb-2 line-clamp-2">
+          {product?.product_name}
+        </h3>
+        
+        {/* Price */}
+        <p className="text-yellow-500 font-bold mb-2">
+          RWF {vendor?.price?.toLocaleString() || "N/A"}
+        </p>
+        
+        {/* Description */}
+        <p className="text-xs text-gray-500 mb-4 line-clamp-3">
+          {product?.product_description || "No description available"}
+        </p>
+        
+        {/* Button */}
+        <div className="mt-auto">
+          <button className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-md text-sm font-medium w-full transition-colors duration-200">
+            Yimenye neza
+          </button>
+        </div>
+      </div>
+    </div>
+  </Link>
+);
+
+export default RelatedProfducts;

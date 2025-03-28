@@ -10,8 +10,7 @@ import GoogleMapSection from "./Map";
 import Footer from "../../Footer";
 import ShopName from "./ShopName";
 import OpeningTimes from "./OpeningTimes";
-import ShopPhone from "./ShopPhone";
-import Location from "./Location";
+import ShopContact from "./ShopPhone";
 import MobileHomeNav from "../../home/HomeMobileNav";
 import { getShopById } from "../../../api/getAllShops";
 import OtherShops from "./OtherShops";
@@ -62,18 +61,15 @@ const ShopPage = () => {
             <div className="md:w-[85%] md:px-1 px-4 w-full flex self-center flex-col">
                 <ShopNavigations products={products} shopData={shopData} />
                 <div className="flex md:flex-row flex-col md:space-x-20 space-x-0 w-full">
-                    <div className="md:w-1/2 w-full  mt-12 flex flex-col">
+                    <div className="md:w-1/2 w-full  mt-4 flex flex-col">
                         <TopPhone productData={products} vendorID={shopId} />
-                        <Line />
+                        {/* <Line /> */}
                         <div className="flex flex-col md:hidden">
                             <ShopName shopData={shopData} />
                             <Line />
                             <OpeningTimes shopData={shopData} />
                             <Line />
-                            <ShopPhone shopData={shopData} />
-                            <Line />
-                            <Location shopData={shopData} />
-                            <Line />
+                            <ShopContact shopData={shopData} />
                         </div>
                         <RelatedProfducts shopProducts={shopProducts} vendorID={shopId} shopData={shopData} />
                         <Line />
@@ -91,9 +87,7 @@ const ShopPage = () => {
                             <Line />
                             <OpeningTimes shopData={shopData} />
                             <Line />
-                            <ShopPhone shopData={shopData} />
-                            <Line />
-                            <Location shopData={shopData} />
+                            <ShopContact shopData={shopData} />
                         </div>
                     </div>
                 </div>

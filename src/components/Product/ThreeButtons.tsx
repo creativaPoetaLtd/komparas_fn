@@ -1,7 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Minus, Plus } from '@phosphor-icons/react';
+import { Minus, Plus, } from '@phosphor-icons/react';
 import { IoInformationCircleOutline } from "react-icons/io5";
-// import { useLocation } from 'react-router-dom';
+import { Pencil } from "lucide-react";
+import { Editor } from "primereact/editor";
+import { Dialog } from "primereact/dialog";
+import { Button } from "primereact/button";
+import { updateProduct } from '../../api/product';
+import { isAdminFromLocalStorage } from "../Footer";
 
 interface IProduct {
     products: any
@@ -12,6 +17,40 @@ const ThreeButtons: React.FC<IProduct> = ({ products }) => {
     const [showValueMap, setShowValueMap] = useState<{ [key: number]: boolean }>({});
     const [openTooltip, setOpenTooltip] = useState<number | null>(null);
     const tooltipRef = useRef<HTMLSpanElement>(null);
+    const [dialogWidth, setDialogWidth] = useState("50vw");
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [activeReview, setActiveReview] = useState<{ index: number; value: string } | null>(null);
+
+    const openModal = (index: number, value: string) => {
+        setActiveReview({ index, value });
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setActiveReview(null);
+    };
+
+    const handleSave = async () => {
+        if (activeReview !== null) {
+            try {
+                const productId = products?.product?._id;
+                const updatedReview = {
+                    key: products.product.our_review[activeReview.index].key,
+                    value: activeReview.value
+                };
+
+                await updateProduct({ our_review: [updatedReview] }, productId);
+
+                products.product.our_review[activeReview.index].value = activeReview.value;
+
+                closeModal();
+            } catch (error) {
+                console.error("Failed to update review:", error);
+            }
+        }
+    };
 
     // Handle clicks outside the tooltip
     useEffect(() => {
@@ -31,14 +70,26 @@ const ThreeButtons: React.FC<IProduct> = ({ products }) => {
         };
     }, [openTooltip]);
 
+    // Adjust dialog width based on screen size
+    useEffect(() => {
+        const updateWidth = () => {
+        if (window.innerWidth < 768) {
+            setDialogWidth("90vw");
+        } else {
+            setDialogWidth("50vw");
+        }
+        };
+    
+        updateWidth();
+        window.addEventListener("resize", updateWidth);
+        
+        return () => window.removeEventListener("resize", updateWidth);
+    }, []);
+
     const handleButtonClick = (buttonType: string) => {
         setActiveButton(buttonType);
     };
 
-    // const location = useLocation();
-    // useEffect(() => {
-    //     localStorage.clear();
-    // }, [location.pathname]);
     const handleValueClick = (index: number) => {
         const updatedShowValueMap: { [key: number]: boolean } = {};
         updatedShowValueMap[index] = !showValueMap[index];
@@ -115,44 +166,68 @@ const ThreeButtons: React.FC<IProduct> = ({ products }) => {
                     >
                         Icyo tuyivugaho
                     </button>
-                    {/* <button
-                        className={`w-[39%] text-white p-2 rounded-r-md ${activeButton === 'otherReview' ? 'bg-[#EDB62E]' : 'bg-[#0C203B]'}`}
-                        onClick={() => handleButtonClick('otherReview')}
-                    >
-                        Icyo bayivugaho
-                    </button> */}
                 </div>
-                {activeButton === 'ourReview1' && (
+                {activeButton === "ourReview1" && (
                     <>
-                        {products?.product?.our_review?.map((review: any, index: number) => (
-                            <>
-                                {review.key !== 'Umwanzuro' && (
+                    {products?.product?.our_review?.map((review: any, index: number) => (
+                        review.key !== "Umwanzuro" && (
+                            <div 
+                                key={index} 
+                                className="ourReview rounded-md border border-green-500 flex flex-col cursor-pointer"
+                                onClick={() => handleValueClick(index)}
+                            >
+                                <div className="text-sm font-semibold text-start rounded-md bg-yellow-100 p-2 flex justify-between items-center">
+                                    <p className="KeyDiv text-sm">{review?.key}</p>
 
-                                    <div key={index + 1} className='ourReview rounded-md border border-green-500 flex flex-col'>
-                                        <div className="text-sm font-semibold text-start rounded-md bg-yellow-100 p-2 flex" onClick={() => handleValueClick(index)}>
-                                            <p className='KeyDiv text-sm'>{review?.key}</p>
-                                            {showValueMap[index] ? <Minus className='ml-auto' /> : <Plus className='ml-auto' />}
-                                        </div>
-                                        {showValueMap[index] && (
-                                            <div className='ValusePargrapth text-sm text-justify p-3' dangerouslySetInnerHTML={{ __html: review?.value }}></div>
+                                    <div className="flex items-center gap-3">
+                                        {showValueMap[index] ? <Minus /> : <Plus />}
+                                        {isAdminFromLocalStorage() && (
+                                        <button 
+                                            className="text-blue-600 hover:text-blue-800 transition duration-200"
+                                            onClick={(e) => { 
+                                                e.stopPropagation();
+                                                openModal(index, review?.value);
+                                            }}
+                                        >
+                                            <Pencil size={16} />
+                                        </button>
                                         )}
                                     </div>
+                                </div>
+
+                                {showValueMap[index] && (
+                                    <div className="ValusePargrapth text-sm text-justify p-3" dangerouslySetInnerHTML={{ __html: review?.value }}></div>
                                 )}
-                            </>
-                        ))}
+                            </div>
+                        )
+                    ))}
                     </>
                 )}
                 {activeButton === 'ourReview' && (
                     <>
                         {products?.product?.our_review?.map((review: any, index: number) => (
-                            <>
+                        <>
+                            {review.key === 'Umwanzuro' && (
+                            <div 
+                                key={index + 1} 
+                                className="ourReview rounded-md border border-green-500 flex flex-col"
+                            >
+                                <div 
+                                className="ValusePargrapth text-sm text-justify p-3" 
+                                dangerouslySetInnerHTML={{ __html: review?.value }}
+                                ></div>
 
-                                {review.key === 'Umwanzuro' && (
-                                    <div key={index + 1} className='ourReview rounded-md border border-green-500 flex flex-col'>
-                                        <div className='ValusePargrapth text-sm text-justify p-3' dangerouslySetInnerHTML={{ __html: review?.value }}></div>
-                                    </div>
+                                {isAdminFromLocalStorage() && (
+                                <button 
+                                className="self-end bg-blue-500 text-white px-2 py-1  rounded text-xs mb-4 mr-2"
+                                onClick={() => openModal(index, review?.value)}
+                                >
+                                Edit
+                                </button>
                                 )}
-                            </>
+                            </div>
+                            )}
+                        </>
                         ))}
                     </>
                 )}
@@ -214,6 +289,33 @@ const ThreeButtons: React.FC<IProduct> = ({ products }) => {
                     </p>
                 )}
             </div>
+            <Dialog 
+                header="Edit Review" 
+                visible={isModalOpen} 
+                onHide={closeModal} 
+                style={{ width: dialogWidth, backgroundColor: "#fff" }} 
+                className="p-5 bg-white shadow-lg rounded-md text-black"
+            >
+                <Editor
+                    value={activeReview?.value || ""}
+                    style={{ height: "200px", backgroundColor: "white", color: "black", padding: "10px" }}
+                    onTextChange={(e) => setActiveReview((prev) => prev ? { ...prev, value: e.htmlValue || "" } : null)}
+                />
+                <div className="flex justify-end mt-4 space-x-3">
+                    <Button 
+                        label="Cancel" 
+                        icon="pi pi-times" 
+                        className="p-button-outlined px-4 border-gray-400 text-gray-700 hover:bg-gray-200 transition duration-200" 
+                        onClick={closeModal} 
+                    />
+                    <Button 
+                        label="Save" 
+                        icon="pi pi-check" 
+                        className="p-button-success text-white bg-green-600 px-5 py-2 rounded-md hover:bg-green-700 transition duration-200" 
+                        onClick={handleSave} 
+                    />
+                </div>
+            </Dialog>
         </div>
     );
 };

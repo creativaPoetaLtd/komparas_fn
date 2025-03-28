@@ -1,9 +1,8 @@
 import { Button, Image, Modal } from 'antd';
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { getPoductById, getRecommendedProducts } from "../../api/product";
 import { useParams } from "react-router-dom";
-import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
 import SubNav from "../Navigations/SubNav";
 import HomeNav from "../home/HomeNav";
@@ -17,6 +16,10 @@ import { Trash } from '@phosphor-icons/react';
 import { useNavigate } from 'react-router-dom';
 import { getAllProducts } from '../../api/product';
 import { useLocation } from 'react-router-dom';
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 
 const ProductPage = () => {
     const [products, setProduct] = useState<any>([]);
@@ -34,7 +37,7 @@ const ProductPage = () => {
     }, [productId]);
     const [recommendedProducts, setRecommendedProducts] = useState<any>([]);
     const [allProd, setAllProd] = useState<any>([])
-    const [, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [, setError] = useState(false);
     const location = useLocation();
     useEffect(() => {
@@ -124,6 +127,50 @@ const ProductPage = () => {
     const handleViewAllProducts = () => {
         navigate("/products");
     }
+
+    const PrevArrow = (props: any) => {
+        const { onClick } = props;
+        return (
+          <button
+            className="slick-arrow absolute -bottom-8 md:flex hidden md:right-6 right-0 z-10 text-gray-900 rounded-full w-8 h-8 items-center justify-center"
+            onClick={onClick}
+          >
+            <GoArrowRight />
+          </button>
+        );
+      };
+    
+      const NextArrow = (props: any) => {
+        const { onClick } = props;
+        return (
+          <button
+            className="slick-arrow absolute -bottom-8 md:flex hidden right-14 z-10 text-gray-900 rounded-full w-8 h-8 items-center justify-center"
+            onClick={onClick}
+          >
+            <GoArrowLeft />
+          </button>
+        );
+      };
+
+      const settings = {
+        dots: true,
+        dotsClass: "slick-dots slick-thumb",
+        infinite: true,
+        speed: 500,
+        slidesToShow: 5,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 3000,
+        pauseOnHover: true,
+        prevArrow: <NextArrow />,
+        nextArrow: <PrevArrow />,
+        responsive: [
+          { breakpoint: 1280, settings: { slidesToShow: 4 } },
+          { breakpoint: 1024, settings: { slidesToShow: 3 } },
+          { breakpoint: 768, settings: { slidesToShow: 2 } },
+          { breakpoint: 480, settings: { slidesToShow: 1 } }
+        ]
+      };
     return (
         <div className="flex flex-col h-fit">
             <SubNav />
@@ -176,7 +223,7 @@ const ProductPage = () => {
                         </div>
                     </div>
                 </div>
-                <div className="w-full py-12 lg:mt-0 md:mt-0 xl:mt-0 2xl:mt-0 mt-[20%]">
+                {/* <div className="w-full py-12 lg:mt-0 md:mt-0 xl:mt-0 2xl:mt-0 mt-[20%]">
                     <div className='flex flex-col md:px-6 px-12 lg:ml-5 pb-6'>
                         <div className="flex justify-start items-start">
                             <div className="flex w-[20px] h-[40px] rounded-md bg-[#EDB62E]">
@@ -219,6 +266,71 @@ const ProductPage = () => {
                     </Swiper>
                     <div className='flex justify-center mt-12 w-full'>
                         <button onClick={handleViewAllProducts} className='bg-[#0C203B] text-white p-2 rounded-md'>Reba telefoni zose</button>
+                    </div>
+                </div> */}
+                <div className="w-full py-12 lg:mt-0 md:mt-0 xl:mt-0 2xl:mt-0 mt-[20%]">
+                    <div className="flex flex-col md:px-6 px-4 lg:ml-5 pb-6">
+                        <div className="flex justify-start items-start">
+                            <div className="flex w-5 h-10 rounded-md bg-[#EDB62E]"></div>
+                            <h1 className="text-lg flex my-auto justify-center font-bold ml-2 text-[#EDB62E]">Recommended products</h1>
+                        </div>
+                    </div>
+                    
+                    <div className="relative w-full px-4 md:px-6">
+        {loading ? (
+          <Slider {...settings} className="w-full">
+            {Array.from({ length: 5 }).map((_, index) => (
+              <div key={index} className="px-2">
+                <div className="h-full flex flex-col justify-between p-4 rounded-md border border-gray-300">
+                  <div className="flex justify-center items-center h-40 bg-gray-100 animate-pulse"></div>
+                  <div className="mt-2">
+                    <div className="h-4 bg-gray-200 rounded w-3/4 animate-pulse"></div>
+                    <div className="h-4 mt-2 bg-gray-200 rounded w-1/2 animate-pulse"></div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </Slider>
+        ) : recommendedProducts?.length > 0 ? (
+          <Slider {...settings} className="w-full">
+            {recommendedProducts.map((product: any, index: any) => (
+              <div key={index} className="px-2">
+                <Link 
+                  className="h-full flex flex-col justify-between p-4 rounded-md border border-gray-300 hover:shadow-md transition-shadow"
+                  to={`/product/${product?._id}`}
+                >
+                  <div className="flex justify-center items-center h-40">
+                    <img 
+                      src={product.product_image} 
+                      alt={product.product_name}
+                      className="w-full max-w-32 h-full max-h-32 object-contain" 
+                    />
+                  </div>
+                  <div>
+                    <p className="text-sm line-clamp-2 h-7 overflow-hidden">{product.product_name}</p>
+                    <p className="text-sm text-[#EDB62E] font-medium mt-0">
+                      Igiciro: {' '}
+                      {product?.vendor_prices?.length 
+                        ? product.vendor_prices.reduce((prev:any, current: any) => 
+                            (prev.price < current.price ? prev : current)
+                          ).price.toLocaleString('en-US', { maximumFractionDigits: 4 }) + ' Rwf'
+                        : product.our_price.toLocaleString('en-US', { maximumFractionDigits: 4 }) + ' Rwf' }
+                    </p>
+                  </div>
+                </Link>
+              </div>
+            ))}
+          </Slider>
+        ) : null}
+      </div>
+                    
+                    <div className="flex justify-center mt-8 w-full">
+                        <button 
+                            onClick={handleViewAllProducts} 
+                            className="bg-[#0C203B] text-white px-6 py-2 rounded-md hover:bg-[#1a3a6d] transition-colors"
+                        >
+                            Reba telefoni zose
+                        </button>
                     </div>
                 </div>
             </div>

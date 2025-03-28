@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useSwipeable } from "react-swipeable";
+import { Pencil } from "lucide-react";
 import AddOtheShopsModal from "./AddingOtherShopsModel";
 import { removeShopFromProduct } from "../../api/shops";
 import { isAdminFromLocalStorage } from "../Footer";
+import { updateProduct } from "../../api/product";
 
 interface Product {
   products: any;
@@ -13,6 +15,33 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { productId }: any = useParams();
+
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [newDescription, setNewDescription] = useState("");
+
+  const openEditModal = () => {
+    setIsEditModalOpen(true);
+  };
+
+  const closeEditModal = () => {
+    setIsEditModalOpen(false);
+  };
+
+  const handleSave = async () => {
+    try {
+      const productId = products?.product._id;
+      await updateProduct({ product_description: newDescription }, productId);
+      closeEditModal();
+    } catch (error) {
+      console.error("Failed to update description:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (products?.product?.product_description) {
+      setNewDescription(products.product.product_description);
+    }
+  }, [products]);
 
   const handleImageClick = (index: number) => {
     setSelectedImageIndex(index);
@@ -209,9 +238,46 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
                 <p className="text-gray-500">Loading...</p>
               )}
             </div>
-            <p className="text-sm text-justify">
-              {products?.product?.product_description}
-            </p>
+            <div>
+              <p className="text-sm text-justify">
+                {products?.product?.product_description}
+              </p>
+              {isAdminFromLocalStorage() && (
+                <button
+                  onClick={openEditModal}
+                  className="text-blue-600 hover:text-blue-800 transition duration-200 mt-2"
+                >
+                  <Pencil size={16} />
+                </button>
+              )}
+
+              {isEditModalOpen && (
+                <div className="modal">
+                  <div className="modal-content">
+                    <textarea
+                      value={newDescription}
+                      onChange={(e) => setNewDescription(e.target.value)}
+                      rows={4}
+                      className="border p-2 w-full"
+                    />
+                    <div className="mt-2">
+                      <button
+                        onClick={handleSave}
+                        className="bg-green-500 text-white p-2 rounded mr-2"
+                      >
+                        Save
+                      </button>
+                      <button
+                        onClick={closeEditModal}
+                        className="bg-gray-500 text-white p-2 rounded"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
           <div className="line md:w-[412px] w-full h-[1px] md:hidden flex lg:flex bg-[#EDB62E]"></div>
           <div className="flex flex-col text-sm shopTable">
