@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 import { getAllProducts } from "../../../../api/product";
 import { deleteProduct } from "../../../../api/product";
 import { FaEdit, FaTrashAlt, FaImage, FaChevronLeft, FaChevronRight } from "react-icons/fa";
@@ -9,6 +11,42 @@ interface AddProductProps {
   setIsEditProduct: (isEditProduct: boolean) => void;
   setIsAddProductImage: (isAddProductImage: boolean) => void;
 }
+
+const ProductListingSkeleton = () => {
+  return (
+    <tbody className="w-full mt-3">
+      {[...Array(5)].map((_, index) => (
+        <tr key={index} className="w-full mt-3 shadow-sm">
+          <td className="w-[10%] text-sm font-medium py-2 px-2">
+            <Skeleton width={30} />
+          </td>
+          <td className="w-[10%] text-sm font-medium py-2 px-2">
+            <Skeleton width={50} height={50} circle />
+          </td>
+          <td className="w-[20%] text-sm font-medium py-2 px-2">
+            <Skeleton width={100} />
+          </td>
+          <td className="w-[20%] text-sm font-medium py-2 px-2">
+            <Skeleton width={150} />
+          </td>
+          <td className="w-[20%] text-sm font-medium py-2 px-2">
+            <Skeleton width={100} />
+          </td>
+          <td className="w-[20%] text-sm font-medium py-2 px-2">
+            <Skeleton width={50} />
+          </td>
+          <td className="w-[10%] text-sm font-medium py-2 px-2">
+            <div className="flex flex-row justify-between items-center gap-2">
+              <Skeleton width={30} height={30} />
+              <Skeleton width={30} height={30} />
+              <Skeleton width={30} height={30} />
+            </div>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  );
+};
 
 const ProductListing = ({
   setIsAddProduct,
@@ -22,7 +60,6 @@ const ProductListing = ({
   const [currentProductId, setCurrentProductId] = useState<string | null>(null);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalProducts, setTotalProducts] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [cardsPerPage] = useState(20);
 
@@ -47,22 +84,18 @@ const ProductListing = ({
         products: fetchedProducts, 
         currentPage: page, 
         totalPages: pages, 
-        totalProducts: total 
       } = response?.data || {};
 
-      console.log(currentPage,totalPages,totalProducts, products)
-
       setProducts(fetchedProducts);
-      console.log("tff is your problem", products);
       setCurrentPage(page);
       setTotalPages(pages);
-      setTotalProducts(total);
     } catch (error) {
       console.error("Error fetching products:", error);
     } finally {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     fetchProducts();
   }, [refresh, currentPage]);
@@ -79,7 +112,7 @@ const ProductListing = ({
 
   const confirmDelete = () => {
     if (currentProductId) {
-        handleDeleteProduct(currentProductId);
+      handleDeleteProduct(currentProductId);
       setModalOpen(false);
     }
   };
@@ -154,112 +187,117 @@ const ProductListing = ({
             </tr>
           </thead>
 
-          <tbody className="w-full mt-3">
-            {products?.map((product: any, index: any) => (
-              <tr key={product?._id} className="w-full mt-3 shadow-sm">
-                <td className="w-[10%] text-sm font-medium py-2 px-2">
-                  {(currentPage - 1) * cardsPerPage + index + 1}
-                </td>
-                <td className="w-[10%] text-sm font-medium py-2 px-2">
-                  <div className="w-[50px] h-[50px] rounded-full bg-gray-400">
-                    <img
-                      src={
-                        product?.product_image
-                          ? product?.product_image
-                          : "https://www.freeiconspng.com/uploads/no-image-icon-6.png"
-                      }
-                      alt="product"
-                      className="w-full h-full rounded-sm object-cover"
-                    />
-                  </div>
-                </td>
-                <td className="w-[20%] text-sm font-medium py-2 px-2">
-                  {product?.product_name}
-                </td>
-                <td className="w-[20%] text-sm font-medium py-2 px-2">
-                  {(product?.product_description || '').length > 50
-                    ? (product?.product_description || '').substring(0, 50) + "..."
-                    : product?.product_description}
-                </td>
-                <td className="w-[20%] text-sm font-medium py-2 px-2">
-                  {product?.product_category}
-                </td>
-                <td className="w-[20%] text-sm font-medium py-2 px-2">
-                  {product?.vendor_prices?.length > 0
-                    ? product?.vendor_prices[0]?.price
-                    : "-"}
-                </td>
-                <td className="w-[10%] text-sm font-medium py-2 px-2">
-                  <div className="flex flex-row justify-between items-center gap-2">
-                    <button
-                      className="shadow px-2"
-                      onClick={() => handleAddProductImage(product?._id)}
-                    >
-                      <FaImage className="h-8 w-4 text-yellow-500" />
-                    </button>
-                    <button
-                      className="shadow px-2"
-                      onClick={() => handleEdit(product?._id)}
-                    >
-                      <FaEdit className="h-8 w-4 text-blue-500" />
-                    </button>
-                    <button
-                      className="shadow px-2"
-                      onClick={() => handleDeleteClick(product?._id)}
-                    >
-                      <FaTrashAlt className="h-8 w-4 text-red-500" />
-                    </button>
-                  </div>
+          {loading ? (
+            <ProductListingSkeleton />
+          ) : (
+            <tbody className="w-full mt-3">
+              {products?.map((product: any, index: any) => (
+                <tr key={product?._id} className="w-full mt-3 shadow-sm">
+                  <td className="w-[10%] text-sm font-medium py-2 px-2">
+                    {(currentPage - 1) * cardsPerPage + index + 1}
+                  </td>
+                  <td className="w-[10%] text-sm font-medium py-2 px-2">
+                    <div className="w-[50px] h-[50px] rounded-full bg-gray-400">
+                      <img
+                        src={
+                          product?.product_image
+                            ? product?.product_image
+                            : "https://www.freeiconspng.com/uploads/no-image-icon-6.png"
+                        }
+                        alt="product"
+                        className="w-full h-full rounded-sm object-cover"
+                      />
+                    </div>
+                  </td>
+                  <td className="w-[20%] text-sm font-medium py-2 px-2">
+                    {product?.product_name}
+                  </td>
+                  <td className="w-[20%] text-sm font-medium py-2 px-2">
+                    {(product?.product_description || '').length > 50
+                      ? (product?.product_description || '').substring(0, 50) + "..."
+                      : product?.product_description}
+                  </td>
+                  <td className="w-[20%] text-sm font-medium py-2 px-2">
+                    {product?.product_category}
+                  </td>
+                  <td className="w-[20%] text-sm font-medium py-2 px-2">
+                    {product?.vendor_prices?.length > 0
+                      ? product?.vendor_prices[0]?.price
+                      : "-"}
+                  </td>
+                  <td className="w-[10%] text-sm font-medium py-2 px-2">
+                    <div className="flex flex-row justify-between items-center gap-2">
+                      <button
+                        className="shadow px-2"
+                        onClick={() => handleAddProductImage(product?._id)}
+                      >
+                        <FaImage className="h-8 w-4 text-yellow-500" />
+                      </button>
+                      <button
+                        className="shadow px-2"
+                        onClick={() => handleEdit(product?._id)}
+                      >
+                        <FaEdit className="h-8 w-4 text-blue-500" />
+                      </button>
+                      <button
+                        className="shadow px-2"
+                        onClick={() => handleDeleteClick(product?._id)}
+                      >
+                        <FaTrashAlt className="h-8 w-4 text-red-500" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          )}
+
+          {!loading && products?.length === 0 && (
+            <tbody>
+              <tr className="w-full mt-3 shadow-sm">
+                <td colSpan={7} className="text-sm font-medium py-2 text-center w-full px-2">
+                  No Products
                 </td>
               </tr>
-            ))}
-          </tbody>
+            </tbody>
+          )}
+
+          <tfoot>
+            <tr>
+              <td colSpan={7}>
+                <div className="flex justify-between items-center mt-4 px-4">
+                  <div className="text-sm text-gray-600">
+                    Page {currentPage} of {totalPages}
+                  </div>
+                  <div className="flex space-x-2">
+                    <button 
+                      onClick={handlePreviousPage} 
+                      disabled={currentPage === 1}
+                      className={`flex items-center px-4 py-2 border rounded ${
+                        currentPage === 1 
+                          ? 'bg-gray-200 text-gray-400 cursor-not-allowed' 
+                          : 'bg-white hover:bg-gray-100'
+                      }`}
+                    >
+                      <FaChevronLeft className="mr-2" /> Previous
+                    </button>
+                    <button 
+                      onClick={handleNextPage} 
+                      disabled={currentPage === totalPages}
+                      className={`flex items-center px-4 py-2 border rounded ${
+                        currentPage === totalPages 
+                          ? 'bg-gray-200 text-gray-400 cursor-not-allowed' 
+                          : 'bg-white hover:bg-gray-100'
+                      }`}
+                    >
+                      Next <FaChevronRight className="ml-2" />
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tfoot>
         </table>
-        {loading && (
-          <div className="w-full mt-3 shadow-sm">
-            <td className="text-sm font-medium py-2 flex justify-center items-center m-auto text-center  w-full px-2">
-              Loading...
-            </td>
-          </div>
-        )}
-        {!loading && products?.products?.length === 0 && (
-          <tr className="w-full mt-3 shadow-sm">
-            <td className="text-sm font-medium py-2 flex justify-center items-center m-auto text-center w-full px-2">
-              No Products
-            </td>
-          </tr>
-        )}
-
-        <div className="flex justify-between items-center mt-4 px-4">
-          <div className="text-sm text-gray-600">
-            Page {currentPage} of {totalPages}
-          </div>
-          <div className="flex space-x-2">
-            <button 
-              onClick={handlePreviousPage} 
-              disabled={currentPage === 1}
-              className={`flex items-center px-4 py-2 border rounded ${
-                currentPage === 1 
-                  ? 'bg-gray-200 text-gray-400 cursor-not-allowed' 
-                  : 'bg-white hover:bg-gray-100'
-              }`}
-            >
-              <FaChevronLeft className="mr-2" /> Previous
-            </button>
-            <button 
-              onClick={handleNextPage} 
-              disabled={currentPage === totalPages}
-              className={`flex items-center px-4 py-2 border rounded ${
-                currentPage === totalPages 
-                  ? 'bg-gray-200 text-gray-400 cursor-not-allowed' 
-                  : 'bg-white hover:bg-gray-100'
-              }`}
-            >
-              Next <FaChevronRight className="ml-2" />
-            </button>
-          </div>
-        </div>
-
       </div>
       <ConfirmModal
         isOpen={isModalOpen}
