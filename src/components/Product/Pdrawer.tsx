@@ -35,39 +35,39 @@ const ProductComparisonTable: React.FC<Props> = ({ onClose }) => {
 
   useEffect(() => {
     const ids = [id1, id2, productId].filter((id) => id !== null && id !== undefined);
-    
+
     if (ids.length === 0) return;
-    
+
     const fetchData = async () => {
       try {
         const response = await getProductByMultpleIdsInQueryParams(ids);
         if (response && response.data && response.data.product) {
           setProducts(response.data.product);
-          
+
           // Initialize expanded state for all specs
           const initialExpandedState: { [key: string]: boolean } = {};
           const allKeys = new Set<string>();
-          
+
           response.data.product.forEach((product: any) => {
             product.product_specifications?.forEach((spec: any) => {
               allKeys.add(spec.key);
             });
           });
-          
+
           Array.from(allKeys).forEach(key => {
             initialExpandedState[key] = true;
           });
-          
+
           setExpandedSpecs(initialExpandedState);
         }
       } catch (error) {
         console.error("Error fetching products:", error);
       }
     };
-    
+
     fetchData();
   }, [id1, id2, productId, fresh]);
-  
+
   useEffect(() => {
     const handleScroll = () => {
       const top = window.scrollY;
@@ -142,70 +142,75 @@ const ProductComparisonTable: React.FC<Props> = ({ onClose }) => {
   // Get the lowest price from vendor_prices
   const getLowestPrice = (product: any) => {
     if (!product.vendor_prices || product.vendor_prices.length === 0) return 'N/A';
-    
+
     const lowestPrice = product.vendor_prices.reduce(
       (prev: any, current: any) => (prev.price < current.price) ? prev : current
     ).price;
-    
+
     return `${lowestPrice.toLocaleString('en-US', { maximumFractionDigits: 4 })} Rwf`;
   };
 
   return (
     <div className="bg-black bg-opacity-50 w-full min-h-screen">
       <div className="bg-white w-full p-4 relative rounded-md shadow-lg overflow-x-auto">
-        <button 
-          onClick={resetAllComparison} 
+        <button
+          onClick={resetAllComparison}
           className="absolute top-4 right-4 text-red-500"
         >
           <FaTimes size={24} />
         </button>
-        
+
         <h2 className="text-2xl font-semibold mb-6">Gereranya</h2>
-        
+
         {/* Sticky header when scrolling */}
-        {fixed && (
-          <div className="fixed top-0 left-0 w-full bg-red-50 shadow-md py-2 z-50">
-            <div style={{ maxWidth: tableRef.current?.scrollWidth || '100%', margin: '0 auto', overflowX: 'auto' }}>
-              <div className="flex items-center justify-between px-4 mb-2">
-                <h3 className="font-bold">Comparing {products.length} products</h3>
-                <button 
-                  onClick={resetAllComparison}
-                  className="bg-black text-yellow-500 px-4 py-1 rounded-md text-sm"
-                >
-                  Reset Comparison
-                </button>
-              </div>
-              
-              {/* Feature row in sticky header with matched column widths */}
-              <table className="border-collapse" style={{ width: tableRef.current?.querySelector('table')?.offsetWidth || '100%' }}>
-                <thead>
-                  <tr className="bg-white">
-                    <th className="border p-2 text-left" style={{ width: columnWidths[0] || '20%' }}>Feature</th>
-                    {products.map((product, index) => (
-                      <th 
-                        key={product._id} 
-                        className="border p-2 text-center"
-                        style={{ width: columnWidths[index + 1] || `${80/products.length}%` }}
-                      >
-                        <div className="flex flex-col items-center">
-                          <img 
-                            src={product.product_image} 
-                            alt={product.product_name} 
-                            className="w-12 h-12 object-contain mb-1"
-                          />
-                          <h3 className="font-semibold text-sm truncate" style={{ maxWidth: '90%' }}>
-                            {product.product_name}
-                          </h3>
-                        </div>
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-              </table>
+        <div className={`fixed top-0 left-0 w-full bg-red-50 shadow-md py-2 z-50 transform transition-transform duration-300 ${fixed ? 'translate-y-0' : '-translate-y-full'}`}>
+          <div style={{ maxWidth: tableRef.current?.scrollWidth || '100%', margin: '0 auto', overflowX: 'auto' }}>
+            <div className="flex items-center justify-between px-4 mb-2">
+              <h3 className="font-bold">Comparing {products.length} products</h3>
+              <button
+                onClick={resetAllComparison}
+                className="bg-black text-yellow-500 px-4 py-1 rounded-md text-sm"
+              >
+                Reset Comparison
+              </button>
             </div>
+
+            {/* Feature row in sticky header with matched column widths */}
+            <table className="border-collapse" style={{ width: tableRef.current?.querySelector('table')?.offsetWidth || '100%' }}>
+              <thead>
+                <tr className="bg-white">
+                  <th className="border p-2 text-left" style={{ width: columnWidths[0] || '20%' }}>Feature</th>
+                  {products.map((product, index) => (
+                    <th
+                      key={product._id}
+                      className="border p-2 text-center"
+                      style={{ width: columnWidths[index + 1] || `${80/products.length}%` }}
+                    >
+                      <div className="flex flex-col items-center">
+                        <img
+                          src={product.product_image}
+                          alt={product.product_name}
+                          className="w-10 h-10 object-contain mb-1"
+                        />
+                        <h3 className="font-semibold text-sm truncate md:max-w-full" style={{ maxWidth: '90%' }}>
+                          {product.product_name.length > 10 ? `${product.product_name.substring(0, 10)}...` : product.product_name}
+                        </h3>
+                        <span className="font-bold text-green-600">{getLowestPrice(product)}</span>
+                        <Link
+                          to={`/product/${product._id}`}
+                          className="bg-black text-yellow-500 py-1 px-2 rounded-md inline-block hover:bg-gray-800 mt-1"
+                        >
+                          Yirebe
+                        </Link>
+                      </div>
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+            </table>
           </div>
-        )}
-        
+        </div>
+
         {/* Main comparison table */}
         <div className="overflow-x-auto" ref={tableRef}>
           <table className="w-full border-collapse">
@@ -215,9 +220,9 @@ const ProductComparisonTable: React.FC<Props> = ({ onClose }) => {
                 {products.map((product) => (
                   <th key={product._id} className="border p-3 text-center relative">
                     <div className="flex flex-col items-center">
-                      <img 
-                        src={product.product_image} 
-                        alt={product.product_name} 
+                      <img
+                        src={product.product_image}
+                        alt={product.product_name}
                         className="w-24 h-24 object-contain mb-2"
                       />
                       <h3 className="font-semibold">{product.product_name}</h3>
@@ -234,7 +239,7 @@ const ProductComparisonTable: React.FC<Props> = ({ onClose }) => {
                 ))}
               </tr>
             </thead>
-            
+
             <tbody>
               {/* Price row */}
               <tr className="bg-green-50">
@@ -245,14 +250,14 @@ const ProductComparisonTable: React.FC<Props> = ({ onClose }) => {
                   </td>
                 ))}
               </tr>
-              
+
               {/* Action buttons row */}
               <tr>
                 <td className="border p-3 font-medium">Actions</td>
                 {products.map((product) => (
                   <td key={product._id} className="border p-3 text-center">
-                    <Link 
-                      to={`/product/${product._id}`} 
+                    <Link
+                      to={`/product/${product._id}`}
                       className="bg-black text-yellow-500 py-2 px-4 rounded-md inline-block hover:bg-gray-800"
                     >
                       Yirebe
@@ -260,11 +265,11 @@ const ProductComparisonTable: React.FC<Props> = ({ onClose }) => {
                   </td>
                 ))}
               </tr>
-              
+
               {/* Specifications rows */}
               {allSpecKeys.map((specKey) => (
                 <tr key={specKey} className={expandedSpecs[specKey] ? "bg-gray-50" : ""}>
-                  <td 
+                  <td
                     className="border p-3 font-medium cursor-pointer hover:bg-gray-100"
                     onClick={() => toggleSpecVisibility(specKey)}
                   >
@@ -273,10 +278,10 @@ const ProductComparisonTable: React.FC<Props> = ({ onClose }) => {
                       {/* {expandedSpecs[specKey] ? <FaAngleUp /> : <FaAngleDown />} */}
                     </div>
                   </td>
-                  
+
                   {products.map((product) => (
-                    <td 
-                      key={`${product._id}-${specKey}`} 
+                    <td
+                      key={`${product._id}-${specKey}`}
                       className={`border p-3 text-center ${expandedSpecs[specKey] ? "" : "hidden"}`}
                     >
                       <span className="text-green-600">
@@ -289,21 +294,21 @@ const ProductComparisonTable: React.FC<Props> = ({ onClose }) => {
             </tbody>
           </table>
         </div>
-        
+
         {/* Fixed footer buttons */}
         <div className="fixed bottom-0 left-0 w-full bg-white p-4 border-t border-gray-200 flex justify-between items-center z-40">
           <div className="max-w-7xl mx-auto w-full flex justify-between px-4">
-            <button 
-              onClick={resetAllComparison} 
+            <button
+              onClick={resetAllComparison}
               className="bg-black text-white px-6 py-2 rounded-md hover:bg-gray-800"
             >
               Siba
             </button>
-            <button 
+            <button
               onClick={() => {
                 onClose();
                 navigate(-1);
-              }} 
+              }}
               className="text-red-500 px-6 py-2 rounded-md border border-red-500 hover:bg-red-50"
             >
               Funga

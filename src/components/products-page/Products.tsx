@@ -269,17 +269,17 @@ const Products = () => {
       };
 
     const handleRemoveProductIdFromLocalStorageCompare = (productId: any) => {
-        handleRefresh();
+        // handleRefresh();
         const productIds = localStorage.getItem('compareProductIds');
         if (productIds) {
-            handleRefresh();
+            // handleRefresh();
             const productIdsArray = JSON.parse(productIds);
             const updatedProductIdsArray = productIdsArray.filter((id: any) => id !== productId);
             localStorage.setItem('compareProductIds', JSON.stringify(updatedProductIdsArray));
             setLocastorageCompareProductIds(JSON.stringify(updatedProductIdsArray));
-            handleRefresh();
+            // handleRefresh();
         }
-        handleRefresh();
+        // handleRefresh();
     }
 
     const cardsPerPage = 24;
