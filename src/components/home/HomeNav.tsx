@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Dropdown, Menu } from 'antd';
 import { useState, useEffect } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
@@ -10,8 +9,8 @@ import { handleLogout } from '../dashboard/TopNavBar';
 
 const HomeNav = () => {
   const location = useLocation();
-const urlParts = location.pathname.split("/");
-const lastPart = urlParts[urlParts.length - 1];
+  const urlParts = location.pathname.split("/");
+  const lastPart = urlParts[urlParts.length - 1];
   const [selectedMenu, setSelectedMenu] = useState('home');
   const [searchValue, setSearchValue] = useState("");
   const [, setSearchedId] = useState<string>("");
@@ -38,7 +37,7 @@ const lastPart = urlParts[urlParts.length - 1];
   };
 
   const handleOptionSelect = (event: any) => {
-    const selectedOption:any = autocompleteOptions.find(option => option.name === event.target.value);
+    const selectedOption: any = autocompleteOptions.find(option => option.name === event.target.value);
     if (selectedOption) {
       setSearchedId(selectedOption.id);
       navigate(`/product/${selectedOption.id}`);
@@ -51,7 +50,6 @@ const lastPart = urlParts[urlParts.length - 1];
   }, [location]);
 
   const navigate = useNavigate();
-
 
   const menu = (
     <Menu>
@@ -67,7 +65,6 @@ const lastPart = urlParts[urlParts.length - 1];
           </button>
         </Menu.Item>
       )}
-    
     </Menu>
   );
 
@@ -109,25 +106,30 @@ const lastPart = urlParts[urlParts.length - 1];
           </li>
           {selectedMenu === 'contact_us' && <div className='line h-[2px] w-full bg-green-500'></div>}
         </div>
+        <div className='flex flex-col space-y-0 w-fit'>
+          <li className={`text-white ${selectedMenu === 'blog' ? 'text-bold font-bold' : ''}`}>
+            <NavLink to='/blog'>Blog</NavLink>
+          </li>
+          {selectedMenu === 'blog' && <div className='line h-[2px] w-full bg-green-500'></div>}
+        </div>
       </ul>
       {lastPart !== 'products' && (
-
-      <div className='searchBar bg-[#F5F5F5] rounded-md pr-3'>
-        <input
-          type='text'
-          placeholder='Shakisha Telefoni'
-          className='p-2 outline-none text-black rounded-md bg-[#F5F5F5]'
-          value={searchValue}
-          onChange={handleInputChange}
-          onInput={handleOptionSelect}
-          list="autocomplete-options"
-        />
-        <datalist id="autocomplete-options">
-          {autocompleteOptions.map((option, index) => (
-            <option key={index} value={option.name} />
-          ))}
-        </datalist>
-      </div>
+        <div className='searchBar bg-[#F5F5F5] rounded-md pr-3'>
+          <input
+            type='text'
+            placeholder='Shakisha Telefoni'
+            className='p-2 outline-none text-black rounded-md bg-[#F5F5F5]'
+            value={searchValue}
+            onChange={handleInputChange}
+            onInput={handleOptionSelect}
+            list="autocomplete-options"
+          />
+          <datalist id="autocomplete-options">
+            {autocompleteOptions.map((option, index) => (
+              <option key={index} value={option.name} />
+            ))}
+          </datalist>
+        </div>
       )}
       <Dropdown overlay={menu} className='mt-1'>
         <Button>
