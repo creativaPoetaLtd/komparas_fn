@@ -186,7 +186,7 @@ const ComparisonDrawer: React.FC<Props> = ({ onClose }) => {
                                                 className="border p-2 text-center"
                                                 style={{ width: columnWidths[index + 1] || `${80 / product?.product?.length}%` }}
                                             >
-                                                <div className="flex flex-col items-center">
+                                                <div className="flex flex-col items-center mx-0">
                                                     <img
                                                         src={product.product_image}
                                                         alt={product.product_name}
