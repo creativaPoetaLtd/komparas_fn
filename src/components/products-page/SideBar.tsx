@@ -26,11 +26,12 @@ interface SideBarProps {
     selectedCamera: any;
     selectedShops: any;
     productsData: any;
+    totalProducts: any;
     clearFilters: () => void;
 }
 
 const SideBar: React.FC<SideBarProps> = ({
-    productsData,
+    totalProducts,
     isOpen,
     toggleSidebar,
     categories,
@@ -199,7 +200,7 @@ const SideBar: React.FC<SideBarProps> = ({
                 </button>
             <button onClick={toggleSidebar} className='flex bg-black w-fit p-2 px-1 rounded-md text-white flex-row'>
                 <p className='text-sm md:text-xs my-auto font-semibold'>
-                 Reba {productsData?.length} Zabonetse
+                 Reba {totalProducts} Zabonetse
                 </p>
             </button>
             </div>
