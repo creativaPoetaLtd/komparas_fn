@@ -441,6 +441,7 @@ const Products = () => {
                     <SideBar
                         clearFilters={clearFilters}
                         productsData={productsData}
+                        totalProducts = {totalProducts}
                         isOpen={isSidebarOpen}
                         toggleSidebar={toggleSidebar}
                         categories={categories}
