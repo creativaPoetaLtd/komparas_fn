@@ -42,6 +42,7 @@ function Dashboard() {
                     {selectedMenu === 'ads' && <AdsManagementPage />}
                     {selectedMenu === 'bunner ads' && <AdvertisementList />}
                     {selectedMenu === 'services' && <ServiceList />}
+                    {selectedMenu === 'blogs' && <h1>Blogs</h1>}
                 </div>
             </div>
         </div>
