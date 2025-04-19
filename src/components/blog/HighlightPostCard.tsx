@@ -1,4 +1,5 @@
 // import React from 'react';
+import Badge from '../ui/Badge';
 import { IPost } from './PostCard';
 
 const HighlightPostCard = ({
@@ -31,6 +32,7 @@ const HighlightPostCard = ({
       </a>
       <div className="p-5 absolute bottom-0 mb-auto z-20">
         <div className="flex items-center gap-3 mb-3">
+        <Badge title={post.language} className="bg-orange-500" />
           <p className="font-medium text-gray-100">{date}</p>
         </div>
         <a

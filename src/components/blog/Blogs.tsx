@@ -82,25 +82,25 @@ const Blogs = () => {
           </div>
 
           {/* Featured Posts */}
-          {/* <div className="">
+          <div className="">
             <h2 className="text-3xl mb-12 font-bold">Featured Posts</h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-1 gap-8">
               {blogs.slice(0, 2).map((post) => (
                 <HighlightPostCard key={post._id} post={post} className="!h-[15rem]" />
               ))}
             </div>
-          </div> */}
+          </div>
           <div className="w-[19rem] h-[16rem] mx-auto border border-gray-200" />
         </div>
         {/* FEATURED POSTS */}
-        <div className="row-start-2 lg:row-start-3 row-span-1 h-fit col-span-3">
+        {/* <div className="row-start-2 lg:row-start-3 row-span-1 h-fit col-span-3">
           <h2 className="mb-12 text-3xl font-bold text-center">Featured Posts</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {blogs.slice(0, 3).map((post) => (
               <PostCard key={post._id} className="h-fit" post={post} />
             ))}
           </div>
-        </div>
+        </div> */}
       </div>
       <div className="flex flex-col gap-12 border-y my-12 py-12 border-gray-200">
         <div className="grid lg:grid-cols-3 gap-12 px-[8%] xl:px-[10%]">

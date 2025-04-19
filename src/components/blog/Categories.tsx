@@ -15,7 +15,7 @@ const Categories = () => {
             <div className="bg-orange-500 text-white px-2 rounded-sm">74</div>
           </li>
           <li className="flex justify-between py-3">
-            <p>Francais</p>
+            <p>French</p>
             <div className="bg-purple-500 text-white px-2 rounded-sm">41</div>
           </li>
           <li className="flex justify-between py-3">
