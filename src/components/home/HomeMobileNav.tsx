@@ -102,6 +102,11 @@ const lastPart = urlParts[urlParts.length - 1];
           <a>Twandikire</a>
         </Link>
       </Menu.Item>
+      <Menu.Item key="5">
+        <Link to="/blogs">
+          <a>Blogs</a>
+        </Link>
+      </Menu.Item>
       {/* <Menu.Item key="3">
         <button onClick={handleLogout}>
           <a>

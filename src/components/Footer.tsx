@@ -38,6 +38,9 @@ const Footer: React.FC = () => {
           <Link to="/contact_us">
           <p className='flex'>Twandikire</p>
           </Link>
+          <Link to="/blogs">
+          <p className='flex'>Blogs</p>
+          </Link>
         </div>
         <div className='flex card1 flex-col space-y-3'>
   <h1 className='flex font-bold'>Ubufatanyabikorwa</h1>
