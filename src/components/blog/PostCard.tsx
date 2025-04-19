@@ -1,10 +1,13 @@
+// import React from 'react';
 import Badge from "../ui/Badge";
 
 export interface IPost {
-  title: string;
-  language: string;
-  photo: string;
+  _id: string;
+  title: string;  
+  blogImage: string;
   date: string;
+  content: string;
+  language: string;
 }
 
 const PostCard = ({
@@ -19,36 +22,36 @@ const PostCard = ({
   className?: string;
 }) => {
   return (
-    <div
-      className={`${small ? "flex-row" : "flex-col"} gap-5 flex ${className}`}
-    >
+    <div className={`flex ${small ? 'flex-row' : 'flex-col'} gap-4 ${className} border-2 border-blue-50 rounded-lg p-2`}>
       <a
-        href="blogs/xyz"
-        className={`${
-          small ? "min-h-[5rem] w-2/7 " : "h-[14rem] min-w-[9rem] flex-3/7"
-        }  block `}
-      >
-        <img src={post.photo} className="size-full object-cover" alt="" />
-      </a>
-      <div
-        className={`${
-          small ? "" : ""
-        } bottom-0 z-20 flex flex-col gap-3 flex-4/7`}
-      >
+  href={`/blogs/${post._id}`}
+  className={`block flex-shrink-0 ${
+    small ? 'w-24 h-20' : 'w-78 h-60'
+  }`}
+>
+  <img
+    src={post.blogImage}
+    alt={post.title}
+    className="w-full h-full object-cover rounded"
+  />
+</a>
+
+      <div className="flex flex-col gap-2 flex-grow">
         {!small && (
           <div className="flex items-center gap-3">
             <Badge title={post.language} />
-            <p className="font-medium text-gray-600">March 27, 2018</p>
+            <p className="font-medium text-gray-600">{new Date(post.date).toLocaleDateString()}</p>
           </div>
         )}
-        <a href="blogs/xyz" className=" font-bold text-lg hover:underline leading-5">
+        <a href={`/blogs/${post._id}`} className="font-bold text-lg hover:underline leading-tight">
           {post.title}
         </a>
+        {small && (
+          <p className="text-xs text-gray-500">{new Date(post.date).toLocaleDateString()}</p>
+        )}
         {description && (
-          <p className="text-sm md:text-base">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam...
+          <p className="text-sm text-gray-600 line-clamp-3">
+            {post.content.substring(0, 100)}...
           </p>
         )}
       </div>

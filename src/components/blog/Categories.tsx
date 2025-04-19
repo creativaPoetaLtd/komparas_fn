@@ -1,42 +1,45 @@
-import React from "react";
+// import React from "react";
 
 const Categories = () => {
   return (
     <div className="flex flex-col gap-6">
-      <h2 className="text-3xl font-bold">Categories</h2>
+      <h2 className="text-3xl font-bold">LANGUAGES</h2>
       <div>
         <ul className="divide-y last:border-b divide-gray-200 border-gray-200 font-semibold">
           <li className="flex justify-between py-3">
-            <p>Wed Design</p>
+            <p>Kinyarwanda</p>
             <div className="bg-green-500 text-white px-2 rounded-sm">340</div>
           </li>
           <li className="flex justify-between py-3">
-            <p>JavaScript</p>
+            <p>English</p>
             <div className="bg-orange-500 text-white px-2 rounded-sm">74</div>
           </li>
           <li className="flex justify-between py-3">
-            <p>JQuery</p>
+            <p>Francais</p>
             <div className="bg-purple-500 text-white px-2 rounded-sm">41</div>
           </li>
           <li className="flex justify-between py-3">
-            <p>CSS</p>
+            <p>Spanish</p>
             <div className="bg-blue-500 text-white px-2 rounded-sm">35</div>
           </li>
         </ul>
       </div>
       <div className="flex flex-wrap gap-2 text-white font-bold">
         {[
-          "Chrome",
-          "CSS",
-          "Tutorial",
-          "Backend",
-          "JQuery",
-          "Design",
-          "Development",
-          "JavaScript",
-          "Website",
+          "IPHONE",
+          "GOOGLE",
+          "SAMSUNG",
+          "ANDROID",
+          "TABLET",
+          "DESKTOP",
+          "LAPTOP",
+          "MOBILE",
+          "GADGET",
+          "TECHNOLOGY",
+          "GAMING",
+          "SOFTWARE",
         ].map((cat) => (
-          <div className="bg-gray-800 cursor-pointer hover:bg-gray-700 px-3 h-8 flex items-center rounded-sm text-sm md:text-base">
+          <div className="bg-gray-800 hover:bg-gray-700 px-3 h-8 flex items-center rounded-sm text-sm md:text-base">
             {cat}
           </div>
         ))}

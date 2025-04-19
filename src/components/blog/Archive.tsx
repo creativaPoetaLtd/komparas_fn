@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 
 const Archive = () => {
   return (
@@ -7,17 +7,17 @@ const Archive = () => {
       <ul className="divide-y last:border-b divide-gray-200 border-gray-200 font-semibold">
         <li className="group py-3 cursor-pointer">
           <a href="#" className="group-hover:underline">
-            January 2018
+            January 2020
           </a>
         </li>
         <li className="group py-3 cursor-pointer">
           <a href="#" className="group-hover:underline">
-            February 2018
+            February 2021
           </a>
         </li>
         <li className="group py-3 cursor-pointer">
           <a href="#" className="group-hover:underline">
-            March 2018
+            March 2023
           </a>
         </li>
       </ul>
