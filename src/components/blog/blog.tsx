@@ -12,6 +12,7 @@ import Categories from './Categories';
 import { Linkedin, LucideFacebook, Twitter } from 'lucide-react';
 import { FaGooglePlusG, FaPinterest, FaEnvelope } from 'react-icons/fa';
 import Archive from './Archive';
+import { ClipLoader } from "react-spinners";
 
 // Define the type for a blog
 interface Blog {
@@ -48,8 +49,6 @@ const Blog = () => {
   const [blog, setBlog] = useState<Blog | null>(null);
   const [blogs, setBlogs] = useState<BlogPost[]>([]);
 
-  console.log('Blog ID:', blogId);
-
   useEffect(() => {
     const fetchBlog = async () => {
       try {
@@ -61,16 +60,30 @@ const Blog = () => {
         console.error('Error fetching blog:', error);
       }
     };
-     
+
     fetchBlog();
   }, [blogId]);
 
-  if (!blog) {
-    return <div>Loading...</div>;
-  }
+  const fetchComments = async () => {
+    try {
+      const response = await axios.get(`${baseURL}/blogs/${blogId}/comments`);
+      setBlog((prevBlog) => {
+        if (prevBlog) {
+          return { ...prevBlog, comments: response.data };
+        }
+        return prevBlog;
+      });
+    } catch (error) {
+      console.error('Error fetching comments:', error);
+    }
+  };
 
-  function fetchComments(): void {
-    throw new Error('Function not implemented.');
+  if (!blog) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+        <ClipLoader color="#36d7b7" size={100} />
+      </div>
+    );
   }
 
   return (
@@ -95,7 +108,7 @@ const Blog = () => {
         <div className="flex flex-col gap-12">
           <div className="flex gap-6 md:gap-12">
             <div className="flex flex-col h-fit gap-3 items-center col-span-1 sticky top-10">
-            <div className="size-12 rounded-full flex items-center justify-center border border-gray-200 bg-gray-100/60">
+              <div className="size-12 rounded-full flex items-center justify-center border border-gray-200 bg-gray-100/60">
                 <LucideFacebook
                   size={20}
                   className=" fill-gray-300 text-gray-300"
@@ -128,10 +141,14 @@ const Blog = () => {
             </div>
             <div className="flex flex-col gap-6 text-[.95rem] text-gray-600">
               <h2 className="font-bold text-xl md:text-2xl">{blog.title}</h2>
-              <p>{blog.content}</p>
-              {blog.contentPhotos.map((photo, index) => (
-                <figure key={index} className="bg-green-300 md:h-[22rem] lg:h-[20rem]">
-                  <img src={photo} className="size-full" alt="" />
+              
+              {/* Render HTML content safely using dangerouslySetInnerHTML */}
+              <div className="blog-content" dangerouslySetInnerHTML={{ __html: blog.content }} />
+              
+              {/* Content photos */}
+              {blog.contentPhotos?.length > 0 && blog.contentPhotos.map((photo, index) => (
+                <figure key={index} className="my-4 w-full md:h-[22rem] lg:h-[20rem]">
+                  <img src={photo} className="w-full h-full object-cover" alt={`Content image ${index + 1}`} />
                 </figure>
               ))}
             </div>
@@ -173,9 +190,9 @@ const Blog = () => {
               </div>
             </div>
             <div className="">
-              <h3 className="text-2xl font-bold mb-6">{blog.comments.length} Comments</h3>
+              <h3 className="text-2xl font-bold mb-6">{blog.comments?.length || 0} Comments</h3>
               <div className="flex flex-col gap-6 *:border-t *:first:border-t-0 *:border-gray-200">
-                {blog.comments.map((comment, index) => (
+                {blog.comments?.map((comment, index) => (
                   <div key={index} className="flex gap-4 md:gap-8 py-3">
                     <div>
                       <div className="size-[4rem] md:size-[5rem] overflow-hidden rounded-full flex items-center justify-center bg-gray-200">
@@ -186,7 +203,6 @@ const Blog = () => {
                       <h3 className="text-lg font-semibold">{comment.name}</h3>
                       <div className="flex gap-5">
                         <p className="text-slate-400">{new Date(comment.date).toLocaleDateString()} at {new Date(comment.date).toLocaleTimeString()}</p>
-                        <p className="text-slate-400 hover:text-gray-600 font-semibold">Reply</p>
                       </div>
                       <p className="text-[.9rem]">{comment.comment}</p>
                     </div>
@@ -195,23 +211,21 @@ const Blog = () => {
               </div>
             </div>
             {blogId && <LeaveAReply blogId={blogId} onCommentAdded={fetchComments} />}
-
           </div>
         </div>
         <div className="flex flex-col gap-16 lg:w-1/3">
           <div className="w-[19rem] h-[16rem] mx-auto border border-gray-200" />
           <div className="">
-           
             <div className="grid grid-cols-1 gap-8">
               {/* Render featured posts */}
               <div className="">
-            <h2 className="text-3xl mb-12 font-bold">Featured Posts</h2>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-1 gap-8">
-              {blogs.slice(0, 2).map((post) => (
-                <HighlightPostCard key={post._id} post={post} className="!h-[15rem]" />
-              ))}
-            </div>
-          </div>
+                <h2 className="text-3xl mb-12 font-bold">Featured Posts</h2>
+                <div className="grid sm:grid-cols-2 lg:grid-cols-1 gap-8">
+                  {blogs.slice(0, 2).map((post) => (
+                    <HighlightPostCard key={post._id} post={post} className="!h-[15rem]" />
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
           <Categories />

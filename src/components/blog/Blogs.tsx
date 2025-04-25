@@ -8,8 +8,9 @@ import Footer from '../Footer';
 import MobileHomeNav from '../home/HomeMobileNav';
 import SubNav from '../Navigations/SubNav';
 import axios from 'axios';
+import { ClipLoader } from "react-spinners";
 
-// Define the type for a blog post
+
 interface BlogPost {
   _id: string;
   title: string;
@@ -17,7 +18,7 @@ interface BlogPost {
   blogImage: string;
   date: string;
   language: string;
-  // Add other fields as necessary
+  
 }
 
 
@@ -38,6 +39,14 @@ const Blogs = () => {
     };
   fetchBlogs();
   }, []);
+
+  if (!blogs) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+        <ClipLoader color="#36d7b7" size={50} />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col">
@@ -113,9 +122,9 @@ const Blogs = () => {
                 ))}
               </div>
             </div>
-            <button type="button" className="bg-gray-800 block text-white py-3 px-8 my-10 mx-auto font-medium">
+            {/* <button type="button" className="bg-gray-800 block text-white py-3 px-8 my-10 mx-auto font-medium">
               LOAD MORE
-            </button>
+            </button> */}
           </div>
           <div className="flex flex-col gap-16">
             <div className="w-[19rem] h-[16rem] mx-auto border border-gray-200" />

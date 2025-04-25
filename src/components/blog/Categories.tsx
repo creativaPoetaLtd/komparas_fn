@@ -8,19 +8,19 @@ const Categories = () => {
         <ul className="divide-y last:border-b divide-gray-200 border-gray-200 font-semibold">
           <li className="flex justify-between py-3">
             <p>Kinyarwanda</p>
-            <div className="bg-green-500 text-white px-2 rounded-sm">340</div>
+            <div className="bg-green-500 text-white px-2 rounded-sm">Kiny</div>
           </li>
           <li className="flex justify-between py-3">
             <p>English</p>
-            <div className="bg-orange-500 text-white px-2 rounded-sm">74</div>
+            <div className="bg-orange-500 text-white px-2 rounded-sm">Eng</div>
           </li>
           <li className="flex justify-between py-3">
             <p>French</p>
-            <div className="bg-purple-500 text-white px-2 rounded-sm">41</div>
+            <div className="bg-purple-500 text-white px-2 rounded-sm">Fr</div>
           </li>
           <li className="flex justify-between py-3">
             <p>Spanish</p>
-            <div className="bg-blue-500 text-white px-2 rounded-sm">35</div>
+            <div className="bg-blue-500 text-white px-2 rounded-sm">Es</div>
           </li>
         </ul>
       </div>

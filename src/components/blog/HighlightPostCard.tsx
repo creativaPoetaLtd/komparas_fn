@@ -1,6 +1,7 @@
 // import React from 'react';
 import Badge from '../ui/Badge';
 import { IPost } from './PostCard';
+import { ClipLoader } from "react-spinners";
 
 const HighlightPostCard = ({
   className = '',
@@ -11,7 +12,11 @@ const HighlightPostCard = ({
 }) => {
   // Early return if post is undefined or null
   if (!post) {
-    return <div className={`bg-gray-200 h-64 w-full ${className}`}>No post data available</div>;
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+        <ClipLoader color="#36d7b7" size={50} />
+      </div>
+    );
   }
 
   const postId = post._id || '';

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { toast } from "react-toastify";
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 
@@ -25,8 +26,8 @@ const LeaveAReply = ({ blogId, onCommentAdded }: LeaveAReplyProps) => {
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     try {
-      await axios.post(`${baseURL}/blogs/${blogId}/comments`, formData);
-      alert('Comment added successfully!');
+      const response = await axios.post(`${baseURL}/blogs/${blogId}/comments`, formData);
+      toast.success(response.data.message);
       setFormData({ name: '', email: '', comment: '' });
 
       // Notify parent to refresh comments

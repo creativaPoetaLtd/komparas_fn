@@ -41,7 +41,7 @@ import RedirectIfAuthenticated from './components/auth/ProtectRoutes/RedirectIfA
 import SingleServicePage from './components/SingleService.tsx'
 import Blogs from './components/blog/Blogs.tsx'
 import Blog from './components/blog/blog.tsx'
-import BlogForm from './components/dashboard/blogs/AddBlog.tsx'
+
 
 let userddata = localStorage.getItem("authToken");
 let user = userddata || '';
@@ -95,7 +95,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/services/:id" element={<SingleServicePage />} />
         <Route path="/blogs" element={<Blogs />} /> 
         <Route path="/blogs/:blogId" element={<Blog />} />
-        <Route path="/blogs/new" element={<BlogForm />} />
+        
       </Routes>
     </BrowserRouter>
     <ToastContainer />
