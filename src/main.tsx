@@ -39,8 +39,9 @@ import RegisterShop from './components/about/registerShop.tsx'
 import ProtectedRoute from './components/auth/ProtectRoutes/Protecting.tsx'
 import RedirectIfAuthenticated from './components/auth/ProtectRoutes/RedirectIfAuthenticated.tsx'
 import SingleServicePage from './components/SingleService.tsx'
+import Blogs from './components/blog/Blogs.tsx'
 import Blog from './components/blog/blog.tsx'
-import BlogPost from './components/blog/BlogPost.tsx'
+
 
 let userddata = localStorage.getItem("authToken");
 let user = userddata || '';
@@ -92,8 +93,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/products/compare"  element={<ComparisonDrawer open={false} onClose={() => { } } refresh={false} />} />
         <Route path="/product/:productId/shop/:shopId" element={<ShopPage />} />
         <Route path="/services/:id" element={<SingleServicePage />} />
-        <Route path="/blog" element={<Blog />} /> 
-        <Route path="/blog/:id" element={<BlogPost />} />
+        <Route path="/blogs" element={<Blogs />} /> 
+        <Route path="/blogs/:blogId" element={<Blog />} />
+        
       </Routes>
     </BrowserRouter>
     <ToastContainer />
