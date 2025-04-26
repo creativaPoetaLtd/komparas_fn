@@ -213,7 +213,7 @@ const ProductComparisonTable: React.FC<Props> = ({ onClose }) => {
 
         {/* Main comparison table */}
         <div className="overflow-x-auto" ref={tableRef}>
-          <table className="w-full border-collapse">
+          <table className="w-full border-collapse mb-16">
             <thead>
               <tr className="bg-gray-100">
                 <th className="border p-3 text-left w-1/5">Feature</th>
@@ -243,7 +243,7 @@ const ProductComparisonTable: React.FC<Props> = ({ onClose }) => {
             <tbody>
               {/* Price row */}
               <tr className="bg-green-50">
-                <td className="border p-3 font-medium">Price</td>
+                <td className="border p-3 font-bold">Price</td>
                 {products.map((product) => (
                   <td key={product._id} className="border p-3 text-center font-bold text-green-600">
                     {getLowestPrice(product)}
@@ -253,7 +253,7 @@ const ProductComparisonTable: React.FC<Props> = ({ onClose }) => {
 
               {/* Action buttons row */}
               <tr>
-                <td className="border p-3 font-medium">Actions</td>
+                <td className="border p-3 font-bold">Actions</td>
                 {products.map((product) => (
                   <td key={product._id} className="border p-3 text-center">
                     <Link
@@ -270,7 +270,7 @@ const ProductComparisonTable: React.FC<Props> = ({ onClose }) => {
               {allSpecKeys.map((specKey) => (
                 <tr key={specKey} className={expandedSpecs[specKey] ? "bg-gray-50" : ""}>
                   <td
-                    className="border p-3 font-medium cursor-pointer hover:bg-gray-100"
+                    className="border p-3 font-bold cursor-pointer hover:bg-gray-100"
                     onClick={() => toggleSpecVisibility(specKey)}
                   >
                     <div className="flex justify-between items-center">
@@ -284,7 +284,7 @@ const ProductComparisonTable: React.FC<Props> = ({ onClose }) => {
                       key={`${product._id}-${specKey}`}
                       className={`border p-3 text-center ${expandedSpecs[specKey] ? "" : "hidden"}`}
                     >
-                      <span className="text-green-600">
+                      <span className="text-black-600 italic">
                         {getSpecValue(product, specKey)}
                       </span>
                     </td>

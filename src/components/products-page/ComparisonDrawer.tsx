@@ -212,7 +212,7 @@ const ComparisonDrawer: React.FC<Props> = ({ onClose }) => {
 
                 {/* Main comparison table */}
                 <div className="overflow-x-auto" ref={tableRef}>
-                    <table className="w-full border-collapse">
+                    <table className="w-full border-collapse mb-16">
                         <thead>
                             <tr className="bg-gray-100">
                                 <th className="border p-3 text-left w-1/5">Feature</th>
@@ -239,7 +239,7 @@ const ComparisonDrawer: React.FC<Props> = ({ onClose }) => {
                         <tbody>
                             {/* Price row */}
                             <tr className="bg-green-50">
-                                <td className="border p-3 font-medium">Price</td>
+                                <td className="border p-3 font-bold">Price</td>
                                 {product?.product?.map((product: any) => (
                                     <td key={product._id} className="border p-3 text-center font-bold text-green-600">
                                         {getLowestPrice(product)}
@@ -249,7 +249,7 @@ const ComparisonDrawer: React.FC<Props> = ({ onClose }) => {
 
                             {/* Action buttons row */}
                             <tr>
-                                <td className="border p-3 font-medium">Actions</td>
+                                <td className="border p-3 font-bold">Actions</td>
                                 {product?.product?.map((product: any) => (
                                     <td key={product._id} className="border p-3 text-center">
                                         <Link
@@ -266,7 +266,7 @@ const ComparisonDrawer: React.FC<Props> = ({ onClose }) => {
                             {allSpecKeys.map((specKey) => (
                                 <tr key={specKey} className={showValueMap[specKey] ? "bg-gray-50" : ""}>
                                     <td
-                                        className="border p-3 font-medium cursor-pointer hover:bg-gray-100"
+                                        className="border p-3  cursor-pointer hover:bg-gray-100 font-bold"
                                         onClick={() => handleValueClick(specKey)}
                                     >
                                         <div className="flex justify-between items-center">
@@ -279,7 +279,7 @@ const ComparisonDrawer: React.FC<Props> = ({ onClose }) => {
                                             key={`${product._id}-${specKey}`}
                                             className={`border p-3 text-center ${showValueMap[specKey] ? "" : "hidden"}`}
                                         >
-                                            <span className="text-green-600">
+                                            <span className="text-black-600 italic">
                                                 {getSpecValue(product, specKey)}
                                             </span>
                                         </td>
@@ -314,7 +314,7 @@ const ComparisonDrawer: React.FC<Props> = ({ onClose }) => {
                             }}
                             className="text-red-500 px-6 py-2 rounded-md border border-red-500 hover:bg-red-50"
                         >
-                            Fungaa
+                            Funga
                         </button>
                     </div>
                 </div>
@@ -322,5 +322,4 @@ const ComparisonDrawer: React.FC<Props> = ({ onClose }) => {
         </div>
     );
 };
-
 export default ComparisonDrawer;
