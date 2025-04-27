@@ -3,7 +3,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
-const RelatedProfducts = ({ shopProducts, vendorID, shopData }: any) => {
+const RelatedProfducts = ({ shopProducts, vendorID }: any) => {
   const settings = {
     dots: true,
     dotsClass: "slick-dots slick-thumb",
@@ -38,9 +38,14 @@ const RelatedProfducts = ({ shopProducts, vendorID, shopData }: any) => {
     <div className="flex w-full flex-col mb-2">
       {/* Section Header */}
       <div className="flex justify-between items-center mb-2">
-        <h2 className="text-lg font-bold text-gray-800">
-          Izindi Telephone dufite - <span className="text-yellow-500">{shopData?.name}</span>
-        </h2>
+        <div className='flex flex-col md:px-4 px-3'>
+            <div className="flex justify-start items-start">
+                <div className="flex w-[20px] h-[40px] rounded-md bg-[#EDB62E]"></div>
+                <h1 className="text-lg flex my-auto justify-center font-bold ml-2 text-[#EDB62E]">
+                  Izindi telephone dufite
+                </h1>
+            </div>
+        </div>
         {hasProducts && shopProducts?.data?.products.length > 3 && (
           <Link 
             to={`/products?shopId=${vendorID}`}

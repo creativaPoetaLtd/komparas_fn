@@ -9,7 +9,7 @@ const ShopNavigations: React.FC<Product> = ({ products,shopData }) => {
             <p className="text-[#0C203B] text-sm mx-1">/</p>
             <a href="/products" className="text-[#0C203B] text-sm">Zose</a>
             <p className="text-[#0C203B] text-sm mx-1">/</p>
-            <a href="/product" className="text-[#EDB62E] text-sm">{products?.product?.product_name}</a>
+            <a href={`/product/${products?.product?._id}`} className="text-[#EDB62E] text-sm">{products?.product?.product_name}</a>
             <p className="text-[#0C203B] text-sm mx-1">/</p>
             <p className="text-[#EDB62E] text-sm">{shopData?.name}</p>
         </div>
