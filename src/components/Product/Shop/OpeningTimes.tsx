@@ -76,7 +76,6 @@ const OpeningTimes: React.FC<OpeningTimesProps> = ({ shopData }) => {
       const workingHour = shopData?.working_hours?.find(hour => hour.day === currentDayName);
       
       if (workingHour && workingHour.time_range) {
-        // Notice: time_range format changed from "09:00-17:00" in your data
         const timeRangeParts = workingHour.time_range.split('-');
         
         if (timeRangeParts.length === 2) {
