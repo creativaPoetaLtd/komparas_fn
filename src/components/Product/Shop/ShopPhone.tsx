@@ -33,12 +33,14 @@ const ShopContact = ({ shopData }: any) => {
       {/* Map Section */}
       <div className="mt-4">
         <div className="w-full h-64 bg-gray-200 rounded-lg overflow-hidden">
-          {shopData?.mapUrl ? (
+          {shopData ? (
             <iframe
-              src={shopData.mapUrl}
+              src={shopData.location_discription}
               className="w-full h-full border-0"
               title="Shop Location Map"
               allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center">
@@ -46,14 +48,6 @@ const ShopContact = ({ shopData }: any) => {
             </div>
           )}
         </div>
-        <a
-          href={shopData?.mapUrl || "#"}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-2 inline-flex items-center text-blue-600 hover:text-blue-800"
-        >
-          View on map
-        </a>
       </div>
     </div>
   );

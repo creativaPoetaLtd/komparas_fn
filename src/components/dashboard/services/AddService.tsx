@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Input, Upload, Button, message, Modal, Space } from 'antd';
-import { UploadOutlined, BoldOutlined, ItalicOutlined, UnderlineOutlined, OrderedListOutlined, UnorderedListOutlined } from '@ant-design/icons';
+import { UploadOutlined, BoldOutlined, ItalicOutlined, UnderlineOutlined, OrderedListOutlined, UnorderedListOutlined, EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import { RcFile } from 'antd/es/upload/interface';
 import axios from 'axios';
 import { baseUrl } from '../../../api';
@@ -9,37 +9,78 @@ interface AddServiceProps {
   visible: boolean;
   onClose: () => void;
   onAdAdded: () => void;
+  isEditMode?: boolean;
+  serviceData?: any;
 }
 
-const AddService: React.FC<AddServiceProps> = ({ visible, onClose, onAdAdded }) => {
+const AddService: React.FC<AddServiceProps> = ({ visible, onClose, onAdAdded, isEditMode = false, serviceData = null }) => {
   const [form] = Form.useForm();
   const [description, setDescription] = useState('');
+  const [fileList, setFileList] = useState<any[]>([]);
+  const [showPreview, setShowPreview] = useState(false);
   
-  const handleUpload = async (values: any) => {
+  // Reset form and load service data when modal opens for editing
+  useEffect(() => {
+    if (visible) {
+      form.resetFields();
+      setDescription('');
+      setFileList([]);
+      setShowPreview(false);
+      
+      if (isEditMode && serviceData) {
+        form.setFieldsValue({ 
+          service_name: serviceData.service_name,
+          product_id: serviceData.product_id
+        });
+        setDescription(serviceData.service_description || '');
+        
+        if (serviceData.image) {
+          setFileList([{
+            uid: '-1',
+            name: 'Current Image',
+            status: 'done',
+            url: serviceData.image,
+          }]);
+        }
+      }
+    }
+  }, [visible, isEditMode, serviceData, form]);
+
+  const handleSubmit = async (values: any) => {
     const formData = new FormData();
     formData.append('service_name', values.service_name);
     formData.append('service_description', description);  
+    
     if (values.product_id) {
       formData.append('product_id', values.product_id);
     }
   
-    if (values.image) {
+    // Only append image if a new one is uploaded
+    if (values.image && values.image.originFileObj) {
       formData.append('image', values.image.originFileObj as RcFile);
-    } else {
-      console.error('No image uploaded');
     }
-  
+    
     try {
-      const response = await axios.post(`${baseUrl}/services/add`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-      message.success(response.data.message || 'Service uploaded successfully');
+      let response;
+      if (isEditMode) {
+        response = await axios.put(`${baseUrl}/services/${serviceData._id}`, formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
+        message.success('Service updated successfully');
+      } else {
+        response = await axios.post(`${baseUrl}/services/add`, formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
+        message.success(response.data.message || 'Service uploaded successfully');
+      }
+      
       form.resetFields();
       setDescription('');
+      setFileList([]);
       onAdAdded();
       onClose();
     } catch (error: any) {
-      message.error(error.response?.data?.message || 'Failed to upload Service');
+      message.error(error.response?.data?.message || `Failed to ${isEditMode ? 'update' : 'upload'} Service`);
     }
   };
 
@@ -90,18 +131,23 @@ const AddService: React.FC<AddServiceProps> = ({ visible, onClose, onAdAdded }) 
       }
     }, 0);
   };
+
+  const togglePreview = () => {
+    setShowPreview(!showPreview);
+  };
   
   return (
     <Modal
-      title="Add Service"
+      title={isEditMode ? "Edit Service" : "Add Service"}
       open={visible}
       onCancel={onClose}
       footer={null}
+      width={800}
     >
       <Form
         form={form}
         layout="vertical"
-        onFinish={handleUpload}
+        onFinish={handleSubmit}
         className="p-6 bg-white rounded"
       >
         <Form.Item
@@ -117,7 +163,7 @@ const AddService: React.FC<AddServiceProps> = ({ visible, onClose, onAdAdded }) 
           rules={[{ required: true, message: 'Please enter the service description' }]}
         >
           <div className="border border-gray-300 rounded">
-            <div className="p-2 bg-gray-100 border-b border-gray-300">
+            <div className="p-2 bg-gray-100 border-b border-gray-300 flex justify-between items-center">
               <Space>
                 <Button 
                   type="text" 
@@ -150,6 +196,15 @@ const AddService: React.FC<AddServiceProps> = ({ visible, onClose, onAdAdded }) 
                   title="Unordered List"
                 />
               </Space>
+              
+              <Button 
+                type="text" 
+                icon={showPreview ? <EyeInvisibleOutlined /> : <EyeOutlined />} 
+                onClick={togglePreview}
+                title={showPreview ? "Hide Preview" : "Show Preview"}
+              >
+                {showPreview ? "Hide Preview" : "Show Preview"}
+              </Button>
             </div>
             <Input.TextArea 
               id="markdown-editor"
@@ -159,7 +214,7 @@ const AddService: React.FC<AddServiceProps> = ({ visible, onClose, onAdAdded }) 
               rows={6}
               className="border-none"
             />
-            {description && (
+            {description && showPreview && (
               <div className="p-2 border-t border-gray-300">
                 <div className="text-xs text-gray-500">Preview:</div>
                 <div 
@@ -177,31 +232,39 @@ const AddService: React.FC<AddServiceProps> = ({ visible, onClose, onAdAdded }) 
         </Form.Item>
         
         <Form.Item
-         label="Image"
-         name="image"
-         valuePropName="file"
-         getValueFromEvent={(e: any) => {
-           if (Array.isArray(e)) {
-             return e;
-           }
-           return e?.fileList?.[0]; 
-         }}
-         rules={[{ required: true, message: 'Please upload an image' }]}
-       >
-         <Upload
-           name="image"
-           listType="picture"
-           maxCount={1}
-           beforeUpload={() => false} 
-           onChange={(info) => console.log('Upload Info:', info.fileList)}
-         >
-           <Button icon={<UploadOutlined />}>Upload Image</Button>
-         </Upload>
-       </Form.Item>
+          label="Image"
+          name="image"
+          valuePropName="file"
+          getValueFromEvent={(e: any) => {
+            if (Array.isArray(e)) {
+              return e;
+            }
+            return e?.fileList?.[0]; 
+          }}
+          rules={[{ required: !isEditMode, message: 'Please upload an image' }]}
+        >
+          <Upload
+            name="image"
+            listType="picture"
+            maxCount={1}
+            beforeUpload={() => false}
+            fileList={fileList}
+            onChange={(info) => {
+              // Update fileList when user uploads a new image
+              if (info.fileList.length > 0) {
+                setFileList(info.fileList);
+              }
+            }}
+          >
+            <Button icon={<UploadOutlined />}>
+              {isEditMode ? "Change Image" : "Upload Image"}
+            </Button>
+          </Upload>
+        </Form.Item>
        
         <Form.Item>
           <Button htmlType="submit">
-            Submit
+            {isEditMode ? "Update" : "Submit"}
           </Button>
         </Form.Item>
       </Form>

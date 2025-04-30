@@ -3,263 +3,656 @@ import { getShopById, updateShop } from "../../../../api/getAllShops";
 import { toast } from "react-toastify";
 
 interface EditShopFormProps {
-    setIsEditShop: (isShopFormOpen: boolean) => void;
-    selectedShopId?: string;
+  setIsEditShop: (isShopFormOpen: boolean) => void;
+  selectedShopId?: string;
 }
 
-const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+interface WorkingHour {
+  day: string;
+  isOpen: boolean;
+  startTime: string;
+  endTime: string;
+  time_range: string;
+}
+
+const allDays = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
 
 const EditShopForm = ({ setIsEditShop }: EditShopFormProps) => {
-    const [loading, setLoading] = useState(false);
-    const [formData, setFormData] = useState({
-        name: "",
-        owner : "",
-        email: "",
-        phone: "",
-        location: "",
-        location_description: "",
-        working_hours: daysOfWeek.map(day => ({ day, time_range: "" })), // Initialize with empty time_range
-        description: "",
-        image: null as File | null | any,
-    });
-    const [shopData, setShopData] = useState<any>();
-    const editID: any = localStorage.getItem("editID");
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    owner: "",
+    email: "",
+    phone: "",
+    location: "",
+    location_discription: "",
+    description: "",
+    image: null as File | null | any,
+  });
 
-    const handleShopFormClose = () => {
-        setIsEditShop(false);
+  const [workingHours, setWorkingHours] = useState<WorkingHour[]>([]);
+  const [availableDays, setAvailableDays] = useState<string[]>([]);
+  const [shopData, setShopData] = useState<any>();
+  const editID: any = localStorage.getItem("editID");
+
+  const handleShopFormClose = () => {
+    setIsEditShop(false);
+  };
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setFormData({ ...formData, image: e.target.files[0] });
+    }
+  };
+
+  // Parse time_range string into startTime and endTime
+  const parseTimeRange = (timeRange: string) => {
+    if (timeRange === "Closed") {
+      return { isOpen: false, startTime: "09:00", endTime: "17:00" };
+    }
+
+    const times = timeRange.split("-");
+    if (times.length === 2) {
+      return {
+        isOpen: true,
+        startTime: times[0].trim(),
+        endTime: times[1].trim(),
+      };
+    }
+
+    return { isOpen: true, startTime: "09:00", endTime: "17:00" };
+  };
+
+  useEffect(() => {
+    const fetchShop = async () => {
+      try {
+        const { data } = await getShopById(editID);
+        setShopData(data);
+      } catch (error) {
+        toast.error("Failed to fetch shop data");
+      }
     };
+    fetchShop();
+  }, [editID]);
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target;
-        if (name.startsWith("working_hours")) {
-            const [_, index] = name.split(".");
-            const updatedWorkingHours = [...formData.working_hours];
-            updatedWorkingHours[Number(index)].time_range = value;
-            setFormData({ ...formData, working_hours: updatedWorkingHours });
-        } else {
-            setFormData({ ...formData, [name]: value });
-        }
-    };
+  useEffect(() => {
+    if (shopData) {
+      setFormData({
+        name: shopData.name || "",
+        owner: shopData.owner || "",
+        email: shopData.email || "",
+        phone: shopData.phone || "",
+        location: shopData.location || "",
+        location_discription: shopData.location_discription || "",
+        description: shopData.description || "",
+        image: null,
+      });
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files.length > 0) {
-            setFormData({ ...formData, image: e.target.files[0] });
-        }
-    };
+      // Process working hours
+      const existingDays = shopData.working_hours.map((wh: any) => wh.day);
 
-    useEffect(() => {
-        const fetchShop = async () => {
-            const { data } = await getShopById(editID);
-            setShopData(data);
+      // Initialize working hours from shop data
+      const initialWorkingHours = shopData.working_hours.map((wh: any) => {
+        const { isOpen, startTime, endTime } = parseTimeRange(wh.time_range);
+        return {
+          day: wh.day,
+          isOpen,
+          startTime,
+          endTime,
+          time_range: wh.time_range,
         };
-        fetchShop();
-    }, [editID]);
+      });
 
-    useEffect(() => {
-        if (shopData) {
-            setFormData({
-                name: shopData.name,
-                owner: shopData.owner,
-                email: shopData.email,
-                phone: shopData.phone,
-                location: shopData.location,
-                location_description: shopData.location_description,
-                working_hours: daysOfWeek.map(day => {
-                    const dayData = shopData.working_hours.find((wh: any) => wh.day === day);
-                    return { day, time_range: dayData ? dayData.time_range : "" };
-                }), // Map through daysOfWeek to ensure all days are represented
-                description: shopData.description,
-                image: null,
-            });
-        }
-    }, [shopData]);
+      setWorkingHours(initialWorkingHours);
 
-    const handleEditShop = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setLoading(true);
+      // Set available days (days not in the working hours)
+      setAvailableDays(allDays.filter((day) => !existingDays.includes(day)));
+    }
+  }, [shopData]);
 
-        const updatedFormData = new FormData();
-        updatedFormData.append("name", formData.name);
-        updatedFormData.append("owner", formData.owner);
-        updatedFormData.append("email", formData.email);
-        updatedFormData.append("phone", formData.phone);
-        updatedFormData.append("location", formData.location);
-        updatedFormData.append("location_description", formData.location_description);
-        updatedFormData.append("description", formData.description);
+  const handleAddDay = () => {
+    if (availableDays.length === 0) return;
 
-        formData.working_hours.forEach((wh, index) => {
-            updatedFormData.append(`working_hours[${index}][day]`, wh.day);
-            updatedFormData.append(`working_hours[${index}][time_range]`, wh.time_range);
-        });
+    const nextDay = availableDays[0];
+    const updatedAvailableDays = availableDays.filter((day) => day !== nextDay);
 
-        if (formData.image) {
-            updatedFormData.append("image", formData.image);
-        }
+    setWorkingHours([
+      ...workingHours,
+      {
+        day: nextDay,
+        isOpen: true,
+        startTime: "09:00",
+        endTime: "17:00",
+        time_range: "09:00-17:00",
+      },
+    ]);
 
-        try {
-            const res = await updateShop(updatedFormData, editID);
-            if (res.status === 200) {
-                toast.success("Shop Updated Successfully");
-                setIsEditShop(false);
-            } else {
-                toast.error("Shop Not Updated");
-            }
-        } catch (error) {
-            toast.error("An error occurred while updating the shop");
-        } finally {
-            setLoading(false);
-        }
-    };
+    setAvailableDays(updatedAvailableDays);
+  };
 
-    return (
-        <div className="w-full h-full bg-black bg-opacity-50 top-0 left-0 flex justify-center items-center">
-            <div className="w-full px-12 my-12 h-fit bg-gray-300 pb-10 rounded-md flex flex-col justify-center items-center">
-            <div className="w-full flex justify-between items-center px-4 py-2">
-                    <h1 className="text-slate-900 text-lg font-bold pl-48">Edit Shop</h1>
-                    <button className="w-10 h-10 rounded-md bg-slate-200 hover:bg-red-600 flex justify-center items-center" onClick={handleShopFormClose}>
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-slate-900 hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
-                <div className="w-full flex justify-center items-center">
-                    <form className="w-full flex flex-col justify-center items-center md:px-52 px-2 bg-gray-300" onSubmit={handleEditShop}>
-                        <div className="w-full flex flex-col justify-start items-start bg-white px-10 py-5 rounded-md">
-                            <div className="w-full flex flex-col justify-start items-start">
-                                <label className="w-full flex justify-start items-start text-slate-900">
-                                    Name
-                                </label>
-                                <input
-                                    type="text"
-                                    name="name"
-                                    value={formData.name}
-                                    onChange={handleInputChange}
-                                    className="w-full h-10 rounded-md border outline-blue-700 border-slate-900 p-2"
-                                />
-                            </div>
-                            <div className="w-full flex flex-col justify-start items-start mt-4">
-                                <label className="w-full flex justify-start items-start text-slate-900">
-                                    Owner
-                                </label>
-                                <input
-                                    type="text"
-                                    name="owner"
-                                    value={formData.owner}
-                                    onChange={handleInputChange}
-                                    className="w-full h-10 rounded-md border outline-blue-700 border-slate-900 p-2"
-                                />
-                            </div>
-                            <div className="w-full flex flex-col justify-start items-start mt-4">
-                                <label className="w-full flex justify-start items-start text-slate-900">
-                                    Email
-                                </label>
-                                <input
-                                    type="email"
-                                    name="email"
-                                    value={formData.email}
-                                    onChange={handleInputChange}
-                                    className="w-full h-10 rounded-md border outline-blue-700 border-slate-900 p-2"
-                                />
-                            </div>
-                            <div className="w-full flex justify-start flex-col items-start mt-4">
-                                <label className="w-full flex justify-start items-start text-slate-900">
-                                    Phone
-                                </label>
-                                <input
-                                    type="text"
-                                    name="phone"
-                                    value={formData.phone}
-                                    onChange={handleInputChange}
-                                    className="w-full h-10 rounded-md border outline-blue-700 border-slate-900 p-2"
-                                />
-                            </div>
-                            <div className="w-full flex justify-start flex-col items-start mt-4">
-                                <label className="w-full flex justify-start items-start text-slate-900">
-                                    Location
-                                </label>
-                                <input
-                                    type="text"
-                                    name="location"
-                                    value={formData.location}
-                                    onChange={handleInputChange}
-                                    className="w-full h-10 rounded-md border outline-blue-700 border-slate-900 p-2"
-                                />
-                            </div>
-                            <div className="w-full flex justify-start flex-col items-start mt-4">
-                                <label className="w-full flex justify-start items-start text-slate-900">
-                                    Location Description
-                                </label>
-                                <input
-                                    type="text"
-                                    name="location_description"
-                                    value={formData.location_description}
-                                    onChange={handleInputChange}
-                                    className="w-full h-10 rounded-md border outline-blue-700 border-slate-900 p-2"
-                                />
-                            </div>
-                            <div className="w-full flex justify-start flex-col items-start mt-4">
-                                <label className="w-full flex justify-start items-start text-slate-900">
-                                    Working Hours
-                                </label>
-                                {formData.working_hours.map((day, index) => (
-                                    <div key={index} className="w-full flex justify-between items-center mt-2">
-                                        <span>{day.day}</span>
-                                        <input
-                                            type="text"
-                                            name={`working_hours.${index}`}
-                                            value={day.time_range}
-                                            onChange={handleInputChange}
-                                            className="w-full h-10 rounded-md border outline-blue-700 border-slate-900 p-2 ml-2"
-                                            placeholder="e.g., 9:00 AM - 5:00 PM"
-                                        />
-                                    </div>
-                                ))}
-                            </div>
-                            <div className="w-full flex justify-start flex-col items-start mt-4">
-                                <label className="w-full flex justify-start items-start text-slate-900">
-                                    Description
-                                </label>
-                                <textarea
-                                    name="description"
-                                    value={formData.description}
-                                    onChange={handleInputChange}
-                                    className="w-full h-20 rounded-md border outline-blue-700 border-slate-900 p-2"
-                                />
-                            </div>
-                            <div className="w-full flex justify-start flex-col items-start mt-4">
-                                <label className="w-full flex justify-start items-start text-slate-900">
-                                    Image
-                                </label>
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={handleFileChange}
-                                    className="w-full h-10 rounded-md border outline-blue-700 border-slate-900 p-2"
-                                />
-                            </div>
-                        </div>
-                        <div className="w-full flex justify-between items-center mt-10 px-10">
-                            <button
-                                type="submit"
-                                className={`px-4 py-2 rounded-md text-white font-semibold ${loading ? "bg-blue-400" : "bg-blue-600 hover:bg-blue-700"
-                                    }`}
-                                disabled={loading}
-                            >
-                                {loading ? "Updating..." : "Update"}
-                            </button>
-                            <button
-                                type="button"
-                                onClick={handleShopFormClose}
-                                className="px-4 py-2 rounded-md text-white font-semibold bg-red-600 hover:bg-red-700"
-                            >
-                                Cancel
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+  const handleRemoveDay = (index: number) => {
+    const dayToRemove = workingHours[index].day;
+    const updatedWorkingHours = workingHours.filter((_, i) => i !== index);
+
+    setWorkingHours(updatedWorkingHours);
+    setAvailableDays(
+      [...availableDays, dayToRemove].sort((a, b) => {
+        return allDays.indexOf(a) - allDays.indexOf(b);
+      }),
     );
+  };
+
+  const handleToggleDay = (index: number) => {
+    const updatedHours = [...workingHours];
+    updatedHours[index].isOpen = !updatedHours[index].isOpen;
+    updatedHours[index].time_range = updatedHours[index].isOpen
+      ? `${updatedHours[index].startTime}-${updatedHours[index].endTime}`
+      : "Closed";
+    setWorkingHours(updatedHours);
+  };
+
+  const handleTimeChange = (
+    index: number,
+    field: "startTime" | "endTime",
+    value: string,
+  ) => {
+    const updatedHours = [...workingHours];
+    updatedHours[index][field] = value;
+
+    // Update time_range when time changes
+    if (updatedHours[index].isOpen) {
+      updatedHours[index].time_range =
+        `${updatedHours[index].startTime}-${updatedHours[index].endTime}`;
+    }
+
+    setWorkingHours(updatedHours);
+  };
+
+  const formatTimeForDisplay = (timeString: string) => {
+    const [hours, minutes] = timeString.split(":");
+    if (!hours || !minutes) return timeString;
+
+    const hour = parseInt(hours);
+    const ampm = hour >= 12 ? "PM" : "AM";
+    const hour12 = hour % 12 || 12;
+    return `${hour12}:${minutes} ${ampm}`;
+  };
+
+  const handleEditShop = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const updatedFormData = new FormData();
+    updatedFormData.append("name", formData.name);
+    updatedFormData.append("owner", formData.owner);
+    updatedFormData.append("email", formData.email);
+    updatedFormData.append("phone", formData.phone);
+    updatedFormData.append("location", formData.location);
+    updatedFormData.append(
+      "location_discription",
+      formData.location_discription,
+    );
+    updatedFormData.append("description", formData.description);
+
+    // Convert working hours to the format expected by the API
+    workingHours.forEach((wh, index) => {
+      updatedFormData.append(`working_hours[${index}][day]`, wh.day);
+      const timeRange = wh.isOpen ? `${wh.startTime}-${wh.endTime}` : "Closed";
+      updatedFormData.append(`working_hours[${index}][time_range]`, timeRange);
+    });
+
+    if (formData.image) {
+      updatedFormData.append("image", formData.image);
+    }
+
+    try {
+      const res = await updateShop(updatedFormData, editID);
+      if (res.status === 200) {
+        toast.success("Shop Updated Successfully");
+        setIsEditShop(false);
+      } else {
+        toast.error("Shop Not Updated");
+      }
+    } catch (error) {
+      toast.error("An error occurred while updating the shop");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const isFormValid = () => {
+    return (
+      formData.name &&
+      formData.owner &&
+      formData.email &&
+      formData.phone &&
+      formData.location &&
+      formData.description
+    );
+  };
+
+  return (
+    <div className="fixed inset-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center overflow-y-auto p-4">
+      <div className="max-w-4xl w-full bg-white rounded-lg shadow-xl overflow-hidden">
+        <div className="bg-slate-800 text-white px-6 py-4 flex justify-between items-center">
+          <h1 className="text-white text-xl font-semibold">
+            Edit Shop Details
+          </h1>
+          <button
+            className="p-1 rounded-full hover:bg-slate-300 hover:text-black focus:outline-none focus:ring-2 focus:ring-blue-400 transition-colors"
+            onClick={handleShopFormClose}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <div className="p-6 max-h-[80vh] overflow-y-auto">
+          <form onSubmit={handleEditShop} className="space-y-6">
+            <div className="bg-gray-50 p-4 rounded-md">
+              <h2 className="text-lg font-medium mb-4 text-gray-800 border-b pb-2">
+                Shop Information
+              </h2>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Shop Name*
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="Enter shop name"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Owner Name*
+                  </label>
+                  <input
+                    type="text"
+                    name="owner"
+                    value={formData.owner}
+                    onChange={handleInputChange}
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="Enter owner name"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Email Address*
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="email@example.com"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Phone Number*
+                  </label>
+                  <input
+                    type="text"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="+1 (123) 456-7890"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gray-50 p-4 rounded-md">
+              <h2 className="text-lg font-medium mb-4 text-gray-800 border-b pb-2">
+                Location Details
+              </h2>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Location Address*
+                  </label>
+                  <input
+                    type="text"
+                    name="location"
+                    value={formData.location}
+                    onChange={handleInputChange}
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="123 Main St, City, Country"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Location Description
+                  </label>
+                  <input
+                    type="text"
+                    name="location_discription"
+                    value={formData.location_discription}
+                    onChange={handleInputChange}
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="Near landmark, directions, etc."
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gray-50 p-4 rounded-md">
+              <div className="flex items-center justify-between mb-4 border-b pb-2">
+                <h2 className="text-lg font-medium text-gray-800">
+                  Working Hours
+                </h2>
+                {availableDays.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={handleAddDay}
+                    className="flex items-center justify-center px-3 py-1 rounded-md bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-colors text-sm"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4 mr-1"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    Add Day
+                  </button>
+                )}
+              </div>
+
+              <div className="space-y-4">
+                {workingHours.map((day, index) => (
+                  <div
+                    key={index}
+                    className="border border-gray-200 rounded-md p-3 bg-white"
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          id={`day-${index}`}
+                          checked={day.isOpen}
+                          onChange={() => handleToggleDay(index)}
+                          className="h-4 w-4 text-blue-600 focus:ring-blue-500 rounded"
+                        />
+                        <label
+                          htmlFor={`day-${index}`}
+                          className="ml-2 font-medium text-gray-700"
+                        >
+                          {day.day}
+                        </label>
+                        <span className="ml-2 text-sm px-2 py-0.5 rounded-full bg-blue-100 text-blue-700">
+                          {day.isOpen ? "Open" : "Closed"}
+                        </span>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveDay(index)}
+                        className="text-red-500 hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 rounded-full p-1"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+
+                    {day.isOpen && (
+                      <div className="grid grid-cols-2 gap-4 mt-3">
+                        <div>
+                          <label className="block text-sm text-gray-600 mb-1">
+                            Opening Time
+                          </label>
+                          <input
+                            type="time"
+                            value={day.startTime}
+                            onChange={(e) =>
+                              handleTimeChange(
+                                index,
+                                "startTime",
+                                e.target.value,
+                              )
+                            }
+                            className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          />
+                          <div className="text-xs text-gray-500 mt-1">
+                            {formatTimeForDisplay(day.startTime)}
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm text-gray-600 mb-1">
+                            Closing Time
+                          </label>
+                          <input
+                            type="time"
+                            value={day.endTime}
+                            onChange={(e) =>
+                              handleTimeChange(index, "endTime", e.target.value)
+                            }
+                            className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          />
+                          <div className="text-xs text-gray-500 mt-1">
+                            {formatTimeForDisplay(day.endTime)}
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+
+                {workingHours.length === 0 && (
+                  <div className="text-center py-8 border border-dashed border-gray-300 rounded-md">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-12 w-12 mx-auto text-gray-400"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={1}
+                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    <p className="mt-2 text-gray-500">No working days added</p>
+                    <button
+                      type="button"
+                      onClick={handleAddDay}
+                      className="mt-3 px-4 py-2 rounded-md bg-blue-100 text-blue-700 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-colors text-sm"
+                    >
+                      Add Working Day
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="bg-gray-50 p-4 rounded-md">
+              <h2 className="text-lg font-medium mb-4 text-gray-800 border-b pb-2">
+                Additional Information
+              </h2>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Shop Description*
+                  </label>
+                  <textarea
+                    name="description"
+                    value={formData.description}
+                    onChange={handleInputChange}
+                    rows={4}
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="Describe your shop, products, services..."
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Update Shop Image
+                  </label>
+                  <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                    <div className="space-y-1 text-center">
+                      <svg
+                        className="mx-auto h-12 w-12 text-gray-400"
+                        stroke="currentColor"
+                        fill="none"
+                        viewBox="0 0 48 48"
+                      >
+                        <path
+                          d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      <div className="flex text-sm text-gray-600">
+                        <label
+                          htmlFor="file-upload"
+                          className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500"
+                        >
+                          <span>Upload a new image</span>
+                          <input
+                            id="file-upload"
+                            name="image"
+                            type="file"
+                            className="sr-only"
+                            onChange={handleFileChange}
+                            accept="image/*"
+                          />
+                        </label>
+                        <p className="pl-1">or drag and drop</p>
+                      </div>
+                      <p className="text-xs text-gray-500">
+                        PNG, JPG, GIF up to 10MB
+                      </p>
+                      {formData.image && (
+                        <p className="text-xs text-green-600 mt-2">
+                          New file selected: {formData.image.name}
+                        </p>
+                      )}
+                      {!formData.image && shopData?.image && (
+                        <p className="text-xs text-blue-600 mt-2">
+                          Current image will remain unchanged unless you select
+                          a new one
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex justify-end pt-4 border-t">
+              <button
+                type="button"
+                onClick={handleShopFormClose}
+                className="mr-3 px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={loading || !isFormValid()}
+                className={`px-6 py-2 rounded-md shadow-sm text-sm font-medium text-white bg-blue-600
+                                    ${loading || !isFormValid() ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"}`}
+              >
+                {loading ? (
+                  <div className="flex items-center">
+                    <svg
+                      className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                    Updating...
+                  </div>
+                ) : (
+                  "Update Shop"
+                )}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default EditShopForm;

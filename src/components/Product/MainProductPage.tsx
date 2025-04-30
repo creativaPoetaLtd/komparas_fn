@@ -6,7 +6,7 @@ import AddOtheShopsModal from "./AddingOtherShopsModel";
 import { removeShopFromProduct } from "../../api/shops";
 import { isAdminFromLocalStorage } from "../Footer";
 import { updateProduct } from "../../api/product";
-
+import ConfirmModal from "../models/ConfirmModal";
 interface Product {
   products: any;
 }
@@ -17,6 +17,8 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
   const { productId }: any = useParams();
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [shopToDelete, setShopToDelete] = useState<string | null>(null);
   const [newDescription, setNewDescription] = useState("");
 
   const openEditModal = () => {
@@ -25,6 +27,23 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
 
   const closeEditModal = () => {
     setIsEditModalOpen(false);
+  };
+
+  const openDeleteModal = (shopId: string) => {
+    setShopToDelete(shopId);
+    setIsDeleteModalOpen(true);
+  };
+
+  const closeDeleteModal = () => {
+    setIsDeleteModalOpen(false);
+    setShopToDelete(null);
+  };
+
+  const handleDeleteConfirm = () => {
+    if (shopToDelete) {
+      deleteShopFromProduct(shopToDelete);
+    }
+    closeDeleteModal();
   };
 
   const handleSave = async () => {
@@ -333,13 +352,7 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
                               ),
                             )
                           ) : (
-                            // Display purple color if no colors are available(this is not how it has to be this needs to be changes asap)
-                            <div
-                              style={{
-                                backgroundColor: "#800080",
-                              }}
-                              className="rounded-full h-4 flex w-4 m-1"
-                            ></div>
+                            <span className="text-sm text-gray-500 ml-1">NA</span>
                           )}
                         </td>
 
@@ -354,7 +367,7 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
                           {isAdminFromLocalStorage() && (
                             <button
                               className="deleteButton bg-red-500 ml-2 text-white px-2 py-1 rounded-md"
-                              onClick={() => deleteShopFromProduct(shop?._id)}
+                              onClick={() => openDeleteModal(shop?._id)}
                             >
                               X
                             </button>
@@ -367,7 +380,7 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
             </table>
             {isAdminFromLocalStorage() && (
               <button
-                className="bg-black text-yellow-500 px-2 py-1 rounded-md"
+                className="bg-black text-yellow-500 px-2 py-2 mt-2 rounded-md"
                 onClick={() => setIsModalOpen(true)}
               >
                 Add Other Shops
@@ -379,6 +392,14 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
               onAddShop={handleAddShop}
               productId={productId}
             />{" "}
+
+            <ConfirmModal
+              isOpen={isDeleteModalOpen}
+              onClose={closeDeleteModal}
+              onConfirm={handleDeleteConfirm}
+              title="Delete Shop"
+              message="Are you sure you want to remove this shop from the product? This action cannot be undone."
+            />
           </div>
         </div>
       </div>

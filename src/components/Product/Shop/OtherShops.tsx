@@ -21,23 +21,19 @@ const OtherShops = ({products, productID}:any) => {
                     {products?.product?.vendor_prices?.map((price: any, priceIndex: number) => (
                       price?.vendor_id === shop?._id && (
                         <>
-                          {price?.colors.length >= 1 && (
-                            <td key={priceIndex} className="text-[#353535] flex item-start m-auto p-2">
-                              {JSON.parse(JSON.stringify(price?.colors).replace(/[\"\#]+/g, '').replace(/(\w+)/g, '"$1"')).map((color: any, colorIndex: number) => (
-                                <div key={colorIndex} style={{
-                                  backgroundColor: `${color ? color : '#0a0a0a'}`,
-                                }} className={`bg-[#${color ? color : '#0a0a0a'}] rounded-full h-4 flex w-4 m-1`}></div>
+                          {price?.colors?.length > 0 ? (
+                            <td key={priceIndex} className="text-[#353535] flex items-start m-auto p-2">
+                              {price.colors.map((color: string, index: number) => (
+                                <div
+                                  key={index}
+                                  style={{ backgroundColor: color }}
+                                  className="rounded-full h-4 w-4 m-1"
+                                ></div>
                               ))}
                             </td>
-                          )}
-                          {price?.colors?.length <= 0 && (
-                            <td key={priceIndex} className="text-[#353535] flex item-start m-auto p-2">
-                              {[...Array(4).keys()].map((_, index) => (
-                                <div key={index} style={{
-                                  backgroundColor: `#${Math.random().toString(16).slice(2, 8).padEnd(6, '0').slice(0, 6).toUpperCase()
-                                    }`
-                                }} className={`bg-[#0a0a0a] rounded-full h-4 flex w-4 m-1`}></div>
-                              ))}
+                          ) : (
+                            <td key={priceIndex} className="text-[#353535] flex items-start m-auto p-2">
+                              <span className="text-sm text-gray-500 ml-1">NA</span>
                             </td>
                           )}
                           {products?.product?.vendor_prices?.map((price: any, priceIndex: number) => (

@@ -71,7 +71,7 @@ const ShopPage = () => {
                             <Line />
                             <ShopContact shopData={shopData} />
                         </div>
-                        <RelatedProfducts shopProducts={shopProducts} vendorID={shopId} shopData={shopData} />
+                        <RelatedProfducts shopProducts={shopProducts} vendorID={shopId} />
                         <Line />
                         {search !== "shop" &&
                         <OtherShops products={products} productID={productId} vendorID={shopId} />

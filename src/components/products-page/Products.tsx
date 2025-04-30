@@ -613,7 +613,7 @@ const Products = () => {
                                 </div>
                             ))}
                         </div>
-                        <div className='pagination mt-4 flex justify-center'>
+                        <div className='pagination mt-4 flex justify-center mb-4'>
                             <Pagination
                                 current={currentPage}
                                 onChange={handlePageChange}

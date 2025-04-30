@@ -145,6 +145,14 @@ const ThreeButtons: React.FC<IProduct> = ({ products }) => {
 
     return (
         <div className="lg:w-[54%] md:w-[337px] flex flex-col">
+            <div className='flex flex-col md:px-4 px-3 pb-6'>
+                <div className="flex justify-start items-start">
+                    <div className="flex w-[20px] h-[40px] rounded-md bg-[#EDB62E]"></div>
+                    <h1 className="text-lg flex my-auto justify-center font-bold ml-2 text-[#EDB62E]">
+                        Ibyo wamenya kuri telefoni
+                    </h1>
+                </div>
+            </div>
             <div className="flex flex-col space-y-5 xl:w-[637px] lg:w-[537px] md:w-full w-full m-auto justify-center">
                 <div className="threeButtons text-xs flex flex-row">
                     <button
@@ -173,17 +181,17 @@ const ThreeButtons: React.FC<IProduct> = ({ products }) => {
                         review.key !== "Umwanzuro" && (
                             <div 
                                 key={index} 
-                                className="ourReview rounded-md border border-green-500 flex flex-col cursor-pointer"
+                                className="ourReview rounded-md border border-[#4e7db9] flex flex-col cursor-pointer"
                                 onClick={() => handleValueClick(index)}
                             >
-                                <div className="text-sm font-semibold text-start rounded-md bg-yellow-100 p-2 flex justify-between items-center">
+                                <div className="text-sm font-semibold text-start rounded-md text-white bg-[#4e7db9] p-2 flex justify-between items-center">
                                     <p className="KeyDiv text-sm">{review?.key}</p>
 
                                     <div className="flex items-center gap-3">
                                         {showValueMap[index] ? <Minus /> : <Plus />}
                                         {isAdminFromLocalStorage() && (
                                         <button 
-                                            className="text-blue-600 hover:text-blue-800 transition duration-200"
+                                            className="text-white hover:text-black transition duration-200"
                                             onClick={(e) => { 
                                                 e.stopPropagation();
                                                 openModal(index, review?.value);
