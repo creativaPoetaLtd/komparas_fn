@@ -3,6 +3,8 @@ import { Drawer } from 'antd';
 import { getProductByMultpleIdsInQueryParams } from '../../api/product';
 import { FaTimesCircle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { ClipLoader } from "react-spinners";
+import { PackageX } from 'lucide-react';
 
 interface Props {
     open: boolean;
@@ -67,7 +69,7 @@ const BottomDrawer: React.FC<Props> = ({ open, onClose, refresh, handleRemovePro
 
     return (
         <Drawer
-            title="Products for Comparison"
+            title="IBIGERERANYWA"
             style={{ overflow: 'auto' }}
             onClose={onClose}
             open={open}
@@ -76,11 +78,12 @@ const BottomDrawer: React.FC<Props> = ({ open, onClose, refresh, handleRemovePro
         >
             {loading ? (
                 <div className="flex justify-center items-center h-32">
-                    <p>Loading products...</p>
+                   <ClipLoader color="#36d7b7" size={50} />
                 </div>
             ) : products.length === 0 ? (
                 <div className="flex justify-center items-center h-32">
-                    <p>No products selected for comparison yet.</p>
+                    <PackageX className="w-12 h-12 text-gray-400" /><br></br>
+                    <p>Nta bikoresho bihari bigereranywa</p>
                 </div>
             ) : (
                 <div className="flex flex-col h-full">
@@ -118,7 +121,7 @@ const BottomDrawer: React.FC<Props> = ({ open, onClose, refresh, handleRemovePro
                                 to="/products/compare" 
                                 className="bg-black text-yellow-500 py-2 px-4 rounded-md hover:bg-gray-800 transition-colors"
                             >
-                                Compare {products.length} Products
+                                Gereranya {products.length} 
                             </Link>
                         </div>
                     )}
