@@ -1,70 +1,129 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Drawer } from 'antd';
 import { getProductByMultpleIdsInQueryParams } from '../../api/product';
 import { FaTimesCircle } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+
 interface Props {
     open: boolean;
     onClose: () => void;
     refresh: boolean;
-    handleRemoveProductIdFromLocalStorageCompare:any
+    handleRemoveProductIdFromLocalStorageCompare: (productId: string) => void;
 }
 
-
 const BottomDrawer: React.FC<Props> = ({ open, onClose, refresh, handleRemoveProductIdFromLocalStorageCompare }) => {
-
-    const idsToCompare = JSON.parse(localStorage.getItem("compareProductIds") || "[]");
-
-    const [product, setProduct] = React.useState<any>([]);
+    const [products, setProducts] = useState<any[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
+    
+    const fetchCompareProducts = async () => {
+        const idsToCompare = JSON.parse(localStorage.getItem("compareProductIds") || "[]");
+        
+        if (!idsToCompare || idsToCompare.length === 0) {
+            setProducts([]);
+            return;
+        }
+        
+        setLoading(true);
+        try {
+            const response = await getProductByMultpleIdsInQueryParams(idsToCompare);
+            if (response && response.data && response.data.product) {
+                setProducts(response.data.product);
+            } else {
+                setProducts([]);
+            }
+        } catch (error) {
+            console.error("Error fetching products:", error);
+            setProducts([]);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        if (!idsToCompare || idsToCompare.length === 0) return; // Prevent API call if no valid IDs
+        if (open) {
+            fetchCompareProducts();
+        }
+    }, [open, refresh]);
+    
+    // This effect will run when the component is open and localStorage changes
+    useEffect(() => {
+        if (open) {
+            const handleStorageChange = () => {
+                fetchCompareProducts();
+            };
+            
+            window.addEventListener('storage', handleStorageChange);
+            return () => {
+                window.removeEventListener('storage', handleStorageChange);
+            };
+        }
+    }, [open]);
 
-        const fetchData = async () => {
-            try {
-                const response = await getProductByMultpleIdsInQueryParams(idsToCompare);
-                if (response) {
-                    setProduct(response.data);
-                    const initialShowValueMap: { [key: number]: boolean } = {};
-                    response.data?.product?.forEach((_product: any, index: number) => {
-                        initialShowValueMap[index] = true;
-                    });
-                }
-            } catch (error) {
-                console.error("Error fetching products:", error);
-            }
-        };
-
-        fetchData();
-    }, [refresh]);
+    const handleRemoveProduct = (productId: string) => {
+        handleRemoveProductIdFromLocalStorageCompare(productId);
+        // Update local state immediately to reflect the change
+        setProducts(currentProducts => currentProducts.filter(product => product._id !== productId));
+    };
 
     return (
         <Drawer
-            title=""
+            title="Products for Comparison"
             style={{ overflow: 'auto' }}
             onClose={onClose}
-            visible={open}
+            open={open}
             placement="bottom"
-            width={1000}
+            height={300}
         >
-            <div className="flex overflow-x-auto justify-center items-center flex-col h-fit w-full">
-                <div className='ProductCards overflow-x-auto flex flex-row flex-wrap w-fit mx-auto gap-4'>
-                    {product?.product?.map((product: any) => (
-                        <div key={product._id} className="flex flex-col items-start justify-start rounded-md border md:p-5 p-2">
-                            <div className="flex p-2 w-[18rem] border border-green-500 rounded-md h-[5rem]">
-                                <div className='image w-[30%] h-full'>
-                                    <img src={product.product_image} height={300} width={300} className="h-full object-contain w-full" />
-                                </div>
-                                <div className='productname flex flex-col w-[70%] h-full relative'>
-                                    <p className=' my-auto items-center font-semibold'>{product.product_name}</p>
-                                    <button onClick={()=>handleRemoveProductIdFromLocalStorageCompare(product?._id)} className='closeIcon absolute top-0 right-0'>
-                                        <FaTimesCircle className='text-red-500' />
-                                    </button>
+            {loading ? (
+                <div className="flex justify-center items-center h-32">
+                    <p>Loading products...</p>
+                </div>
+            ) : products.length === 0 ? (
+                <div className="flex justify-center items-center h-32">
+                    <p>No products selected for comparison yet.</p>
+                </div>
+            ) : (
+                <div className="flex flex-col h-full">
+                    <div className="flex overflow-x-auto justify-center items-center gap-4 p-3">
+                        {products.map((product) => (
+                            <div key={product._id} className="flex flex-col items-start justify-start rounded-md border border-gray-200 min-w-[18rem]">
+                                <div className="flex p-2 w-full border border-green-500 rounded-md h-[5rem]">
+                                    <div className="image w-[30%] h-full">
+                                        <Link to={`/product/${product._id}`}>
+                                            <img src={product.product_image} alt={product.product_name} className="h-full object-contain w-full" />
+                                        </Link>
+                                    </div>
+                                    <div className="productname flex flex-col w-[70%] h-full relative">
+                                        <Link to={`/product/${product._id}`} className="my-auto items-center font-semibold text-sm">
+                                            {product.product_name.length > 60 
+                                                ? `${product.product_name.substring(0, 60)}...` 
+                                                : product.product_name}
+                                        </Link>
+                                        <button 
+                                            onClick={() => handleRemoveProduct(product._id)} 
+                                            className="closeIcon absolute top-1 right-1 hover:scale-110 transition-transform"
+                                            aria-label="Remove from comparison"
+                                        >
+                                            <FaTimesCircle className="text-red-500 text-lg" />
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
+                        ))}
+                    </div>
+                    
+                    {products.length >= 2 && (
+                        <div className="mt-4 flex justify-center">
+                            <Link 
+                                to="/products/compare" 
+                                className="bg-black text-yellow-500 py-2 px-4 rounded-md hover:bg-gray-800 transition-colors"
+                            >
+                                Compare {products.length} Products
+                            </Link>
                         </div>
-                    ))}
+                    )}
                 </div>
-            </div>
+            )}
         </Drawer>
     );
 };
