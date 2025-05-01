@@ -268,15 +268,15 @@ const Products = () => {
         }
       };
 
-   const handleRemoveProductIdFromLocalStorageCompare = (productId: any) => {
-    const productIds = localStorage.getItem('compareProductIds');
-    if (productIds) {
-        const productIdsArray = JSON.parse(productIds);
-        const updatedProductIdsArray = productIdsArray.filter((id: any) => id !== productId);
-        localStorage.setItem('compareProductIds', JSON.stringify(updatedProductIdsArray));
-        setLocastorageCompareProductIds(updatedProductIdsArray); // Update the state to uncheck the checkbox
+      const handleRemoveProductIdFromLocalStorageCompare = (productId: any) => {
+        const productIds = localStorage.getItem('compareProductIds');
+        if (productIds) {
+            const productIdsArray = JSON.parse(productIds);
+            const updatedProductIdsArray = productIdsArray.filter((id: any) => id !== productId);
+            localStorage.setItem('compareProductIds', JSON.stringify(updatedProductIdsArray));
+            setLocastorageCompareProductIds(updatedProductIdsArray); // Update the state to uncheck the checkbox
+        }
     }
-}
 
 
     const cardsPerPage = 24;
