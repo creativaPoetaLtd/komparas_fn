@@ -5,10 +5,17 @@ import { RedComponent } from './ColorsComponent';
 import { useEffect, useState } from 'react';
 import { getAllProducts } from '../../api/product';
 
+interface CategoryType {
+  _id: string;
+  name: string;
+  children?: CategoryType[];
+  image?: string;
+}
+
 interface SideBarProps {
     isOpen: boolean;
     toggleSidebar: () => void;
-    categories: any;
+    categories: CategoryType[];
     shops: any;
     handleCategoryClick: (id: string, name: string) => void;
     handleShopCkik: (id: string, name: string) => void;
@@ -18,17 +25,72 @@ interface SideBarProps {
     handleSelectCamera: (camera: string) => void;
     handleSelectColors: (colors: string) => void;
     handleSelectscreen: (type: string) => void;
-    selectedCategories: any;
-    selectedStorage: any;
-    selectedColors: any;
-    selectedscreen: any;
-    selectedRam: any;
-    selectedCamera: any;
-    selectedShops: any;
+    selectedCategories: string[];
+    selectedStorage: string[];
+    selectedColors: string[];
+    selectedscreen: string[];
+    selectedRam: string[];
+    selectedCamera: string[];
+    selectedShops: string[];
     productsData: any;
     totalProducts: any;
     clearFilters: () => void;
 }
+
+// Component to render a category and its subcategories recursively
+const CategoryItem: React.FC<{
+  category: CategoryType;
+  selectedCategories: string[];
+  handleCategoryClick: (id: string, name: string) => void;
+  level: number;
+}> = ({ category, selectedCategories, handleCategoryClick, level }) => {
+  const [expanded, setExpanded] = useState(false);
+  const hasChildren = category.children && category.children.length > 0;
+  
+  return (
+    <div className={`my-1 ${level > 0 ? 'ml-4' : ''}`}>
+      <div className="flex items-center">
+        <CheckboxInput 
+          label={category.name}
+          name="category"
+          checked={selectedCategories?.includes(category._id)}
+          onChange={() => handleCategoryClick(category._id, category.name)}
+        />
+        
+        {hasChildren && (
+          <button 
+            className="ml-1 p-1 rounded hover:bg-gray-100 focus:outline-none transition-colors flex items-center self-start mt-0.5"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setExpanded(!expanded);
+            }}
+            aria-label={expanded ? "Collapse category" : "Expand category"}
+          >
+            {expanded ? 
+              <FaChevronUp size={10} className="text-gray-600" /> : 
+              <FaChevronDown size={10} className="text-gray-600" />
+            }
+          </button>
+        )}
+      </div>
+      
+      {expanded && hasChildren && (
+        <div className="mt-1 pl-2 border-l-2 border-gray-200">
+          {category.children?.map((child) => (
+            <CategoryItem
+              key={child._id}
+              category={child}
+              selectedCategories={selectedCategories}
+              handleCategoryClick={handleCategoryClick}
+              level={level + 1}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
 
 const SideBar: React.FC<SideBarProps> = ({
     totalProducts,
@@ -133,9 +195,15 @@ const SideBar: React.FC<SideBarProps> = ({
                     {sections.category ? <FaChevronUp /> : <FaChevronDown />}
                 </div>
                 {sections.category && (
-                    <div className='flex-col grid grid-cols-2 mt-5'>
-                        {categories?.map((category: any) => (
-                            <CheckboxInput key={category._id} label={category.name} name='category' checked={selectedCategories?.includes(category._id)} onChange={() => handleCategoryClick(category._id, category.name)} />
+                    <div className='flex-col mt-3 space-y-1 max-h-[300px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100'>
+                        {categories?.map((category: CategoryType) => (
+                            <CategoryItem 
+                                key={category._id}
+                                category={category}
+                                selectedCategories={selectedCategories}
+                                handleCategoryClick={handleCategoryClick}
+                                level={0}
+                            />
                         ))}
                     </div>
                 )}
@@ -195,14 +263,14 @@ const SideBar: React.FC<SideBarProps> = ({
                 )}
             </div>
             <div className='flex justify-between mt-3'>
-                <button onClick={clearFilters} className='flex  w-fit rounded-md text-red-700 flex-row'>
+                <button onClick={clearFilters} className='flex w-fit rounded-md text-red-700 flex-row'>
                     <p className='text-sm md:text-xs my-auto font-semibold'>Siba utuyunguruzo</p>
                 </button>
-            <button onClick={toggleSidebar} className='flex bg-black w-fit p-2 px-1 rounded-md text-white flex-row'>
-                <p className='text-sm md:text-xs my-auto font-semibold'>
-                 Reba {totalProducts} Zabonetse
-                </p>
-            </button>
+                <button onClick={toggleSidebar} className='flex bg-black w-fit p-2 px-1 rounded-md text-white flex-row'>
+                    <p className='text-sm md:text-xs my-auto font-semibold'>
+                     Reba {totalProducts} Zabonetse
+                    </p>
+                </button>
             </div>
         </div>
     );
