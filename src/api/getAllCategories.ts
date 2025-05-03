@@ -7,6 +7,10 @@ export const fetchParentCategories = () => {
   return axios.get(`${baseUrl}/categories/all`);
 };
 
+export const fetchNestedCategories = () => {
+  return axios.get(`${baseUrl}/categories/nested`);
+};
+
 export const fetchParentCategoriesm = () => {
   return axios.get(`${baseUrl}/categories/parents`);
 };

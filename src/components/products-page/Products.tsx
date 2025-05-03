@@ -9,7 +9,7 @@ import { getAllProducts, getComparison } from '../../api/product';
 import { TbAdjustmentsHorizontal } from 'react-icons/tb';
 import PorductCheckInput from './ProdCheck';
 import { toast } from 'react-toastify';
-import { fetchParentCategories } from '../../api/getAllCategories';
+import { fetchNestedCategories } from '../../api/getAllCategories';
 import { getAllShops } from '../../api/getAllShops';
 import { Eye, EyeSlash } from '@phosphor-icons/react';
 import { Link } from 'react-router-dom';
@@ -105,7 +105,7 @@ const Products = () => {
     }, []);
 
     const fetchCategories = async () => {
-        const data = await fetchParentCategories();
+        const data = await fetchNestedCategories();
 
         const parentCategories = data?.data
             ?.filter((category: any) => Array.isArray(category?.children) && category?.children.length > 0)
