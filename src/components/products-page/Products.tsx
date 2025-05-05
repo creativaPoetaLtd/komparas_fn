@@ -268,19 +268,16 @@ const Products = () => {
         }
       };
 
-    const handleRemoveProductIdFromLocalStorageCompare = (productId: any) => {
-        // handleRefresh();
+      const handleRemoveProductIdFromLocalStorageCompare = (productId: any) => {
         const productIds = localStorage.getItem('compareProductIds');
         if (productIds) {
-            // handleRefresh();
             const productIdsArray = JSON.parse(productIds);
             const updatedProductIdsArray = productIdsArray.filter((id: any) => id !== productId);
             localStorage.setItem('compareProductIds', JSON.stringify(updatedProductIdsArray));
-            setLocastorageCompareProductIds(JSON.stringify(updatedProductIdsArray));
-            // handleRefresh();
+            setLocastorageCompareProductIds(updatedProductIdsArray); // Update the state to uncheck the checkbox
         }
-        // handleRefresh();
     }
+
 
     const cardsPerPage = 24;
     const [totalProducts, setTotalProducts] = useState(0);
