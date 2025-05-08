@@ -5,7 +5,14 @@ const OtherShops = ({products, productID}:any) => {
     <div className="flex flex-col text-sm shopTable">
             <table className="w-full">
               <thead>
-                <p className="text-green-500 px-2 item-start m-auto text-start">Ahandi wayisanga</p>
+              <div className="flex flex-col w-full mb-4 max-w-full">
+                <div className="flex items-center space-x-2">
+                  <div className="w-3 h-6 rounded bg-[#EDB62E] shrink-0"></div>
+                  <h1 className="text-base font-semibold text-[#EDB62E] whitespace-nowrap">
+                    Ahandi wayisanga
+                  </h1>
+                </div>
+              </div>
               </thead>
               <tbody>
                 {products?.product?.vendors?.map((shop: any, index: number) => (
@@ -33,7 +40,7 @@ const OtherShops = ({products, productID}:any) => {
                             </td>
                           ) : (
                             <td key={priceIndex} className="text-[#353535] flex items-start m-auto p-2">
-                              <span className="text-sm text-gray-500 ml-1">NA</span>
+                              <span className="text-sm text-gray-500 ml-1">N/A</span>
                             </td>
                           )}
                           {products?.product?.vendor_prices?.map((price: any, priceIndex: number) => (
