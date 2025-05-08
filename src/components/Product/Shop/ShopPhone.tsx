@@ -2,6 +2,10 @@ import { CgPhone } from "react-icons/cg";
 import { CiLocationArrow1 } from "react-icons/ci";
 
 const ShopContact = ({ shopData }: any) => {
+  const isValidMapURL =
+    typeof shopData?.location_discription === "string" &&
+    shopData.location_discription.startsWith("http");
+
   return (
     <div className="w-full rounded-lg shadow-md p-4 bg-white my-10">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -33,7 +37,7 @@ const ShopContact = ({ shopData }: any) => {
       {/* Map Section */}
       <div className="mt-4">
         <div className="w-full h-64 bg-gray-200 rounded-lg overflow-hidden">
-          {shopData ? (
+          {isValidMapURL ? (
             <iframe
               src={shopData.location_discription}
               className="w-full h-full border-0"
