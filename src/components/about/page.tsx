@@ -50,7 +50,7 @@ const AboutPage = () => {
                 <div className="navs flex mt-8 lg:ml-11 ml-4 w-fit">
                     <a href="/" className="text-[#0C203B] text-sm">Ahabanza</a>
                     <p className="text-[#0C203B] text-sm mx-1">/</p>
-                    <a href="/product" className="text-[#EDB62E] text-sm">Abo turi bo</a>
+                    <a href="." className="text-[#EDB62E] text-sm">Abo turi bo</a>
                 </div>
 
                 <div className='w-full flex flex-col h-full'>
