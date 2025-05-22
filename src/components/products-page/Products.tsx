@@ -4,7 +4,7 @@ import SideBar from './SideBar';
 import SubNav from '../Navigations/SubNav';
 import HomeNav from '../home/HomeNav';
 import MobileHomeNav from '../home/HomeMobileNav';
-import { FaArrowCircleUp, FaSearch, FaTimes } from 'react-icons/fa';
+import {  FaSearch, FaTimes } from 'react-icons/fa';
 import { getAllProducts, getComparison } from '../../api/product';
 import { TbAdjustmentsHorizontal } from 'react-icons/tb';
 import PorductCheckInput from './ProdCheck';
@@ -248,27 +248,29 @@ const Products = () => {
         const productIds = localStorage.getItem('compareProductIds');
 
         if (productIds) {
-          const productIdsArray = JSON.parse(productIds);
+            const productIdsArray = JSON.parse(productIds);
 
-          if (productIdsArray.includes(productId)) {
-            toast.warn('Product is already in comparison!');
-            return;
-          }
+            if (productIdsArray.includes(productId)) {
+                toast.warn('Product is already in comparison!');
+                return;
+            }
 
-          if (productIdsArray.length < 4) {
-            const updatedProductIds = [...productIdsArray, productId];
-            localStorage.setItem('compareProductIds', JSON.stringify(updatedProductIds));
-            setLocastorageCompareProductIds(updatedProductIds);
-          } else {
-            toast.error('You can only compare up to 4 products!');
-          }
+            if (productIdsArray.length < 4) {
+                const updatedProductIds = [...productIdsArray, productId];
+                localStorage.setItem('compareProductIds', JSON.stringify(updatedProductIds));
+                setLocastorageCompareProductIds(updatedProductIds);
+                showBottomDrawer(); // Open the drawer automatically
+            } else {
+                toast.error('You can only compare up to 4 products!');
+            }
         } else {
-          localStorage.setItem('compareProductIds', JSON.stringify([productId]));
-          setLocastorageCompareProductIds([productId]);
+            localStorage.setItem('compareProductIds', JSON.stringify([productId]));
+            setLocastorageCompareProductIds([productId]);
+            showBottomDrawer(); // Open the drawer automatically
         }
-      };
+    };
 
-      const handleRemoveProductIdFromLocalStorageCompare = (productId: any) => {
+    const handleRemoveProductIdFromLocalStorageCompare = (productId: any) => {
         const productIds = localStorage.getItem('compareProductIds');
         if (productIds) {
             const productIdsArray = JSON.parse(productIds);
@@ -278,7 +280,6 @@ const Products = () => {
         }
     }
 
-
     const cardsPerPage = 24;
     const [totalProducts, setTotalProducts] = useState(0);
     const [, setOpen] = useState(false);
@@ -286,6 +287,8 @@ const Products = () => {
     const showDrawer = () => {
         setOpen(true);
     };
+    openBottom.valueOf
+    showDrawer.valueOf
     const showBottomDrawer = () => {
         setOpenBottom(true);
     };
@@ -621,12 +624,11 @@ const Products = () => {
                     </div>
                 </div>
             </div>
-            <div className='fixed flex space-x-3 bg-green-200 bottom-10 right-10  px-2 py-1 rounded-md text-white'>
+            {/* <div className='fixed flex space-x-3 bg-green-200 bottom-10 right-10  px-2 py-1 rounded-md text-white'>
                 <button className='view flex my-auto text-black justify-center'><button onClick={showBottomDrawer}><FaArrowCircleUp /></button></button>
                 <Link onClick={showDrawer} className='text-sm rounded-md p-[2px] bg-black' to={'compare'}>{!JSON.parse(localStorage.getItem("compareProductIds") as any) ? [] : JSON.parse(localStorage.getItem("compareProductIds") as any)?.length < 2 ? '(' + JSON.parse(localStorage.getItem("compareProductIds") as any)?.length + ')' + '   Yigereranye' : '(' + JSON.parse(localStorage.getItem("compareProductIds") as any)?.length + ')' + ' Zigereranye'}</Link>
-            </div>
+            </div> */}
             <BottomDrawer
-                open={openBottom}
                 onClose={onCloseBottom}
                 handleRemoveProductIdFromLocalStorageCompare={handleRemoveProductIdFromLocalStorageCompare}
                 refresh={refresh}
