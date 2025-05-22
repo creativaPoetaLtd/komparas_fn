@@ -50,16 +50,17 @@ const AboutPage = () => {
                 <div className="navs flex mt-8 lg:ml-11 ml-4 w-fit">
                     <a href="/" className="text-[#0C203B] text-sm">Ahabanza</a>
                     <p className="text-[#0C203B] text-sm mx-1">/</p>
-                    <a href="." className="text-[#EDB62E] text-sm">Abo turi bo</a>
+                    <a href="/page" className="text-[#EDB62E] text-sm">Abo turi bo</a>
                 </div>
 
                 <div className='w-full flex flex-col h-full'>
                     <div className='flex md:flex-row flex-col w-full md:h-[609px] mt-16'>
                         <div className='md:w-[50%] w-full flex flex-col justify-center m-auto'>
                             <div className='flex flex-col space-y-4 lg:w-[525px] md:w-[400px] m-auto justify-center'>
-                                <h1 className='text-5xl flex font-medium'>Inkuru yacu</h1>
-                                <p className='flex text-sm'>Lorem ipsum dolor sit amet consectetur. Proin euismod sapien habitasse quam convallis felis fusce in tortor. Sit est suspendisse tempor tortor amet in quam orci. Neque pellentesque duis ornare viverra quis nec tincidunt. Mattis adipiscing eget morbi id tincidunt.</p>
-                                <p className='flex text-sm'>Lorem ipsum dolor sit amet consectetur. Fringilla in sed bibendum feugiat. Massa amet condimentum ut in semper dolor arcu nam risus. Eu amet convallis enim nulla. Purus mi ipsum cursus duis rutrum lectus eu id enim.</p>
+                                <p className='flex text-sm'>Komparas ni <b>urubuga rw’ikoranabuhanga</b> rwagenewe gufasha abakiriya kubona telefoni nziza, zizewe kandi zikomeye, bakazibonera ku giciro cyiza, banahabwe serivisi zinyongera zihariye zitangwa binyuze muri Komparas.</p>
+                                <p className='flex text-sm'></p>
+                                <h1 className='text-5xl flex font-medium'>Intego yacu</h1>
+                                <p className='flex text-sm'>Gufasha buri muntu kugura telefone mu buryo bworoshye, buhendutse kandi butekanye.</p>
                             </div>
                         </div>
                         <div className='md:w-[50%] w-full flex flex-col'>
