@@ -15,6 +15,7 @@ const AboutPage = () => {
             <SubNav />
             <HomeNav />
             <MobileHomeNav />
+
             <div className='w-full bg-gradient-to-br from-gray-50 via-white to-blue-50 h-fit justify-between lg:px-24 px-4 flex flex-col relative overflow-hidden'>
                 {/* Decorative background elements */}
                 <div className="absolute top-20 right-10 w-72 h-72 bg-gradient-to-br from-[#EDB62E]/10 to-[#0C203B]/5 rounded-full blur-3xl"></div>
@@ -24,6 +25,7 @@ const AboutPage = () => {
                     <a href="/" className="text-[#0C203B] text-sm font-medium hover:text-[#EDB62E] transition-colors duration-300">Ahabanza</a>
                     <p className="text-[#0C203B] text-sm mx-2">/</p>
                     <a href="/product" className="text-[#EDB62E] text-sm font-semibold bg-[#EDB62E]/10 px-3 py-1 rounded-full hover:bg-[#EDB62E]/20 transition-all duration-300">Abo turi bo</a>
+
                 </div>
 
                 <div className='w-full flex flex-col h-full relative z-10'>
