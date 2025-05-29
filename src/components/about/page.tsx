@@ -3,194 +3,187 @@ import HomeNav from '../home/HomeNav'
 import SubNav from '../Navigations/SubNav'
 import girls from '../../assets/girls.png'
 import ShopIcon from '../../assets/ShopIcon.png'
-import DollerICon from '../../assets/Icon-Sale.png'
+
 import ShopBag from '../../assets/ShopBag.png'
-import MoneyBag from '../../assets/MoneyBag.png'
-import Slider from 'react-slick';
+
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import man from '../../assets/man.png'
-import girl from '../../assets/girl.png'
-import gentle from '../../assets/gentle.png'
-import { FaXTwitter } from "react-icons/fa6";
-import { IoLogoInstagram } from "react-icons/io";
-import { CiLinkedin } from "react-icons/ci";
+
 import Footer from '../Footer'
 
 const AboutPage = () => {
 
-    const settings = {
-        dots: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 3,
-        gap: 10,
-        slidesToScroll: 1,
-        responsive: [
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: 2,
-                }
-            },
-            {
-                breakpoint: 768,
-                settings: {
-                    slidesToShow: 2,
-                }
-            }
-        ]
-    };
     return (
         <div className="flex flex-col h-fit">
             <SubNav />
             <HomeNav />
             <MobileHomeNav />
-            <div className='w-full bg-white h-fit justify-between lg:px-24 px-2 flex flex-col'>
-                <div className="navs flex mt-8 lg:ml-11 ml-4 w-fit">
-                    <a href="/" className="text-[#0C203B] text-sm">Ahabanza</a>
-                    <p className="text-[#0C203B] text-sm mx-1">/</p>
-                    <a href="/product" className="text-[#EDB62E] text-sm">Abo turi bo</a>
+            <div className='w-full bg-gradient-to-br from-gray-50 via-white to-blue-50 h-fit justify-between lg:px-24 px-4 flex flex-col relative overflow-hidden'>
+                {/* Decorative background elements */}
+                <div className="absolute top-20 right-10 w-72 h-72 bg-gradient-to-br from-[#EDB62E]/10 to-[#0C203B]/5 rounded-full blur-3xl"></div>
+                <div className="absolute bottom-40 left-10 w-96 h-96 bg-gradient-to-tr from-[#0C203B]/5 to-[#EDB62E]/10 rounded-full blur-3xl"></div>
+                
+                <div className="navs flex mt-8 lg:ml-11 ml-4 w-fit relative z-10">
+                    <a href="/" className="text-[#0C203B] text-sm font-medium hover:text-[#EDB62E] transition-colors duration-300">Ahabanza</a>
+                    <p className="text-[#0C203B] text-sm mx-2">/</p>
+                    <a href="/product" className="text-[#EDB62E] text-sm font-semibold bg-[#EDB62E]/10 px-3 py-1 rounded-full hover:bg-[#EDB62E]/20 transition-all duration-300">Abo turi bo</a>
                 </div>
 
-                <div className='w-full flex flex-col h-full'>
-                    <div className='flex md:flex-row flex-col w-full md:h-[609px] mt-16'>
-                        <div className='md:w-[50%] w-full flex flex-col justify-center m-auto'>
-                            <div className='flex flex-col space-y-4 lg:w-[525px] md:w-[400px] m-auto justify-center'>
-                                <h1 className='text-5xl flex font-medium'>Inkuru yacu</h1>
-                                <p className='flex text-sm'>Lorem ipsum dolor sit amet consectetur. Proin euismod sapien habitasse quam convallis felis fusce in tortor. Sit est suspendisse tempor tortor amet in quam orci. Neque pellentesque duis ornare viverra quis nec tincidunt. Mattis adipiscing eget morbi id tincidunt.</p>
-                                <p className='flex text-sm'>Lorem ipsum dolor sit amet consectetur. Fringilla in sed bibendum feugiat. Massa amet condimentum ut in semper dolor arcu nam risus. Eu amet convallis enim nulla. Purus mi ipsum cursus duis rutrum lectus eu id enim.</p>
-                            </div>
-                        </div>
-                        <div className='md:w-[50%] w-full flex flex-col'>
-                            <img src={girls} className='w-full h-full object-cover' />
-                        </div>
-                    </div>
-                </div>
-                <div className='grid py-20 lg:grid-cols-4 md:grid-cols-4 grid-cols-2 gap-3'>
-                    <div className='flex flex-col lg:w-[270px] w-[163px] lg:h-[230px] md:w-[163px] m-auto items-center justify-center rounded-md border border-black lg:space-y-3 space-y-2 py-1'>
-                        <div className='w-[80px] h-[80px] bg-[#c1c1c1] flex rounded-full'>
-                            <div className='w-[58px] h-[58px] bg-[#0C203B] flex rounded-full m-auto justify-center'>
-                                <div className='w-[40px] h-[40px] bg-[#0C203B] flex rounded-full m-auto justify-center'>
-                                    <img src={ShopIcon} width={100} height={100} className='w-full h-full object-cover' />
+                <div className='w-full flex flex-col h-full relative z-10'>
+                    <div className='flex md:flex-row flex-col w-full min-h-[650px] mt-16 items-center'>
+                        <div className='md:w-[50%] w-full flex flex-col justify-center relative'>
+                            {/* Floating accent elements */}
+                            <div className="absolute -top-8 -left-4 w-16 h-16 bg-[#EDB62E]/20 rounded-full animate-pulse"></div>
+                            <div className="absolute top-1/2 -right-8 w-8 h-8 bg-[#0C203B]/15 rounded-full animate-bounce delay-300"></div>
+                            
+                            <div className='flex flex-col space-y-6 lg:w-[550px] md:w-[450px] m-auto justify-center px-6 md:px-0'>
+                                {/* Animated title with gradient */}
+                                <div className="relative">
+                                    <h1 className='text-6xl md:text-7xl font-black bg-gradient-to-r from-[#0C203B] via-[#EDB62E] to-[#0C203B] bg-clip-text text-transparent leading-tight transform hover:scale-105 transition-transform duration-500 cursor-default'>
+                                        ABO TURI BO
+                                    </h1>
+                                    <div className="absolute -bottom-2 left-0 w-24 h-1 bg-gradient-to-r from-[#EDB62E] to-[#0C203B] rounded-full"></div>
                                 </div>
-                            </div>
-                        </div>
-                        <h1 className='font-bold text-[#0C203B] text-3xl'>10.5k</h1>
-                        <p className='flex lg:text-sm md:text-xs text-xs text-[#0C203B]'>Amaduka dukorana nayo</p>
-                    </div>
-                    <div className='flex flex-col lg:w-[270px] w-[163px] lg:h-[230px] md:w-[163px] bg-[#EDB62E] text-white m-auto items-center justify-center rounded-md border border-black lg:space-y-3 space-y-2 py-1'>
-                        <div className='w-[80px] h-[80px] bg-[#EDB62E] flex rounded-full'>
-                            <div className='w-[58px] h-[58px] bg-white flex rounded-full m-auto justify-center'>
-                                <div className='w-[40px] h-[40px] bg-[white] flex rounded-full m-auto justify-center'>
-                                    <img src={DollerICon} width={100} height={100} className='w-full h-full object-cover' />
+                                
+                                {/* Enhanced description with better typography */}
+                                <div className="space-y-4">
+                                    <p className='text-gray-700 text-base leading-relaxed font-medium bg-white/60 backdrop-blur-sm p-6 rounded-2xl border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300'>
+                                        <span className="text-[#EDB62E] font-bold">Komparas</span> ni urubuga rworoshye gukoresha rwagenewe guhuza abacuruzi ba telefoni n'abakiriya mu buryo bwihuse kandi bwizewe.
+                                    </p>
+                                    <p className='text-gray-600 text-sm leading-relaxed bg-gradient-to-r from-white/70 to-blue-50/70 backdrop-blur-sm p-5 rounded-xl border border-white/30'>
+                                        Gukorana na Komparas nk'umucuruzi byagufasha guhura n'abaguzi benshi kandi bafite gahunda, bityo ibicuruzwa byawe ntibitinde mu bubiko, kandi imyungu ikiyongera.
+                                    </p>
                                 </div>
-                            </div>
-                        </div>
-                        <h1 className='font-bold text-white text-3xl'>33k</h1>
-                        <p className='flex lg:text-sm md:text-xs text-xs text-white'>Telefoni zigurishirizwa hano ku kwezi</p>
-                    </div>
-                    <div className='flex flex-col lg:w-[270px] w-[163px] lg:h-[230px] md:w-[163px] m-auto items-center justify-center rounded-md border border-black lg:space-y-3 space-y-2 py-1'>
-                        <div className='w-[80px] h-[80px] bg-[#c1c1c1] flex rounded-full'>
-                            <div className='w-[58px] h-[58px] bg-[#0C203B] flex rounded-full m-auto justify-center'>
-                                <div className='w-[40px] h-[40px] bg-[#0C203B] flex rounded-full m-auto justify-center'>
-                                    <img src={ShopBag} width={100} height={100} className='w-full h-full object-cover' />
-                                </div>
-                            </div>
-                        </div>
-                        <h1 className='font-bold text-[#0C203B] text-3xl'>45.5k</h1>
-                        <p className='flex lg:text-sm md:text-xs text-xs text-[#0C203B]'>Abakiriye bagura banyuze hano ku kwezi</p>
-                    </div>
-                    <div className='flex flex-col lg:w-[270px] w-[163px] lg:h-[230px] md:w-[163px] m-auto items-center justify-center rounded-md border border-black lg:space-y-3 space-y-2 py-1'>
-                        <div className='w-[80px] h-[80px] bg-[#c1c1c1] flex rounded-full'>
-                            <div className='w-[58px] h-[58px] bg-[#0C203B] flex rounded-full m-auto justify-center'>
-                                <div className='w-[40px] h-[40px] bg-[#0C203B] flex rounded-full m-auto justify-center'>
-                                    <img src={MoneyBag} width={100} height={100} className='w-full h-full object-cover' />
-                                </div>
-                            </div>
-                        </div>
-                        <h1 className='font-bold text-[#0C203B] text-3xl'>25k</h1>
-                        <p className='flex lg:text-sm md:text-xs text-xs text-[#0C203B]'>Telefoni zigurishirizwa hano ku mwaka</p>
-                    </div>
-                </div>
-                <div className=" py-10 w-full">
 
-                    <Slider {...settings}
-                        className="flex justify-center w-full"
-                    >
-                        <div className="bg-white p-2 md:px-3 px-1  w-[30rem] h-[564px] rounded-md ">
-                            <div className="flex flex-col space-y-2 rounded-md border-gray-300 border-[1px] w-full items-center justify-center h-full">
-                                <img src={man} className='w-[236px] h-[391px] object-cover' />
-                                <div className='flex flex-col space-y-2 justify-start items-start mt-2 p-2 self-start'>
-                                    <h1 className='name font-semibold text-lg'>Tom Cruise</h1>
-                                    <h1 className='text-sm'>Founder & Chairman</h1>
-                                    <div className='socialMedias mt-2 flex space-x-3'>
-                                        <FaXTwitter className='text-base ' />
-                                        <IoLogoInstagram />
-                                        <CiLinkedin />
+                                {/* Call-to-action buttons */}
+                                <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                                    <button className="px-8 py-4 bg-gradient-to-r from-[#EDB62E] to-[#f4c842] text-white font-bold rounded-full shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 hover:scale-105">
+                                        Tangira ubu
+                                    </button>
+                                    <button className="px-8 py-4 bg-transparent border-2 border-[#0C203B] text-[#0C203B] font-semibold rounded-full hover:bg-[#0C203B] hover:text-white transition-all duration-300 backdrop-blur-sm">
+                                        Menya byinshi
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div className='md:w-[50%] w-full flex flex-col relative mt-8 md:mt-0'>
+                            {/* Image container with enhanced styling */}
+                            <div className="relative group">
+                                {/* Decorative frame */}
+                                <div className="absolute -inset-4 bg-gradient-to-r from-[#EDB62E] to-[#0C203B] rounded-3xl blur opacity-20 group-hover:opacity-30 transition-opacity duration-500"></div>
+                                <div className="absolute -inset-2 bg-gradient-to-r from-[#0C203B] to-[#EDB62E] rounded-2xl opacity-10"></div>
+                                
+                                {/* Main image */}
+                                <div className="relative overflow-hidden rounded-2xl shadow-2xl">
+                                    <img 
+                                        src={girls} 
+                                        className='w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700' 
+                                        alt="About us"
+                                    />
+                                    {/* Overlay gradient */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-[#0C203B]/20 via-transparent to-[#EDB62E]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                </div>
+                                
+                                {/* Floating stats */}
+                                <div className="absolute -bottom-6 -left-6 bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-white/20">
+                                    <div className="text-center">
+                                        <div className="text-2xl font-bold text-[#0C203B]">500+</div>
+                                        <div className="text-xs text-gray-600">Abakiriya</div>
+                                    </div>
+                                </div>
+                                
+                                <div className="absolute -top-6 -right-6 bg-gradient-to-r from-[#EDB62E] to-[#f4c842] p-4 rounded-2xl shadow-xl text-white">
+                                    <div className="text-center">
+                                        <div className="text-2xl font-bold">10+</div>
+                                        <div className="text-xs">Amaduka</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div className="bg-white p-2 md:px-6 px-3  w-[370px] h-[564px] rounded-md ">
-                            <div className="flex flex-col space-y-2 rounded-md border-gray-300 border-[1px] items-center justify-center h-full">
-                                <img src={girl} className='w-[236px] h-[391px] object-cover' />
-                                <div className='flex flex-col space-y-2 justify-start items-start mt-2 p-2 self-start'>
-                                    <h1 className='name font-semibold text-lg'>Emma Watson</h1>
-                                    <h1 className='text-sm'>Managing Director</h1>
-                                    <div className='socialMedias mt-2 flex space-x-3'>
-                                        <FaXTwitter className='text-base ' />
-                                        <IoLogoInstagram />
-                                        <CiLinkedin />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="bg-white p-2 md:px-6 px-3  w-[370px] h-[564px] rounded-md ">
-                            <div className="flex flex-col space-y-2 rounded-md border-gray-300 border-[1px] items-center justify-center h-full">
-                                <img src={gentle} className='w-[336px] h-[391px] object-cover' />
-                                <div className='flex flex-col space-y-2 justify-start items-start mt-2 p-2 self-start'>
-                                    <h1 className='name font-semibold text-lg'>Will Smith</h1>
-                                    <h1 className='text-sm'>Product Designer</h1>
-                                    <div className='socialMedias mt-2 flex space-x-3'>
-                                        <FaXTwitter className='text-base ' />
-                                        <IoLogoInstagram />
-                                        <CiLinkedin />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="bg-white p-2 md:px-6 px-3  w-[370px] h-[564px] rounded-md ">
-                            <div className="flex flex-col space-y-2 rounded-md border-gray-300 border-[1px] items-center justify-center h-full">
-                                <img src={girl} className='w-[236px] h-[391px] object-cover' />
-                                <div className='flex flex-col space-y-2 justify-start items-start mt-2 p-2 self-start'>
-                                    <h1 className='name font-semibold text-lg'>Emma Watson</h1>
-                                    <h1 className='text-sm'>Managing Director</h1>
-                                    <div className='socialMedias mt-2 flex space-x-3'>
-                                        <FaXTwitter className='text-base ' />
-                                        <IoLogoInstagram />
-                                        <CiLinkedin />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="bg-white p-2 md:px-3 px-1  w-[30rem] h-[564px] rounded-md ">
-                            <div className="flex flex-col space-y-2 rounded-md border-gray-300 border-[1px] w-full items-center justify-center h-full">
-                                <img src={man} className='w-[236px] h-[391px] object-cover' />
-                                <div className='flex flex-col space-y-2 justify-start items-start mt-2 p-2 self-start'>
-                                    <h1 className='name font-semibold text-lg'>Tom Cruise</h1>
-                                    <h1 className='text-sm'>Founder & Chairman</h1>
-                                    <div className='socialMedias mt-2 flex space-x-3'>
-                                        <FaXTwitter className='text-base ' />
-                                        <IoLogoInstagram />
-                                        <CiLinkedin />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </Slider>
+                    </div>
                 </div>
+                {/* New Section - Getting Online Process */}
+                <div className='w-full bg-gray-50 py-20 px-4 md:px-8 lg:px-16 mt-16'>
+                    <div className='max-w-6xl mx-auto'>
+                        <h2 className='text-3xl md:text-4xl font-bold text-[#0C203B] text-center mb-16'>
+                            IBIBAZO TUJE GUKEMURA
+                        </h2>
+                        
+                        <div className='grid md:grid-cols-2 gap-12 items-center'>
+                            {/* Left side - Steps */}
+                            <div className='space-y-8'>
+                                {/* Step 1 */}
+                                <div className='flex items-start space-x-4'>
+                                    <div className='flex-shrink-0 w-12 h-12 bg-[#EDB62E] rounded-full flex items-center justify-center'>
+                                        <span className='text-white font-bold text-lg'>01</span>
+                                    </div>
+                                    <div>
+                                        <h3 className='text-xl font-semibold text-[#0C203B] mb-3'>
+                                            Kuba utazwi bihagije
+                                        </h3>
+                                        <p className='text-gray-700 text-sm leading-relaxed'>
+                                            Ibigo byinshi by'ubucuruzi birwana no kumenyekana ku isoko ryuzuye. 
+                                            Igisubizo cyacu tuzagufasha kumenywa n'abantu benshi batandukanye 
+                                            basura urubuga rwacu.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Step 2 */}
+                                <div className='flex items-start space-x-4'>
+                                    <div className='flex-shrink-0 w-12 h-12 bg-[#EDB62E] rounded-full flex items-center justify-center'>
+                                        <span className='text-white font-bold text-lg'>02</span>
+                                    </div>
+                                    <div>
+                                        <h3 className='text-xl font-semibold text-[#0C203B] mb-3'>
+                                            Kudakoresha interineti
+                                        </h3>
+                                        <p className='text-gray-700 text-sm leading-relaxed'>
+                                            Kuba umuntu adafite urubuga rwa interineti bishobora gutuma ubucuruzi 
+                                            budatera imbere. dutanga uburyo bwihariye bwo kwamamaza hifashishijwe 
+                                            ikoranabuhanga, bukubiyemo kunoza SEO, kwamamaza, n'ibindi.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Step 3 */}
+                                <div className='flex items-start space-x-4'>
+                                    <div className='flex-shrink-0 w-12 h-12 bg-[#EDB62E] rounded-full flex items-center justify-center'>
+                                        <span className='text-white font-bold text-lg'>03</span>
+                                    </div>
+                                    <div>
+                                        <h3 className='text-xl font-semibold text-[#0C203B] mb-3'>
+                                            Kutagira abakiriya bahoraho
+                                        </h3>
+                                        <p className='text-gray-700 text-sm leading-relaxed'>
+                                            Ibigo byinshi by'ubucuruzi bigira ikibazo cyo kutagira abakiriya bahoraho. 
+                                            Umuti wacu ukubiyemo gusobanurira neza cyane abantu ibyiza byo gukoresha 
+                                            interineti ko biborohereza kubona ibyo bashaka kandi vuba.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Right side - Image placeholder */}
+                            <div className='flex justify-center'>
+                                <div className='w-full max-w-md h-80 bg-gradient-to-br from-[#EDB62E] to-[#0C203B] rounded-lg flex items-center justify-center shadow-lg'>
+                                    <div className='text-center text-white'>
+                                        <div className='w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4'>
+                                            <svg className='w-8 h-8' fill='currentColor' viewBox='0 0 20 20'>
+                                                <path d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'></path>
+                                            </svg>
+                                        </div>
+                                        <h4 className='font-semibold text-lg'>Ibisubizo byacu</h4>
+                                        <p className='text-sm opacity-90 mt-2'>Dufasha ibigo bigera ku ntego zabo</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+               
 
                 <div className='grid py-20 md:grid-cols-3 grid-cols-1 gap-1'>
                     <div className='flex flex-col w-[256px] h-[230px] m-auto items-center justify-center space-y-3'>

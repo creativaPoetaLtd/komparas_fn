@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { 
-  LayoutDashboard, 
+  // LayoutDashboard, 
   Users, 
   ShoppingBag, 
   Package, 
@@ -14,23 +14,21 @@ import {
   TrendingUp,
   Activity,
   Calendar,
-  MessageSquare,
-  BarChart3,
-  PieChart
+  
 } from 'lucide-react';
 
 interface DashboardCardProps {
   icon: React.ElementType;
   title: string;
   description: string;
-  count: string | number;
+  // count: string | number;
   color: string;
   onClick: () => void;
 }
 
-const DashboardCard: React.FC<DashboardCardProps> = ({ icon: Icon, title, description, count, color, onClick }) => {
+const DashboardCard: React.FC<DashboardCardProps> = ({ icon: Icon, title, description, color, onClick }) => {
   const [isHovered, setIsHovered] = useState(false);
-  
+  isHovered;
   return (
     <div 
       className={`bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer border-l-4 ${color} p-6 group`}
@@ -43,7 +41,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({ icon: Icon, title, descri
           <Icon className={`w-6 h-6 ${color.replace('border-', 'text-')}`} />
         </div>
         <div className={`text-2xl font-bold ${color.replace('border-', 'text-')}`}>
-          {count}
+          {/* {count} */}
         </div>
       </div>
       <h3 className="text-lg font-semibold text-gray-800 mb-2">{title}</h3>
@@ -59,7 +57,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({ icon: Icon, title, descri
 };
 
 interface StatCardProps {
-  icon: React.ElementType; // Updated to accept ForwardRefExoticComponent
+  icon: React.ElementType;
   label: string;
   value: string | number;
   change: number;
@@ -83,110 +81,123 @@ const StatCard: React.FC<StatCardProps> = ({ icon: Icon, label, value, change, c
   </div>
 );
 
-const DashboardMenu = () => {
-  const [selectedCard, setSelectedCard] = useState<string | null>(null);
+interface DashboardMenuProps {
+  onMenuClick?: (menu: string) => void;
+}
 
+const DashboardMenu: React.FC<DashboardMenuProps> = ({ onMenuClick }) => {
+  const [selectedCard, setSelectedCard] = useState<string | null>(null);
+  selectedCard;
   const dashboardItems = [
-    {
-      icon: LayoutDashboard,
-      title: "Dashboard",
-      description: "Overview of your business metrics and analytics",
-      count: "1",
-      color: "border-blue-500",
-      key: "dashboard"
-    },
+    // {
+    //   icon: LayoutDashboard,
+    //   title: "Dashboard",
+    //   description: "Overview of your business metrics and analytics",
+    //   // count: "1",
+    //   color: "border-blue-500",
+    //   menuKey: "dashboard"
+    // },
     {
       icon: Users,
       title: "Users",
       description: "Manage customer accounts and user profiles",
-      count: "2.4K",
+      // count: "2.4K",
       color: "border-green-500",
-      key: "users"
+      menuKey: "users"
     },
     {
       icon: ShoppingBag,
       title: "Shops",
       description: "Store management and merchant dashboard",
-      count: "156",
+      // count: "156",
       color: "border-purple-500",
-      key: "shops"
+      menuKey: "shops"
     },
     {
       icon: Package,
       title: "Products",
       description: "Product catalog and inventory management",
-      count: "8.9K",
+      // count: "8.9K",
       color: "border-orange-500",
-      key: "products"
+      menuKey: "products"
     },
     {
       icon: FolderOpen,
       title: "Categories",
       description: "Product categorization and taxonomy",
-      count: "24",
+      // count: "24",
       color: "border-pink-500",
-      key: "categories"
+      menuKey: "categories"
     },
     {
       icon: Briefcase,
       title: "Jobs",
       description: "Job listings and career opportunities",
-      count: "89",
+      // count: "89",
       color: "border-indigo-500",
-      key: "jobs"
+      menuKey: "jobs"
     },
     {
       icon: Code,
       title: "Kodes",
       description: "Promotional codes and discount management",
-      count: "145",
+      // count: "145",
       color: "border-cyan-500",
-      key: "kodes"
+      menuKey: "kodes"
     },
     {
       icon: ShoppingCart,
       title: "Ads",
       description: "Advertisement campaigns and promotions",
-      count: "67",
+      // count: "67",
       color: "border-red-500",
-      key: "ads"
+      menuKey: "ads"
     },
     {
       icon: Image,
       title: "Banner Ads",
       description: "Banner advertisement management",
-      count: "23",
+      // count: "23",
       color: "border-yellow-500",
-      key: "banner-ads"
+      menuKey: "bunner ads" // Matching the sidebar key
     },
     {
       icon: Settings,
       title: "Services",
       description: "Service offerings and management",
-      count: "45",
+      // count: "45",
       color: "border-teal-500",
-      key: "services"
+      menuKey: "services"
     },
     {
       icon: FileText,
       title: "Blogs",
       description: "Content management and blog posts",
-      count: "127",
+      // count: "127",
       color: "border-gray-500",
-      key: "blogs"
+      menuKey: "blogs"
     }
   ];
 
   const stats = [
-    { icon: TrendingUp, label: "Total Revenue", value: "$124,593", change: 12, color: "bg-green-500" },
-    { icon: Activity, label: "Active Users", value: "1,429", change: 8, color: "bg-blue-500" },
-    { icon: ShoppingCart, label: "Orders", value: "892", change: -3, color: "bg-orange-500" },
+    { icon: TrendingUp, label: "Total Revenue", value: "1M+", change: 12, color: "bg-green-500" },
+    { icon: Activity, label: "Active Admins", value: "20+", change: 8, color: "bg-blue-500" },
+    { icon: ShoppingCart, label: "Orders", value: "500+", change: -3, color: "bg-orange-500" },
     { icon: Calendar, label: "This Month", value: "31 Days", change: 0, color: "bg-purple-500" }
   ];
 
-  const handleCardClick = (key: string) => {
-    setSelectedCard(key);
-    console.log(`Navigating to ${key}`);
+  const handleCardClick = (menuKey: string) => {
+    setSelectedCard(menuKey);
+    if (onMenuClick) {
+      onMenuClick(menuKey);
+    }
+    
+  };
+
+  const handleQuickAction = (action: string) => {
+    if (onMenuClick) {
+      onMenuClick(action);
+    }
   };
 
   return (
@@ -220,8 +231,13 @@ const DashboardMenu = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {dashboardItems.map((item, index) => (
             <DashboardCard
-              {...item}
-              onClick={() => handleCardClick(item.key)}
+              key={index}
+              icon={item.icon}
+              title={item.title}
+              description={item.description}
+              // count={item.count}
+              color={item.color}
+              onClick={() => handleCardClick(item.menuKey)}
             />
           ))}
         </div>
@@ -231,21 +247,30 @@ const DashboardMenu = () => {
       <div className="bg-white rounded-xl shadow-lg p-6">
         <h3 className="text-xl font-bold text-gray-900 mb-4">Quick Actions</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <button className="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-colors duration-300 text-left">
+          <button 
+            className="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-colors duration-300 text-left"
+            onClick={() => handleQuickAction('products')}
+          >
             <div className="flex items-center mb-2">
               <Package className="w-5 h-5 text-blue-500 mr-2" />
               <span className="font-medium">Add New Product</span>
             </div>
             <p className="text-sm text-gray-600">Create a new product listing</p>
           </button>
-          <button className="p-4 border border-gray-200 rounded-lg hover:border-green-500 hover:bg-green-50 transition-colors duration-300 text-left">
+          <button 
+            className="p-4 border border-gray-200 rounded-lg hover:border-green-500 hover:bg-green-50 transition-colors duration-300 text-left"
+            onClick={() => handleQuickAction('users')}
+          >
             <div className="flex items-center mb-2">
               <Users className="w-5 h-5 text-green-500 mr-2" />
               <span className="font-medium">Manage Users</span>
             </div>
             <p className="text-sm text-gray-600">View and edit user accounts</p>
           </button>
-          <button className="p-4 border border-gray-200 rounded-lg hover:border-purple-500 hover:bg-purple-50 transition-colors duration-300 text-left">
+          <button 
+            className="p-4 border border-gray-200 rounded-lg hover:border-purple-500 hover:bg-purple-50 transition-colors duration-300 text-left"
+            onClick={() => handleQuickAction('blogs')}
+          >
             <div className="flex items-center mb-2">
               <FileText className="w-5 h-5 text-purple-500 mr-2" />
               <span className="font-medium">Create Blog Post</span>
