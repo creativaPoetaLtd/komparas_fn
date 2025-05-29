@@ -30,7 +30,7 @@ function Dashboard() {
             <div className="conten w-full">
                 <TopNavbar />
                 <div className="m min-h-screen ml-[15%]">
-                    {selectedMenu === 'dashboard' && <DashboardMenu />}
+                    {selectedMenu === 'dashboard' && <DashboardMenu onMenuClick={handleMenuClick} />}
                     {selectedMenu === 'products' && <Products />}
                     {selectedMenu === 'categories' && <Categories />}
                     {selectedMenu === 'users' && <Users />}
