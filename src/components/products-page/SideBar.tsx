@@ -37,7 +37,7 @@ interface SideBarProps {
     clearFilters: () => void;
 }
 
-// Component to render a category and its subcategories recursively
+// CategoryItem to automatically expand when a parent category is clicked
 const CategoryItem: React.FC<{
   category: CategoryType;
   selectedCategories: string[];
@@ -46,6 +46,37 @@ const CategoryItem: React.FC<{
 }> = ({ category, selectedCategories, handleCategoryClick, level }) => {
   const [expanded, setExpanded] = useState(false);
   const hasChildren = category.children && category.children.length > 0;
+
+  const hasSelectedChild = () => {
+    if (!category.children) return false;
+    
+    return category.children.some(child => 
+      selectedCategories?.includes(child._id) || 
+      // Recursively check deeper children
+      (child.children && child.children.some(grandchild => 
+        selectedCategories?.includes(grandchild._id)
+      ))
+    );
+  };
+
+  // Auto-expand if this category is selected or any child is selected
+  useEffect(() => {
+    if ((selectedCategories?.includes(category._id) || hasSelectedChild()) && hasChildren) {
+      setExpanded(true);
+    }
+  }, [selectedCategories, category._id, hasChildren]);
+
+  const handleClick = () => {
+    if (hasChildren) {
+      if (!selectedCategories?.includes(category._id) || !hasSelectedChild()) {
+        setExpanded(!expanded);
+      } else {
+        setExpanded(true);
+      }
+    }
+
+    handleCategoryClick(category._id, category.name);
+  };
   
   return (
     <div className={`my-1 ${level > 0 ? 'ml-4' : ''}`}>
@@ -54,7 +85,7 @@ const CategoryItem: React.FC<{
           label={category.name}
           name="category"
           checked={selectedCategories?.includes(category._id)}
-          onChange={() => handleCategoryClick(category._id, category.name)}
+          onChange={handleClick}
         />
         
         {hasChildren && (
