@@ -4,6 +4,7 @@ import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { getAllProducts } from '../../api/product';
 import { UserOutlined } from '@ant-design/icons';
+import { FaSearch } from 'react-icons/fa';
 import { isAdminFromLocalStorage } from '../Footer';
 import { handleLogout } from '../dashboard/TopNavBar';
 
@@ -13,7 +14,6 @@ const HomeNav = () => {
   const lastPart = urlParts[urlParts.length - 1];
   const [selectedMenu, setSelectedMenu] = useState('home');
   const [searchValue, setSearchValue] = useState("");
-  const [, setSearchedId] = useState<string>("");
   const [autocompleteOptions, setAutocompleteOptions] = useState<{ id: string, name: string }[]>([]);
 
   useEffect(() => {
@@ -39,8 +39,43 @@ const HomeNav = () => {
   const handleOptionSelect = (event: any) => {
     const selectedOption: any = autocompleteOptions.find(option => option.name === event.target.value);
     if (selectedOption) {
-      setSearchedId(selectedOption.id);
       navigate(`/product/${selectedOption.id}`);
+      setSearchValue(""); // Clear search after navigation
+    }
+  };
+
+  // Handle search button click or Enter key press
+  const handleSearch = () => {
+    if (searchValue.trim()) {
+      // Find exact match first
+      const exactMatch = autocompleteOptions.find(option => 
+        option.name.toLowerCase() === searchValue.toLowerCase()
+      );
+      
+      if (exactMatch) {
+        navigate(`/product/${exactMatch.id}`);
+      } else {
+        // Find partial match
+        const partialMatch = autocompleteOptions.find(option => 
+          option.name.toLowerCase().includes(searchValue.toLowerCase())
+        );
+        
+        if (partialMatch) {
+          navigate(`/product/${partialMatch.id}`);
+        } else {
+          // Redirect to products page with search query
+          navigate(`/products?search=${encodeURIComponent(searchValue)}`);
+        }
+      }
+      
+      setSearchValue(""); // Clear search after navigation
+    }
+  };
+
+  // Handle Enter key press in search input
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleSearch();
     }
   };
 
@@ -114,14 +149,15 @@ const HomeNav = () => {
         </div>
       </ul>
       {lastPart !== 'products' && (
-        <div className='searchBar bg-[#F5F5F5] rounded-md pr-3'>
+        <div className='searchBar bg-[#F5F5F5] rounded-md pr-3 flex items-center'>
           <input
             type='text'
             placeholder='Shakisha Telefoni'
-            className='p-2 outline-none text-black rounded-md bg-[#F5F5F5]'
+            className='p-2 outline-none text-black rounded-md bg-[#F5F5F5] flex-1'
             value={searchValue}
             onChange={handleInputChange}
             onInput={handleOptionSelect}
+            onKeyPress={handleKeyPress}
             list="autocomplete-options"
           />
           <datalist id="autocomplete-options">
@@ -129,6 +165,12 @@ const HomeNav = () => {
               <option key={index} value={option.name} />
             ))}
           </datalist>
+          <button 
+            onClick={handleSearch}
+            className='ml-2 text-gray-600 hover:text-gray-800 transition-colors'
+          >
+            <FaSearch />
+          </button>
         </div>
       )}
       <Dropdown overlay={menu} className='mt-1'>
