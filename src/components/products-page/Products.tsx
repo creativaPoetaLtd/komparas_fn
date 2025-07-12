@@ -20,6 +20,8 @@ import AllProdNavs from '../Product/AllProdNavs';
 import { HiMiniArrowsUpDown } from 'react-icons/hi2';
 import BottomDrawer from './BottomDrawer';
 
+console.log("igot")
+
 const Products = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [productsData, setProductsData] = useState<any[]>([]);
@@ -33,6 +35,7 @@ const Products = () => {
     const [categories, setCategories] = useState<any>([]);
     const [shops, setShops] = useState<any>([]);
     const [isDropDownFilter, setIsDropDownFilter] = useState(false);
+    const [filteredProductsCount, setFilteredProductsCount] = useState(0);
     const [activeFilters, setActiveFilters] = useState<any[]>([]);
     const [locastorageCompareProductIds, setLocastorageCompareProductIds] = useState<any>(
         localStorage.getItem("compareProductIds")
@@ -430,6 +433,98 @@ const Products = () => {
         setIsDropDownFilter(!isDropDownFilter);
     };
 
+    // Add this useEffect in your Products component after the existing useEffects
+
+useEffect(() => {
+    // Handle search parameter from URL
+    const searchFromUrl = searchParam.get('search');
+    if (searchFromUrl) {
+      setSearchValue(searchFromUrl);
+    }
+  }, [searchParam]);
+
+  useEffect(() => {
+    if (searchValue.trim() !== '') {
+        setCurrentPage(1); // Reset to first page when searching
+    }
+}, [searchValue]);
+  
+  // Also update the existing useEffect that fetches products to include the search parameter dependency:
+  
+  useEffect(() => {
+    const fetchProducts = async () => {
+        if (abortControllerRef.current) {
+            abortControllerRef.current.abort('New request made');
+        }
+
+        const abortController = new AbortController();
+        abortControllerRef.current = abortController;
+
+        setProductsData([]);
+        try {
+            const response = await getAllProducts(
+                minPrice,
+                maxPrice,
+                categoryIdToUse,
+                shopIdToUse,
+                multipleRam,
+                multioletStorage,
+                multipleCamera,
+                multipleColors,
+                multiplesecreen,
+                searchValue.trim() !== '' ? 1 : currentPage, // Always fetch first page when searching
+                searchValue.trim() !== '' ? 1000 : cardsPerPage, // Fetch more items when searching to filter locally
+                sortOrder,
+                abortController.signal
+            );
+            const allProducts = response?.data?.products;
+            const totalCount = response?.data?.totalProducts;
+            setTotalProducts(totalCount);
+
+            const productNames = allProducts?.map((product: any) => product.product_name);
+            setAutocompleteOptions(productNames);
+
+            if (searchValue.trim() !== '') {
+                // Filter products when searching
+                const filteredProducts = allProducts?.filter((product: any) =>
+                    product.product_name.toLowerCase().includes(searchValue.toLowerCase())
+                ).map((product: any) => ({
+                    ...product,
+                    checked: comparedProductId?.includes(product._id)
+                }));
+                
+                // Paginate filtered results
+                const startIndex = (currentPage - 1) * cardsPerPage;
+                const endIndex = startIndex + cardsPerPage;
+                const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
+                
+                setProductsData(paginatedProducts);
+                setFilteredProductsCount(filteredProducts.length);
+            } else {
+                // No search - use API pagination
+                const productsWithCompareStatus = allProducts?.map((product: any) => ({
+                    ...product,
+                    checked: comparedProductId?.includes(product._id)
+                }));
+                
+                setProductsData(productsWithCompareStatus);
+                setFilteredProductsCount(totalCount);
+            }
+        } catch (error) {
+            console.error("Error fetching products:", error);
+        }
+    };
+
+    fetchProducts();
+
+    return () => {
+        if (abortControllerRef.current) {
+            abortControllerRef.current.abort('Component unmounted');
+        }
+    };
+}, [searchValue, refresh, deleteRefresh, minPrice, maxPrice, sortOrder, shopst, currentPage, cardsPerPage, searchParam]);
+
+
     return (
         <><div className="flex flex-col h-fit">
             <SubNav />
@@ -499,7 +594,7 @@ const Products = () => {
                         <div className='products justify-between w-full flex bg-yellow-100 py-3 px-2 mt-3'>
                             <div className='filtersDiv flex relative'>
                                 <p className='text-sm my-auto text-green-600'>
-                                    {activeFilters?.length === 0 ? '' : activeFilters.length > 1 ? `Utuyunguruzo ${activeFilters.length}` : `Akayunguruzo ${activeFilters.length}`} Habonekamo {totalProducts}  zose hamwe
+                                    {activeFilters?.length === 0 ? '' : activeFilters.length > 1 ? `Utuyunguruzo ${activeFilters.length}` : `Akayunguruzo ${activeFilters.length}`} Habonekamo {filteredProductsCount}  zose hamwe
                                 </p>
                                 <button className='' onClick={handleSetDropDownFilter}><div className='flex md:hidden justify-center items-center my-auto ml-3 text-sm'>
                                     {!isDropDownFilter ? <>
@@ -614,13 +709,14 @@ const Products = () => {
                             ))}
                         </div>
                         <div className='pagination mt-4 flex justify-center mb-4'>
-                            <Pagination
-                                current={currentPage}
-                                onChange={handlePageChange}
-                                pageSize={cardsPerPage}
-                                total={totalProducts}
-                                showSizeChanger={false} />
-                        </div>
+    <Pagination
+        current={currentPage}
+        onChange={handlePageChange}
+        pageSize={cardsPerPage}
+        total={searchValue.trim() !== '' ? filteredProductsCount : totalProducts}
+        showSizeChanger={false}
+    />
+</div>
                     </div>
                 </div>
             </div>
