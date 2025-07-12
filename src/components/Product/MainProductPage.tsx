@@ -352,7 +352,7 @@ const MainProductPage: React.FC<Product> = ({ products }) => {
                               ),
                             )
                           ) : (
-                            <span className="text-sm text-gray-500 ml-1">NA</span>
+                            <span className="text-sm text-gray-500 ml-1">N/A</span>
                           )}
                         </td>
 
